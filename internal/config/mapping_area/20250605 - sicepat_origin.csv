@@ -1,0 +1,1746 @@
+Ori kode,Kode tarif,province,city,district
+DPS,DPS10010,Bali,Denpasar,Denpasar Selatan
+DPS,DPS10012,Bali,Denpasar,Denpasar Utara
+DPS,DPS10011,Bali,Denpasar,Denpasar Timur
+DPS,DPS10009,Bali,Denpasar,Denpasar Barat
+TGX,TGR10133,Banten,Tangerang,Mekar Baru
+TGX,TGR10132,Banten,Tangerang,Sepatan Timur
+TGX,TGR10131,Banten,Tangerang,Gunung Kaler
+TGX,TGR10130,Banten,Tangerang,Sindang Jaya
+TGX,TGR10129,Banten,Tangerang,Solear
+TGX,TGR10128,Banten,Tangerang,Kelapa Dua
+TGX,TGR10127,Banten,Tangerang,Sukamulya
+TGX,TGR10125,Banten,Tangerang,Sukadiri
+TGX,TGR10124,Banten,Tangerang,Panongan
+TGX,TGR10123,Banten,Tangerang,Pagedangan
+TGX,TGR10122,Banten,Tangerang,Kosambi
+TGX,TGR10121,Banten,Tangerang,Kemiri
+TGX,TGR10120,Banten,Tangerang,Jayanti
+TGX,TGR10119,Banten,Tangerang,Jambe
+TGX,TGR10118,Banten,Tangerang,Cisauk
+TGX,TGR10114,Banten,Tangerang,Teluknaga
+TGX,TGR10112,Banten,Tangerang,Sepatan
+TGX,TGR10111,Banten,Tangerang,Rajeg
+TGX,TGR10110,Banten,Tangerang,Pakuhaji
+TGX,TGR10109,Banten,Tangerang,PASAR KEMIS
+TGX,TGR10108,Banten,Tangerang,Mauk
+TGX,TGR10107,Banten,Tangerang,Legok
+TGX,TGR10106,Banten,Tangerang,Kresek
+TGX,TGR10105,Banten,Tangerang,Kronjo
+TGX,TGR10104,Banten,Tangerang,Curug
+TGX,TGR10103,Banten,Tangerang,Cisoka
+TGX,TGR10102,Banten,Tangerang,Cikupa
+TGX,TGR10101,Banten,Tangerang,Balaraja
+TGX,TGR10100,Banten,Tangerang,Tigaraksa
+TGR,TGR10055,Banten,Tangerang,Periuk
+TGR,TGR10056,Banten,Tangerang,Pinang
+TGR,TGR10054,Banten,Tangerang,Neglasari
+TGR,TGR10053,Banten,Tangerang,Larangan
+TGR,TGR10052,Banten,Tangerang,Karawaci
+TGR,TGR10051,Banten,Tangerang,Karang Tengah
+TGR,TGR10050,Banten,Tangerang,Jatiuwung
+TGR,TGR10049,Banten,Tangerang,Cipondoh
+TGR,TGR10048,Banten,Tangerang,Cibodas
+TGR,TGR10047,Banten,Tangerang,Benda
+TGR,TGR10046,Banten,Tangerang,Batuceper
+TGR,TGR10036,Banten,Tangerang,Ciledug
+TGR,TGR10070,Banten,Tangerang,Tangerang
+TGS,TGR10117,Banten,Tangerang Selatan,Ciputat
+TGS,TGR10116,Banten,Tangerang Selatan,Pamulang
+TGS,TGR10115,Banten,Tangerang Selatan,Pondok Aren
+TGS,TGR10113,Banten,Tangerang Selatan,Serpong
+TGS,TGR10062,Banten,Tangerang Selatan,Setu
+TGS,TGR10061,Banten,Tangerang Selatan,Ciputat Timur
+TGS,TGR10060,Banten,Tangerang Selatan,Serpong Utara
+CGK,CGK10108,DKI Jakarta,Jakarta Barat,Cengkareng
+CGK,CGK10107,DKI Jakarta,Jakarta Barat,Tambora
+CGK,CGK10106,DKI Jakarta,Jakarta Barat,Taman Sari
+CGK,CGK10105,DKI Jakarta,Jakarta Barat,Pal Merah
+CGK,CGK10104,DKI Jakarta,Jakarta Barat,Kembangan
+CGK,CGK10103,DKI Jakarta,Jakarta Barat,Kebon Jeruk
+CGK,CGK10102,DKI Jakarta,Jakarta Barat,Kalideres
+CGK,CGK10101,DKI Jakarta,Jakarta Barat,Grogol Petamburan
+CGK,CGK10308,DKI Jakarta,Jakarta Pusat,Tanah Abang
+CGK,CGK10307,DKI Jakarta,Jakarta Pusat,Senen
+CGK,CGK10306,DKI Jakarta,Jakarta Pusat,Sawah Besar
+CGK,CGK10305,DKI Jakarta,Jakarta Pusat,Menteng
+CGK,CGK10304,DKI Jakarta,Jakarta Pusat,Kemayoran
+CGK,CGK10303,DKI Jakarta,Jakarta Pusat,Johar Baru
+CGK,CGK10302,DKI Jakarta,Jakarta Pusat,Gambir
+CGK,CGK10301,DKI Jakarta,Jakarta Pusat,Cempaka Putih
+CGK,CGK10211,DKI Jakarta,Jakarta Selatan,Cilandak
+CGK,CGK10209,DKI Jakarta,Jakarta Selatan,Tebet
+CGK,CGK10208,DKI Jakarta,Jakarta Selatan,Setiabudi
+CGK,CGK10207,DKI Jakarta,Jakarta Selatan,Pesanggrahan
+CGK,CGK10206,DKI Jakarta,Jakarta Selatan,Pasar Minggu
+CGK,CGK10205,DKI Jakarta,Jakarta Selatan,Pancoran
+CGK,CGK10204,DKI Jakarta,Jakarta Selatan,Mampang Prapatan
+CGK,CGK10203,DKI Jakarta,Jakarta Selatan,Kebayoran Lama
+CGK,CGK10202,DKI Jakarta,Jakarta Selatan,Kebayoran Baru
+CGK,CGK10201,DKI Jakarta,Jakarta Selatan,Jagakarsa
+CGK,CGK10510,DKI Jakarta,Jakarta Timur,Pulogadung
+CGK,CGK10509,DKI Jakarta,Jakarta Timur,Pasar Rebo
+CGK,CGK10508,DKI Jakarta,Jakarta Timur,Matraman
+CGK,CGK10507,DKI Jakarta,Jakarta Timur,Makasar
+CGK,CGK10506,DKI Jakarta,Jakarta Timur,Kramatjati
+CGK,CGK10505,DKI Jakarta,Jakarta Timur,Jatinegara
+CGK,CGK10504,DKI Jakarta,Jakarta Timur,Duren Sawit
+CGK,CGK10503,DKI Jakarta,Jakarta Timur,Ciracas
+CGK,CGK10502,DKI Jakarta,Jakarta Timur,Cipayung
+CGK,CGK10501,DKI Jakarta,Jakarta Timur,Cakung
+CGK,CGK10406,DKI Jakarta,Jakarta Utara,Cilincing
+CGK,CGK10405,DKI Jakarta,Jakarta Utara,Tanjung Priok
+CGK,CGK10404,DKI Jakarta,Jakarta Utara,Penjaringan
+CGK,CGK10403,DKI Jakarta,Jakarta Utara,Pademangan
+CGK,CGK10402,DKI Jakarta,Jakarta Utara,Koja
+CGK,CGK10401,DKI Jakarta,Jakarta Utara,Kelapa Gading
+BKX,BKI10124,Jawa Barat,Bekasi,Bojongmangu
+BKX,BKI10123,Jawa Barat,Bekasi,Babelan
+BKX,BKI10122,Jawa Barat,Bekasi,Tarumajaya
+BKX,BKI10121,Jawa Barat,Bekasi,Tambun Utara
+BKX,BKI10120,Jawa Barat,Bekasi,Tambun Selatan
+BKX,BKI10119,Jawa Barat,Bekasi,Sukawangi
+BKX,BKI10118,Jawa Barat,Bekasi,Sukakarya
+BKX,BKI10117,Jawa Barat,Bekasi,Karang Bahagia
+BKX,BKI10116,Jawa Barat,Bekasi,Tambelang
+BKX,BKI10115,Jawa Barat,Bekasi,Sukatani
+BKX,BKI10114,Jawa Barat,Bekasi,Setu
+BKX,BKI10113,Jawa Barat,Bekasi,Serang Baru
+BKX,BKI10112,Jawa Barat,Bekasi,Pebayuran
+BKX,BKI10111,Jawa Barat,Bekasi,Muaragembong
+BKX,BKI10110,Jawa Barat,Bekasi,Kedung Waringin
+BKX,BKI10108,Jawa Barat,Bekasi,Cibitung
+BKX,BKI10107,Jawa Barat,Bekasi,Cibarusah
+BKX,BKI10106,Jawa Barat,Bekasi,Cabangbungin
+BKX,BKI10105,Jawa Barat,Bekasi,Cikarang Utara
+BKX,BKI10104,Jawa Barat,Bekasi,Cikarang Timur
+BKX,BKI10103,Jawa Barat,Bekasi,Cikarang Selatan
+BKX,BKI10102,Jawa Barat,Bekasi,Cikarang Pusat
+BKX,BKI10101,Jawa Barat,Bekasi,Cikarang Barat
+BOX,BOO20159,Jawa Barat,Kab. Bogor,Gunung Putri
+BOX,BOO20157,Jawa Barat,Kab. Bogor,Tenjolaya
+BOX,BOO20156,Jawa Barat,Kab. Bogor,Tanjungsari
+BOX,BOO20155,Jawa Barat,Kab. Bogor,Tamansari
+BOX,BOO20154,Jawa Barat,Kab. Bogor,Tajurhalang
+BOX,BOO20153,Jawa Barat,Kab. Bogor,Sukaraja
+BOX,BOO20152,Jawa Barat,Kab. Bogor,Sukamakmur
+BOX,BOO20151,Jawa Barat,Kab. Bogor,Sukajaya
+BOX,BOO20150,Jawa Barat,Kab. Bogor,Ranca Bungur
+BOX,BOO20149,Jawa Barat,Kab. Bogor,Pamijahan
+BOX,BOO20148,Jawa Barat,Kab. Bogor,Leuwisadeng
+BOX,BOO20147,Jawa Barat,Kab. Bogor,Klapanunggal
+BOX,BOO20146,Jawa Barat,Kab. Bogor,Kemang
+BOX,BOO20145,Jawa Barat,Kab. Bogor,Ciseeng
+BOX,BOO20144,Jawa Barat,Kab. Bogor,Cigombong
+BOX,BOO20143,Jawa Barat,Kab. Bogor,Bojong Gede
+BOX,BOO20142,Jawa Barat,Kab. Bogor,Babakan Madang
+BOX,BOO20141,Jawa Barat,Kab. Bogor,Tenjo
+BOX,BOO20140,Jawa Barat,Kab. Bogor,Rumpin
+BOX,BOO20139,Jawa Barat,Kab. Bogor,Parung Panjang
+BOX,BOO20138,Jawa Barat,Kab. Bogor,Parung
+BOX,BOO20137,Jawa Barat,Kab. Bogor,Nanggung
+BOX,BOO20136,Jawa Barat,Kab. Bogor,Megamendung
+BOX,BOO20135,Jawa Barat,Kab. Bogor,Leuwiliang
+BOX,BOO20134,Jawa Barat,Kab. Bogor,Jonggol
+BOX,BOO20133,Jawa Barat,Kab. Bogor,Jasinga
+BOX,BOO20132,Jawa Barat,Kab. Bogor,Gunung Sindur
+BOX,BOO20131,Jawa Barat,Kab. Bogor,Dramaga
+BOX,BOO20130,Jawa Barat,Kab. Bogor,Citeureup
+BOX,BOO20129,Jawa Barat,Kab. Bogor,Cisarua
+BOX,BOO20128,Jawa Barat,Kab. Bogor,Ciomas
+BOX,BOO20127,Jawa Barat,Kab. Bogor,Cileungsi
+BOX,BOO20126,Jawa Barat,Kab. Bogor,Cijeruk
+BOX,BOO20125,Jawa Barat,Kab. Bogor,Cigudeg
+BOX,BOO20124,Jawa Barat,Kab. Bogor,Cibungbulang
+BOX,BOO20123,Jawa Barat,Kab. Bogor,Ciampea
+BOX,BOO20122,Jawa Barat,Kab. Bogor,Ciawi
+BOX,BOO20121,Jawa Barat,Kab. Bogor,Cariu
+BOX,BOO20120,Jawa Barat,Kab. Bogor,Caringin
+BOX,BOO20100,Jawa Barat,Kab. Bogor,Cibinong
+BKI,BKI10049,Jawa Barat,Bekasi,Rawalumbu
+BKI,BKI10048,Jawa Barat,Bekasi,Pondokmelati
+BKI,BKI10047,Jawa Barat,Bekasi,Pondokgede
+BKI,BKI10046,Jawa Barat,Bekasi,Mustikajaya
+BKI,BKI10045,Jawa Barat,Bekasi,Medansatria
+BKI,BKI10044,Jawa Barat,Bekasi,Jatisampurna
+BKI,BKI10043,Jawa Barat,Bekasi,Jatiasih
+BKI,BKI10042,Jawa Barat,Bekasi,Bekasi Utara
+BKI,BKI10041,Jawa Barat,Bekasi,Bekasi Timur
+BKI,BKI10040,Jawa Barat,Bekasi,Bekasi Selatan
+BKI,BKI10039,Jawa Barat,Bekasi,Bekasi Barat
+BKI,BKI10002,Jawa Barat,Bekasi,Bantargebang
+BOO,BOO10026,Jawa Barat,Bogor,Bogor Barat
+BOO,BOO10031,Jawa Barat,Bogor,Tanah Sareal
+BOO,BOO10030,Jawa Barat,Bogor,Bogor Utara
+BOO,BOO10029,Jawa Barat,Bogor,Bogor Timur
+BOO,BOO10028,Jawa Barat,Bogor,Bogor Tengah
+BOO,BOO10027,Jawa Barat,Bogor,Bogor Selatan
+DPK,DPK10067,Jawa Barat,Depok,Cinere
+DPK,DPK10066,Jawa Barat,Depok,Cilodong
+DPK,DPK10065,Jawa Barat,Depok,Cipayung
+DPK,DPK10064,Jawa Barat,Depok,Bojongsari
+DPK,DPK10063,Jawa Barat,Depok,Tapos
+DPK,DPK10062,Jawa Barat,Depok,Sukmajaya
+DPK,DPK10061,Jawa Barat,Depok,Pancoran Mas
+DPK,DPK10060,Jawa Barat,Depok,Limo
+DPK,DPK10059,Jawa Barat,Depok,Beji
+DPK,DPK10058,Jawa Barat,Depok,Sawangan
+DPK,DPK10052,Jawa Barat,Depok,Cimanggis
+RBT,CLG20229,Banten,Lebak,Cigemlong
+RBT,CLG20228,Banten,Lebak,Cirinten
+RBT,CLG20227,Banten,Lebak,Cihara
+RBT,CLG20226,Banten,Lebak,Lebakgedong
+RBT,CLG20225,Banten,Lebak,Cilograng
+RBT,CLG20223,Banten,Lebak,Sobang
+RBT,CLG20224,Banten,Lebak,Kalanganyar
+RBT,CLG20221,Banten,Lebak,Curug Bitung
+RBT,CLG20219,Banten,Lebak,Warunggunung
+RBT,CLG20218,Banten,Lebak,Wanasalam
+RBT,CLG20217,Banten,Lebak,Sajira
+RBT,CLG20216,Banten,Lebak,Panggarangan
+RBT,CLG20215,Banten,Lebak,Muncang
+RBT,CLG20214,Banten,Lebak,Malingping
+RBT,CLG20213,Banten,Lebak,Maja
+RBT,CLG20212,Banten,Lebak,Leuwidamar
+RBT,CLG20211,Banten,Lebak,Gunungkencana
+RBT,CLG20210,Banten,Lebak,Cipanas
+RBT,CLG20209,Banten,Lebak,Cimarga
+RBT,CLG20208,Banten,Lebak,Cileles
+RBT,CLG20207,Banten,Lebak,Cikulur
+RBT,CLG20206,Banten,Lebak,Cijaku
+RBT,CLG20205,Banten,Lebak,Cibeber
+RBT,CLG20204,Banten,Lebak,Cibadak
+RBT,CLG20203,Banten,Lebak,Bojongmanik
+RBT,CLG20202,Banten,Lebak,Bayah
+RBT,CLG20201,Banten,Lebak,Banjarsari
+RBT,CLG20200,Banten,Lebak,Rangkasbitung
+PDL,CLG20148,Banten,Pandeglang,Sobang
+PDL,CLG20143,Banten,Pandeglang,Mekarjaya
+PDL,CLG20142,Banten,Pandeglang,Pulosari
+PDL,CLG20141,Banten,Pandeglang,Sindangresmi
+PDL,CLG20139,Banten,Pandeglang,Koroncong
+PDL,CLG20138,Banten,Pandeglang,Majasari
+PDL,CLG20136,Banten,Pandeglang,Sukaresmi
+PDL,CLG20135,Banten,Pandeglang,Picung
+PDL,CLG20134,Banten,Pandeglang,Patia
+PDL,CLG20133,Banten,Pandeglang,Panimbang
+PDL,CLG20131,Banten,Pandeglang,Karang Tanjung
+PDL,CLG20130,Banten,Pandeglang,Kaduhejo
+PDL,CLG20129,Banten,Pandeglang,Cisata
+PDL,CLG20128,Banten,Pandeglang,Cipeucang
+PDL,CLG20126,Banten,Pandeglang,Cikedal
+PDL,CLG20125,Banten,Pandeglang,Cigeulis
+PDL,CLG20124,Banten,Pandeglang,Cibitung
+PDL,CLG20123,Banten,Pandeglang,Carita
+PDL,CLG20122,Banten,Pandeglang,Angsana
+PDL,CLG20121,Banten,Pandeglang,Sumur
+PDL,CLG20120,Banten,Pandeglang,Saketi
+PDL,CLG20118,Banten,Pandeglang,Pagelaran
+PDL,CLG20116,Banten,Pandeglang,Munjul
+PDL,CLG20115,Banten,Pandeglang,Menes
+PDL,CLG20114,Banten,Pandeglang,Mandalawangi
+PDL,CLG20113,Banten,Pandeglang,Labuan
+PDL,CLG20112,Banten,Pandeglang,Jiput
+PDL,CLG20110,Banten,Pandeglang,Cimanuk
+PDL,CLG20109,Banten,Pandeglang,Cimanggu
+PDL,CLG20108,Banten,Pandeglang,Cikeusik
+PDL,CLG20106,Banten,Pandeglang,Cibaliung
+PDL,CLG20105,Banten,Pandeglang,Cadasari
+PDL,CLG20103,Banten,Pandeglang,Bojong
+PDL,CLG20101,Banten,Pandeglang,Banjar
+PDL,CLG20100,Banten,Pandeglang,Pandeglang
+SEY,CLG20524,Banten,Kab. Serang,Tunjung Teja
+SEY,CLG20523,Banten,Kab. Serang,Tirtayasa
+SEY,CLG20522,Banten,Kab. Serang,Tanara
+SEY,CLG20521,Banten,Kab. Serang,Pulo Ampel
+SEY,CLG20520,Banten,Kab. Serang,Pontang
+SEY,CLG20519,Banten,Kab. Serang,Petir
+SEY,CLG20518,Banten,Kab. Serang,Pamarayan
+SEY,CLG20517,Banten,Kab. Serang,Padarincang
+SEY,CLG20516,Banten,Kab. Serang,Pabuaran
+SEY,CLG20515,Banten,Kab. Serang,Mancak
+SEY,CLG20514,Banten,Kab. Serang,Kramatwatu
+SEY,CLG20513,Banten,Kab. Serang,Kragilan
+SEY,CLG20512,Banten,Kab. Serang,Kopo
+SEY,CLG20511,Banten,Kab. Serang,Kibin
+SEY,CLG20510,Banten,Kab. Serang,Jawilan
+SEY,CLG20509,Banten,Kab. Serang,Ciruas
+SEY,CLG20508,Banten,Kab. Serang,Ciomas
+SEY,CLG20507,Banten,Kab. Serang,Cinangka
+SEY,CLG20506,Banten,Kab. Serang,Cikeusal
+SEY,CLG20505,Banten,Kab. Serang,Cikande
+SEY,CLG20504,Banten,Kab. Serang,Carenang
+SEY,CLG20503,Banten,Kab. Serang,Bojonegara
+SEY,CLG20502,Banten,Kab. Serang,Binuang
+SEY,CLG20501,Banten,Kab. Serang,Anyar
+SEY,CLG20500,Banten,Kab. Serang,Baros
+SEY,CLG20525,Banten,Kab. Serang,Waringinkurung
+SEY,CLG20526,Banten,Kab. Serang,Lebak Wangi
+SEY,CLG20527,Banten,Kab. Serang,Bandung
+SEY,CLG20528,Banten,Kab. Serang,Gunung Sari
+CLG,CLG10050,Banten,Cilegon,Cilegon
+CLG,CLG10044,Banten,Cilegon,Pulomerak
+CLG,CLG10037,Banten,Cilegon,Cibeber
+CLG,CLG10039,Banten,Cilegon,Citangkil
+CLG,CLG10040,Banten,Cilegon,Ciwandan
+CLG,CLG10041,Banten,Cilegon,Gerogol
+CLG,CLG10042,Banten,Cilegon,Jombang
+CLG,CLG10043,Banten,Cilegon,Purwakarta
+SEG,CLG20300,Banten,Serang,Serang
+SEG,CLG20310,Banten,Serang,Curug
+SEG,CLG20312,Banten,Serang,Kasemen
+SEG,CLG20323,Banten,Serang,Taktakan
+SEG,CLG20327,Banten,Serang,Walantaka
+SEG,CLG20328,Banten,Serang,Cipocok Jaya
+BTL,JOG20116,Daerah Istimewa Yogyakarta,Bantul,Sewon
+BTL,JOG20115,Daerah Istimewa Yogyakarta,Bantul,Kasihan
+BTL,JOG20114,Daerah Istimewa Yogyakarta,Bantul,Banguntapan
+BTL,JOG20113,Daerah Istimewa Yogyakarta,Bantul,Srandakan
+BTL,JOG20112,Daerah Istimewa Yogyakarta,Bantul,Sedayu
+BTL,JOG20111,Daerah Istimewa Yogyakarta,Bantul,Sanden
+BTL,JOG20110,Daerah Istimewa Yogyakarta,Bantul,Pundong
+BTL,JOG20109,Daerah Istimewa Yogyakarta,Bantul,Pleret
+BTL,JOG20108,Daerah Istimewa Yogyakarta,Bantul,Piyungan
+BTL,JOG20107,Daerah Istimewa Yogyakarta,Bantul,Pandak
+BTL,JOG20106,Daerah Istimewa Yogyakarta,Bantul,Pajangan
+BTL,JOG20105,Daerah Istimewa Yogyakarta,Bantul,Kretek
+BTL,JOG20104,Daerah Istimewa Yogyakarta,Bantul,Jetis
+BTL,JOG20103,Daerah Istimewa Yogyakarta,Bantul,Imogiri
+BTL,JOG20102,Daerah Istimewa Yogyakarta,Bantul,Dlingo
+BTL,JOG20101,Daerah Istimewa Yogyakarta,Bantul,Bambanglipuro
+BTL,JOG20100,Daerah Istimewa Yogyakarta,Bantul,Bantul
+SLE,JOG20316,Daerah Istimewa Yogyakarta,Sleman,Mlati
+SLE,JOG20315,Daerah Istimewa Yogyakarta,Sleman,Gamping
+SLE,JOG20314,Daerah Istimewa Yogyakarta,Sleman,Depok
+SLE,JOG20313,Daerah Istimewa Yogyakarta,Sleman,Turi
+SLE,JOG20312,Daerah Istimewa Yogyakarta,Sleman,Tempel
+SLE,JOG20311,Daerah Istimewa Yogyakarta,Sleman,Seyegan
+SLE,JOG20310,Daerah Istimewa Yogyakarta,Sleman,Prambanan
+SLE,JOG20309,Daerah Istimewa Yogyakarta,Sleman,Pakem
+SLE,JOG20308,Daerah Istimewa Yogyakarta,Sleman,Ngemplak
+SLE,JOG20307,Daerah Istimewa Yogyakarta,Sleman,Ngaglik
+SLE,JOG20306,Daerah Istimewa Yogyakarta,Sleman,Moyudan
+SLE,JOG20305,Daerah Istimewa Yogyakarta,Sleman,Minggir
+SLE,JOG20304,Daerah Istimewa Yogyakarta,Sleman,Kalasan
+SLE,JOG20303,Daerah Istimewa Yogyakarta,Sleman,Godean
+SLE,JOG20302,Daerah Istimewa Yogyakarta,Sleman,Cangkringan
+SLE,JOG20301,Daerah Istimewa Yogyakarta,Sleman,Berbah
+SLE,JOG20300,Daerah Istimewa Yogyakarta,Sleman,Sleman
+JOG,JOG10014,Daerah Istimewa Yogyakarta,Yogyakarta,Wirobrajan
+JOG,JOG10013,Daerah Istimewa Yogyakarta,Yogyakarta,Umbulharjo
+JOG,JOG10012,Daerah Istimewa Yogyakarta,Yogyakarta,Pakualaman
+JOG,JOG10011,Daerah Istimewa Yogyakarta,Yogyakarta,Ngampilan
+JOG,JOG10010,Daerah Istimewa Yogyakarta,Yogyakarta,Mergangsan
+JOG,JOG10009,Daerah Istimewa Yogyakarta,Yogyakarta,Mantrijeron
+JOG,JOG10008,Daerah Istimewa Yogyakarta,Yogyakarta,Kraton
+JOG,JOG10007,Daerah Istimewa Yogyakarta,Yogyakarta,Kotagede
+JOG,JOG10006,Daerah Istimewa Yogyakarta,Yogyakarta,Gondomanan
+JOG,JOG10005,Daerah Istimewa Yogyakarta,Yogyakarta,Gondokusuman
+JOG,JOG10004,Daerah Istimewa Yogyakarta,Yogyakarta,Gedongtengen
+JOG,JOG10003,Daerah Istimewa Yogyakarta,Yogyakarta,Danurejan
+JOG,JOG10002,Daerah Istimewa Yogyakarta,Yogyakarta,Jetis
+JOG,JOG10001,Daerah Istimewa Yogyakarta,Yogyakarta,Tegalrejo
+BDX,BDO10134,Jawa Barat,Bandung,Kutawaringin
+BDX,BDO10130,Jawa Barat,Bandung,Solokanjeruk
+BDX,BDO10129,Jawa Barat,Bandung,Rancaekek
+BDX,BDO10128,Jawa Barat,Bandung,Rancabali
+BDX,BDO10127,Jawa Barat,Bandung,Pasirjambu
+BDX,BDO10126,Jawa Barat,Bandung,Paseh
+BDX,BDO10125,Jawa Barat,Bandung,Pangalengan
+BDX,BDO10124,Jawa Barat,Bandung,Pameungpeuk
+BDX,BDO10123,Jawa Barat,Bandung,Pacet
+BDX,BDO10122,Jawa Barat,Bandung,Nagreg
+BDX,BDO10121,Jawa Barat,Bandung,Margahayu
+BDX,BDO10120,Jawa Barat,Bandung,Margaasih
+BDX,BDO10119,Jawa Barat,Bandung,Majalaya
+BDX,BDO10118,Jawa Barat,Bandung,Katapang
+BDX,BDO10116,Jawa Barat,Bandung,Kertasari
+BDX,BDO10115,Jawa Barat,Bandung,Ibun
+BDX,BDO10114,Jawa Barat,Bandung,Dayeuhkolot
+BDX,BDO10113,Jawa Barat,Bandung,Ciwidey
+BDX,BDO10112,Jawa Barat,Bandung,Ciparay
+BDX,BDO10111,Jawa Barat,Bandung,Cimenyan
+BDX,BDO10110,Jawa Barat,Bandung,Cimaung
+BDX,BDO10109,Jawa Barat,Bandung,Cileunyi
+BDX,BDO10108,Jawa Barat,Bandung,Cilengkrang
+BDX,BDO10107,Jawa Barat,Bandung,Cikancung
+BDX,BDO10106,Jawa Barat,Bandung,Cicalengka
+BDX,BDO10105,Jawa Barat,Bandung,Cangkuang
+BDX,BDO10104,Jawa Barat,Bandung,Bojongsoang
+BDX,BDO10103,Jawa Barat,Bandung,Banjaran
+BDX,BDO10102,Jawa Barat,Bandung,Baleendah
+BDX,BDO10101,Jawa Barat,Bandung,Arjasari
+BDX,BDO10100,Jawa Barat,Bandung,Soreang
+BDY,BDO21016,Jawa Barat,Bandung Barat,Saguling
+BDY,BDO21000,Jawa Barat,Bandung Barat,Ngamprah
+BDY,BDO21014,Jawa Barat,Bandung Barat,Rongga
+BDY,BDO21013,Jawa Barat,Bandung Barat,Parongpong
+BDY,BDO21012,Jawa Barat,Bandung Barat,Cihampelas
+BDY,BDO21011,Jawa Barat,Bandung Barat,Sindangkerta
+BDY,BDO21010,Jawa Barat,Bandung Barat,Padalarang
+BDY,BDO21009,Jawa Barat,Bandung Barat,Gununghalu
+BDY,BDO21008,Jawa Barat,Bandung Barat,Cisarua
+BDY,BDO21007,Jawa Barat,Bandung Barat,Cipongkor
+BDY,BDO21006,Jawa Barat,Bandung Barat,Cipatat
+BDY,BDO21005,Jawa Barat,Bandung Barat,Cipeundeuy
+BDY,BDO21004,Jawa Barat,Bandung Barat,Cililin
+BDY,BDO21003,Jawa Barat,Bandung Barat,Cikalongwetan
+BDY,BDO21002,Jawa Barat,Bandung Barat,Batujajar
+BDY,BDO21001,Jawa Barat,Bandung Barat,Lembang
+CJR,SMI20133,Jawa Barat,Cianjur,Pasirkuda
+CJR,SMI20132,Jawa Barat,Cianjur,Haurwangi
+CJR,SMI20131,Jawa Barat,Cianjur,Leles
+CJR,SMI20130,Jawa Barat,Cianjur,Gekbrong
+CJR,SMI20129,Jawa Barat,Cianjur,Cikadu
+CJR,SMI20128,Jawa Barat,Cianjur,Cijati
+CJR,SMI20127,Jawa Barat,Cianjur,Campakamulya
+CJR,SMI20125,Jawa Barat,Cianjur,Cipanas
+CJR,SMI20123,Jawa Barat,Cianjur,Warungkondang
+CJR,SMI20122,Jawa Barat,Cianjur,Tanggeung
+CJR,SMI20121,Jawa Barat,Cianjur,Takokak
+CJR,SMI20120,Jawa Barat,Cianjur,Sukaresmi
+CJR,SMI20119,Jawa Barat,Cianjur,Sukanagara
+CJR,SMI20118,Jawa Barat,Cianjur,Sukaluyu
+CJR,SMI20117,Jawa Barat,Cianjur,Sindangbarang
+CJR,SMI20116,Jawa Barat,Cianjur,Pagelaran
+CJR,SMI20115,Jawa Barat,Cianjur,Pacet
+CJR,SMI20114,Jawa Barat,Cianjur,Naringgul
+CJR,SMI20113,Jawa Barat,Cianjur,Mande
+CJR,SMI20112,Jawa Barat,Cianjur,Karangtengah
+CJR,SMI20111,Jawa Barat,Cianjur,Kadupandak
+CJR,SMI20110,Jawa Barat,Cianjur,Cugenang
+CJR,SMI20109,Jawa Barat,Cianjur,Ciranjang
+CJR,SMI20108,Jawa Barat,Cianjur,Cilaku
+CJR,SMI20107,Jawa Barat,Cianjur,Cikalongkulon
+CJR,SMI20106,Jawa Barat,Cianjur,Cidaun
+CJR,SMI20105,Jawa Barat,Cianjur,Cibinong
+CJR,SMI20104,Jawa Barat,Cianjur,Cibeber
+CJR,SMI20103,Jawa Barat,Cianjur,Campaka
+CJR,SMI20102,Jawa Barat,Cianjur,Bojongpicung
+CJR,SMI20101,Jawa Barat,Cianjur,Agrabinta
+CJR,SMI20100,Jawa Barat,Cianjur,Cianjur
+CBX,CBN20443,Jawa Barat,Cirebon,Talun
+CBX,CBN20442,Jawa Barat,Cirebon,Gunung Jati
+CBX,CBN20441,Jawa Barat,Cirebon,Greged
+CBX,CBN20440,Jawa Barat,Cirebon,Suranenggala
+CBX,CBN20439,Jawa Barat,Cirebon,Jamblang
+CBX,CBN20438,Jawa Barat,Cirebon,Sedong
+CBX,CBN20436,Jawa Barat,Cirebon,Tengah Tani
+CBX,CBN20435,Jawa Barat,Cirebon,Plumbon
+CBX,CBN20434,Jawa Barat,Cirebon,Plered
+CBX,CBN20433,Jawa Barat,Cirebon,Pasaleman
+CBX,CBN20432,Jawa Barat,Cirebon,Panguragan
+CBX,CBN20431,Jawa Barat,Cirebon,Weru
+CBX,CBN20430,Jawa Barat,Cirebon,Pangenan
+CBX,CBN20429,Jawa Barat,Cirebon,Waled
+CBX,CBN20428,Jawa Barat,Cirebon,Palimanan
+CBX,CBN20427,Jawa Barat,Cirebon,Susukan Lebak
+CBX,CBN20426,Jawa Barat,Cirebon,Pabuaran
+CBX,CBN20425,Jawa Barat,Cirebon,Susukan
+CBX,CBN20424,Jawa Barat,Cirebon,Pabedilan
+CBX,CBN20423,Jawa Barat,Cirebon,Mundu
+CBX,CBN20422,Jawa Barat,Cirebon,Losari
+CBX,CBN20421,Jawa Barat,Cirebon,Lemahabang
+CBX,CBN20420,Jawa Barat,Cirebon,Klangenan
+CBX,CBN20419,Jawa Barat,Cirebon,Kedawung
+CBX,CBN20418,Jawa Barat,Cirebon,Karangwareng
+CBX,CBN20417,Jawa Barat,Cirebon,Karangsembung
+CBX,CBN20416,Jawa Barat,Cirebon,Kapetakan
+CBX,CBN20415,Jawa Barat,Cirebon,Kaliwedi
+CBX,CBN20414,Jawa Barat,Cirebon,Gempol
+CBX,CBN20413,Jawa Barat,Cirebon,Gegesik
+CBX,CBN20412,Jawa Barat,Cirebon,Gebang
+CBX,CBN20411,Jawa Barat,Cirebon,Dukupuntang
+CBX,CBN20410,Jawa Barat,Cirebon,Depok
+CBX,CBN20409,Jawa Barat,Cirebon,Ciwaringin
+CBX,CBN20406,Jawa Barat,Cirebon,Ciledug
+CBX,CBN20405,Jawa Barat,Cirebon,Beber
+CBX,CBN20404,Jawa Barat,Cirebon,Babakan
+CBX,CBN20403,Jawa Barat,Cirebon,Astanajapura
+CBX,CBN20402,Jawa Barat,Cirebon,Arjawinangun
+CBX,CBN20400,Jawa Barat,Cirebon,Sumber
+GRT,BDO20747,Jawa Barat,Garut,Bl. Limbangan
+GRT,BDO20746,Jawa Barat,Garut,Garut Kota
+GRT,BDO20745,Jawa Barat,Garut,Tarogong Kidul
+GRT,BDO20744,Jawa Barat,Garut,Tarogong Kaler
+GRT,BDO20743,Jawa Barat,Garut,Sucinaraja
+GRT,BDO20742,Jawa Barat,Garut,Pasirwangi
+GRT,BDO20741,Jawa Barat,Garut,Pangatikan
+GRT,BDO20740,Jawa Barat,Garut,Mekarmukti
+GRT,BDO20739,Jawa Barat,Garut,Kersamanah
+GRT,BDO20738,Jawa Barat,Garut,Cihurip
+GRT,BDO20737,Jawa Barat,Garut,Cigedug
+GRT,BDO20736,Jawa Barat,Garut,Sukaresmi
+GRT,BDO20735,Jawa Barat,Garut,Karangtengah
+GRT,BDO20734,Jawa Barat,Garut,Caringin
+GRT,BDO20730,Jawa Barat,Garut,Wanaraja
+GRT,BDO20728,Jawa Barat,Garut,Talegong
+GRT,BDO20727,Jawa Barat,Garut,Sukawening
+GRT,BDO20726,Jawa Barat,Garut,Singajaya
+GRT,BDO20725,Jawa Barat,Garut,Selaawi
+GRT,BDO20724,Jawa Barat,Garut,Samarang
+GRT,BDO20723,Jawa Barat,Garut,Peundeuy
+GRT,BDO20722,Jawa Barat,Garut,Pamulihan
+GRT,BDO20721,Jawa Barat,Garut,Pameungpeuk
+GRT,BDO20720,Jawa Barat,Garut,Pakenjeng
+GRT,BDO20719,Jawa Barat,Garut,Malangbong
+GRT,BDO20718,Jawa Barat,Garut,Leuwigoong
+GRT,BDO20717,Jawa Barat,Garut,Leles
+GRT,BDO20716,Jawa Barat,Garut,Karangpawitan
+GRT,BDO20715,Jawa Barat,Garut,Kadungora
+GRT,BDO20714,Jawa Barat,Garut,Cisewu
+GRT,BDO20713,Jawa Barat,Garut,Cisurupan
+GRT,BDO20712,Jawa Barat,Garut,Cisompet
+GRT,BDO20711,Jawa Barat,Garut,Cilawu
+GRT,BDO20710,Jawa Barat,Garut,Cikajang
+GRT,BDO20709,Jawa Barat,Garut,Cikelet
+GRT,BDO20708,Jawa Barat,Garut,Cibiuk
+GRT,BDO20707,Jawa Barat,Garut,Cibalong
+GRT,BDO20706,Jawa Barat,Garut,Cibatu
+GRT,BDO20705,Jawa Barat,Garut,Bungbulang
+GRT,BDO20703,Jawa Barat,Garut,Bayongbong
+GRT,BDO20702,Jawa Barat,Garut,Banyuresmi
+GRT,BDO20701,Jawa Barat,Garut,Banjarwangi
+IDR,CBN20130,Jawa Barat,Indramayu,Patrol
+IDR,CBN20129,Jawa Barat,Indramayu,Tukdana
+IDR,CBN20128,Jawa Barat,Indramayu,Pasekan
+IDR,CBN20127,Jawa Barat,Indramayu,Terisi
+IDR,CBN20126,Jawa Barat,Indramayu,Sukagumiwang
+IDR,CBN20125,Jawa Barat,Indramayu,Sindang
+IDR,CBN20124,Jawa Barat,Indramayu,Kedokan Bunder
+IDR,CBN20123,Jawa Barat,Indramayu,Gantar
+IDR,CBN20122,Jawa Barat,Indramayu,Cantigi
+IDR,CBN20121,Jawa Barat,Indramayu,Arahan
+IDR,CBN20120,Jawa Barat,Indramayu,Widasari
+IDR,CBN20119,Jawa Barat,Indramayu,Sukra
+IDR,CBN20118,Jawa Barat,Indramayu,Sliyeg
+IDR,CBN20117,Jawa Barat,Indramayu,Losarang
+IDR,CBN20116,Jawa Barat,Indramayu,Lohbener
+IDR,CBN20115,Jawa Barat,Indramayu,Lelea
+IDR,CBN20114,Jawa Barat,Indramayu,Kroya
+IDR,CBN20113,Jawa Barat,Indramayu,Krangkeng
+IDR,CBN20112,Jawa Barat,Indramayu,Kertasemaya
+IDR,CBN20111,Jawa Barat,Indramayu,Karangampel
+IDR,CBN20110,Jawa Barat,Indramayu,Kandanghaur
+IDR,CBN20109,Jawa Barat,Indramayu,Juntinyuat
+IDR,CBN20108,Jawa Barat,Indramayu,Jatibarang
+IDR,CBN20107,Jawa Barat,Indramayu,Haurgeulis
+IDR,CBN20106,Jawa Barat,Indramayu,Gabuswetan
+IDR,CBN20105,Jawa Barat,Indramayu,Cikedung
+IDR,CBN20104,Jawa Barat,Indramayu,Bongas
+IDR,CBN20103,Jawa Barat,Indramayu,Bangodua
+IDR,CBN20102,Jawa Barat,Indramayu,Balongan
+IDR,CBN20101,Jawa Barat,Indramayu,Anjatan
+IDR,CBN20100,Jawa Barat,Indramayu,Indramayu
+KRW,KRW10030,Jawa Barat,Karawang,Tirtajaya
+KRW,KRW10029,Jawa Barat,Karawang,Telukjambe Timur
+KRW,KRW10028,Jawa Barat,Karawang,Purwasari
+KRW,KRW10027,Jawa Barat,Karawang,Majalaya
+KRW,KRW10026,Jawa Barat,Karawang,Kutawaluya
+KRW,KRW10025,Jawa Barat,Karawang,Kota Baru
+KRW,KRW10024,Jawa Barat,Karawang,Karawang Timur
+KRW,KRW10023,Jawa Barat,Karawang,Karawang Barat
+KRW,KRW10022,Jawa Barat,Karawang,Jayakerta
+KRW,KRW10021,Jawa Barat,Karawang,Cilebar
+KRW,KRW10020,Jawa Barat,Karawang,Cilamaya Wetan
+KRW,KRW10019,Jawa Barat,Karawang,Ciampel
+KRW,KRW10018,Jawa Barat,Karawang,Banyusari
+KRW,KRW10017,Jawa Barat,Karawang,Tegalwaru
+KRW,KRW10016,Jawa Barat,Karawang,Tirtamulya
+KRW,KRW10015,Jawa Barat,Karawang,Tempuran
+KRW,KRW10014,Jawa Barat,Karawang,Telukjambe Barat
+KRW,KRW10013,Jawa Barat,Karawang,Telagasari
+KRW,KRW10012,Jawa Barat,Karawang,Rengasdengklok
+KRW,KRW10011,Jawa Barat,Karawang,Rawamerta
+KRW,KRW10010,Jawa Barat,Karawang,Pedes
+KRW,KRW10009,Jawa Barat,Karawang,Pangkalan
+KRW,KRW10008,Jawa Barat,Karawang,Pakisjaya
+KRW,KRW10007,Jawa Barat,Karawang,Lemahabang
+KRW,KRW10006,Jawa Barat,Karawang,Klari
+KRW,KRW10005,Jawa Barat,Karawang,Jatisari
+KRW,KRW10004,Jawa Barat,Karawang,Cilamaya Kulon
+KRW,KRW10003,Jawa Barat,Karawang,Cikampek
+KRW,KRW10002,Jawa Barat,Karawang,Cibuaya
+KRW,KRW10001,Jawa Barat,Karawang,Batujaya
+KUN,CBN20238,Jawa Barat,Kuningan,Ciwaru
+KUN,CBN20237,Jawa Barat,Kuningan,Cigandamekar
+KUN,CBN20234,Jawa Barat,Kuningan,Subang
+KUN,CBN20233,Jawa Barat,Kuningan,Sindangagung
+KUN,CBN20232,Jawa Barat,Kuningan,Selajambe
+KUN,CBN20231,Jawa Barat,Kuningan,Pasawahan
+KUN,CBN20230,Jawa Barat,Kuningan,Pancalang
+KUN,CBN20228,Jawa Barat,Kuningan,Nusaherang
+KUN,CBN20226,Jawa Barat,Kuningan,Mandirancan
+KUN,CBN20225,Jawa Barat,Kuningan,Maleber
+KUN,CBN20224,Jawa Barat,Kuningan,Luragung
+KUN,CBN20222,Jawa Barat,Kuningan,Lebakwangi
+KUN,CBN20221,Jawa Barat,Kuningan,Kramatmulya
+KUN,CBN20220,Jawa Barat,Kuningan,Karang Kancana
+KUN,CBN20219,Jawa Barat,Kuningan,Kalimanggis
+KUN,CBN20218,Jawa Barat,Kuningan,Kadugede
+KUN,CBN20217,Jawa Barat,Kuningan,Japara
+KUN,CBN20216,Jawa Barat,Kuningan,Jalaksana
+KUN,CBN20215,Jawa Barat,Kuningan,Hantara
+KUN,CBN20214,Jawa Barat,Kuningan,Garawangi
+KUN,CBN20213,Jawa Barat,Kuningan,Darma
+KUN,CBN20212,Jawa Barat,Kuningan,Cipicung
+KUN,CBN20211,Jawa Barat,Kuningan,Ciniru
+KUN,CBN20210,Jawa Barat,Kuningan,Cimahi
+KUN,CBN20209,Jawa Barat,Kuningan,Cilebak
+KUN,CBN20208,Jawa Barat,Kuningan,Cilimus
+KUN,CBN20206,Jawa Barat,Kuningan,Cigugur
+KUN,CBN20205,Jawa Barat,Kuningan,Cidahu
+KUN,CBN20204,Jawa Barat,Kuningan,Cibeureum
+KUN,CBN20203,Jawa Barat,Kuningan,Cibingbin
+KUN,CBN20202,Jawa Barat,Kuningan,Ciawigebang
+KUN,CBN20200,Jawa Barat,Kuningan,Kuningan
+PWA,BDO20821,Jawa Barat,Purwakarta,Kiarapedes
+PWA,BDO20820,Jawa Barat,Purwakarta,Bojong
+PWA,BDO20814,Jawa Barat,Purwakarta,Pondoksalam
+PWA,BDO20813,Jawa Barat,Purwakarta,Sukasari
+PWA,BDO20812,Jawa Barat,Purwakarta,Wanayasa
+PWA,BDO20811,Jawa Barat,Purwakarta,Tegalwaru
+PWA,BDO20810,Jawa Barat,Purwakarta,Maniis
+PWA,BDO20809,Jawa Barat,Purwakarta,Darangdan
+PWA,BDO20808,Jawa Barat,Purwakarta,Sukatani
+PWA,BDO20807,Jawa Barat,Purwakarta,Plered
+PWA,BDO20806,Jawa Barat,Purwakarta,Cibatu
+PWA,BDO20805,Jawa Barat,Purwakarta,Bungursari
+PWA,BDO20804,Jawa Barat,Purwakarta,Babakancikao
+PWA,BDO20803,Jawa Barat,Purwakarta,Pasawahan
+PWA,BDO20802,Jawa Barat,Purwakarta,Campaka
+PWA,BDO20801,Jawa Barat,Purwakarta,Jatiluhur
+PWA,BDO20800,Jawa Barat,Purwakarta,Purwakarta
+SBG,BDO21132,Jawa Barat,Subang,Dawuan
+SBG,BDO21131,Jawa Barat,Subang,Sukasari
+SBG,BDO21130,Jawa Barat,Subang,Pagaden Barat
+SBG,BDO21129,Jawa Barat,Subang,Serangpanjang
+SBG,BDO21127,Jawa Barat,Subang,Pusakajaya
+SBG,BDO21125,Jawa Barat,Subang,Kasomalang
+SBG,BDO21124,Jawa Barat,Subang,Ciater
+SBG,BDO21123,Jawa Barat,Subang,Tambakdahan
+SBG,BDO21122,Jawa Barat,Subang,Pagaden
+SBG,BDO21121,Jawa Barat,Subang,Legonkulon
+SBG,BDO21120,Jawa Barat,Subang,Cipunagara
+SBG,BDO21119,Jawa Barat,Subang,Cikaum
+SBG,BDO21118,Jawa Barat,Subang,Tanjungsiang
+SBG,BDO21117,Jawa Barat,Subang,Sagalaherang
+SBG,BDO21116,Jawa Barat,Subang,Pusakanagara
+SBG,BDO21115,Jawa Barat,Subang,Purwadadi
+SBG,BDO21114,Jawa Barat,Subang,Patokbeusi
+SBG,BDO21113,Jawa Barat,Subang,Pamanukan
+SBG,BDO21111,Jawa Barat,Subang,Pabuaran
+SBG,BDO21110,Jawa Barat,Subang,Kalijati
+SBG,BDO21109,Jawa Barat,Subang,Jalancagak
+SBG,BDO21108,Jawa Barat,Subang,Compreng
+SBG,BDO21107,Jawa Barat,Subang,Cisalak
+SBG,BDO21106,Jawa Barat,Subang,Cijambe
+SBG,BDO21105,Jawa Barat,Subang,Cibogo
+SBG,BDO21104,Jawa Barat,Subang,Ciasem
+SBG,BDO21103,Jawa Barat,Subang,Blanakan
+SBG,BDO21102,Jawa Barat,Subang,Binong
+SBG,BDO21101,Jawa Barat,Subang,Cipeundeuy
+SBG,BDO21100,Jawa Barat,Subang,Subang
+SMX,SMI10149,Jawa Barat,Kab. Sukabumi,Cimanggu
+SMX,SMI10049,Jawa Barat,Kab. Sukabumi,Ciambar
+SMX,SMI10046,Jawa Barat,Kab. Sukabumi,Warungkiara
+SMX,SMI10045,Jawa Barat,Kab. Sukabumi,Waluran
+SMX,SMI10044,Jawa Barat,Kab. Sukabumi,Tegalbuleud
+SMX,SMI10043,Jawa Barat,Kab. Sukabumi,Surade
+SMX,SMI10042,Jawa Barat,Kab. Sukabumi,Sukaraja
+SMX,SMI10040,Jawa Barat,Kab. Sukabumi,Sukalarang
+SMX,SMI10039,Jawa Barat,Kab. Sukabumi,Simpenan
+SMX,SMI10038,Jawa Barat,Kab. Sukabumi,Sagaranten
+SMX,SMI10037,Jawa Barat,Kab. Sukabumi,Purabaya
+SMX,SMI10036,Jawa Barat,Kab. Sukabumi,Palabuhanratu
+SMX,SMI10035,Jawa Barat,Kab. Sukabumi,Parakansalak
+SMX,SMI10034,Jawa Barat,Kab. Sukabumi,Parungkuda
+SMX,SMI10033,Jawa Barat,Kab. Sukabumi,Pabuaran
+SMX,SMI10032,Jawa Barat,Kab. Sukabumi,Nyalindung
+SMX,SMI10031,Jawa Barat,Kab. Sukabumi,Nagrak
+SMX,SMI10030,Jawa Barat,Kab. Sukabumi,Lengkong
+SMX,SMI10029,Jawa Barat,Kab. Sukabumi,Kebonpedes
+SMX,SMI10028,Jawa Barat,Kab. Sukabumi,Kalibunder
+SMX,SMI10027,Jawa Barat,Kab. Sukabumi,Kalapanunggal
+SMX,SMI10026,Jawa Barat,Kab. Sukabumi,Kadudampit
+SMX,SMI10025,Jawa Barat,Kab. Sukabumi,Kabandungan
+SMX,SMI10024,Jawa Barat,Kab. Sukabumi,Jampangtengah
+SMX,SMI10023,Jawa Barat,Kab. Sukabumi,Jampangkulon
+SMX,SMI10022,Jawa Barat,Kab. Sukabumi,Gunungguruh
+SMX,SMI10021,Jawa Barat,Kab. Sukabumi,Gegerbitung
+SMX,SMI10020,Jawa Barat,Kab. Sukabumi,Curugkembar
+SMX,SMI10019,Jawa Barat,Kab. Sukabumi,Cisolok
+SMX,SMI10018,Jawa Barat,Kab. Sukabumi,Cisaat
+SMX,SMI10017,Jawa Barat,Kab. Sukabumi,Cireunghas
+SMX,SMI10016,Jawa Barat,Kab. Sukabumi,Ciracap
+SMX,SMI10015,Jawa Barat,Kab. Sukabumi,Cikakak
+SMX,SMI10014,Jawa Barat,Kab. Sukabumi,Cikembar
+SMX,SMI10013,Jawa Barat,Kab. Sukabumi,Cikidang
+SMX,SMI10012,Jawa Barat,Kab. Sukabumi,Ciemas
+SMX,SMI10011,Jawa Barat,Kab. Sukabumi,Cidadap
+SMX,SMI10010,Jawa Barat,Kab. Sukabumi,Cidolog
+SMX,SMI10009,Jawa Barat,Kab. Sukabumi,Cidahu
+SMX,SMI10008,Jawa Barat,Kab. Sukabumi,Cicantayan
+SMX,SMI10007,Jawa Barat,Kab. Sukabumi,Cicurug
+SMX,SMI10006,Jawa Barat,Kab. Sukabumi,Cibitung
+SMX,SMI10005,Jawa Barat,Kab. Sukabumi,Cibadak
+SMX,SMI10004,Jawa Barat,Kab. Sukabumi,Caringin
+SMX,SMI10003,Jawa Barat,Kab. Sukabumi,Bojonggenteng
+SMX,SMI10001,Jawa Barat,Kab. Sukabumi,Bantargadung
+SMX,SMI10080,Jawa Barat,Kab. Sukabumi,Sukabumi
+SMD,BDO20254,Jawa Barat,Sumedang,Tanjungmedar
+SMD,BDO20253,Jawa Barat,Sumedang,Sumedang Utara
+SMD,BDO20252,Jawa Barat,Sumedang,Sumedang Selatan
+SMD,BDO20251,Jawa Barat,Sumedang,Jatinunggal
+SMD,BDO20250,Jawa Barat,Sumedang,Jatigede
+SMD,BDO20249,Jawa Barat,Sumedang,Cisitu
+SMD,BDO20248,Jawa Barat,Sumedang,Cisarua
+SMD,BDO20247,Jawa Barat,Sumedang,Jatinangor
+SMD,BDO20224,Jawa Barat,Sumedang,Wado
+SMD,BDO20223,Jawa Barat,Sumedang,Ujungjaya
+SMD,BDO20222,Jawa Barat,Sumedang,Tomo
+SMD,BDO20221,Jawa Barat,Sumedang,Tanjungsari
+SMD,BDO20220,Jawa Barat,Sumedang,Tanjungkerta
+SMD,BDO20219,Jawa Barat,Sumedang,Surian
+SMD,BDO20218,Jawa Barat,Sumedang,Sukasari
+SMD,BDO20217,Jawa Barat,Sumedang,Situraja
+SMD,BDO20216,Jawa Barat,Sumedang,Rancakalong
+SMD,BDO20215,Jawa Barat,Sumedang,Paseh
+SMD,BDO20214,Jawa Barat,Sumedang,Pamulihan
+SMD,BDO20210,Jawa Barat,Sumedang,Ganeas
+SMD,BDO20209,Jawa Barat,Sumedang,Darmaraja
+SMD,BDO20208,Jawa Barat,Sumedang,Conggeang
+SMD,BDO20206,Jawa Barat,Sumedang,Cimanggung
+SMD,BDO20205,Jawa Barat,Sumedang,Cimalaka
+SMD,BDO20203,Jawa Barat,Sumedang,Cibugel
+SMD,BDO20201,Jawa Barat,Sumedang,Buahdua
+TSX,BDO20642,Jawa Barat,Tasikmalaya,Sukahening
+TSX,BDO20640,Jawa Barat,Tasikmalaya,Tanjungjaya
+TSX,BDO20639,Jawa Barat,Tasikmalaya,Sukaresik
+TSX,BDO20638,Jawa Barat,Tasikmalaya,Sukaratu
+TSX,BDO20637,Jawa Barat,Tasikmalaya,Puspahiang
+TSX,BDO20636,Jawa Barat,Tasikmalaya,Parungponteng
+TSX,BDO20635,Jawa Barat,Tasikmalaya,Pagerageung
+TSX,BDO20634,Jawa Barat,Tasikmalaya,Padakembang
+TSX,BDO20633,Jawa Barat,Tasikmalaya,Karang Jaya
+TSX,BDO20632,Jawa Barat,Tasikmalaya,Jatiwaras
+TSX,BDO20631,Jawa Barat,Tasikmalaya,Gunung Tanjung
+TSX,BDO20630,Jawa Barat,Tasikmalaya,Bojongasih
+TSX,BDO20629,Jawa Barat,Tasikmalaya,Kadipaten
+TSX,BDO20627,Jawa Barat,Tasikmalaya,Sukaraja
+TSX,BDO20626,Jawa Barat,Tasikmalaya,Salopa
+TSX,BDO20625,Jawa Barat,Tasikmalaya,Rajapolah
+TSX,BDO20624,Jawa Barat,Tasikmalaya,Pancatengah
+TSX,BDO20623,Jawa Barat,Tasikmalaya,Manonjaya
+TSX,BDO20622,Jawa Barat,Tasikmalaya,Karangnunggal
+TSX,BDO20621,Jawa Barat,Tasikmalaya,Jamanis
+TSX,BDO20620,Jawa Barat,Tasikmalaya,Cisayong
+TSX,BDO20619,Jawa Barat,Tasikmalaya,Cipatujah
+TSX,BDO20618,Jawa Barat,Tasikmalaya,Cineam
+TSX,BDO20617,Jawa Barat,Tasikmalaya,Cikalong
+TSX,BDO20616,Jawa Barat,Tasikmalaya,Cikatomas
+TSX,BDO20615,Jawa Barat,Tasikmalaya,Cibalong
+TSX,BDO20614,Jawa Barat,Tasikmalaya,Ciawi
+TSX,BDO20613,Jawa Barat,Tasikmalaya,Culamega
+TSX,BDO20612,Jawa Barat,Tasikmalaya,Bantarkalong
+TSX,BDO20611,Jawa Barat,Tasikmalaya,Taraju
+TSX,BDO20610,Jawa Barat,Tasikmalaya,Sodonghilir
+TSX,BDO20609,Jawa Barat,Tasikmalaya,Mangunreja
+TSX,BDO20608,Jawa Barat,Tasikmalaya,Sukarame
+TSX,BDO20606,Jawa Barat,Tasikmalaya,Salawu
+TSX,BDO20605,Jawa Barat,Tasikmalaya,Sariwangi
+TSX,BDO20603,Jawa Barat,Tasikmalaya,Leuwisari
+TSX,BDO20602,Jawa Barat,Tasikmalaya,Cigalontang
+TSX,BDO20601,Jawa Barat,Tasikmalaya,Bojonggambir
+TSX,BDO20600,Jawa Barat,Tasikmalaya,Singaparna
+BDO,BDO10067,Jawa Barat,Bandung,Antapani
+BDO,BDO10066,Jawa Barat,Bandung,Cinambo
+BDO,BDO10065,Jawa Barat,Bandung,Buahbatu
+BDO,BDO10064,Jawa Barat,Bandung,Gedebage
+BDO,BDO10063,Jawa Barat,Bandung,Mandalajati
+BDO,BDO10062,Jawa Barat,Bandung,Panyileukan
+BDO,BDO10060,Jawa Barat,Bandung,Sumur Bandung
+BDO,BDO10059,Jawa Barat,Bandung,Sukajadi
+BDO,BDO10058,Jawa Barat,Bandung,Regol
+BDO,BDO10057,Jawa Barat,Bandung,Rancasari
+BDO,BDO10055,Jawa Barat,Bandung,Kiaracondong
+BDO,BDO10054,Jawa Barat,Bandung,Coblong
+BDO,BDO10053,Jawa Barat,Bandung,Cicendo
+BDO,BDO10052,Jawa Barat,Bandung,Cibeunying Kidul
+BDO,BDO10051,Jawa Barat,Bandung,Cibeunying Kaler
+BDO,BDO10050,Jawa Barat,Bandung,Bojongloa Kidul
+BDO,BDO10049,Jawa Barat,Bandung,Bojongloa Kaler
+BDO,BDO10048,Jawa Barat,Bandung,Batununggal
+BDO,BDO10047,Jawa Barat,Bandung,Bandung Wetan
+BDO,BDO10046,Jawa Barat,Bandung,Bandung Kulon
+BDO,BDO10045,Jawa Barat,Bandung,Bandung Kidul
+BDO,BDO10044,Jawa Barat,Bandung,Babakan Ciparay
+BDO,BDO10043,Jawa Barat,Bandung,Astana Anyar
+BDO,BDO10042,Jawa Barat,Bandung,Arcamanik
+BDO,BDO10041,Jawa Barat,Bandung,Andir
+BDO,BDO10040,Jawa Barat,Bandung,Lengkong
+BDO,BDO10039,Jawa Barat,Bandung,Cidadap
+BDO,BDO10037,Jawa Barat,Bandung,Sukasari
+BDO,BDO10018,Jawa Barat,Bandung,Ujungberung
+BDO,BDO10002,Jawa Barat,Bandung,Cibiru
+PKU,PKU10026,Riau,Pekanbaru,Rumbai Barat
+CMH,BDO20119,Jawa Barat,Cimahi,Cimahi Utara
+CMH,BDO20118,Jawa Barat,Cimahi,Cimahi Tengah
+CMH,BDO20117,Jawa Barat,Cimahi,Cimahi Selatan
+PKU,PKU10027,Riau,Pekanbaru,Tuahmadani
+CBN,CBN10038,Jawa Barat,Cirebon,Pekalipan
+CBN,CBN10037,Jawa Barat,Cirebon,Lemah Wungkuk
+CBN,CBN10036,Jawa Barat,Cirebon,Kesambi
+CBN,CBN10035,Jawa Barat,Cirebon,Kejaksan
+CBN,CBN10034,Jawa Barat,Cirebon,Harjamukti
+SMI,SMI10055,Jawa Barat,Sukabumi,Cibeureum
+SMI,SMI10054,Jawa Barat,Sukabumi,Warudoyong
+SMI,SMI10053,Jawa Barat,Sukabumi,Gunungpuyuh
+SMI,SMI10052,Jawa Barat,Sukabumi,Citamiang
+SMI,SMI10051,Jawa Barat,Sukabumi,Cikole
+SMI,SMI10047,Jawa Barat,Sukabumi,Lembursitu
+SMI,SMI10002,Jawa Barat,Sukabumi,Baros
+TSI,BDO21339,Jawa Barat,Tasikmalaya,Bungursari
+TSI,BDO20339,Jawa Barat,Tasikmalaya,Purbaratu
+TSI,BDO20337,Jawa Barat,Tasikmalaya,Tawang
+TSI,BDO20336,Jawa Barat,Tasikmalaya,Tamansari
+TSI,BDO20335,Jawa Barat,Tasikmalaya,Mangkubumi
+TSI,BDO20334,Jawa Barat,Tasikmalaya,Cipedes
+TSI,BDO20333,Jawa Barat,Tasikmalaya,Cihideung
+TSI,BDO20321,Jawa Barat,Tasikmalaya,Kawalu
+TSI,BDO20317,Jawa Barat,Tasikmalaya,Indihiang
+TSI,BDO20306,Jawa Barat,Tasikmalaya,Cibeureum
+PWT,SRG10427,Jawa Tengah,Banyumas,Purwokerto Utara
+PWT,SRG10426,Jawa Tengah,Banyumas,Purwokerto Timur
+PWT,SRG10425,Jawa Tengah,Banyumas,Purwokerto Selatan
+PWT,SRG10424,Jawa Tengah,Banyumas,Purwokerto Barat
+PWT,SRG10423,Jawa Tengah,Banyumas,Wangon
+PWT,SRG10422,Jawa Tengah,Banyumas,Tambak
+PWT,SRG10421,Jawa Tengah,Banyumas,Sumbang
+PWT,SRG10420,Jawa Tengah,Banyumas,Sumpiuh
+PWT,SRG10419,Jawa Tengah,Banyumas,Somagede
+PWT,SRG10418,Jawa Tengah,Banyumas,Sokaraja
+PWT,SRG10417,Jawa Tengah,Banyumas,Rawalo
+PWT,SRG10416,Jawa Tengah,Banyumas,Purwojati
+PWT,SRG10415,Jawa Tengah,Banyumas,Patikraja
+PWT,SRG10414,Jawa Tengah,Banyumas,Pekuncen
+PWT,SRG10413,Jawa Tengah,Banyumas,Lumbir
+PWT,SRG10412,Jawa Tengah,Banyumas,Kemranjen
+PWT,SRG10411,Jawa Tengah,Banyumas,Kembaran
+PWT,SRG10410,Jawa Tengah,Banyumas,Kedungbanteng
+PWT,SRG10409,Jawa Tengah,Banyumas,Kebasen
+PWT,SRG10408,Jawa Tengah,Banyumas,Karanglewas
+PWT,SRG10407,Jawa Tengah,Banyumas,Kalibagor
+PWT,SRG10406,Jawa Tengah,Banyumas,Jatilawang
+PWT,SRG10405,Jawa Tengah,Banyumas,Gumelar
+PWT,SRG10404,Jawa Tengah,Banyumas,Cilongok
+PWT,SRG10403,Jawa Tengah,Banyumas,Baturraden
+PWT,SRG10402,Jawa Tengah,Banyumas,Banyumas
+PWT,SRG10401,Jawa Tengah,Banyumas,Ajibarang
+BTA,SRG20214,Jawa Tengah,Batang,Pecalungan
+BTA,SRG20213,Jawa Tengah,Batang,Kandeman
+BTA,SRG20212,Jawa Tengah,Batang,Banyuputih
+BTA,SRG20211,Jawa Tengah,Batang,Wonotunggal
+BTA,SRG20210,Jawa Tengah,Batang,Warungasem
+BTA,SRG20209,Jawa Tengah,Batang,Tulis
+BTA,SRG20208,Jawa Tengah,Batang,Tersono
+BTA,SRG20207,Jawa Tengah,Batang,Subah
+BTA,SRG20206,Jawa Tengah,Batang,Reban
+BTA,SRG20205,Jawa Tengah,Batang,Limpung
+BTA,SRG20204,Jawa Tengah,Batang,Gringsing
+BTA,SRG20203,Jawa Tengah,Batang,Blado
+BTA,SRG20202,Jawa Tengah,Batang,Bawang
+BTA,SRG20201,Jawa Tengah,Batang,Bandar
+BTA,SRG20200,Jawa Tengah,Batang,Batang
+BYO,SOC20100,Jawa Tengah,Boyolali,Boyolali
+BYO,SOC20119,Jawa Tengah,Boyolali,Mojosongo
+BYO,SOC20118,Jawa Tengah,Boyolali,Tamansari
+BYO,SOC20116,Jawa Tengah,Boyolali,Wonosegoro
+BYO,SOC20115,Jawa Tengah,Boyolali,Teras
+BYO,SOC20114,Jawa Tengah,Boyolali,Simo
+BYO,SOC20113,Jawa Tengah,Boyolali,Selo
+BYO,SOC20112,Jawa Tengah,Boyolali,Sawit
+BYO,SOC20111,Jawa Tengah,Boyolali,Sambi
+BYO,SOC20110,Jawa Tengah,Boyolali,Nogosari
+BYO,SOC20109,Jawa Tengah,Boyolali,Ngemplak
+BYO,SOC20108,Jawa Tengah,Boyolali,Klego
+BYO,SOC20107,Jawa Tengah,Boyolali,Kemusu
+BYO,SOC20106,Jawa Tengah,Boyolali,Karanggede
+BYO,SOC20105,Jawa Tengah,Boyolali,Juwangi
+BYO,SOC20104,Jawa Tengah,Boyolali,Cepogo
+BYO,SOC20103,Jawa Tengah,Boyolali,Banyudono
+BYO,SOC20102,Jawa Tengah,Boyolali,Andong
+BYO,SOC20101,Jawa Tengah,Boyolali,Ampel
+CXP,CXP10024,Jawa Tengah,Cilacap,Kampung Laut
+CXP,CXP10023,Jawa Tengah,Cilacap,Bantarsari
+CXP,CXP10022,Jawa Tengah,Cilacap,Patimuan
+CXP,CXP10021,Jawa Tengah,Cilacap,Cilacap Utara
+CXP,CXP10020,Jawa Tengah,Cilacap,Cilacap Tengah
+CXP,CXP10019,Jawa Tengah,Cilacap,Cilacap Selatan
+CXP,CXP10018,Jawa Tengah,Cilacap,Wanareja
+CXP,CXP10017,Jawa Tengah,Cilacap,Sidareja
+CXP,CXP10016,Jawa Tengah,Cilacap,Sampang
+CXP,CXP10015,Jawa Tengah,Cilacap,Nusawungu
+CXP,CXP10014,Jawa Tengah,Cilacap,Maos
+CXP,CXP10013,Jawa Tengah,Cilacap,Majenang
+CXP,CXP10012,Jawa Tengah,Cilacap,Kroya
+CXP,CXP10011,Jawa Tengah,Cilacap,Kesugihan
+CXP,CXP10010,Jawa Tengah,Cilacap,Kedungreja
+CXP,CXP10009,Jawa Tengah,Cilacap,Kawunganten
+CXP,CXP10008,Jawa Tengah,Cilacap,Karangpucung
+CXP,CXP10007,Jawa Tengah,Cilacap,Jeruklegi
+CXP,CXP10006,Jawa Tengah,Cilacap,Gandrungmangu
+CXP,CXP10005,Jawa Tengah,Cilacap,Dayeuhluhur
+CXP,CXP10004,Jawa Tengah,Cilacap,Cipari
+CXP,CXP10003,Jawa Tengah,Cilacap,Cimanggu
+CXP,CXP10002,Jawa Tengah,Cilacap,Binangun
+CXP,CXP10001,Jawa Tengah,Cilacap,Adipala
+DMK,SRG20713,Jawa Tengah,Demak,Kebonagung
+DMK,SRG20712,Jawa Tengah,Demak,Wonosalam
+DMK,SRG20711,Jawa Tengah,Demak,Wedung
+DMK,SRG20710,Jawa Tengah,Demak,Sayung
+DMK,SRG20709,Jawa Tengah,Demak,Mranggen
+DMK,SRG20708,Jawa Tengah,Demak,Mijen
+DMK,SRG20707,Jawa Tengah,Demak,Karanganyar
+DMK,SRG20706,Jawa Tengah,Demak,Karangawen
+DMK,SRG20705,Jawa Tengah,Demak,Karangtengah
+DMK,SRG20704,Jawa Tengah,Demak,Guntur
+DMK,SRG20703,Jawa Tengah,Demak,Gajah
+DMK,SRG20702,Jawa Tengah,Demak,Dempet
+DMK,SRG20701,Jawa Tengah,Demak,Bonang
+DMK,SRG20700,Jawa Tengah,Demak,Demak
+JPR,SRG10116,Jawa Tengah,Jepara,Donorojo
+JPR,SRG10115,Jawa Tengah,Jepara,Pakis Aji
+JPR,SRG10114,Jawa Tengah,Jepara,Tahunan
+JPR,SRG10113,Jawa Tengah,Jepara,Kembang
+JPR,SRG10112,Jawa Tengah,Jepara,Kalinyamatan
+JPR,SRG10111,Jawa Tengah,Jepara,Welahan
+JPR,SRG10110,Jawa Tengah,Jepara,Pecangaan
+JPR,SRG10109,Jawa Tengah,Jepara,Nalumsari
+JPR,SRG10108,Jawa Tengah,Jepara,Mlonggo
+JPR,SRG10107,Jawa Tengah,Jepara,Mayong
+JPR,SRG10106,Jawa Tengah,Jepara,Keling
+JPR,SRG10105,Jawa Tengah,Jepara,Kedung
+JPR,SRG10104,Jawa Tengah,Jepara,Karimunjawa
+JPR,SRG10102,Jawa Tengah,Jepara,Batealit
+JPR,SRG10101,Jawa Tengah,Jepara,Bangsri
+JPR,SRG10100,Jawa Tengah,Jepara,Jepara
+KRG,SOC20216,Jawa Tengah,Karanganyar,Tasikmadu
+KRG,SOC20215,Jawa Tengah,Karanganyar,Jaten
+KRG,SOC20214,Jawa Tengah,Karanganyar,Gondangrejo
+KRG,SOC20213,Jawa Tengah,Karanganyar,Colomadu
+KRG,SOC20212,Jawa Tengah,Karanganyar,Tawangmangu
+KRG,SOC20211,Jawa Tengah,Karanganyar,Ngargoyoso
+KRG,SOC20210,Jawa Tengah,Karanganyar,Mojogedang
+KRG,SOC20209,Jawa Tengah,Karanganyar,Matesih
+KRG,SOC20208,Jawa Tengah,Karanganyar,Kerjo
+KRG,SOC20207,Jawa Tengah,Karanganyar,Kebakkramat
+KRG,SOC20206,Jawa Tengah,Karanganyar,Karangpandan
+KRG,SOC20205,Jawa Tengah,Karanganyar,Jumapolo
+KRG,SOC20204,Jawa Tengah,Karanganyar,Jumantono
+KRG,SOC20203,Jawa Tengah,Karanganyar,Jenawi
+KRG,SOC20202,Jawa Tengah,Karanganyar,Jatiyoso
+KRG,SOC20201,Jawa Tengah,Karanganyar,Jatipuro
+KRG,SOC20200,Jawa Tengah,Karanganyar,Karanganyar
+KBM,MGL10125,Jawa Tengah,Kebumen,Sempor
+KBM,MGL10124,Jawa Tengah,Kebumen,Poncowarno
+KBM,MGL10123,Jawa Tengah,Kebumen,Padureso
+KBM,MGL10122,Jawa Tengah,Kebumen,Karangsambung
+KBM,MGL10121,Jawa Tengah,Kebumen,Bonorowo
+KBM,MGL10120,Jawa Tengah,Kebumen,Rowokele
+KBM,MGL10119,Jawa Tengah,Kebumen,Buayan
+KBM,MGL10118,Jawa Tengah,Kebumen,Ayah
+KBM,MGL10117,Jawa Tengah,Kebumen,Gombong
+KBM,MGL10116,Jawa Tengah,Kebumen,Sruweng
+KBM,MGL10115,Jawa Tengah,Kebumen,Sadang
+KBM,MGL10114,Jawa Tengah,Kebumen,Puring
+KBM,MGL10113,Jawa Tengah,Kebumen,Prembun
+KBM,MGL10112,Jawa Tengah,Kebumen,Petanahan
+KBM,MGL10111,Jawa Tengah,Kebumen,Pejagoan
+KBM,MGL10110,Jawa Tengah,Kebumen,Mirit
+KBM,MGL10109,Jawa Tengah,Kebumen,Kuwarasan
+KBM,MGL10108,Jawa Tengah,Kebumen,Kutowinangun
+KBM,MGL10107,Jawa Tengah,Kebumen,Klirong
+KBM,MGL10106,Jawa Tengah,Kebumen,Karanggayam
+KBM,MGL10105,Jawa Tengah,Kebumen,Karanganyar
+KBM,MGL10104,Jawa Tengah,Kebumen,Buluspesantren
+KBM,MGL10103,Jawa Tengah,Kebumen,Ambal
+KBM,MGL10102,Jawa Tengah,Kebumen,Alian
+KBM,MGL10101,Jawa Tengah,Kebumen,Adimulyo
+KBM,MGL10100,Jawa Tengah,Kebumen,Kebumen
+KLN,SOC20326,Jawa Tengah,Klaten,Klaten Utara
+KLN,SOC20325,Jawa Tengah,Klaten,Klaten Tengah
+KLN,SOC20324,Jawa Tengah,Klaten,Klaten Selatan
+KLN,SOC20323,Jawa Tengah,Klaten,Wonosari
+KLN,SOC20322,Jawa Tengah,Klaten,Wedi
+KLN,SOC20321,Jawa Tengah,Klaten,Tulung
+KLN,SOC20320,Jawa Tengah,Klaten,Trucuk
+KLN,SOC20319,Jawa Tengah,Klaten,Prambanan
+KLN,SOC20318,Jawa Tengah,Klaten,Polanharjo
+KLN,SOC20317,Jawa Tengah,Klaten,Pedan
+KLN,SOC20316,Jawa Tengah,Klaten,Ngawen
+KLN,SOC20315,Jawa Tengah,Klaten,Manisrenggo
+KLN,SOC20314,Jawa Tengah,Klaten,Kemalang
+KLN,SOC20313,Jawa Tengah,Klaten,Kebonarum
+KLN,SOC20312,Jawa Tengah,Klaten,Karangdowo
+KLN,SOC20311,Jawa Tengah,Klaten,Karanganom
+KLN,SOC20310,Jawa Tengah,Klaten,Karangnongko
+KLN,SOC20309,Jawa Tengah,Klaten,Kalikotes
+KLN,SOC20308,Jawa Tengah,Klaten,Juwiring
+KLN,SOC20307,Jawa Tengah,Klaten,Jogonalan
+KLN,SOC20306,Jawa Tengah,Klaten,Jatinom
+KLN,SOC20305,Jawa Tengah,Klaten,Gantiwarno
+KLN,SOC20304,Jawa Tengah,Klaten,Delanggu
+KLN,SOC20303,Jawa Tengah,Klaten,Ceper
+KLN,SOC20302,Jawa Tengah,Klaten,Cawas
+KLN,SOC20301,Jawa Tengah,Klaten,Bayat
+KDS,SRG10208,Jawa Tengah,Kudus,Bae
+KDS,SRG10207,Jawa Tengah,Kudus,Kaliwungu
+KDS,SRG10206,Jawa Tengah,Kudus,Jati
+KDS,SRG10205,Jawa Tengah,Kudus,Gebog
+KDS,SRG10204,Jawa Tengah,Kudus,Undaan
+KDS,SRG10203,Jawa Tengah,Kudus,Mejobo
+KDS,SRG10202,Jawa Tengah,Kudus,Jekulo
+KDS,SRG10201,Jawa Tengah,Kudus,Dawe
+KDS,SRG10200,Jawa Tengah,Kudus,Kota Kudus
+MGX,MGL10520,Jawa Tengah,Kab. Magelang,Borobudur
+MGX,MGL10519,Jawa Tengah,Kab. Magelang,Ngluwar
+MGX,MGL10518,Jawa Tengah,Kab. Magelang,Muntilan
+MGX,MGL10517,Jawa Tengah,Kab. Magelang,Sawangan
+MGX,MGL10516,Jawa Tengah,Kab. Magelang,Dukun
+MGX,MGL10515,Jawa Tengah,Kab. Magelang,Srumbung
+MGX,MGL10514,Jawa Tengah,Kab. Magelang,WINDUSARI
+MGX,MGL10513,Jawa Tengah,Kab. Magelang,Tempuran
+MGX,MGL10512,Jawa Tengah,Kab. Magelang,Tegalrejo
+MGX,MGL10511,Jawa Tengah,Kab. Magelang,Secang
+MGX,MGL10510,Jawa Tengah,Kab. Magelang,Salaman
+MGX,MGL10509,Jawa Tengah,Kab. Magelang,Pakis
+MGX,MGL10508,Jawa Tengah,Kab. Magelang,Ngablak
+MGX,MGL10507,Jawa Tengah,Kab. Magelang,MERTOYUDAN
+MGX,MGL10506,Jawa Tengah,Kab. Magelang,Kaliangkrik
+MGX,MGL10505,Jawa Tengah,Kab. Magelang,Kajoran
+MGX,MGL10504,Jawa Tengah,Kab. Magelang,Grabag
+MGX,MGL10503,Jawa Tengah,Kab. Magelang,Candimulyo
+MGX,MGL10502,Jawa Tengah,Kab. Magelang,Bandongan
+MGX,MGL10501,Jawa Tengah,Kab. Magelang,Salam
+MGX,MGL10500,Jawa Tengah,Kab. Magelang,Mungkid
+PAT,SRG20920,Jawa Tengah,Pati,Winong
+PAT,SRG20919,Jawa Tengah,Pati,Wedarijaksa
+PAT,SRG20918,Jawa Tengah,Pati,Trangkil
+PAT,SRG20917,Jawa Tengah,Pati,Tlogowungu
+PAT,SRG20916,Jawa Tengah,Pati,Tayu
+PAT,SRG20915,Jawa Tengah,Pati,Tambakromo
+PAT,SRG20914,Jawa Tengah,Pati,Sukolilo
+PAT,SRG20913,Jawa Tengah,Pati,Pucakwangi
+PAT,SRG20912,Jawa Tengah,Pati,Margoyoso
+PAT,SRG20911,Jawa Tengah,Pati,Margorejo
+PAT,SRG20910,Jawa Tengah,Pati,Kayen
+PAT,SRG20909,Jawa Tengah,Pati,Juwana
+PAT,SRG20908,Jawa Tengah,Pati,Jakenan
+PAT,SRG20907,Jawa Tengah,Pati,Jaken
+PAT,SRG20906,Jawa Tengah,Pati,Gunungwungkal
+PAT,SRG20905,Jawa Tengah,Pati,Gembong
+PAT,SRG20904,Jawa Tengah,Pati,Gabus
+PAT,SRG20903,Jawa Tengah,Pati,Dukuhseti
+PAT,SRG20902,Jawa Tengah,Pati,Cluwak
+PAT,SRG20901,Jawa Tengah,Pati,Batangan
+PAT,SRG20900,Jawa Tengah,Pati,Pati
+PKX,SRG22218,Jawa Tengah,Kab. Pekalongan,Wonopringgo
+PKX,SRG22217,Jawa Tengah,Kab. Pekalongan,Wonokerto
+PKX,SRG22216,Jawa Tengah,Kab. Pekalongan,Wiradesa
+PKX,SRG22215,Jawa Tengah,Kab. Pekalongan,Tirto
+PKX,SRG22214,Jawa Tengah,Kab. Pekalongan,Talun
+PKX,SRG22213,Jawa Tengah,Kab. Pekalongan,Sragi
+PKX,SRG22212,Jawa Tengah,Kab. Pekalongan,Siwalan
+PKX,SRG22211,Jawa Tengah,Kab. Pekalongan,Petungkriyono
+PKX,SRG22210,Jawa Tengah,Kab. Pekalongan,Paninggaran
+PKX,SRG22209,Jawa Tengah,Kab. Pekalongan,Lebakbarang
+PKX,SRG22208,Jawa Tengah,Kab. Pekalongan,Kesesi
+PKX,SRG22207,Jawa Tengah,Kab. Pekalongan,Kedungwuni
+PKX,SRG22206,Jawa Tengah,Kab. Pekalongan,Karangdadap
+PKX,SRG22205,Jawa Tengah,Kab. Pekalongan,Karanganyar
+PKX,SRG22204,Jawa Tengah,Kab. Pekalongan,Kandangserang
+PKX,SRG22203,Jawa Tengah,Kab. Pekalongan,Doro
+PKX,SRG22202,Jawa Tengah,Kab. Pekalongan,Buaran
+PKX,SRG22201,Jawa Tengah,Kab. Pekalongan,Bojong
+PKX,SRG22200,Jawa Tengah,Kab. Pekalongan,Kajen
+PML,SRG21013,Jawa Tengah,Pemalang,Watukumpul
+PML,SRG21012,Jawa Tengah,Pemalang,Warungpring
+PML,SRG21011,Jawa Tengah,Pemalang,Ulujami
+PML,SRG21010,Jawa Tengah,Pemalang,Taman
+PML,SRG21009,Jawa Tengah,Pemalang,Randudongkal
+PML,SRG21008,Jawa Tengah,Pemalang,Pulosari
+PML,SRG21007,Jawa Tengah,Pemalang,Petarukan
+PML,SRG21006,Jawa Tengah,Pemalang,Moga
+PML,SRG21005,Jawa Tengah,Pemalang,Comal
+PML,SRG21004,Jawa Tengah,Pemalang,Bodeh
+PML,SRG21003,Jawa Tengah,Pemalang,Belik
+PML,SRG21002,Jawa Tengah,Pemalang,Bantarbolang
+PML,SRG21001,Jawa Tengah,Pemalang,Ampelgading
+PML,SRG21000,Jawa Tengah,Pemalang,Pemalang
+PBG,SRG21718,Jawa Tengah,Purbalingga,Pengadegan
+PBG,SRG21717,Jawa Tengah,Purbalingga,Padamara
+PBG,SRG21716,Jawa Tengah,Purbalingga,Kertanegara
+PBG,SRG21715,Jawa Tengah,Purbalingga,Karangjambu
+PBG,SRG21714,Jawa Tengah,Purbalingga,Rembang
+PBG,SRG21713,Jawa Tengah,Purbalingga,Mrebet
+PBG,SRG21712,Jawa Tengah,Purbalingga,Kutasari
+PBG,SRG21711,Jawa Tengah,Purbalingga,Kemangkon
+PBG,SRG21710,Jawa Tengah,Purbalingga,Kejobong
+PBG,SRG21709,Jawa Tengah,Purbalingga,Karangreja
+PBG,SRG21708,Jawa Tengah,Purbalingga,Karangmoncol
+PBG,SRG21707,Jawa Tengah,Purbalingga,Karanganyar
+PBG,SRG21705,Jawa Tengah,Purbalingga,Kalimanah
+PBG,SRG21704,Jawa Tengah,Purbalingga,Kaligondang
+PBG,SRG21703,Jawa Tengah,Purbalingga,Bukateja
+PBG,SRG21702,Jawa Tengah,Purbalingga,Bojongsari
+PBG,SRG21701,Jawa Tengah,Purbalingga,Bobotsari
+PBG,SRG21700,Jawa Tengah,Purbalingga,Purbalingga
+SRX,SRG21620,Jawa Tengah,Semarang,Bandungan
+SRX,SRG21619,Jawa Tengah,Semarang,Ungaran Timur
+SRX,SRG21618,Jawa Tengah,Semarang,Ungaran Barat
+SRX,SRG21617,Jawa Tengah,Semarang,Tuntang
+SRX,SRG21616,Jawa Tengah,Semarang,Tengaran
+SRX,SRG21615,Jawa Tengah,Semarang,Sumowono
+SRX,SRG21614,Jawa Tengah,Semarang,Suruh
+SRX,SRG21613,Jawa Tengah,Semarang,Susukan
+SRX,SRG21612,Jawa Tengah,Semarang,Pringapus
+SRX,SRG21611,Jawa Tengah,Semarang,Pabelan
+SRX,SRG21610,Jawa Tengah,Semarang,Kaliwungu
+SRX,SRG21609,Jawa Tengah,Semarang,Jambu
+SRX,SRG21608,Jawa Tengah,Semarang,Getasan
+SRX,SRG21607,Jawa Tengah,Semarang,Bringin
+SRX,SRG21606,Jawa Tengah,Semarang,Bergas
+SRX,SRG21605,Jawa Tengah,Semarang,Bawen
+SRX,SRG21604,Jawa Tengah,Semarang,Bancak
+SRX,SRG21603,Jawa Tengah,Semarang,Banyubiru
+SRX,SRG21602,Jawa Tengah,Semarang,Ambarawa
+SGN,SOC20420,Jawa Tengah,Sragen,Karangmalang
+SGN,SOC20419,Jawa Tengah,Sragen,Tangen
+SGN,SOC20418,Jawa Tengah,Sragen,Tanon
+SGN,SOC20417,Jawa Tengah,Sragen,Sumberlawang
+SGN,SOC20416,Jawa Tengah,Sragen,Sukodono
+SGN,SOC20414,Jawa Tengah,Sragen,Sidoharjo
+SGN,SOC20413,Jawa Tengah,Sragen,Sambirejo
+SGN,SOC20412,Jawa Tengah,Sragen,Sambungmacan
+SGN,SOC20411,Jawa Tengah,Sragen,Plupuh
+SGN,SOC20410,Jawa Tengah,Sragen,Ngrampal
+SGN,SOC20409,Jawa Tengah,Sragen,Mondokan
+SGN,SOC20408,Jawa Tengah,Sragen,Masaran
+SGN,SOC20407,Jawa Tengah,Sragen,Miri
+SGN,SOC20406,Jawa Tengah,Sragen,Kedawung
+SGN,SOC20405,Jawa Tengah,Sragen,Kalijambe
+SGN,SOC20404,Jawa Tengah,Sragen,Jenar
+SGN,SOC20403,Jawa Tengah,Sragen,Gondang
+SGN,SOC20402,Jawa Tengah,Sragen,Gemolong
+SGN,SOC20401,Jawa Tengah,Sragen,Gesi
+SGN,SOC20400,Jawa Tengah,Sragen,Sragen
+SKH,SOC20512,Jawa Tengah,Sukoharjo,Kartasura
+SKH,SOC20511,Jawa Tengah,Sukoharjo,Grogol
+SKH,SOC20510,Jawa Tengah,Sukoharjo,Gatak
+SKH,SOC20509,Jawa Tengah,Sukoharjo,Bendosari
+SKH,SOC20508,Jawa Tengah,Sukoharjo,Baki
+SKH,SOC20506,Jawa Tengah,Sukoharjo,Weru
+SKH,SOC20505,Jawa Tengah,Sukoharjo,Tawangsari
+SKH,SOC20504,Jawa Tengah,Sukoharjo,Polokarto
+SKH,SOC20503,Jawa Tengah,Sukoharjo,Nguter
+SKH,SOC20502,Jawa Tengah,Sukoharjo,Mojolaban
+SKH,SOC20501,Jawa Tengah,Sukoharjo,Bulu
+SKH,SOC20500,Jawa Tengah,Sukoharjo,Sukoharjo
+TLX,SRG21417,Jawa Tengah,Kab. Tegal,Warureja
+TLX,SRG21416,Jawa Tengah,Kab. Tegal,Tarub
+TLX,SRG21415,Jawa Tengah,Kab. Tegal,Talang
+TLX,SRG21414,Jawa Tengah,Kab. Tegal,Suradadi
+TLX,SRG21413,Jawa Tengah,Kab. Tegal,Kramat
+TLX,SRG21412,Jawa Tengah,Kab. Tegal,Dukuhturi
+TLX,SRG21411,Jawa Tengah,Kab. Tegal,Adiwerna
+TLX,SRG21410,Jawa Tengah,Kab. Tegal,Pangkah
+TLX,SRG21409,Jawa Tengah,Kab. Tegal,Pagerbarang
+TLX,SRG21408,Jawa Tengah,Kab. Tegal,Margasari
+TLX,SRG21407,Jawa Tengah,Kab. Tegal,Lebaksiu
+TLX,SRG21406,Jawa Tengah,Kab. Tegal,Kedungbanteng
+TLX,SRG21405,Jawa Tengah,Kab. Tegal,Jatinegara
+TLX,SRG21404,Jawa Tengah,Kab. Tegal,Dukuhwaru
+TLX,SRG21403,Jawa Tengah,Kab. Tegal,Bumijawa
+TLX,SRG21402,Jawa Tengah,Kab. Tegal,Bojong
+TLX,SRG21401,Jawa Tengah,Kab. Tegal,Balapulang
+TLX,SRG21400,Jawa Tengah,Kab. Tegal,Slawi
+TMG,MGL10421,Jawa Tengah,Temanggung,Selopampang
+TMG,MGL10420,Jawa Tengah,Temanggung,Bansari
+TMG,MGL10419,Jawa Tengah,Temanggung,Gemawang
+TMG,MGL10418,Jawa Tengah,Temanggung,Wonoboyo
+TMG,MGL10416,Jawa Tengah,Temanggung,Kledung
+TMG,MGL10415,Jawa Tengah,Temanggung,Tlogomulyo
+TMG,MGL10414,Jawa Tengah,Temanggung,Bejen
+TMG,MGL10412,Jawa Tengah,Temanggung,Tretep
+TMG,MGL10411,Jawa Tengah,Temanggung,Tembarak
+TMG,MGL10410,Jawa Tengah,Temanggung,Pringsurat
+TMG,MGL10409,Jawa Tengah,Temanggung,Parakan
+TMG,MGL10408,Jawa Tengah,Temanggung,Ngadirejo
+TMG,MGL10407,Jawa Tengah,Temanggung,Kranggan
+TMG,MGL10406,Jawa Tengah,Temanggung,Kedu
+TMG,MGL10405,Jawa Tengah,Temanggung,Kandangan
+TMG,MGL10404,Jawa Tengah,Temanggung,Kaloran
+TMG,MGL10403,Jawa Tengah,Temanggung,Jumo
+TMG,MGL10402,Jawa Tengah,Temanggung,Candiroto
+TMG,MGL10401,Jawa Tengah,Temanggung,Bulu
+TMG,MGL10400,Jawa Tengah,Temanggung,Temanggung
+MGL,MGL10024,Jawa Tengah,Magelang,Magelang Utara
+MGL,MGL10023,Jawa Tengah,Magelang,Magelang Tengah
+MGL,MGL10022,Jawa Tengah,Magelang,Magelang Selatan
+PKL,SRG10325,Jawa Tengah,Pekalongan,Pekalongan Utara
+PKL,SRG10324,Jawa Tengah,Pekalongan,Pekalongan Timur
+PKL,SRG10323,Jawa Tengah,Pekalongan,Pekalongan Selatan
+PKL,SRG10322,Jawa Tengah,Pekalongan,Pekalongan Barat
+SLT,SRG21311,Jawa Tengah,Salatiga,Tingkir
+SLT,SRG21310,Jawa Tengah,Salatiga,Sidorejo
+SLT,SRG21309,Jawa Tengah,Salatiga,Sidomukti
+SLT,SRG21308,Jawa Tengah,Salatiga,Argomulyo
+SRG,SRG10016,Jawa Tengah,Semarang,Tugu
+SRG,SRG10015,Jawa Tengah,Semarang,Tembalang
+SRG,SRG10014,Jawa Tengah,Semarang,Semarang Utara
+SRG,SRG10013,Jawa Tengah,Semarang,Semarang Timur
+SRG,SRG10012,Jawa Tengah,Semarang,Semarang Tengah
+SRG,SRG10011,Jawa Tengah,Semarang,Semarang Selatan
+SRG,SRG10010,Jawa Tengah,Semarang,Semarang Barat
+SRG,SRG10009,Jawa Tengah,Semarang,Pedurungan
+SRG,SRG10008,Jawa Tengah,Semarang,Ngaliyan
+SRG,SRG10007,Jawa Tengah,Semarang,Mijen
+SRG,SRG10006,Jawa Tengah,Semarang,Gunungpati
+SRG,SRG10005,Jawa Tengah,Semarang,Genuk
+SRG,SRG10004,Jawa Tengah,Semarang,Gayamsari
+SRG,SRG10003,Jawa Tengah,Semarang,Gajahmungkur
+SRG,SRG10002,Jawa Tengah,Semarang,Candisari
+SRG,SRG10001,Jawa Tengah,Semarang,Banyumanik
+SOC,SOC10005,Jawa Tengah,Solo,Serengan
+SOC,SOC10004,Jawa Tengah,Solo,Pasar Kliwon
+SOC,SOC10003,Jawa Tengah,Solo,Laweyan
+SOC,SOC10002,Jawa Tengah,Solo,Jebres
+SOC,SOC10001,Jawa Tengah,Solo,Banjarsari
+TLG,SRG21511,Jawa Tengah,Tegal,Tegal Timur
+TLG,SRG21510,Jawa Tengah,Tegal,Tegal Selatan
+TLG,SRG21509,Jawa Tengah,Tegal,Tegal Barat
+TLG,SRG21508,Jawa Tengah,Tegal,Margadana
+BLX,MLG20122,Jawa Timur,Kab. Blitar,Selopuro
+BLX,MLG20121,Jawa Timur,Kab. Blitar,Wonotirto
+BLX,MLG20120,Jawa Timur,Kab. Blitar,Wonodadi
+BLX,MLG20119,Jawa Timur,Kab. Blitar,Wlingi
+BLX,MLG20118,Jawa Timur,Kab. Blitar,Wates
+BLX,MLG20117,Jawa Timur,Kab. Blitar,Udanawu
+BLX,MLG20116,Jawa Timur,Kab. Blitar,Talun
+BLX,MLG20115,Jawa Timur,Kab. Blitar,Sutojayan
+BLX,MLG20114,Jawa Timur,Kab. Blitar,Srengat
+BLX,MLG20113,Jawa Timur,Kab. Blitar,Selorejo
+BLX,MLG20112,Jawa Timur,Kab. Blitar,Sanankulon
+BLX,MLG20111,Jawa Timur,Kab. Blitar,Ponggok
+BLX,MLG20110,Jawa Timur,Kab. Blitar,Panggungrejo
+BLX,MLG20109,Jawa Timur,Kab. Blitar,Nglegok
+BLX,MLG20108,Jawa Timur,Kab. Blitar,Kesamben
+BLX,MLG20107,Jawa Timur,Kab. Blitar,Kanigoro
+BLX,MLG20106,Jawa Timur,Kab. Blitar,Kademangan
+BLX,MLG20105,Jawa Timur,Kab. Blitar,Garum
+BLX,MLG20104,Jawa Timur,Kab. Blitar,Gandusari
+BLX,MLG20103,Jawa Timur,Kab. Blitar,Doko
+BLX,MLG20102,Jawa Timur,Kab. Blitar,Binangun
+BLX,MLG20101,Jawa Timur,Kab. Blitar,Bakung
+GSK,SUB10117,Jawa Timur,Gresik,Kebomas
+GSK,SUB10116,Jawa Timur,Gresik,Wringinanom
+GSK,SUB10115,Jawa Timur,Gresik,Ujungpangkah
+GSK,SUB10114,Jawa Timur,Gresik,Tambak
+GSK,SUB10113,Jawa Timur,Gresik,Sidayu
+GSK,SUB10112,Jawa Timur,Gresik,Sangkapura
+GSK,SUB10111,Jawa Timur,Gresik,Panceng
+GSK,SUB10110,Jawa Timur,Gresik,Menganti
+GSK,SUB10109,Jawa Timur,Gresik,Manyar
+GSK,SUB10108,Jawa Timur,Gresik,Kedamean
+GSK,SUB10107,Jawa Timur,Gresik,Dukun
+GSK,SUB10106,Jawa Timur,Gresik,Duduksampeyan
+GSK,SUB10105,Jawa Timur,Gresik,Driyorejo
+GSK,SUB10104,Jawa Timur,Gresik,Cerme
+GSK,SUB10103,Jawa Timur,Gresik,Bungah
+GSK,SUB10102,Jawa Timur,Gresik,Benjeng
+GSK,SUB10101,Jawa Timur,Gresik,Balongpanggang
+GSK,SUB10100,Jawa Timur,Gresik,Gresik
+JBR,JBR10031,Jawa Timur,Jember,Sumbersari
+JBR,JBR10030,Jawa Timur,Jember,Semboro
+JBR,JBR10029,Jawa Timur,Jember,Patrang
+JBR,JBR10028,Jawa Timur,Jember,Kaliwates
+JBR,JBR10027,Jawa Timur,Jember,Jombang
+JBR,JBR10026,Jawa Timur,Jember,Ajung
+JBR,JBR10025,Jawa Timur,Jember,Wuluhan
+JBR,JBR10024,Jawa Timur,Jember,Umbulsari
+JBR,JBR10023,Jawa Timur,Jember,Tempurejo
+JBR,JBR10022,Jawa Timur,Jember,Tanggul
+JBR,JBR10021,Jawa Timur,Jember,Sumberjambe
+JBR,JBR10020,Jawa Timur,Jember,Sumberbaru
+JBR,JBR10019,Jawa Timur,Jember,Sukowono
+JBR,JBR10018,Jawa Timur,Jember,Sukorambi
+JBR,JBR10017,Jawa Timur,Jember,Silo
+JBR,JBR10016,Jawa Timur,Jember,Rambipuji
+JBR,JBR10015,Jawa Timur,Jember,Puger
+JBR,JBR10014,Jawa Timur,Jember,Panti
+JBR,JBR10013,Jawa Timur,Jember,Pakusari
+JBR,JBR10012,Jawa Timur,Jember,Mumbulsari
+JBR,JBR10011,Jawa Timur,Jember,Mayang
+JBR,JBR10010,Jawa Timur,Jember,Ledokombo
+JBR,JBR10009,Jawa Timur,Jember,Kencong
+JBR,JBR10008,Jawa Timur,Jember,Kalisat
+JBR,JBR10007,Jawa Timur,Jember,Jenggawah
+JBR,JBR10006,Jawa Timur,Jember,Jelbuk
+JBR,JBR10005,Jawa Timur,Jember,Gumukmas
+JBR,JBR10004,Jawa Timur,Jember,Bangsalsari
+JBR,JBR10003,Jawa Timur,Jember,Balung
+JBR,JBR10002,Jawa Timur,Jember,Arjasa
+JBR,JBR10001,Jawa Timur,Jember,Ambulu
+JBG,SUB20221,Jawa Timur,Jombang,Ngusikan
+JBG,SUB20219,Jawa Timur,Jombang,Wonosalam
+JBG,SUB20218,Jawa Timur,Jombang,Tembelang
+JBG,SUB20217,Jawa Timur,Jombang,Sumobito
+JBG,SUB20216,Jawa Timur,Jombang,Ploso
+JBG,SUB20215,Jawa Timur,Jombang,Plandaan
+JBG,SUB20214,Jawa Timur,Jombang,Peterongan
+JBG,SUB20213,Jawa Timur,Jombang,Perak
+JBG,SUB20212,Jawa Timur,Jombang,Ngoro
+JBG,SUB20211,Jawa Timur,Jombang,Mojowarno
+JBG,SUB20210,Jawa Timur,Jombang,Mojoagung
+JBG,SUB20209,Jawa Timur,Jombang,Megaluh
+JBG,SUB20208,Jawa Timur,Jombang,Kudu
+JBG,SUB20207,Jawa Timur,Jombang,Kesamben
+JBG,SUB20206,Jawa Timur,Jombang,Kabuh
+JBG,SUB20205,Jawa Timur,Jombang,Jogoroto
+JBG,SUB20204,Jawa Timur,Jombang,Gudo
+JBG,SUB20203,Jawa Timur,Jombang,Diwek
+JBG,SUB20202,Jawa Timur,Jombang,Bareng
+JBG,SUB20201,Jawa Timur,Jombang,Bandarkedungmulyo
+JBG,SUB20200,Jawa Timur,Jombang,Jombang
+KDX,KDR10036,Jawa Timur,Kediri,Ngasem
+KDR,KDR10035,Jawa Timur,Kediri,Kota
+KDX,KDR10027,Jawa Timur,Kediri,Badas
+KDX,KDR10024,Jawa Timur,Kediri,Ringinrejo
+KDX,KDR10023,Jawa Timur,Kediri,Kayen Kidul
+KDX,KDR10022,Jawa Timur,Kediri,Banyakan
+KDX,KDR10021,Jawa Timur,Kediri,Puncu
+KDX,KDR10020,Jawa Timur,Kediri,Ngancar
+KDX,KDR10019,Jawa Timur,Kediri,Kepung
+KDX,KDR10018,Jawa Timur,Kediri,Kandangan
+KDX,KDR10017,Jawa Timur,Kediri,Pare
+KDX,KDR10016,Jawa Timur,Kediri,Wates
+KDX,KDR10015,Jawa Timur,Kediri,Tarokan
+KDX,KDR10014,Jawa Timur,Kediri,Semen
+KDX,KDR10013,Jawa Timur,Kediri,Purwoasri
+KDX,KDR10012,Jawa Timur,Kediri,Plosoklaten
+KDX,KDR10011,Jawa Timur,Kediri,Plemahan
+KDX,KDR10010,Jawa Timur,Kediri,Papar
+KDX,KDR10009,Jawa Timur,Kediri,Pagu
+KDX,KDR10008,Jawa Timur,Kediri,Ngadiluwih
+KDX,KDR10007,Jawa Timur,Kediri,Mojo
+KDX,KDR10006,Jawa Timur,Kediri,Kunjang
+KDX,KDR10005,Jawa Timur,Kediri,Kras
+KDX,KDR10004,Jawa Timur,Kediri,Kandat
+KDX,KDR10003,Jawa Timur,Kediri,Gurah
+KDX,KDR10002,Jawa Timur,Kediri,Grogol
+KDX,KDR10001,Jawa Timur,Kediri,Gampengrejo
+MDX,MDN10115,Jawa Timur,Madiun,Wungu
+MDX,MDN10114,Jawa Timur,Madiun,Wonoasri
+MDX,MDN10113,Jawa Timur,Madiun,Sawahan
+MDX,MDN10112,Jawa Timur,Madiun,Saradan
+MDX,MDN10111,Jawa Timur,Madiun,Pilangkenceng
+MDX,MDN10110,Jawa Timur,Madiun,Mejayan
+MDX,MDN10109,Jawa Timur,Madiun,Madiun
+MDX,MDN10108,Jawa Timur,Madiun,Kebon Sari
+MDX,MDN10107,Jawa Timur,Madiun,Kare
+MDX,MDN10106,Jawa Timur,Madiun,Jiwan
+MDX,MDN10105,Jawa Timur,Madiun,Gemarang
+MDX,MDN10104,Jawa Timur,Madiun,Geger
+MDX,MDN10103,Jawa Timur,Madiun,Dolopo
+MDX,MDN10102,Jawa Timur,Madiun,Dagangan
+MDX,MDN10101,Jawa Timur,Madiun,Balerejo
+MLX,MLG20332,Jawa Timur,Kab. Malang,Pagelaran
+MLX,MLG20331,Jawa Timur,Kab. Malang,Lawang
+MLX,MLG20330,Jawa Timur,Kab. Malang,Kasembon
+MLX,MLG20329,Jawa Timur,Kab. Malang,Pujon
+MLX,MLG20328,Jawa Timur,Kab. Malang,Ngantang
+MLX,MLG20327,Jawa Timur,Kab. Malang,Wonosari
+MLX,MLG20326,Jawa Timur,Kab. Malang,Wajak
+MLX,MLG20325,Jawa Timur,Kab. Malang,Wagir
+MLX,MLG20324,Jawa Timur,Kab. Malang,Tumpang
+MLX,MLG20323,Jawa Timur,Kab. Malang,Turen
+MLX,MLG20322,Jawa Timur,Kab. Malang,Tirtoyudo
+MLX,MLG20321,Jawa Timur,Kab. Malang,Tajinan
+MLX,MLG20320,Jawa Timur,Kab. Malang,Sumbermanjing Wetan
+MLX,MLG20319,Jawa Timur,Kab. Malang,Sumberpucung
+MLX,MLG20318,Jawa Timur,Kab. Malang,Singosari
+MLX,MLG20317,Jawa Timur,Kab. Malang,Poncokusumo
+MLX,MLG20316,Jawa Timur,Kab. Malang,Pakisaji
+MLX,MLG20315,Jawa Timur,Kab. Malang,Pakis
+MLX,MLG20314,Jawa Timur,Kab. Malang,Pagak
+MLX,MLG20313,Jawa Timur,Kab. Malang,Ngajum
+MLX,MLG20312,Jawa Timur,Kab. Malang,Kromengan
+MLX,MLG20311,Jawa Timur,Kab. Malang,Karangploso
+MLX,MLG20310,Jawa Timur,Kab. Malang,Kalipare
+MLX,MLG20309,Jawa Timur,Kab. Malang,Jabung
+MLX,MLG20308,Jawa Timur,Kab. Malang,Gondanglegi
+MLX,MLG20307,Jawa Timur,Kab. Malang,Gedangan
+MLX,MLG20306,Jawa Timur,Kab. Malang,Donomulyo
+MLX,MLG20305,Jawa Timur,Kab. Malang,Dau
+MLX,MLG20304,Jawa Timur,Kab. Malang,Dampit
+MLX,MLG20303,Jawa Timur,Kab. Malang,Bululawang
+MLX,MLG20302,Jawa Timur,Kab. Malang,Bantur
+MLX,MLG20301,Jawa Timur,Kab. Malang,Ampelgading
+MLX,MLG20300,Jawa Timur,Kab. Malang,Kepanjen
+MJX,MJK10021,Jawa Timur,Mojokerto,Mojoanyar
+MJX,MJK10017,Jawa Timur,Mojokerto,Trowulan
+MJX,MJK10016,Jawa Timur,Mojokerto,Trawas
+MJX,MJK10015,Jawa Timur,Mojokerto,Sooko
+MJX,MJK10014,Jawa Timur,Mojokerto,Puri
+MJX,MJK10013,Jawa Timur,Mojokerto,Pungging
+MJX,MJK10012,Jawa Timur,Mojokerto,Pacet
+MJX,MJK10011,Jawa Timur,Mojokerto,Ngoro
+MJX,MJK10009,Jawa Timur,Mojokerto,Kutorejo
+MJX,MJK10010,Jawa Timur,Mojokerto,Mojosari
+MJX,MJK10008,Jawa Timur,Mojokerto,Kemlagi
+MJX,MJK10007,Jawa Timur,Mojokerto,Jetis
+MJX,MJK10006,Jawa Timur,Mojokerto,Jatirejo
+MJX,MJK10005,Jawa Timur,Mojokerto,Gondang
+MJX,MJK10004,Jawa Timur,Mojokerto,Gedeg
+MJX,MJK10003,Jawa Timur,Mojokerto,Dlanggu
+MJX,MJK10002,Jawa Timur,Mojokerto,Dawarblandong
+MJX,MJK10001,Jawa Timur,Mojokerto,Bangsal
+NJK,SUB20419,Jawa Timur,Nganjuk,Patianrowo
+NJK,SUB20418,Jawa Timur,Nganjuk,Ngronggot
+NJK,SUB20417,Jawa Timur,Nganjuk,Lengkong
+NJK,SUB20416,Jawa Timur,Nganjuk,Jatikalen
+NJK,SUB20415,Jawa Timur,Nganjuk,Baron
+NJK,SUB20414,Jawa Timur,Nganjuk,Kertosono
+NJK,SUB20413,Jawa Timur,Nganjuk,Wilangan
+NJK,SUB20412,Jawa Timur,Nganjuk,Tanjunganom
+NJK,SUB20411,Jawa Timur,Nganjuk,Sukomoro
+NJK,SUB20410,Jawa Timur,Nganjuk,Sawahan
+NJK,SUB20409,Jawa Timur,Nganjuk,Rejoso
+NJK,SUB20408,Jawa Timur,Nganjuk,Prambon
+NJK,SUB20407,Jawa Timur,Nganjuk,Pace
+NJK,SUB20406,Jawa Timur,Nganjuk,Ngluyu
+NJK,SUB20405,Jawa Timur,Nganjuk,Ngetos
+NJK,SUB20404,Jawa Timur,Nganjuk,Loceret
+NJK,SUB20403,Jawa Timur,Nganjuk,Gondang
+NJK,SUB20402,Jawa Timur,Nganjuk,Berbek
+NJK,SUB20401,Jawa Timur,Nganjuk,Bagor
+NJK,SUB20400,Jawa Timur,Nganjuk,Nganjuk
+NGW,MDN20219,Jawa Timur,Ngawi,Kasreman
+NGW,MDN20218,Jawa Timur,Ngawi,Gerih
+NGW,MDN20205,Jawa Timur,Ngawi,Kedunggalar
+NGW,MDN20216,Jawa Timur,Ngawi,Karanganyar
+NGW,MDN20215,Jawa Timur,Ngawi,Widodaren
+NGW,MDN20214,Jawa Timur,Ngawi,Sine
+NGW,MDN20213,Jawa Timur,Ngawi,Pitu
+NGW,MDN20212,Jawa Timur,Ngawi,Paron
+NGW,MDN20211,Jawa Timur,Ngawi,Pangkur
+NGW,MDN20210,Jawa Timur,Ngawi,Padas
+NGW,MDN20209,Jawa Timur,Ngawi,Ngrambe
+NGW,MDN20208,Jawa Timur,Ngawi,Mantingan
+NGW,MDN20207,Jawa Timur,Ngawi,Kwadungan
+NGW,MDN20206,Jawa Timur,Ngawi,Kendal
+NGW,MDN20204,Jawa Timur,Ngawi,Karangjati
+NGW,MDN20203,Jawa Timur,Ngawi,Jogorogo
+NGW,MDN20202,Jawa Timur,Ngawi,Geneng
+NGW,MDN20201,Jawa Timur,Ngawi,Bringin
+NGW,MDN20200,Jawa Timur,Ngawi,Ngawi
+PDX,PDN10022,Jawa Timur,Pasuruan,Tutur
+PDX,PDN10005,Jawa Timur,Pasuruan,Grati
+PDX,PDN10024,Jawa Timur,Pasuruan,Wonorejo
+PDX,PDN10023,Jawa Timur,Pasuruan,Winongan
+PDX,PDN10021,Jawa Timur,Pasuruan,Tosari
+PDX,PDN10020,Jawa Timur,Pasuruan,Sukorejo
+PDX,PDN10019,Jawa Timur,Pasuruan,Rembang
+PDX,PDN10018,Jawa Timur,Pasuruan,Rejoso
+PDX,PDN10017,Jawa Timur,Pasuruan,Puspo
+PDX,PDN10016,Jawa Timur,Pasuruan,Purwosari
+PDX,PDN10015,Jawa Timur,Pasuruan,Purwodadi
+PDX,PDN10014,Jawa Timur,Pasuruan,Prigen
+PDX,PDN10013,Jawa Timur,Pasuruan,Pohjentrek
+PDX,PDN10012,Jawa Timur,Pasuruan,Pasrepan
+PDX,PDN10010,Jawa Timur,Pasuruan,Nguling
+PDX,PDN10009,Jawa Timur,Pasuruan,Lumbang
+PDX,PDN10008,Jawa Timur,Pasuruan,Lekok
+PDX,PDN10007,Jawa Timur,Pasuruan,Kraton
+PDX,PDN10006,Jawa Timur,Pasuruan,Kejayan
+PDX,PDN10004,Jawa Timur,Pasuruan,Gondangwetan
+PDX,PDN10003,Jawa Timur,Pasuruan,Gempol
+PDX,PDN10002,Jawa Timur,Pasuruan,Beji
+PDX,PDN10001,Jawa Timur,Pasuruan,Bangil
+PDX,PDN10030,Jawa Timur,Pasuruan,Pandaan
+PNG,MDN20420,Jawa Timur,Ponorogo,Pudak
+PNG,MDN20419,Jawa Timur,Ponorogo,Jambon
+PNG,MDN20418,Jawa Timur,Ponorogo,Sukorejo
+PNG,MDN20417,Jawa Timur,Ponorogo,Sooko
+PNG,MDN20416,Jawa Timur,Ponorogo,Slahung
+PNG,MDN20415,Jawa Timur,Ponorogo,Siman
+PNG,MDN20414,Jawa Timur,Ponorogo,Sawoo
+PNG,MDN20413,Jawa Timur,Ponorogo,Sampung
+PNG,MDN20412,Jawa Timur,Ponorogo,Sambit
+PNG,MDN20411,Jawa Timur,Ponorogo,Pulung
+PNG,MDN20410,Jawa Timur,Ponorogo,Ngrayun
+PNG,MDN20409,Jawa Timur,Ponorogo,Ngebel
+PNG,MDN20408,Jawa Timur,Ponorogo,Mlarak
+PNG,MDN20407,Jawa Timur,Ponorogo,Kauman
+PNG,MDN20406,Jawa Timur,Ponorogo,Jetis
+PNG,MDN20405,Jawa Timur,Ponorogo,Jenangan
+PNG,MDN20404,Jawa Timur,Ponorogo,Bungkal
+PNG,MDN20403,Jawa Timur,Ponorogo,Balong
+PNG,MDN20402,Jawa Timur,Ponorogo,Badegan
+PNG,MDN20401,Jawa Timur,Ponorogo,Babadan
+PNG,MDN20400,Jawa Timur,Ponorogo,Ponorogo
+SDA,SUB20720,Jawa Timur,Sidoarjo,Taman
+SDA,SUB20719,Jawa Timur,Sidoarjo,Krian
+SDA,SUB20717,Jawa Timur,Sidoarjo,Wonoayu
+SDA,SUB20716,Jawa Timur,Sidoarjo,Waru
+SDA,SUB20715,Jawa Timur,Sidoarjo,Tulangan
+SDA,SUB20713,Jawa Timur,Sidoarjo,Tanggulangin
+SDA,SUB20711,Jawa Timur,Sidoarjo,Sukodono
+SDA,SUB20710,Jawa Timur,Sidoarjo,Sedati
+SDA,SUB20708,Jawa Timur,Sidoarjo,Porong
+SDA,SUB20706,Jawa Timur,Sidoarjo,Krembung
+SDA,SUB20705,Jawa Timur,Sidoarjo,Jabon
+SDA,SUB20704,Jawa Timur,Sidoarjo,Gedangan
+SDA,SUB20703,Jawa Timur,Sidoarjo,Candi
+SDA,SUB20702,Jawa Timur,Sidoarjo,Buduran
+SDA,SUB20700,Jawa Timur,Sidoarjo,Sidoarjo
+SDA,SUB10046,Jawa Timur,Sidoarjo,Prambon
+SDA,SUB10045,Jawa Timur,Sidoarjo,Tarik
+SDA,SUB10040,Jawa Timur,Sidoarjo,Balongbendo
+TGA,SUB21019,Jawa Timur,Tulungagung,Kedungwaru
+TGA,SUB21018,Jawa Timur,Tulungagung,Kauman
+TGA,SUB21017,Jawa Timur,Tulungagung,Boyolangu
+TGA,SUB21016,Jawa Timur,Tulungagung,Tanggunggunung
+TGA,SUB21015,Jawa Timur,Tulungagung,Sumbergempol
+TGA,SUB21014,Jawa Timur,Tulungagung,Sendang
+TGA,SUB21013,Jawa Timur,Tulungagung,Rejotangan
+TGA,SUB21012,Jawa Timur,Tulungagung,Pucanglaban
+TGA,SUB21011,Jawa Timur,Tulungagung,Pakel
+TGA,SUB21010,Jawa Timur,Tulungagung,Pagerwojo
+TGA,SUB21009,Jawa Timur,Tulungagung,Ngunut
+TGA,SUB21008,Jawa Timur,Tulungagung,Ngantru
+TGA,SUB21006,Jawa Timur,Tulungagung,Karangrejo
+TGA,SUB21005,Jawa Timur,Tulungagung,Kalidawir
+TGA,SUB21004,Jawa Timur,Tulungagung,Gondang
+TGA,SUB21003,Jawa Timur,Tulungagung,Campurdarat
+TGA,SUB21002,Jawa Timur,Tulungagung,Besuki
+TGA,SUB21001,Jawa Timur,Tulungagung,Bandung
+TGA,SUB21000,Jawa Timur,Tulungagung,Tulungagung
+BTU,MLG20205,Jawa Timur,Batu,Junrejo
+BTU,MLG20204,Jawa Timur,Batu,Bumiaji
+BTU,MLG20200,Jawa Timur,Batu,Batu
+BLT,MLG20125,Jawa Timur,Blitar,Sukorejo
+BLT,MLG20124,Jawa Timur,Blitar,Sananwetan
+BLT,MLG20123,Jawa Timur,Blitar,Kepanjenkidul
+KDR,KDR10026,Jawa Timur,Kediri,Pesantren
+KDR,KDR10025,Jawa Timur,Kediri,Mojoroto
+MDN,MDN10018,Jawa Timur,Madiun,Taman
+MDN,MDN10017,Jawa Timur,Madiun,Manguharjo
+MDN,MDN10016,Jawa Timur,Madiun,Kartoharjo
+MLG,MLG10039,Jawa Timur,Malang,Sukun
+MLG,MLG10038,Jawa Timur,Malang,Lowokwaru
+MLG,MLG10037,Jawa Timur,Malang,Klojen
+MLG,MLG10036,Jawa Timur,Malang,Kedungkandang
+MLG,MLG10035,Jawa Timur,Malang,Blimbing
+BYO,SOC20121,Jawa Tengah,Boyolali,Wonosamodro
+MJK,MJK10023,Jawa Timur,Mojokerto,Prajuritkulon
+MJK,MJK10022,Jawa Timur,Mojokerto,Magersari
+PDN,PDN20104,Jawa Timur,Pasuruan,Panggungrejo
+PDN,PDN20103,Jawa Timur,Pasuruan,Purworejo
+PDN,PDN20102,Jawa Timur,Pasuruan,Gadingrejo
+PDN,PDN20101,Jawa Timur,Pasuruan,Bugul Kidul
+SUB,SUB10031,Jawa Timur,Surabaya,Wonokromo
+SUB,SUB10030,Jawa Timur,Surabaya,Wonocolo
+SUB,SUB10029,Jawa Timur,Surabaya,Wiyung
+SUB,SUB10028,Jawa Timur,Surabaya,Tenggilis Mejoyo
+SUB,SUB10027,Jawa Timur,Surabaya,Tegalsari
+SUB,SUB10026,Jawa Timur,Surabaya,Tandes
+SUB,SUB10025,Jawa Timur,Surabaya,Tambaksari
+SUB,SUB10024,Jawa Timur,Surabaya,Sukomanunggal
+SUB,SUB10023,Jawa Timur,Surabaya,Sukolilo
+SUB,SUB10022,Jawa Timur,Surabaya,Simokerto
+SUB,SUB10021,Jawa Timur,Surabaya,Semampir
+SUB,SUB10020,Jawa Timur,Surabaya,Sawahan
+SUB,SUB10019,Jawa Timur,Surabaya,Sambikerep
+SUB,SUB10018,Jawa Timur,Surabaya,Rungkut
+SUB,SUB10017,Jawa Timur,Surabaya,Pakal
+SUB,SUB10016,Jawa Timur,Surabaya,Pabean Cantian
+SUB,SUB10015,Jawa Timur,Surabaya,Mulyorejo
+SUB,SUB10014,Jawa Timur,Surabaya,Lakarsantri
+SUB,SUB10013,Jawa Timur,Surabaya,Krembangan
+SUB,SUB10012,Jawa Timur,Surabaya,Kenjeran
+SUB,SUB10011,Jawa Timur,Surabaya,Karang Pilang
+SUB,SUB10010,Jawa Timur,Surabaya,Jambangan
+SUB,SUB10009,Jawa Timur,Surabaya,Gunung Anyar
+SUB,SUB10008,Jawa Timur,Surabaya,Gubeng
+SUB,SUB10007,Jawa Timur,Surabaya,Genteng
+SUB,SUB10006,Jawa Timur,Surabaya,Gayungan
+SUB,SUB10005,Jawa Timur,Surabaya,Dukuh Pakis
+SUB,SUB10004,Jawa Timur,Surabaya,Bulak
+SUB,SUB10003,Jawa Timur,Surabaya,Bubutan
+SUB,SUB10002,Jawa Timur,Surabaya,Benowo
+SUB,SUB10001,Jawa Timur,Surabaya,Asem Rowo
+PKU,PKU10028,Riau,Pekanbaru,Kulim
+PNK,PNK10027,Kalimantan Barat,Pontianak,Pontianak Barat
+PNK,PNK10028,Kalimantan Barat,Pontianak,Pontianak Kota
+PNK,PNK10029,Kalimantan Barat,Pontianak,Pontianak Selatan
+PNK,PNK10030,Kalimantan Barat,Pontianak,Pontianak Tenggara
+PNK,PNK10031,Kalimantan Barat,Pontianak,Pontianak Timur
+PNK,PNK10032,Kalimantan Barat,Pontianak,Pontianak Utara
+BYO,SOC20122,Jawa Tengah,Boyolali,Musuk
+BDJ,BDJ10001,Kalimantan Selatan,Banjarmasin,Banjarmasin Barat
+BDJ,BDJ10002,Kalimantan Selatan,Banjarmasin,Banjarmasin Selatan
+BDJ,BDJ10003,Kalimantan Selatan,Banjarmasin,Banjarmasin Tengah
+BDJ,BDJ10004,Kalimantan Selatan,Banjarmasin,Banjarmasin Timur
+BDJ,BDJ10005,Kalimantan Selatan,Banjarmasin,Banjarmasin Utara
+PKU,PKU10025,Riau,Pekanbaru,Rumbai Timur
+BPN,BPN10017,Kalimantan Timur,Balikpapan,Balikpapan Kota
+BPN,BPN10009,Kalimantan Timur,Balikpapan,Balikpapan Barat
+BPN,BPN10010,Kalimantan Timur,Balikpapan,Balikpapan Selatan
+BPN,BPN10011,Kalimantan Timur,Balikpapan,Balikpapan Tengah
+BPN,BPN10012,Kalimantan Timur,Balikpapan,Balikpapan Timur
+BPN,BPN10013,Kalimantan Timur,Balikpapan,Balikpapan Utara
+SRI,SRI10020,Kalimantan Timur,Samarinda,Samarinda Kota
+SRI,SRI10005,Kalimantan Timur,Samarinda,Samarinda Seberang
+SRI,SRI10007,Kalimantan Timur,Samarinda,Palaran
+SRI,SRI10009,Kalimantan Timur,Samarinda,Samarinda Ilir
+SRI,SRI10010,Kalimantan Timur,Samarinda,Samarinda Ulu
+SRI,SRI10011,Kalimantan Timur,Samarinda,Samarinda Utara
+SRI,SRI10012,Kalimantan Timur,Samarinda,Sungai Kunjang
+SRI,SRI10013,Kalimantan Timur,Samarinda,Sambutan
+SRI,SRI10014,Kalimantan Timur,Samarinda,Loa Janan Ilir
+SRI,SRI10015,Kalimantan Timur,Samarinda,Sungai Pinang
+MJK,MJK10025,Jawa Timur,Mojokerto,Kranggan
+UPG,UPG10090,Sulawesi Selatan,Makassar,Ujung Pandang
+UPG,UPG10003,Sulawesi Selatan,Makassar,Tamalate
+UPG,UPG10004,Sulawesi Selatan,Makassar,Biringkanaya
+UPG,UPG10005,Sulawesi Selatan,Makassar,Bontoala
+UPG,UPG10006,Sulawesi Selatan,Makassar,Mamajang
+UPG,UPG10007,Sulawesi Selatan,Makassar,Manggala
+UPG,UPG10008,Sulawesi Selatan,Makassar,Mariso
+UPG,UPG10009,Sulawesi Selatan,Makassar,Panakkukang
+UPG,UPG10010,Sulawesi Selatan,Makassar,Rappocini
+UPG,UPG10011,Sulawesi Selatan,Makassar,Tallo
+UPG,UPG10012,Sulawesi Selatan,Makassar,Tamalanrea
+UPG,UPG10013,Sulawesi Selatan,Makassar,Ujung Tanah
+UPG,UPG10014,Sulawesi Selatan,Makassar,Wajo
+UPG,UPG10015,Sulawesi Selatan,Makassar,Makassar
+UPG,UPG10016,Sulawesi Selatan,Makassar,Kepulauan Sangkarrang
+BYO,SOC20120,Jawa Tengah,Boyolali,Gladagsari
+PKU,PKU10029,Riau,Pekanbaru,Pekanbaru Kota
+BTN,TNJ10111,Kepulauan Riau,Bintan,Seri Kuala Lobam
+BTN,TNJ10110,Kepulauan Riau,Bintan,Bintan Pesisir
+BTN,TNJ10109,Kepulauan Riau,Bintan,Mantang
+BTN,TNJ10108,Kepulauan Riau,Bintan,Toapaya
+BTN,TNJ10106,Kepulauan Riau,Bintan,Telok Sebong
+BTN,TNJ10105,Kepulauan Riau,Bintan,Teluk Bintan
+BTN,TNJ10104,Kepulauan Riau,Bintan,Tambelan
+BTN,TNJ10103,Kepulauan Riau,Bintan,Gunung Kijang
+BTN,TNJ10102,Kepulauan Riau,Bintan,Bintan Utara
+BTN,TNJ10101,Kepulauan Riau,Bintan,Bintan Timur
+BTH,BTH10090,Kepulauan Riau,Batam,Batam Kota
+BTH,BTH10052,Kepulauan Riau,Batam,Nongsa
+BTH,BTH10054,Kepulauan Riau,Batam,Sekupang
+BTH,BTH10080,Kepulauan Riau,Batam,Batu Ampar
+BTH,BTH10081,Kepulauan Riau,Batam,Belakang Padang
+BTH,BTH10083,Kepulauan Riau,Batam,Galang
+BTH,BTH10084,Kepulauan Riau,Batam,Lubuk Baja
+BTH,BTH10085,Kepulauan Riau,Batam,Sei Beduk
+BTH,BTH10086,Kepulauan Riau,Batam,Sagulung
+BTH,BTH10087,Kepulauan Riau,Batam,Batu Aji
+BTH,BTH10088,Kepulauan Riau,Batam,Bengkong
+BTH,BTH10089,Kepulauan Riau,Batam,Bulang
+TNJ,TNJ10016,Kepulauan Riau,Tanjung Pinang,Bukit Bestari
+TNJ,TNJ10017,Kepulauan Riau,Tanjung Pinang,Tanjung Pinang Barat
+TNJ,TNJ10018,Kepulauan Riau,Tanjung Pinang,Tanjung Pinang Kota
+TNJ,TNJ10019,Kepulauan Riau,Tanjung Pinang,Tanjung Pinang Timur
+BKS,BKS10020,Bengkulu,Bengkulu,Gading Cempaka
+BKS,BKS10021,Bengkulu,Bengkulu,Kampung Melayu
+BKS,BKS10022,Bengkulu,Bengkulu,Muara Bangka Hulu
+BKS,BKS10023,Bengkulu,Bengkulu,Ratu Agung
+BKS,BKS10024,Bengkulu,Bengkulu,Ratu Samban
+BKS,BKS10025,Bengkulu,Bengkulu,Selebar
+BKS,BKS10026,Bengkulu,Bengkulu,Sungai Serut
+BKS,BKS10027,Bengkulu,Bengkulu,Teluk Segara
+BKS,BKS10028,Bengkulu,Bengkulu,Singaran Pati
+TKG,TKG10032,Lampung,Bandar Lampung,Kedaton
+TKG,TKG10033,Lampung,Bandar Lampung,Kemiling
+TKG,TKG10034,Lampung,Bandar Lampung,Panjang
+TKG,TKG10035,Lampung,Bandar Lampung,Rajabasa
+TKG,TKG10036,Lampung,Bandar Lampung,Sukabumi
+TKG,TKG10037,Lampung,Bandar Lampung,Sukarame
+TKG,TKG10038,Lampung,Bandar Lampung,Tanjungkarang Barat
+TKG,TKG10039,Lampung,Bandar Lampung,Tanjungkarang Pusat
+TKG,TKG10040,Lampung,Bandar Lampung,Tanjungkarang Timur
+TKG,TKG10041,Lampung,Bandar Lampung,Tanjung Senang
+TKG,TKG10042,Lampung,Bandar Lampung,Telukbetung Barat
+TKG,TKG10043,Lampung,Bandar Lampung,Telukbetung Selatan
+TKG,TKG10044,Lampung,Bandar Lampung,Telukbetung Utara
+TKG,TKG10045,Lampung,Bandar Lampung,Telukbetung Timur
+TKG,TKG10046,Lampung,Bandar Lampung,Way Halim
+TKG,TKG10047,Lampung,Bandar Lampung,Kedamaian
+TKG,TKG10048,Lampung,Bandar Lampung,Enggal
+TKG,TKG10049,Lampung,Bandar Lampung,Langkapura
+TKG,TKG10050,Lampung,Bandar Lampung,Bumi Waras
+TKG,TKG10150,Lampung,Bandar Lampung,Labuhan Ratu
+PKU,PKU10021,Riau,Pekanbaru,Payung Sekaki
+PKU,PKU10010,Riau,Pekanbaru,Lima Puluh
+PKU,PKU10011,Riau,Pekanbaru,Marpoyan Damai
+PKU,PKU10012,Riau,Pekanbaru,Sail
+PKU,PKU10013,Riau,Pekanbaru,Senapelan
+PKU,PKU10014,Riau,Pekanbaru,Sukajadi
+PKU,PKU10016,Riau,Pekanbaru,Bukit Raya
+PKU,PKU10017,Riau,Pekanbaru,Binawidya
+PKU,PKU10020,Riau,Pekanbaru,Rumbai
+PKU,PKU10019,Riau,Pekanbaru,Tenayan Raya
+PDG,PDG10010,Sumatera Barat,Padang,Kuranji
+PDG,PDG10008,Sumatera Barat,Padang,Bungus Teluk Kabung
+PDG,PDG10009,Sumatera Barat,Padang,Koto Tangah
+PDG,PDG10011,Sumatera Barat,Padang,Lubuk Begalung
+PDG,PDG10012,Sumatera Barat,Padang,Lubuk Kilangan
+PDG,PDG10013,Sumatera Barat,Padang,Nanggalo
+PDG,PDG10014,Sumatera Barat,Padang,Padang Barat
+PDG,PDG10015,Sumatera Barat,Padang,Padang Selatan
+PDG,PDG10016,Sumatera Barat,Padang,Padang Timur
+PDG,PDG10017,Sumatera Barat,Padang,Padang Utara
+PDG,PDG10018,Sumatera Barat,Padang,Pauh
+PLM,PLM10001,Sumatera Selatan,Palembang,Plaju
+PLM,PLM10003,Sumatera Selatan,Palembang,Alang-Alang Lebar
+PLM,PLM10004,Sumatera Selatan,Palembang,Bukitkecil
+PLM,PLM10005,Sumatera Selatan,Palembang,Gandus
+PLM,PLM10006,Sumatera Selatan,Palembang,Ilir Barat Satu
+PLM,PLM10007,Sumatera Selatan,Palembang,Ilir Barat Dua
+PLM,PLM10008,Sumatera Selatan,Palembang,Ilir Timur Satu
+PLM,PLM10009,Sumatera Selatan,Palembang,Ilir Timur Dua
+PLM,PLM10010,Sumatera Selatan,Palembang,Kalidoni
+PLM,PLM10011,Sumatera Selatan,Palembang,Kemuning
+PLM,PLM10012,Sumatera Selatan,Palembang,Kertapati
+PLM,PLM10013,Sumatera Selatan,Palembang,Sako
+PLM,PLM10014,Sumatera Selatan,Palembang,Seberang Ulu Satu
+PLM,PLM10015,Sumatera Selatan,Palembang,Seberang Ulu Dua
+PLM,PLM10016,Sumatera Selatan,Palembang,Sematangborang
+PLM,PLM10017,Sumatera Selatan,Palembang,Sukarami
+PLM,PLM10018,Sumatera Selatan,Palembang,Ilir Timur Tiga
+PLM,PLM10019,Sumatera Selatan,Palembang,Jakabaring
+MES,MES10017,Sumatera Utara,Medan,Medan Amplas
+MES,MES10018,Sumatera Utara,Medan,Medan Area
+MES,MES10019,Sumatera Utara,Medan,Medan Barat
+MES,MES10020,Sumatera Utara,Medan,Medan Baru
+MES,MES10021,Sumatera Utara,Medan,Medan Deli
+MES,MES10022,Sumatera Utara,Medan,Medan Denai
+MES,MES10023,Sumatera Utara,Medan,Medan Helvetia
+MES,MES10024,Sumatera Utara,Medan,Medan Johor
+MES,MES10025,Sumatera Utara,Medan,Medan Kota
+MES,MES10026,Sumatera Utara,Medan,Medan Labuhan
+MES,MES10027,Sumatera Utara,Medan,Medan Maimun
+MES,MES10028,Sumatera Utara,Medan,Medan Marelan
+MES,MES10029,Sumatera Utara,Medan,Medan Perjuangan
+MES,MES10030,Sumatera Utara,Medan,Medan Petisah
+MES,MES10031,Sumatera Utara,Medan,Medan Polonia
+MES,MES10032,Sumatera Utara,Medan,Medan Selayang
+MES,MES10033,Sumatera Utara,Medan,Medan Tembung
+MES,MES10034,Sumatera Utara,Medan,Medan Timur
+MES,MES10035,Sumatera Utara,Medan,Medan Tuntungan
+MES,MES10045,Sumatera Utara,Medan,Medan Belawan
+MES,MES10046,Sumatera Utara,Medan,Medan Sunggal

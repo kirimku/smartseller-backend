@@ -1,0 +1,152 @@
+openapi: 3.1.0
+info:
+  title: Kirimku User API
+  description: API for user profile operations in Kirimku backend
+  version: 1.0.0
+
+security:
+  - BearerAuth: []
+
+paths:
+  /api/v1/users/me:
+    get:
+      summary: Get current user profile
+      description: |
+        Retrieves the current authenticated user's profile information including:
+        - Basic user details (name, email, phone, etc.)
+        - User tier/membership level (pendekar, tuan_muda, tuan_besar, tuan_raja)
+        - Wallet balance and wallet ID
+        - Transaction count and account status
+        
+        **Authentication Required**: This endpoint requires a valid Bearer token.
+      tags:
+        - User Profile
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "User profile retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/UserProfileResponse'
+        '401':
+          description: Unauthorized - Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    UserProfileResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique user identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        name:
+          type: string
+          description: User's full name
+          example: "Budi Santoso"
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: "budi.santoso@example.com"
+        phone:
+          type: string
+          description: User's phone number
+          example: "+628123456789"
+        picture:
+          type: string
+          format: uri
+          description: URL to user's profile picture
+          example: "https://example.com/profile.jpg"
+        user_type:
+          type: string
+          enum: [personal, bisnis, agen]
+          description: Type of user account
+          example: "personal"
+        user_tier:
+          type: string
+          enum: [pendekar, tuan_muda, tuan_besar, tuan_raja]
+          description: User's membership tier based on transaction count
+          example: "tuan_besar"
+        user_role:
+          type: string
+          enum: [owner, admin, manager, support, user]
+          description: User's role in the system
+          example: "user"
+        transaction_count:
+          type: integer
+          description: Total number of transactions made by the user
+          example: 45
+        wallet_balance:
+          type: number
+          format: decimal
+          description: Current wallet balance in IDR
+          example: 150000.00
+        wallet_id:
+          type: string
+          format: uuid
+          description: User's wallet identifier
+          example: "550e8400-e29b-41d4-a716-446655440001"
+        is_admin:
+          type: boolean
+          description: Whether the user has admin privileges
+          example: false
+        accept_terms:
+          type: boolean
+          description: Whether user has accepted terms and conditions
+          example: true
+        accept_promos:
+          type: boolean
+          description: Whether user has accepted promotional communications
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          description: Account creation timestamp
+          example: "2024-01-15T08:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Last profile update timestamp
+          example: "2024-03-20T14:22:30Z"
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Error message"
+        error:
+          type: string
+          example: "error_code"

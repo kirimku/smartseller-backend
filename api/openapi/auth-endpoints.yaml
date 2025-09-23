@@ -1,0 +1,529 @@
+openapi: 3.1.0
+info:
+  title: SmartSeller Backend API
+  description: API documentation for the SmartSeller Backend service - E-commerce Management Platform.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+paths:
+  /api/v1/auth/login:
+    post:
+      summary: Login with email/phone and password
+      description: Authenticates a user with email/phone and password
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email_or_phone
+                - password
+              properties:
+                email_or_phone:
+                  type: string
+                  description: User's email address or phone number
+                  example: user@example.com
+                password:
+                  type: string
+                  description: User's password
+                  example: password123
+      responses:
+        '200':
+          description: Successfully authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Login successful"
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        description: JWT token for API authentication
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                      refresh_token:
+                        type: string
+                        description: Token used to refresh the access token
+                      token_expiry:
+                        type: string
+                        format: date-time
+                        description: Expiration time of the access token
+                      user:
+                        $ref: '#/components/schemas/UserDTO'
+                  meta:
+                    type: object
+                    properties:
+                      http_status:
+                        type: integer
+                        example: 200
+        '400':
+          description: Bad request, invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized, invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                
+  /api/v1/auth/google/login:
+    get:
+      summary: Get Google Login URL
+      description: Returns the Google OAuth login URL for client-side redirection.
+      responses:
+        '200':
+          description: Successfully generated Google login URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Successfully generated login URL"
+                  data:
+                    type: object
+                    properties:
+                      redirect_url:
+                        type: string
+                        description: The Google OAuth URL to redirect to
+                        example: https://accounts.google.com/o/oauth2/v2/auth?...
+                      state:
+                        type: string
+                        description: CSRF protection state parameter
+                        example: 123e4567-e89b-12d3-a456-426614174000
+                  meta:
+                    type: object
+                    properties:
+                      http_status:
+                        type: integer
+                        example: 200
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/auth/google/callback:
+    post:
+      summary: Google Login Callback
+      description: Handles the callback from Google OAuth. Frontend should call this endpoint after receiving the authorization code from Google.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - code
+                - state
+              properties:
+                code:
+                  type: string
+                  description: Authorization code from Google
+                state:
+                  type: string
+                  description: State parameter for CSRF protection
+      responses:
+        '200':
+          description: Successfully authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "User authenticated successfully"
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        description: Custom JWT token generated by our backend for API authentication (not the Google OAuth token)
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTIzZTQ1NjctZTg5Yi0xMmQzLWE0NTYtNDI2NjE0MTc0MDAwIiwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIiwibmFtZSI6IkpvaG4gRG9lIiwiZXhwIjoxNjE5NzE5NjIxLCJpYXQiOjE2MTk2MzMyMjF9.8yF2Dq0_QYlA77Uq3nFxRZcm5-1Dy3bF4ojrPgQFdQY
+                      refresh_token:
+                        type: string
+                        description: Token used to refresh the access token
+                      token_expiry:
+                        type: string
+                        format: date-time
+                        description: Expiration time of the access token
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                          name:
+                            type: string
+                          email:
+                            type: string
+                            format: email
+                          picture:
+                            type: string
+                            format: uri
+                  meta:
+                    type: object
+                    properties:
+                      http_status:
+                        type: integer
+                        example: 200
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /api/v1/auth/logout:
+    post:
+      summary: Logout
+      description: Logs out the user and invalidates the session.
+      responses:
+        '200':
+          description: Successfully logged out
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /api/v1/auth/refresh:
+    post:
+      summary: Refresh Token
+      description: Refresh the current access token using a refresh token
+      responses:
+        '200':
+          description: Successfully refreshed token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Token refreshed successfully"
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                      refresh_token:
+                        type: string
+                        example: bvQotRefjkEHkl3gEyIaM9...
+                      token_expiry:
+                        type: string
+                        format: date-time
+                  meta:
+                    type: object
+                    properties:
+                      http_status:
+                        type: integer
+                        example: 200
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/auth/forgot-password:
+    post:
+      summary: Initiate Password Reset
+      description: |
+        Initiates the password reset process by sending a reset email to the user's registered email address.
+        For security reasons, this endpoint always returns success regardless of whether the email exists in the system.
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email_or_phone
+              properties:
+                email_or_phone:
+                  type: string
+                  description: User's email address or phone number
+                  example: user@example.com
+            examples:
+              email:
+                summary: Using email
+                value:
+                  email_or_phone: "user@example.com"
+              phone:
+                summary: Using phone
+                value:
+                  email_or_phone: "+6281234567890"
+      responses:
+        '200':
+          description: Request processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Jika akun Anda terdaftar, kami telah mengirim instruksi reset password ke email Anda"
+                  meta:
+                    type: object
+                    properties:
+                      http_status:
+                        type: integer
+                        example: 200
+        '400':
+          description: Bad request, invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                missing_email:
+                  summary: Missing email or phone
+                  value:
+                    success: false
+                    message: "Email atau nomor telepon wajib diisi"
+                    meta:
+                      http_status: 400
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                email_send_failed:
+                  summary: Email sending failed
+                  value:
+                    success: false
+                    message: "Gagal mengirim email reset password. Silakan coba lagi nanti."
+                    meta:
+                      http_status: 500
+
+  /api/v1/auth/reset-password:
+    post:
+      summary: Reset Password
+      description: |
+        Resets the user's password using a valid reset token received via email.
+        The token expires after 1 hour for security purposes.
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+                - new_password
+                - confirm_password
+              properties:
+                token:
+                  type: string
+                  description: Password reset token received via email
+                  example: "a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456"
+                new_password:
+                  type: string
+                  description: New password (minimum 8 characters)
+                  example: "newpassword123"
+                  minLength: 8
+                confirm_password:
+                  type: string
+                  description: Confirm new password (must match new_password)
+                  example: "newpassword123"
+                  minLength: 8
+            examples:
+              valid_request:
+                summary: Valid password reset request
+                value:
+                  token: "a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456"
+                  new_password: "mynewpassword123"
+                  confirm_password: "mynewpassword123"
+      responses:
+        '200':
+          description: Password successfully reset
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Password berhasil direset. Silakan login dengan password baru"
+                  meta:
+                    type: object
+                    properties:
+                      http_status:
+                        type: integer
+                        example: 200
+        '400':
+          description: Bad request - invalid token or password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                invalid_token:
+                  summary: Invalid or expired token
+                  value:
+                    success: false
+                    message: "Token reset password tidak valid atau sudah kedaluwarsa"
+                    meta:
+                      http_status: 400
+                expired_token:
+                  summary: Expired token
+                  value:
+                    success: false
+                    message: "Token reset password sudah kedaluwarsa. Silakan minta reset password baru"
+                    meta:
+                      http_status: 400
+                weak_password:
+                  summary: Password too short
+                  value:
+                    success: false
+                    message: "Password harus minimal 8 karakter"
+                    meta:
+                      http_status: 400
+                missing_fields:
+                  summary: Missing required fields
+                  value:
+                    success: false
+                    message: "Token reset password wajib diisi"
+                    meta:
+                      http_status: 400
+                password_mismatch:
+                  summary: Password confirmation doesn't match
+                  value:
+                    success: false
+                    message: "Password konfirmasi tidak cocok"
+                    meta:
+                      http_status: 400
+                missing_confirm_password:
+                  summary: Missing confirm password
+                  value:
+                    success: false
+                    message: "ConfirmPassword: wajib diisi"
+                    meta:
+                      http_status: 400
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                generic_error:
+                  summary: Generic server error
+                  value:
+                    success: false
+                    message: "Gagal reset password. Silakan coba lagi"
+                    meta:
+                      http_status: 500
+
+components:
+  schemas:
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Operation completed successfully"
+        meta:
+          type: object
+          properties:
+            http_status:
+              type: integer
+              example: 200
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+        error:
+          type: string
+        meta:
+          type: object
+          properties:
+            http_status:
+              type: integer
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            validation:
+              value:
+                success: false
+                message: "Invalid request payload"
+                error: "Missing required parameters"
+                meta:
+                  http_status: 400
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Authentication failed"
+            error: "Invalid or expired token"
+            meta:
+              http_status: 401
+
+    ServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "An error occurred while processing your request"
+            error: "Internal server error"
+            meta:
+              http_status: 500

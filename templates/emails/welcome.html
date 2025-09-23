@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; line-height: 1.6; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .banner { background-color: #f8f9fa; border-radius: 10px; padding: 20px; text-align: center; margin-bottom: 20px; }
+        .banner img { max-width: 100%; }
+        .content { margin-bottom: 20px; }
+        .highlight { font-weight: bold; }
+        .footer { font-size: 0.8em; color: #666; margin-top: 40px; }
+        h1 { color: #333; }
+        .logo { color: #007bff; font-weight: bold; }
+        .logo-highlight { color: #ff8c00; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="">
+            <img src="https://res.cloudinary.com/dib52ehrl/image/upload/v1747646383/welcome_image.jpg" alt="Kirimku Welcome" style="max-width: 100%;">
+        </div>
+        
+        <div class="content">
+            <p>Halo {{.Name}},</p>
+            
+            <p>Terima kasih telah mendaftar di <strong>Kirimku</strong>!</p>
+            
+            <p>Mulai <strong>1 Juni 2025</strong>, akunmu akan aktif dan kamu bisa langsung mulai mengirim barang dengan mudah melalui website Kirimku.com.</p>
+            
+            <p>Sebagai bentuk apresiasi, akunmu juga akan langsung kami <strong>upgrade ke level Tuan Besar</strong>, dapatkan komisi cashback hingga 10 juta.</p>
+            
+            <p>Lebih detail tentang cashback yang akan diterima bisa di cek <a href="https://kirimku.com/cashback?utm_source=email&utm_medium=welcome&utm_campaign=cashback&uid={{.UserID}}">disini</a>.</p>
+            
+            <p>Agar selalu update dan bisa langsung bertanya jika butuh bantuan, gabung ke <strong>grup WhatsApp resmi Kirimku</strong> di <a href="https://chat.whatsapp.com/DjKSdsD4co4ALceFDvZsvU">sini</a>.</p>
+            
+            <p>Sampai jumpa tanggal 1 Juni 2025. Kami siap bantu kapan pengiriman kamu.</p>
+        </div>
+        
+        <div class="footer">
+            <p>Salam hangat,<br>
+            <strong>Tim Kirimku</strong><br>
+            Kirim mudah, cashback seru<br>
+            <a href="https://kirimku.com?utm_source=email&utm_medium=welcome&utm_campaign=footer&uid={{.UserID}}">Kirimku.com</a></p>
+        </div>
+    </div>
+    <!-- Email tracking pixel -->
+    <img src="https://kirimku.com/track/open?id={{.TrackingID}}&uid={{.UserID}}&type=welcome" width="1" height="1" alt="" style="display:block">
+</body>
+</html>

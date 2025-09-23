@@ -1,0 +1,578 @@
+[
+  {
+    "httpRequest": {
+      "path": "/jandt_track/inquiry.action",
+      "queryStringParameters": {
+        "signature": [".*"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "is_success": true,
+        "content": {
+          "tariff": 20000,
+          "shipping_fee": 20000,
+          "insurance_fee": 0,
+          "options": {
+            "service_code": "REG",
+            "service_name": "Regular"
+          }
+        },
+        "message": ""
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "path": "/jandt_track/inquiry.action",
+      "queryStringParameters": {
+        "signature": ["invalid"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 400,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "is_success": false,
+        "content": null,
+        "message": "Invalid signature"
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "path": "/jandt_track/order.action",
+      "queryStringParameters": {
+        "signature": [".*"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "is_success": true,
+        "content": {
+          "booking_code": "JNT12345678",
+          "awb": "JNT12345678",
+          "status": "success",
+          "shipping_cost": 20000
+        },
+        "message": ""
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "path": "/jandt_track/order.action",
+      "queryStringParameters": {
+        "signature": ["invalid"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 400,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "is_success": false,
+        "content": null,
+        "message": "Invalid signature"
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "path": "/jandt_track/update.action",
+      "queryStringParameters": {
+        "signature": [".*"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "is_success": true,
+        "content": {
+          "status": "success",
+          "message": "Booking cancelled successfully"
+        },
+        "message": ""
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "path": "/jandt_track/update.action",
+      "queryStringParameters": {
+        "signature": ["invalid"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 400,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "is_success": false,
+        "content": null,
+        "message": "Invalid signature"
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "path": "/jandt_track/inquiry.action"
+    },
+    "httpResponse": {
+      "statusCode": 401,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "is_success": false,
+        "content": null,
+        "message": "Missing signature"
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "path": "/jandt_track/order.action"
+    },
+    "httpResponse": {
+      "statusCode": 401,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "is_success": false,
+        "content": null,
+        "message": "Missing signature"
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "path": "/jandt_track/update.action"
+    },
+    "httpResponse": {
+      "statusCode": 401,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "is_success": false,
+        "content": null,
+        "message": "Missing signature"
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/tracing/api/pricedev"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "price": [
+          {
+            "service_display": "REG",
+            "service": "REG",
+            "price": "12000",
+            "etd": "2-3"
+          },
+          {
+            "service_display": "YES",
+            "service": "YES",
+            "price": "20000",
+            "etd": "1"
+          },
+          {
+            "service_display": "JTR",
+            "service": "JTR",
+            "price": "25000",
+            "etd": "3-7"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/tracing/api/generatecnote"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "status": true,
+        "cnote": "JNE0123456789"
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/tracing/api/cancelcnote"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "status": true,
+        "message": "Shipment cancelled successfully"
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/tracing/api/pricedev",
+      "body": {
+        "weight": 0
+      }
+    },
+    "httpResponse": {
+      "statusCode": 400,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "status": false,
+        "message": "Weight must be greater than 0"
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/tracing/api/pricedev",
+      "body": {
+        "from": "UNKNOWN"
+      }
+    },
+    "httpResponse": {
+      "statusCode": 404,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "status": false,
+        "message": "Origin location not found"
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/tracing/api/pricedev",
+      "body": {
+        "thru": "UNKNOWN"
+      }
+    },
+    "httpResponse": {
+      "statusCode": 404,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "status": false,
+        "message": "Destination location not found"
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/tracing/api/generatecnote",
+      "body": {
+        "weight": 0
+      }
+    },
+    "httpResponse": {
+      "statusCode": 400,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "status": false,
+        "message": "Weight must be greater than 0"
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/tracing/api/cancelcnote",
+      "body": {
+        "awb": ""
+      }
+    },
+    "httpResponse": {
+      "statusCode": 400,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "status": false,
+        "message": "AWB number is required"
+      }
+    }
+  },
+  
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/callback_virtual_accounts"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "id": "va_mock-id-${json-unit.any-string}",
+        "external_id": "${json-unit.any-string}",
+        "owner_id": "mock-business-id",
+        "bank_code": "${json-unit.any-string}",
+        "account_number": "88${json-unit.any-number}",
+        "name": "KIRIMKU ${json-unit.any-string}",
+        "is_closed": false,
+        "expected_amount": "${json-unit.any-number}",
+        "expiration_date": "2025-05-17T04:25:59.143Z",
+        "is_single_use": true,
+        "status": "PENDING",
+        "currency": "IDR"
+      }
+    }
+  },
+  
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/retail_outlets"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "id": "ro_mock-id-${json-unit.any-string}",
+        "external_id": "${json-unit.any-string}",
+        "retail_outlet_name": "${json-unit.any-string}",
+        "name": "KIRIMKU ${json-unit.any-string}",
+        "payment_code": "KRMKU${json-unit.any-number}",
+        "expected_amount": "${json-unit.any-number}",
+        "expiration_date": "2025-05-17T04:25:59.143Z",
+        "status": "PENDING",
+        "currency": "IDR"
+      }
+    }
+  },
+  
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/qr_codes",
+      "headers": {
+        "Authorization": ["Basic .*"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "id": "qr_mock-id-${json-unit.any-string}",
+        "external_id": "${json-unit.any-string}",
+        "type": "DYNAMIC",
+        "qr_string": "00020101021226650014ID.CO.QRIS.WWW01189360070701600814MOCK-QR-STRING",
+        "amount": "${json-unit.any-number}",
+        "currency": "IDR",
+        "status": "ACTIVE",
+        "created": "2025-05-16T04:25:59.143Z",
+        "updated": "2025-05-16T04:25:59.143Z", 
+        "expiration_date": "2025-05-17T04:25:59.143Z",
+        "description": "${json-unit.any-string}",
+        "qr_code_url": "https://mockserver/qr-codes/image/mock-qr-image-url"
+      }
+    }
+  },
+  
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/credit_card_charges",
+      "headers": {
+        "Authorization": ["Basic .*"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "id": "cc_mock-id-${json-unit.any-string}",
+        "status": "PENDING",
+        "merchant_id": "mock-merchant-id",
+        "authorized_amount": "${json-unit.any-number}",
+        "captured_amount": "${json-unit.any-number}",
+        "currency": "IDR",
+        "card_brand": "VISA",
+        "card_type": "CREDIT",
+        "charge_type": "SINGLE_USE_TOKEN",
+        "masked_card_number": "4***********1234",
+        "external_id": "${json-unit.any-string}",
+        "bank_reconciliation_id": "mock-recon-${json-unit.any-string}",
+        "descriptor": "KIRIMKU*PAYMENT",
+        "created": "2025-05-16T04:25:59.143Z",
+        "authentication_url": "https://mockserver/card/3ds/mock-3ds-url",
+        "should_authenticate": true
+      }
+    }
+  },
+  
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/ewallets/charges",
+      "headers": {
+        "Authorization": [".*"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "id": "ewc_mock-id-12345",
+        "external_id": "${json-unit.any-string}",
+        "business_id": "mock-business-id",
+        "reference_id": "mock-ref-id-${json-unit.any-string}",
+        "status": "PENDING",
+        "channel_code": "${json-unit.any-string}",
+        "channel_properties": {
+          "success_redirect_url": "${json-unit.any-string}",
+          "failure_redirect_url": "${json-unit.any-string}"
+        },
+        "currency": "IDR",
+        "amount": 100000.0,
+        "payer_email": "",
+        "description": "Payment for Test Transaction",
+        "invoice_url": "https://checkout-mock.xendit.co/web/${json-unit.any-string}",
+        "expiry_date": "2025-05-17T04:25:59.143Z",
+        "available_banks": [],
+        "available_retailers": [],
+        "available_ewallets": [],
+        "checkout_url": "https://checkout-mock.xendit.co/web/${json-unit.any-string}",
+        "is_redirect_required": true,
+        "created": "2025-05-16T04:25:59.143Z",
+        "updated": "2025-05-16T04:25:59.143Z"
+      }
+    }
+  },
+  
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/invoices/.*",
+      "headers": {
+        "Authorization": ["Basic .*"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "id": "invoice_mock-id-${json-unit.any-string}",
+        "external_id": "${json-unit.any-string}",
+        "user_id": "mock-user-id",
+        "status": "PENDING",
+        "amount": 100000.0,
+        "payer_email": "customer@example.com",
+        "description": "${json-unit.any-string}",
+        "invoice_url": "https://checkout-mock.xendit.co/invoice/${json-unit.any-string}",
+        "expiry_date": "2025-05-17T04:25:59.143Z",
+        "created": "2025-05-16T04:25:59.143Z",
+        "updated": "2025-05-16T04:25:59.143Z",
+        "currency": "IDR"
+      }
+    }
+  },
+  
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/invoices/.*/expire",
+      "headers": {
+        "Authorization": ["Basic .*"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "id": "invoice_mock-id-${json-unit.any-string}",
+        "external_id": "${json-unit.any-string}",
+        "user_id": "mock-user-id",
+        "status": "EXPIRED",
+        "amount": 100000.0,
+        "payer_email": "customer@example.com",
+        "description": "${json-unit.any-string}",
+        "invoice_url": "https://checkout-mock.xendit.co/invoice/${json-unit.any-string}",
+        "expiry_date": "2025-05-17T04:25:59.143Z",
+        "created": "2025-05-16T04:25:59.143Z",
+        "updated": "2025-05-16T04:25:59.143Z",
+        "currency": "IDR"
+      }
+    }
+  },
+  
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/callback/xendit",
+      "body": {
+        "id": ".*",
+        "external_id": ".*",
+        "status": "PAID"
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "status": "ok"
+      }
+    }
+  }
+]

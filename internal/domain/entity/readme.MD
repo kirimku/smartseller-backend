@@ -1,0 +1,1 @@
+Entity should map into database, so it highly tighted to database

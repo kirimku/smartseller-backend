@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  mockserver:
+    image: mockserver/mockserver:latest
+    ports:
+      - "1080:1080"
+    environment:
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/mockserver-expectations.json
+      MOCKSERVER_WATCH_INITIALIZATION_JSON: "true"
+      MOCKSERVER_LOG_LEVEL: INFO
+    volumes:
+      - ./:/config

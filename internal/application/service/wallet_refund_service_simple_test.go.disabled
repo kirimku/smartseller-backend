@@ -1,0 +1,249 @@
+package service
+
+import (
+	"context"
+	"log"
+	"os"
+	"strconv"
+	"testing"
+	"time"
+
+	"github.com/kirimku/kirimku-backend/internal/domain/entity"
+	"github.com/kirimku/kirimku-backend/internal/domain/service"
+	"github.com/kirimku/kirimku-backend/internal/infrastructure/repository/testutils"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+)
+
+func TestWalletRefundServiceImpl_ValidateRefund_BasicValidation(t *testing.T) {
+	ctx := context.Background()
+	testDB := testutils.SetupTestDatabase(t)
+	defer testDB.Cleanup(t)
+
+	// Setup repositories manually
+	walletRepo := NewWalletRepositoryImpl(testDB.DB)
+	walletTransactionRepo := NewWalletTransactionRepositoryImpl(testDB.DB)
+	walletTransactionRefRepo := NewWalletTransactionReferenceRepositoryImpl(testDB.DB)
+	transactionRepo := NewTransactionRepositoryImpl(testDB.DB)
+	logger := log.New(os.Stdout, "test: ", log.LstdFlags)
+
+	// Create service
+	refundService := NewWalletRefundService(
+		walletRepo,
+		walletTransactionRepo,
+		walletTransactionRefRepo,
+		transactionRepo,
+		testDB.DB,
+		logger,
+	).(*WalletRefundServiceImpl)
+
+	// Create test data
+	userID := entity.GenerateUUID()
+
+	// Create test user first (required for foreign key constraint)
+	testDB.CreateTestUser(t, userID)
+
+	wallet := &entity.Wallet{
+		ID:        entity.GenerateUUID(),
+		UserID:    userID,
+		Balance:   1000.0,
+		Version:   1,
+		Status:    entity.WalletStatusActive,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+	err := walletRepo.Create(ctx, wallet)
+	require.NoError(t, err)
+
+	// Create wallet transaction within DB transaction
+	tx, err := testDB.DB.Beginx()
+	require.NoError(t, err)
+	defer tx.Rollback()
+
+	// Create wallet transaction
+	walletTx := entity.NewWalletTransaction(
+		wallet.ID,
+		entity.TransactionPayment,
+		500.0,
+		1000.0,
+		500.0,
+		entity.GenerateUUID(), // Use UUID for reference_id
+		"payment",
+		"idempotency-123",
+		"Test payment",
+	)
+	walletTx.UpdateStatus(entity.TransactionCompleted)
+
+	err = walletTransactionRepo.Create(ctx, tx, walletTx)
+	require.NoError(t, err)
+
+	// Commit the wallet transaction before creating the main transaction
+	err = tx.Commit()
+	require.NoError(t, err)
+
+	// Create main transaction
+	transaction := &entity.Transaction{
+		UserID:              wallet.UserID,
+		OrderName:           "Test Order",
+		OrderPrice:          500.0,
+		TotalAmount:         500.0, // Set TotalAmount explicitly for refund calculations
+		UniqueID:            entity.GenerateUUID(),
+		State:               entity.StatePaid,
+		PaymentMethod:       "wallet",
+		WalletTransactionID: &walletTx.ID,
+		RefundStatus:        entity.RefundStatusNone,
+		RefundedAmount:      0.0,
+		CreatedAt:           time.Now(),
+		UpdatedAt:           time.Now(),
+	}
+	err = transactionRepo.Create(ctx, transaction)
+	require.NoError(t, err)
+
+	t.Run("Valid refund request", func(t *testing.T) {
+		req := &service.RefundValidationRequest{
+			WalletID:              wallet.ID,
+			OriginalTransactionID: strconv.Itoa(transaction.ID),
+			RefundAmount:          300.0,
+			RefundType:            service.RefundTypePartial,
+		}
+
+		result, err := refundService.ValidateRefund(ctx, req)
+		require.NoError(t, err)
+		assert.True(t, result.IsValid)
+		assert.Empty(t, result.Errors)
+		assert.Equal(t, 500.0, result.MaxRefundableAmount)
+	})
+
+	t.Run("Excessive refund amount", func(t *testing.T) {
+		req := &service.RefundValidationRequest{
+			WalletID:              wallet.ID,
+			OriginalTransactionID: strconv.Itoa(transaction.ID),
+			RefundAmount:          600.0, // More than transaction amount
+			RefundType:            service.RefundTypeFull,
+		}
+
+		result, err := refundService.ValidateRefund(ctx, req)
+		require.NoError(t, err)
+		assert.False(t, result.IsValid)
+		assert.NotEmpty(t, result.Errors)
+		assert.Equal(t, 500.0, result.MaxRefundableAmount)
+	})
+
+	t.Run("Zero refund amount", func(t *testing.T) {
+		req := &service.RefundValidationRequest{
+			WalletID:              wallet.ID,
+			OriginalTransactionID: strconv.Itoa(transaction.ID),
+			RefundAmount:          0.0,
+			RefundType:            service.RefundTypePartial,
+		}
+
+		result, err := refundService.ValidateRefund(ctx, req)
+		require.NoError(t, err)
+		assert.False(t, result.IsValid)
+		assert.NotEmpty(t, result.Errors)
+	})
+}
+
+func TestWalletRefundServiceImpl_ProcessRefund_BasicProcessing(t *testing.T) {
+	ctx := context.Background()
+	testDB := testutils.SetupTestDatabase(t)
+	defer testDB.Cleanup(t)
+
+	// Setup repositories
+	logger := log.New(os.Stdout, "test: ", log.LstdFlags)
+
+	// Create service
+	refundService := NewWalletRefundService(
+		walletRepo,
+		walletTransactionRepo,
+		walletTransactionRefRepo,
+		transactionRepo,
+		testDB.DB,
+		logger,
+	)
+
+	// Create test wallet
+	userID := entity.GenerateUUID()
+
+	// Create test user first (required for foreign key constraint)
+	testDB.CreateTestUser(t, userID)
+
+	wallet := &entity.Wallet{
+		ID:        entity.GenerateUUID(),
+		UserID:    userID,
+		Balance:   500.0,
+		Version:   1,
+		Status:    entity.WalletStatusActive,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+	err := walletRepo.Create(ctx, wallet)
+	require.NoError(t, err)
+
+	// Create wallet transaction within DB transaction
+	tx, err := testDB.DB.Beginx()
+	require.NoError(t, err)
+	defer tx.Rollback()
+
+	// Create wallet transaction
+	walletTx := entity.NewWalletTransaction(
+		wallet.ID,
+		entity.TransactionPayment,
+		200.0,
+		500.0,
+		300.0,
+		entity.GenerateUUID(), // Use UUID for reference_id
+		"payment",
+		"idempotency-456",
+		"Test payment for refund",
+	)
+	walletTx.UpdateStatus(entity.TransactionCompleted)
+
+	err = walletTransactionRepo.Create(ctx, tx, walletTx)
+	require.NoError(t, err)
+
+	// Commit the wallet transaction before creating the main transaction
+	err = tx.Commit()
+	require.NoError(t, err)
+
+	// Create main transaction
+	transaction := &entity.Transaction{
+		UserID:              wallet.UserID,
+		OrderName:           "Test Order for Refund",
+		OrderPrice:          200.0,
+		TotalAmount:         200.0, // Set TotalAmount explicitly for refund calculations
+		UniqueID:            entity.GenerateUUID(),
+		State:               entity.StatePaid,
+		PaymentMethod:       "wallet",
+		WalletTransactionID: &walletTx.ID,
+		RefundStatus:        entity.RefundStatusNone,
+		RefundedAmount:      0.0,
+		CreatedAt:           time.Now(),
+		UpdatedAt:           time.Now(),
+	}
+	err = transactionRepo.Create(ctx, transaction)
+	require.NoError(t, err)
+
+	t.Run("Successful partial refund", func(t *testing.T) {
+		req := &service.WalletRefundRequest{
+			WalletID:              wallet.ID,
+			OriginalTransactionID: strconv.Itoa(transaction.ID),
+			RefundAmount:          100.0,
+			RefundType:            service.RefundTypePartial,
+			RefundReason:          service.RefundReasonCustomerRequest,
+			RefundReferenceID:     entity.GenerateUUID(),
+			IdempotencyKey:        "refund-key-456",
+		}
+
+		result, err := refundService.ProcessRefund(ctx, req)
+		require.NoError(t, err)
+		assert.Equal(t, "completed", result.RefundStatus)
+		assert.Equal(t, 100.0, result.RefundAmount)
+		assert.NotEmpty(t, result.RefundReferenceID)
+
+		// Verify wallet balance increased
+		updatedWallet, err := walletRepo.FindByID(ctx, wallet.ID)
+		require.NoError(t, err)
+		assert.Equal(t, 600.0, updatedWallet.Balance) // 500 + 100 refund
+	})
+}

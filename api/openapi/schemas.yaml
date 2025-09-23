@@ -1,0 +1,74 @@
+  schemas:
+    UserDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        name:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+        phone:
+          type: string
+          example: "+6281234567890"
+        picture:
+          type: string
+          format: uri
+          example: "https://lh3.googleusercontent.com/a/profile_picture"
+        user_type:
+          type: string
+          enum: [personal, bisnis, agen]
+          example: "personal"
+        accept_terms:
+          type: boolean
+          example: true
+        accept_promos:
+          type: boolean
+          example: false
+          
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Authentication successful"
+        data:
+          type: object
+          properties:
+            access_token:
+              type: string
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            refresh_token:
+              type: string
+              example: "123e4567-e89b-12d3-a456-426614174000"
+            token_expiry:
+              type: string
+              format: date-time
+              example: "2023-05-31T14:30:00Z"
+            user:
+              $ref: '#/components/schemas/UserDTO'
+        meta:
+          type: object
+          properties:
+            http_status:
+              type: integer
+              example: 200
+              
+    # Invoice related schemas
+    EWalletChannel:
+      type: string
+      enum: [DANA, OVO, SHOPEEPAY, LINKAJA]
+      example: "DANA"
+      
+    InvoiceStatus:
+      type: string
+      enum: [PENDING, PAID, EXPIRED, CANCELLED]
+      example: "PENDING"

@@ -1,0 +1,5361 @@
+Bali:
+  Denpasar:
+    Denpasar Barat:
+      :city_code: DPS
+      :district_code: DPS10009
+    Denpasar Selatan:
+      :city_code: DPS
+      :district_code: DPS10010
+    Denpasar Timur:
+      :city_code: DPS
+      :district_code: DPS10011
+    Denpasar Utara:
+      :city_code: DPS
+      :district_code: DPS10012
+Banten:
+  Cilegon:
+    Cibeber:
+      :city_code: CLG
+      :district_code: CLG10037
+    Cilegon:
+      :city_code: CLG
+      :district_code: CLG10050
+    Citangkil:
+      :city_code: CLG
+      :district_code: CLG10039
+    Ciwandan:
+      :city_code: CLG
+      :district_code: CLG10040
+    Gerogol:
+      :city_code: CLG
+      :district_code: CLG10041
+    Jombang:
+      :city_code: CLG
+      :district_code: CLG10042
+    Pulomerak:
+      :city_code: CLG
+      :district_code: CLG10044
+    Purwakarta:
+      :city_code: CLG
+      :district_code: CLG10043
+  Kab. Serang:
+    Anyar:
+      :city_code: SEY
+      :district_code: CLG20501
+    Bandung:
+      :city_code: SEY
+      :district_code: CLG20527
+    Baros:
+      :city_code: SEY
+      :district_code: CLG20500
+    Binuang:
+      :city_code: SEY
+      :district_code: CLG20502
+    Bojonegara:
+      :city_code: SEY
+      :district_code: CLG20503
+    Carenang:
+      :city_code: SEY
+      :district_code: CLG20504
+    Cikande:
+      :city_code: SEY
+      :district_code: CLG20505
+    Cikeusal:
+      :city_code: SEY
+      :district_code: CLG20506
+    Cinangka:
+      :city_code: SEY
+      :district_code: CLG20507
+    Ciomas:
+      :city_code: SEY
+      :district_code: CLG20508
+    Ciruas:
+      :city_code: SEY
+      :district_code: CLG20509
+    Gunung Sari:
+      :city_code: SEY
+      :district_code: CLG20528
+    Jawilan:
+      :city_code: SEY
+      :district_code: CLG20510
+    Kibin:
+      :city_code: SEY
+      :district_code: CLG20511
+    Kopo:
+      :city_code: SEY
+      :district_code: CLG20512
+    Kragilan:
+      :city_code: SEY
+      :district_code: CLG20513
+    Kramatwatu:
+      :city_code: SEY
+      :district_code: CLG20514
+    Lebak Wangi:
+      :city_code: SEY
+      :district_code: CLG20526
+    Mancak:
+      :city_code: SEY
+      :district_code: CLG20515
+    Pabuaran:
+      :city_code: SEY
+      :district_code: CLG20516
+    Padarincang:
+      :city_code: SEY
+      :district_code: CLG20517
+    Pamarayan:
+      :city_code: SEY
+      :district_code: CLG20518
+    Petir:
+      :city_code: SEY
+      :district_code: CLG20519
+    Pontang:
+      :city_code: SEY
+      :district_code: CLG20520
+    Pulo Ampel:
+      :city_code: SEY
+      :district_code: CLG20521
+    Tanara:
+      :city_code: SEY
+      :district_code: CLG20522
+    Tirtayasa:
+      :city_code: SEY
+      :district_code: CLG20523
+    Tunjung Teja:
+      :city_code: SEY
+      :district_code: CLG20524
+    Waringinkurung:
+      :city_code: SEY
+      :district_code: CLG20525
+  Lebak:
+    Banjarsari:
+      :city_code: RBT
+      :district_code: CLG20201
+    Bayah:
+      :city_code: RBT
+      :district_code: CLG20202
+    Bojongmanik:
+      :city_code: RBT
+      :district_code: CLG20203
+    Cibadak:
+      :city_code: RBT
+      :district_code: CLG20204
+    Cibeber:
+      :city_code: RBT
+      :district_code: CLG20205
+    Cigemlong:
+      :city_code: RBT
+      :district_code: CLG20229
+    Cihara:
+      :city_code: RBT
+      :district_code: CLG20227
+    Cijaku:
+      :city_code: RBT
+      :district_code: CLG20206
+    Cikulur:
+      :city_code: RBT
+      :district_code: CLG20207
+    Cileles:
+      :city_code: RBT
+      :district_code: CLG20208
+    Cilograng:
+      :city_code: RBT
+      :district_code: CLG20225
+    Cimarga:
+      :city_code: RBT
+      :district_code: CLG20209
+    Cipanas:
+      :city_code: RBT
+      :district_code: CLG20210
+    Cirinten:
+      :city_code: RBT
+      :district_code: CLG20228
+    Curug Bitung:
+      :city_code: RBT
+      :district_code: CLG20221
+    Gunungkencana:
+      :city_code: RBT
+      :district_code: CLG20211
+    Kalanganyar:
+      :city_code: RBT
+      :district_code: CLG20224
+    Lebakgedong:
+      :city_code: RBT
+      :district_code: CLG20226
+    Leuwidamar:
+      :city_code: RBT
+      :district_code: CLG20212
+    Maja:
+      :city_code: RBT
+      :district_code: CLG20213
+    Malingping:
+      :city_code: RBT
+      :district_code: CLG20214
+    Muncang:
+      :city_code: RBT
+      :district_code: CLG20215
+    Panggarangan:
+      :city_code: RBT
+      :district_code: CLG20216
+    Rangkasbitung:
+      :city_code: RBT
+      :district_code: CLG20200
+    Sajira:
+      :city_code: RBT
+      :district_code: CLG20217
+    Sobang:
+      :city_code: RBT
+      :district_code: CLG20223
+    Wanasalam:
+      :city_code: RBT
+      :district_code: CLG20218
+    Warunggunung:
+      :city_code: RBT
+      :district_code: CLG20219
+  Pandeglang:
+    Angsana:
+      :city_code: PDL
+      :district_code: CLG20122
+    Banjar:
+      :city_code: PDL
+      :district_code: CLG20101
+    Bojong:
+      :city_code: PDL
+      :district_code: CLG20103
+    Cadasari:
+      :city_code: PDL
+      :district_code: CLG20105
+    Carita:
+      :city_code: PDL
+      :district_code: CLG20123
+    Cibaliung:
+      :city_code: PDL
+      :district_code: CLG20106
+    Cibitung:
+      :city_code: PDL
+      :district_code: CLG20124
+    Cigeulis:
+      :city_code: PDL
+      :district_code: CLG20125
+    Cikedal:
+      :city_code: PDL
+      :district_code: CLG20126
+    Cikeusik:
+      :city_code: PDL
+      :district_code: CLG20108
+    Cimanggu:
+      :city_code: PDL
+      :district_code: CLG20109
+    Cimanuk:
+      :city_code: PDL
+      :district_code: CLG20110
+    Cipeucang:
+      :city_code: PDL
+      :district_code: CLG20128
+    Cisata:
+      :city_code: PDL
+      :district_code: CLG20129
+    Jiput:
+      :city_code: PDL
+      :district_code: CLG20112
+    Kaduhejo:
+      :city_code: PDL
+      :district_code: CLG20130
+    Karang Tanjung:
+      :city_code: PDL
+      :district_code: CLG20131
+    Koroncong:
+      :city_code: PDL
+      :district_code: CLG20139
+    Labuan:
+      :city_code: PDL
+      :district_code: CLG20113
+    Majasari:
+      :city_code: PDL
+      :district_code: CLG20138
+    Mandalawangi:
+      :city_code: PDL
+      :district_code: CLG20114
+    Mekarjaya:
+      :city_code: PDL
+      :district_code: CLG20143
+    Menes:
+      :city_code: PDL
+      :district_code: CLG20115
+    Munjul:
+      :city_code: PDL
+      :district_code: CLG20116
+    Pagelaran:
+      :city_code: PDL
+      :district_code: CLG20118
+    Pandeglang:
+      :city_code: PDL
+      :district_code: CLG20100
+    Panimbang:
+      :city_code: PDL
+      :district_code: CLG20133
+    Patia:
+      :city_code: PDL
+      :district_code: CLG20134
+    Picung:
+      :city_code: PDL
+      :district_code: CLG20135
+    Pulosari:
+      :city_code: PDL
+      :district_code: CLG20142
+    Saketi:
+      :city_code: PDL
+      :district_code: CLG20120
+    Sindangresmi:
+      :city_code: PDL
+      :district_code: CLG20141
+    Sobang:
+      :city_code: PDL
+      :district_code: CLG20148
+    Sukaresmi:
+      :city_code: PDL
+      :district_code: CLG20136
+    Sumur:
+      :city_code: PDL
+      :district_code: CLG20121
+  Serang:
+    Cipocok Jaya:
+      :city_code: SEG
+      :district_code: CLG20328
+    Curug:
+      :city_code: SEG
+      :district_code: CLG20310
+    Kasemen:
+      :city_code: SEG
+      :district_code: CLG20312
+    Serang:
+      :city_code: SEG
+      :district_code: CLG20300
+    Taktakan:
+      :city_code: SEG
+      :district_code: CLG20323
+    Walantaka:
+      :city_code: SEG
+      :district_code: CLG20327
+  Tangerang:
+    Balaraja:
+      :city_code: TGX
+      :district_code: TGR10101
+    Batuceper:
+      :city_code: TGR
+      :district_code: TGR10046
+    Benda:
+      :city_code: TGR
+      :district_code: TGR10047
+    Cibodas:
+      :city_code: TGR
+      :district_code: TGR10048
+    Cikupa:
+      :city_code: TGX
+      :district_code: TGR10102
+    Ciledug:
+      :city_code: TGR
+      :district_code: TGR10036
+    Cipondoh:
+      :city_code: TGR
+      :district_code: TGR10049
+    Cisauk:
+      :city_code: TGX
+      :district_code: TGR10118
+    Cisoka:
+      :city_code: TGX
+      :district_code: TGR10103
+    Curug:
+      :city_code: TGX
+      :district_code: TGR10104
+    Gunung Kaler:
+      :city_code: TGX
+      :district_code: TGR10131
+    Jambe:
+      :city_code: TGX
+      :district_code: TGR10119
+    Jatiuwung:
+      :city_code: TGR
+      :district_code: TGR10050
+    Jayanti:
+      :city_code: TGX
+      :district_code: TGR10120
+    Karang Tengah:
+      :city_code: TGR
+      :district_code: TGR10051
+    Karawaci:
+      :city_code: TGR
+      :district_code: TGR10052
+    Kelapa Dua:
+      :city_code: TGX
+      :district_code: TGR10128
+    Kemiri:
+      :city_code: TGX
+      :district_code: TGR10121
+    Kosambi:
+      :city_code: TGX
+      :district_code: TGR10122
+    Kresek:
+      :city_code: TGX
+      :district_code: TGR10106
+    Kronjo:
+      :city_code: TGX
+      :district_code: TGR10105
+    Larangan:
+      :city_code: TGR
+      :district_code: TGR10053
+    Legok:
+      :city_code: TGX
+      :district_code: TGR10107
+    Mauk:
+      :city_code: TGX
+      :district_code: TGR10108
+    Mekar Baru:
+      :city_code: TGX
+      :district_code: TGR10133
+    Neglasari:
+      :city_code: TGR
+      :district_code: TGR10054
+    PASAR KEMIS:
+      :city_code: TGX
+      :district_code: TGR10109
+    Pagedangan:
+      :city_code: TGX
+      :district_code: TGR10123
+    Pakuhaji:
+      :city_code: TGX
+      :district_code: TGR10110
+    Panongan:
+      :city_code: TGX
+      :district_code: TGR10124
+    Periuk:
+      :city_code: TGR
+      :district_code: TGR10055
+    Pinang:
+      :city_code: TGR
+      :district_code: TGR10056
+    Rajeg:
+      :city_code: TGX
+      :district_code: TGR10111
+    Sepatan:
+      :city_code: TGX
+      :district_code: TGR10112
+    Sepatan Timur:
+      :city_code: TGX
+      :district_code: TGR10132
+    Sindang Jaya:
+      :city_code: TGX
+      :district_code: TGR10130
+    Solear:
+      :city_code: TGX
+      :district_code: TGR10129
+    Sukadiri:
+      :city_code: TGX
+      :district_code: TGR10125
+    Sukamulya:
+      :city_code: TGX
+      :district_code: TGR10127
+    Tangerang:
+      :city_code: TGR
+      :district_code: TGR10070
+    Teluknaga:
+      :city_code: TGX
+      :district_code: TGR10114
+    Tigaraksa:
+      :city_code: TGX
+      :district_code: TGR10100
+  Tangerang Selatan:
+    Ciputat:
+      :city_code: TGS
+      :district_code: TGR10117
+    Ciputat Timur:
+      :city_code: TGS
+      :district_code: TGR10061
+    Pamulang:
+      :city_code: TGS
+      :district_code: TGR10116
+    Pondok Aren:
+      :city_code: TGS
+      :district_code: TGR10115
+    Serpong:
+      :city_code: TGS
+      :district_code: TGR10113
+    Serpong Utara:
+      :city_code: TGS
+      :district_code: TGR10060
+    Setu:
+      :city_code: TGS
+      :district_code: TGR10062
+Bengkulu:
+  Bengkulu:
+    Gading Cempaka:
+      :city_code: BKS
+      :district_code: BKS10020
+    Kampung Melayu:
+      :city_code: BKS
+      :district_code: BKS10021
+    Muara Bangka Hulu:
+      :city_code: BKS
+      :district_code: BKS10022
+    Ratu Agung:
+      :city_code: BKS
+      :district_code: BKS10023
+    Ratu Samban:
+      :city_code: BKS
+      :district_code: BKS10024
+    Selebar:
+      :city_code: BKS
+      :district_code: BKS10025
+    Singaran Pati:
+      :city_code: BKS
+      :district_code: BKS10028
+    Sungai Serut:
+      :city_code: BKS
+      :district_code: BKS10026
+    Teluk Segara:
+      :city_code: BKS
+      :district_code: BKS10027
+DKI Jakarta:
+  Jakarta Barat:
+    Cengkareng:
+      :city_code: CGK
+      :district_code: CGK10108
+    Grogol Petamburan:
+      :city_code: CGK
+      :district_code: CGK10101
+    Kalideres:
+      :city_code: CGK
+      :district_code: CGK10102
+    Kebon Jeruk:
+      :city_code: CGK
+      :district_code: CGK10103
+    Kembangan:
+      :city_code: CGK
+      :district_code: CGK10104
+    Pal Merah:
+      :city_code: CGK
+      :district_code: CGK10105
+    Taman Sari:
+      :city_code: CGK
+      :district_code: CGK10106
+    Tambora:
+      :city_code: CGK
+      :district_code: CGK10107
+  Jakarta Pusat:
+    Cempaka Putih:
+      :city_code: CGK
+      :district_code: CGK10301
+    Gambir:
+      :city_code: CGK
+      :district_code: CGK10302
+    Johar Baru:
+      :city_code: CGK
+      :district_code: CGK10303
+    Kemayoran:
+      :city_code: CGK
+      :district_code: CGK10304
+    Menteng:
+      :city_code: CGK
+      :district_code: CGK10305
+    Sawah Besar:
+      :city_code: CGK
+      :district_code: CGK10306
+    Senen:
+      :city_code: CGK
+      :district_code: CGK10307
+    Tanah Abang:
+      :city_code: CGK
+      :district_code: CGK10308
+  Jakarta Selatan:
+    Cilandak:
+      :city_code: CGK
+      :district_code: CGK10211
+    Jagakarsa:
+      :city_code: CGK
+      :district_code: CGK10201
+    Kebayoran Baru:
+      :city_code: CGK
+      :district_code: CGK10202
+    Kebayoran Lama:
+      :city_code: CGK
+      :district_code: CGK10203
+    Mampang Prapatan:
+      :city_code: CGK
+      :district_code: CGK10204
+    Pancoran:
+      :city_code: CGK
+      :district_code: CGK10205
+    Pasar Minggu:
+      :city_code: CGK
+      :district_code: CGK10206
+    Pesanggrahan:
+      :city_code: CGK
+      :district_code: CGK10207
+    Setiabudi:
+      :city_code: CGK
+      :district_code: CGK10208
+    Tebet:
+      :city_code: CGK
+      :district_code: CGK10209
+  Jakarta Timur:
+    Cakung:
+      :city_code: CGK
+      :district_code: CGK10501
+    Cipayung:
+      :city_code: CGK
+      :district_code: CGK10502
+    Ciracas:
+      :city_code: CGK
+      :district_code: CGK10503
+    Duren Sawit:
+      :city_code: CGK
+      :district_code: CGK10504
+    Jatinegara:
+      :city_code: CGK
+      :district_code: CGK10505
+    Kramatjati:
+      :city_code: CGK
+      :district_code: CGK10506
+    Makasar:
+      :city_code: CGK
+      :district_code: CGK10507
+    Matraman:
+      :city_code: CGK
+      :district_code: CGK10508
+    Pasar Rebo:
+      :city_code: CGK
+      :district_code: CGK10509
+    Pulogadung:
+      :city_code: CGK
+      :district_code: CGK10510
+  Jakarta Utara:
+    Cilincing:
+      :city_code: CGK
+      :district_code: CGK10406
+    Kelapa Gading:
+      :city_code: CGK
+      :district_code: CGK10401
+    Koja:
+      :city_code: CGK
+      :district_code: CGK10402
+    Pademangan:
+      :city_code: CGK
+      :district_code: CGK10403
+    Penjaringan:
+      :city_code: CGK
+      :district_code: CGK10404
+    Tanjung Priok:
+      :city_code: CGK
+      :district_code: CGK10405
+Daerah Istimewa Yogyakarta:
+  Bantul:
+    Bambanglipuro:
+      :city_code: BTL
+      :district_code: JOG20101
+    Banguntapan:
+      :city_code: BTL
+      :district_code: JOG20114
+    Bantul:
+      :city_code: BTL
+      :district_code: JOG20100
+    Dlingo:
+      :city_code: BTL
+      :district_code: JOG20102
+    Imogiri:
+      :city_code: BTL
+      :district_code: JOG20103
+    Jetis:
+      :city_code: BTL
+      :district_code: JOG20104
+    Kasihan:
+      :city_code: BTL
+      :district_code: JOG20115
+    Kretek:
+      :city_code: BTL
+      :district_code: JOG20105
+    Pajangan:
+      :city_code: BTL
+      :district_code: JOG20106
+    Pandak:
+      :city_code: BTL
+      :district_code: JOG20107
+    Piyungan:
+      :city_code: BTL
+      :district_code: JOG20108
+    Pleret:
+      :city_code: BTL
+      :district_code: JOG20109
+    Pundong:
+      :city_code: BTL
+      :district_code: JOG20110
+    Sanden:
+      :city_code: BTL
+      :district_code: JOG20111
+    Sedayu:
+      :city_code: BTL
+      :district_code: JOG20112
+    Sewon:
+      :city_code: BTL
+      :district_code: JOG20116
+    Srandakan:
+      :city_code: BTL
+      :district_code: JOG20113
+  Sleman:
+    Berbah:
+      :city_code: SLE
+      :district_code: JOG20301
+    Cangkringan:
+      :city_code: SLE
+      :district_code: JOG20302
+    Depok:
+      :city_code: SLE
+      :district_code: JOG20314
+    Gamping:
+      :city_code: SLE
+      :district_code: JOG20315
+    Godean:
+      :city_code: SLE
+      :district_code: JOG20303
+    Kalasan:
+      :city_code: SLE
+      :district_code: JOG20304
+    Minggir:
+      :city_code: SLE
+      :district_code: JOG20305
+    Mlati:
+      :city_code: SLE
+      :district_code: JOG20316
+    Moyudan:
+      :city_code: SLE
+      :district_code: JOG20306
+    Ngaglik:
+      :city_code: SLE
+      :district_code: JOG20307
+    Ngemplak:
+      :city_code: SLE
+      :district_code: JOG20308
+    Pakem:
+      :city_code: SLE
+      :district_code: JOG20309
+    Prambanan:
+      :city_code: SLE
+      :district_code: JOG20310
+    Seyegan:
+      :city_code: SLE
+      :district_code: JOG20311
+    Sleman:
+      :city_code: SLE
+      :district_code: JOG20300
+    Tempel:
+      :city_code: SLE
+      :district_code: JOG20312
+    Turi:
+      :city_code: SLE
+      :district_code: JOG20313
+  Yogyakarta:
+    Danurejan:
+      :city_code: JOG
+      :district_code: JOG10003
+    Gedongtengen:
+      :city_code: JOG
+      :district_code: JOG10004
+    Gondokusuman:
+      :city_code: JOG
+      :district_code: JOG10005
+    Gondomanan:
+      :city_code: JOG
+      :district_code: JOG10006
+    Jetis:
+      :city_code: JOG
+      :district_code: JOG10002
+    Kotagede:
+      :city_code: JOG
+      :district_code: JOG10007
+    Kraton:
+      :city_code: JOG
+      :district_code: JOG10008
+    Mantrijeron:
+      :city_code: JOG
+      :district_code: JOG10009
+    Mergangsan:
+      :city_code: JOG
+      :district_code: JOG10010
+    Ngampilan:
+      :city_code: JOG
+      :district_code: JOG10011
+    Pakualaman:
+      :city_code: JOG
+      :district_code: JOG10012
+    Tegalrejo:
+      :city_code: JOG
+      :district_code: JOG10001
+    Umbulharjo:
+      :city_code: JOG
+      :district_code: JOG10013
+    Wirobrajan:
+      :city_code: JOG
+      :district_code: JOG10014
+Gorontalo: {}
+Jambi: {}
+Jawa Barat:
+  Bandung:
+    Andir:
+      :city_code: BDO
+      :district_code: BDO10041
+    Antapani:
+      :city_code: BDO
+      :district_code: BDO10067
+    Arcamanik:
+      :city_code: BDO
+      :district_code: BDO10042
+    Arjasari:
+      :city_code: BDX
+      :district_code: BDO10101
+    Astana Anyar:
+      :city_code: BDO
+      :district_code: BDO10043
+    Babakan Ciparay:
+      :city_code: BDO
+      :district_code: BDO10044
+    Baleendah:
+      :city_code: BDX
+      :district_code: BDO10102
+    Bandung Kidul:
+      :city_code: BDO
+      :district_code: BDO10045
+    Bandung Kulon:
+      :city_code: BDO
+      :district_code: BDO10046
+    Bandung Wetan:
+      :city_code: BDO
+      :district_code: BDO10047
+    Banjaran:
+      :city_code: BDX
+      :district_code: BDO10103
+    Batununggal:
+      :city_code: BDO
+      :district_code: BDO10048
+    Bojongloa Kaler:
+      :city_code: BDO
+      :district_code: BDO10049
+    Bojongloa Kidul:
+      :city_code: BDO
+      :district_code: BDO10050
+    Bojongsoang:
+      :city_code: BDX
+      :district_code: BDO10104
+    Buahbatu:
+      :city_code: BDO
+      :district_code: BDO10065
+    Cangkuang:
+      :city_code: BDX
+      :district_code: BDO10105
+    Cibeunying Kaler:
+      :city_code: BDO
+      :district_code: BDO10051
+    Cibeunying Kidul:
+      :city_code: BDO
+      :district_code: BDO10052
+    Cibiru:
+      :city_code: BDO
+      :district_code: BDO10002
+    Cicalengka:
+      :city_code: BDX
+      :district_code: BDO10106
+    Cicendo:
+      :city_code: BDO
+      :district_code: BDO10053
+    Cidadap:
+      :city_code: BDO
+      :district_code: BDO10039
+    Cikancung:
+      :city_code: BDX
+      :district_code: BDO10107
+    Cilengkrang:
+      :city_code: BDX
+      :district_code: BDO10108
+    Cileunyi:
+      :city_code: BDX
+      :district_code: BDO10109
+    Cimaung:
+      :city_code: BDX
+      :district_code: BDO10110
+    Cimenyan:
+      :city_code: BDX
+      :district_code: BDO10111
+    Cinambo:
+      :city_code: BDO
+      :district_code: BDO10066
+    Ciparay:
+      :city_code: BDX
+      :district_code: BDO10112
+    Ciwidey:
+      :city_code: BDX
+      :district_code: BDO10113
+    Coblong:
+      :city_code: BDO
+      :district_code: BDO10054
+    Dayeuhkolot:
+      :city_code: BDX
+      :district_code: BDO10114
+    Gedebage:
+      :city_code: BDO
+      :district_code: BDO10064
+    Ibun:
+      :city_code: BDX
+      :district_code: BDO10115
+    Katapang:
+      :city_code: BDX
+      :district_code: BDO10118
+    Kertasari:
+      :city_code: BDX
+      :district_code: BDO10116
+    Kiaracondong:
+      :city_code: BDO
+      :district_code: BDO10055
+    Kutawaringin:
+      :city_code: BDX
+      :district_code: BDO10134
+    Lengkong:
+      :city_code: BDO
+      :district_code: BDO10040
+    Majalaya:
+      :city_code: BDX
+      :district_code: BDO10119
+    Mandalajati:
+      :city_code: BDO
+      :district_code: BDO10063
+    Margaasih:
+      :city_code: BDX
+      :district_code: BDO10120
+    Margahayu:
+      :city_code: BDX
+      :district_code: BDO10121
+    Nagreg:
+      :city_code: BDX
+      :district_code: BDO10122
+    Pacet:
+      :city_code: BDX
+      :district_code: BDO10123
+    Pameungpeuk:
+      :city_code: BDX
+      :district_code: BDO10124
+    Pangalengan:
+      :city_code: BDX
+      :district_code: BDO10125
+    Panyileukan:
+      :city_code: BDO
+      :district_code: BDO10062
+    Paseh:
+      :city_code: BDX
+      :district_code: BDO10126
+    Pasirjambu:
+      :city_code: BDX
+      :district_code: BDO10127
+    Rancabali:
+      :city_code: BDX
+      :district_code: BDO10128
+    Rancaekek:
+      :city_code: BDX
+      :district_code: BDO10129
+    Rancasari:
+      :city_code: BDO
+      :district_code: BDO10057
+    Regol:
+      :city_code: BDO
+      :district_code: BDO10058
+    Solokanjeruk:
+      :city_code: BDX
+      :district_code: BDO10130
+    Soreang:
+      :city_code: BDX
+      :district_code: BDO10100
+    Sukajadi:
+      :city_code: BDO
+      :district_code: BDO10059
+    Sukasari:
+      :city_code: BDO
+      :district_code: BDO10037
+    Sumur Bandung:
+      :city_code: BDO
+      :district_code: BDO10060
+    Ujungberung:
+      :city_code: BDO
+      :district_code: BDO10018
+  Bandung Barat:
+    Batujajar:
+      :city_code: BDY
+      :district_code: BDO21002
+    Cihampelas:
+      :city_code: BDY
+      :district_code: BDO21012
+    Cikalongwetan:
+      :city_code: BDY
+      :district_code: BDO21003
+    Cililin:
+      :city_code: BDY
+      :district_code: BDO21004
+    Cipatat:
+      :city_code: BDY
+      :district_code: BDO21006
+    Cipeundeuy:
+      :city_code: BDY
+      :district_code: BDO21005
+    Cipongkor:
+      :city_code: BDY
+      :district_code: BDO21007
+    Cisarua:
+      :city_code: BDY
+      :district_code: BDO21008
+    Gununghalu:
+      :city_code: BDY
+      :district_code: BDO21009
+    Lembang:
+      :city_code: BDY
+      :district_code: BDO21001
+    Ngamprah:
+      :city_code: BDY
+      :district_code: BDO21000
+    Padalarang:
+      :city_code: BDY
+      :district_code: BDO21010
+    Parongpong:
+      :city_code: BDY
+      :district_code: BDO21013
+    Rongga:
+      :city_code: BDY
+      :district_code: BDO21014
+    Saguling:
+      :city_code: BDY
+      :district_code: BDO21016
+    Sindangkerta:
+      :city_code: BDY
+      :district_code: BDO21011
+  Bekasi:
+    Babelan:
+      :city_code: BKX
+      :district_code: BKI10123
+    Bantargebang:
+      :city_code: BKI
+      :district_code: BKI10002
+    Bekasi Barat:
+      :city_code: BKI
+      :district_code: BKI10039
+    Bekasi Selatan:
+      :city_code: BKI
+      :district_code: BKI10040
+    Bekasi Timur:
+      :city_code: BKI
+      :district_code: BKI10041
+    Bekasi Utara:
+      :city_code: BKI
+      :district_code: BKI10042
+    Bojongmangu:
+      :city_code: BKX
+      :district_code: BKI10124
+    Cabangbungin:
+      :city_code: BKX
+      :district_code: BKI10106
+    Cibarusah:
+      :city_code: BKX
+      :district_code: BKI10107
+    Cibitung:
+      :city_code: BKX
+      :district_code: BKI10108
+    Cikarang Barat:
+      :city_code: BKX
+      :district_code: BKI10101
+    Cikarang Pusat:
+      :city_code: BKX
+      :district_code: BKI10102
+    Cikarang Selatan:
+      :city_code: BKX
+      :district_code: BKI10103
+    Cikarang Timur:
+      :city_code: BKX
+      :district_code: BKI10104
+    Cikarang Utara:
+      :city_code: BKX
+      :district_code: BKI10105
+    Jatiasih:
+      :city_code: BKI
+      :district_code: BKI10043
+    Jatisampurna:
+      :city_code: BKI
+      :district_code: BKI10044
+    Karang Bahagia:
+      :city_code: BKX
+      :district_code: BKI10117
+    Kedung Waringin:
+      :city_code: BKX
+      :district_code: BKI10110
+    Medansatria:
+      :city_code: BKI
+      :district_code: BKI10045
+    Muaragembong:
+      :city_code: BKX
+      :district_code: BKI10111
+    Mustikajaya:
+      :city_code: BKI
+      :district_code: BKI10046
+    Pebayuran:
+      :city_code: BKX
+      :district_code: BKI10112
+    Pondokgede:
+      :city_code: BKI
+      :district_code: BKI10047
+    Pondokmelati:
+      :city_code: BKI
+      :district_code: BKI10048
+    Rawalumbu:
+      :city_code: BKI
+      :district_code: BKI10049
+    Serang Baru:
+      :city_code: BKX
+      :district_code: BKI10113
+    Setu:
+      :city_code: BKX
+      :district_code: BKI10114
+    Sukakarya:
+      :city_code: BKX
+      :district_code: BKI10118
+    Sukatani:
+      :city_code: BKX
+      :district_code: BKI10115
+    Sukawangi:
+      :city_code: BKX
+      :district_code: BKI10119
+    Tambelang:
+      :city_code: BKX
+      :district_code: BKI10116
+    Tambun Selatan:
+      :city_code: BKX
+      :district_code: BKI10120
+    Tambun Utara:
+      :city_code: BKX
+      :district_code: BKI10121
+    Tarumajaya:
+      :city_code: BKX
+      :district_code: BKI10122
+  Bogor:
+    Bogor Barat:
+      :city_code: BOO
+      :district_code: BOO10026
+    Bogor Selatan:
+      :city_code: BOO
+      :district_code: BOO10027
+    Bogor Tengah:
+      :city_code: BOO
+      :district_code: BOO10028
+    Bogor Timur:
+      :city_code: BOO
+      :district_code: BOO10029
+    Bogor Utara:
+      :city_code: BOO
+      :district_code: BOO10030
+    Tanah Sareal:
+      :city_code: BOO
+      :district_code: BOO10031
+  Cianjur:
+    Agrabinta:
+      :city_code: CJR
+      :district_code: SMI20101
+    Bojongpicung:
+      :city_code: CJR
+      :district_code: SMI20102
+    Campaka:
+      :city_code: CJR
+      :district_code: SMI20103
+    Campakamulya:
+      :city_code: CJR
+      :district_code: SMI20127
+    Cianjur:
+      :city_code: CJR
+      :district_code: SMI20100
+    Cibeber:
+      :city_code: CJR
+      :district_code: SMI20104
+    Cibinong:
+      :city_code: CJR
+      :district_code: SMI20105
+    Cidaun:
+      :city_code: CJR
+      :district_code: SMI20106
+    Cijati:
+      :city_code: CJR
+      :district_code: SMI20128
+    Cikadu:
+      :city_code: CJR
+      :district_code: SMI20129
+    Cikalongkulon:
+      :city_code: CJR
+      :district_code: SMI20107
+    Cilaku:
+      :city_code: CJR
+      :district_code: SMI20108
+    Cipanas:
+      :city_code: CJR
+      :district_code: SMI20125
+    Ciranjang:
+      :city_code: CJR
+      :district_code: SMI20109
+    Cugenang:
+      :city_code: CJR
+      :district_code: SMI20110
+    Gekbrong:
+      :city_code: CJR
+      :district_code: SMI20130
+    Haurwangi:
+      :city_code: CJR
+      :district_code: SMI20132
+    Kadupandak:
+      :city_code: CJR
+      :district_code: SMI20111
+    Karangtengah:
+      :city_code: CJR
+      :district_code: SMI20112
+    Leles:
+      :city_code: CJR
+      :district_code: SMI20131
+    Mande:
+      :city_code: CJR
+      :district_code: SMI20113
+    Naringgul:
+      :city_code: CJR
+      :district_code: SMI20114
+    Pacet:
+      :city_code: CJR
+      :district_code: SMI20115
+    Pagelaran:
+      :city_code: CJR
+      :district_code: SMI20116
+    Pasirkuda:
+      :city_code: CJR
+      :district_code: SMI20133
+    Sindangbarang:
+      :city_code: CJR
+      :district_code: SMI20117
+    Sukaluyu:
+      :city_code: CJR
+      :district_code: SMI20118
+    Sukanagara:
+      :city_code: CJR
+      :district_code: SMI20119
+    Sukaresmi:
+      :city_code: CJR
+      :district_code: SMI20120
+    Takokak:
+      :city_code: CJR
+      :district_code: SMI20121
+    Tanggeung:
+      :city_code: CJR
+      :district_code: SMI20122
+    Warungkondang:
+      :city_code: CJR
+      :district_code: SMI20123
+  Cimahi:
+    Cimahi Selatan:
+      :city_code: CMH
+      :district_code: BDO20117
+    Cimahi Tengah:
+      :city_code: CMH
+      :district_code: BDO20118
+    Cimahi Utara:
+      :city_code: CMH
+      :district_code: BDO20119
+  Cirebon:
+    Arjawinangun:
+      :city_code: CBX
+      :district_code: CBN20402
+    Astanajapura:
+      :city_code: CBX
+      :district_code: CBN20403
+    Babakan:
+      :city_code: CBX
+      :district_code: CBN20404
+    Beber:
+      :city_code: CBX
+      :district_code: CBN20405
+    Ciledug:
+      :city_code: CBX
+      :district_code: CBN20406
+    Ciwaringin:
+      :city_code: CBX
+      :district_code: CBN20409
+    Depok:
+      :city_code: CBX
+      :district_code: CBN20410
+    Dukupuntang:
+      :city_code: CBX
+      :district_code: CBN20411
+    Gebang:
+      :city_code: CBX
+      :district_code: CBN20412
+    Gegesik:
+      :city_code: CBX
+      :district_code: CBN20413
+    Gempol:
+      :city_code: CBX
+      :district_code: CBN20414
+    Greged:
+      :city_code: CBX
+      :district_code: CBN20441
+    Gunung Jati:
+      :city_code: CBX
+      :district_code: CBN20442
+    Harjamukti:
+      :city_code: CBN
+      :district_code: CBN10034
+    Jamblang:
+      :city_code: CBX
+      :district_code: CBN20439
+    Kaliwedi:
+      :city_code: CBX
+      :district_code: CBN20415
+    Kapetakan:
+      :city_code: CBX
+      :district_code: CBN20416
+    Karangsembung:
+      :city_code: CBX
+      :district_code: CBN20417
+    Karangwareng:
+      :city_code: CBX
+      :district_code: CBN20418
+    Kedawung:
+      :city_code: CBX
+      :district_code: CBN20419
+    Kejaksan:
+      :city_code: CBN
+      :district_code: CBN10035
+    Kesambi:
+      :city_code: CBN
+      :district_code: CBN10036
+    Klangenan:
+      :city_code: CBX
+      :district_code: CBN20420
+    Lemah Wungkuk:
+      :city_code: CBN
+      :district_code: CBN10037
+    Lemahabang:
+      :city_code: CBX
+      :district_code: CBN20421
+    Losari:
+      :city_code: CBX
+      :district_code: CBN20422
+    Mundu:
+      :city_code: CBX
+      :district_code: CBN20423
+    Pabedilan:
+      :city_code: CBX
+      :district_code: CBN20424
+    Pabuaran:
+      :city_code: CBX
+      :district_code: CBN20426
+    Palimanan:
+      :city_code: CBX
+      :district_code: CBN20428
+    Pangenan:
+      :city_code: CBX
+      :district_code: CBN20430
+    Panguragan:
+      :city_code: CBX
+      :district_code: CBN20432
+    Pasaleman:
+      :city_code: CBX
+      :district_code: CBN20433
+    Pekalipan:
+      :city_code: CBN
+      :district_code: CBN10038
+    Plered:
+      :city_code: CBX
+      :district_code: CBN20434
+    Plumbon:
+      :city_code: CBX
+      :district_code: CBN20435
+    Sedong:
+      :city_code: CBX
+      :district_code: CBN20438
+    Sumber:
+      :city_code: CBX
+      :district_code: CBN20400
+    Suranenggala:
+      :city_code: CBX
+      :district_code: CBN20440
+    Susukan:
+      :city_code: CBX
+      :district_code: CBN20425
+    Susukan Lebak:
+      :city_code: CBX
+      :district_code: CBN20427
+    Talun:
+      :city_code: CBX
+      :district_code: CBN20443
+    Tengah Tani:
+      :city_code: CBX
+      :district_code: CBN20436
+    Waled:
+      :city_code: CBX
+      :district_code: CBN20429
+    Weru:
+      :city_code: CBX
+      :district_code: CBN20431
+  Depok:
+    Beji:
+      :city_code: DPK
+      :district_code: DPK10059
+    Bojongsari:
+      :city_code: DPK
+      :district_code: DPK10064
+    Cilodong:
+      :city_code: DPK
+      :district_code: DPK10066
+    Cimanggis:
+      :city_code: DPK
+      :district_code: DPK10052
+    Cinere:
+      :city_code: DPK
+      :district_code: DPK10067
+    Cipayung:
+      :city_code: DPK
+      :district_code: DPK10065
+    Limo:
+      :city_code: DPK
+      :district_code: DPK10060
+    Pancoran Mas:
+      :city_code: DPK
+      :district_code: DPK10061
+    Sawangan:
+      :city_code: DPK
+      :district_code: DPK10058
+    Sukmajaya:
+      :city_code: DPK
+      :district_code: DPK10062
+    Tapos:
+      :city_code: DPK
+      :district_code: DPK10063
+  Garut:
+    Banjarwangi:
+      :city_code: GRT
+      :district_code: BDO20701
+    Banyuresmi:
+      :city_code: GRT
+      :district_code: BDO20702
+    Bayongbong:
+      :city_code: GRT
+      :district_code: BDO20703
+    Bl. Limbangan:
+      :city_code: GRT
+      :district_code: BDO20747
+    Bungbulang:
+      :city_code: GRT
+      :district_code: BDO20705
+    Caringin:
+      :city_code: GRT
+      :district_code: BDO20734
+    Cibalong:
+      :city_code: GRT
+      :district_code: BDO20707
+    Cibatu:
+      :city_code: GRT
+      :district_code: BDO20706
+    Cibiuk:
+      :city_code: GRT
+      :district_code: BDO20708
+    Cigedug:
+      :city_code: GRT
+      :district_code: BDO20737
+    Cihurip:
+      :city_code: GRT
+      :district_code: BDO20738
+    Cikajang:
+      :city_code: GRT
+      :district_code: BDO20710
+    Cikelet:
+      :city_code: GRT
+      :district_code: BDO20709
+    Cilawu:
+      :city_code: GRT
+      :district_code: BDO20711
+    Cisewu:
+      :city_code: GRT
+      :district_code: BDO20714
+    Cisompet:
+      :city_code: GRT
+      :district_code: BDO20712
+    Cisurupan:
+      :city_code: GRT
+      :district_code: BDO20713
+    Garut Kota:
+      :city_code: GRT
+      :district_code: BDO20746
+    Kadungora:
+      :city_code: GRT
+      :district_code: BDO20715
+    Karangpawitan:
+      :city_code: GRT
+      :district_code: BDO20716
+    Karangtengah:
+      :city_code: GRT
+      :district_code: BDO20735
+    Kersamanah:
+      :city_code: GRT
+      :district_code: BDO20739
+    Leles:
+      :city_code: GRT
+      :district_code: BDO20717
+    Leuwigoong:
+      :city_code: GRT
+      :district_code: BDO20718
+    Malangbong:
+      :city_code: GRT
+      :district_code: BDO20719
+    Mekarmukti:
+      :city_code: GRT
+      :district_code: BDO20740
+    Pakenjeng:
+      :city_code: GRT
+      :district_code: BDO20720
+    Pameungpeuk:
+      :city_code: GRT
+      :district_code: BDO20721
+    Pamulihan:
+      :city_code: GRT
+      :district_code: BDO20722
+    Pangatikan:
+      :city_code: GRT
+      :district_code: BDO20741
+    Pasirwangi:
+      :city_code: GRT
+      :district_code: BDO20742
+    Peundeuy:
+      :city_code: GRT
+      :district_code: BDO20723
+    Samarang:
+      :city_code: GRT
+      :district_code: BDO20724
+    Selaawi:
+      :city_code: GRT
+      :district_code: BDO20725
+    Singajaya:
+      :city_code: GRT
+      :district_code: BDO20726
+    Sucinaraja:
+      :city_code: GRT
+      :district_code: BDO20743
+    Sukaresmi:
+      :city_code: GRT
+      :district_code: BDO20736
+    Sukawening:
+      :city_code: GRT
+      :district_code: BDO20727
+    Talegong:
+      :city_code: GRT
+      :district_code: BDO20728
+    Tarogong Kaler:
+      :city_code: GRT
+      :district_code: BDO20744
+    Tarogong Kidul:
+      :city_code: GRT
+      :district_code: BDO20745
+    Wanaraja:
+      :city_code: GRT
+      :district_code: BDO20730
+  Indramayu:
+    Anjatan:
+      :city_code: IDR
+      :district_code: CBN20101
+    Arahan:
+      :city_code: IDR
+      :district_code: CBN20121
+    Balongan:
+      :city_code: IDR
+      :district_code: CBN20102
+    Bangodua:
+      :city_code: IDR
+      :district_code: CBN20103
+    Bongas:
+      :city_code: IDR
+      :district_code: CBN20104
+    Cantigi:
+      :city_code: IDR
+      :district_code: CBN20122
+    Cikedung:
+      :city_code: IDR
+      :district_code: CBN20105
+    Gabuswetan:
+      :city_code: IDR
+      :district_code: CBN20106
+    Gantar:
+      :city_code: IDR
+      :district_code: CBN20123
+    Haurgeulis:
+      :city_code: IDR
+      :district_code: CBN20107
+    Indramayu:
+      :city_code: IDR
+      :district_code: CBN20100
+    Jatibarang:
+      :city_code: IDR
+      :district_code: CBN20108
+    Juntinyuat:
+      :city_code: IDR
+      :district_code: CBN20109
+    Kandanghaur:
+      :city_code: IDR
+      :district_code: CBN20110
+    Karangampel:
+      :city_code: IDR
+      :district_code: CBN20111
+    Kedokan Bunder:
+      :city_code: IDR
+      :district_code: CBN20124
+    Kertasemaya:
+      :city_code: IDR
+      :district_code: CBN20112
+    Krangkeng:
+      :city_code: IDR
+      :district_code: CBN20113
+    Kroya:
+      :city_code: IDR
+      :district_code: CBN20114
+    Lelea:
+      :city_code: IDR
+      :district_code: CBN20115
+    Lohbener:
+      :city_code: IDR
+      :district_code: CBN20116
+    Losarang:
+      :city_code: IDR
+      :district_code: CBN20117
+    Pasekan:
+      :city_code: IDR
+      :district_code: CBN20128
+    Patrol:
+      :city_code: IDR
+      :district_code: CBN20130
+    Sindang:
+      :city_code: IDR
+      :district_code: CBN20125
+    Sliyeg:
+      :city_code: IDR
+      :district_code: CBN20118
+    Sukagumiwang:
+      :city_code: IDR
+      :district_code: CBN20126
+    Sukra:
+      :city_code: IDR
+      :district_code: CBN20119
+    Terisi:
+      :city_code: IDR
+      :district_code: CBN20127
+    Tukdana:
+      :city_code: IDR
+      :district_code: CBN20129
+    Widasari:
+      :city_code: IDR
+      :district_code: CBN20120
+  Kab. Bogor:
+    Babakan Madang:
+      :city_code: BOX
+      :district_code: BOO20142
+    Bojong Gede:
+      :city_code: BOX
+      :district_code: BOO20143
+    Caringin:
+      :city_code: BOX
+      :district_code: BOO20120
+    Cariu:
+      :city_code: BOX
+      :district_code: BOO20121
+    Ciampea:
+      :city_code: BOX
+      :district_code: BOO20123
+    Ciawi:
+      :city_code: BOX
+      :district_code: BOO20122
+    Cibinong:
+      :city_code: BOX
+      :district_code: BOO20100
+    Cibungbulang:
+      :city_code: BOX
+      :district_code: BOO20124
+    Cigombong:
+      :city_code: BOX
+      :district_code: BOO20144
+    Cigudeg:
+      :city_code: BOX
+      :district_code: BOO20125
+    Cijeruk:
+      :city_code: BOX
+      :district_code: BOO20126
+    Cileungsi:
+      :city_code: BOX
+      :district_code: BOO20127
+    Ciomas:
+      :city_code: BOX
+      :district_code: BOO20128
+    Cisarua:
+      :city_code: BOX
+      :district_code: BOO20129
+    Ciseeng:
+      :city_code: BOX
+      :district_code: BOO20145
+    Citeureup:
+      :city_code: BOX
+      :district_code: BOO20130
+    Dramaga:
+      :city_code: BOX
+      :district_code: BOO20131
+    Gunung Putri:
+      :city_code: BOX
+      :district_code: BOO20159
+    Gunung Sindur:
+      :city_code: BOX
+      :district_code: BOO20132
+    Jasinga:
+      :city_code: BOX
+      :district_code: BOO20133
+    Jonggol:
+      :city_code: BOX
+      :district_code: BOO20134
+    Kemang:
+      :city_code: BOX
+      :district_code: BOO20146
+    Klapanunggal:
+      :city_code: BOX
+      :district_code: BOO20147
+    Leuwiliang:
+      :city_code: BOX
+      :district_code: BOO20135
+    Leuwisadeng:
+      :city_code: BOX
+      :district_code: BOO20148
+    Megamendung:
+      :city_code: BOX
+      :district_code: BOO20136
+    Nanggung:
+      :city_code: BOX
+      :district_code: BOO20137
+    Pamijahan:
+      :city_code: BOX
+      :district_code: BOO20149
+    Parung:
+      :city_code: BOX
+      :district_code: BOO20138
+    Parung Panjang:
+      :city_code: BOX
+      :district_code: BOO20139
+    Ranca Bungur:
+      :city_code: BOX
+      :district_code: BOO20150
+    Rumpin:
+      :city_code: BOX
+      :district_code: BOO20140
+    Sukajaya:
+      :city_code: BOX
+      :district_code: BOO20151
+    Sukamakmur:
+      :city_code: BOX
+      :district_code: BOO20152
+    Sukaraja:
+      :city_code: BOX
+      :district_code: BOO20153
+    Tajurhalang:
+      :city_code: BOX
+      :district_code: BOO20154
+    Tamansari:
+      :city_code: BOX
+      :district_code: BOO20155
+    Tanjungsari:
+      :city_code: BOX
+      :district_code: BOO20156
+    Tenjo:
+      :city_code: BOX
+      :district_code: BOO20141
+    Tenjolaya:
+      :city_code: BOX
+      :district_code: BOO20157
+  Kab. Sukabumi:
+    Bantargadung:
+      :city_code: SMX
+      :district_code: SMI10001
+    Bojonggenteng:
+      :city_code: SMX
+      :district_code: SMI10003
+    Caringin:
+      :city_code: SMX
+      :district_code: SMI10004
+    Ciambar:
+      :city_code: SMX
+      :district_code: SMI10049
+    Cibadak:
+      :city_code: SMX
+      :district_code: SMI10005
+    Cibitung:
+      :city_code: SMX
+      :district_code: SMI10006
+    Cicantayan:
+      :city_code: SMX
+      :district_code: SMI10008
+    Cicurug:
+      :city_code: SMX
+      :district_code: SMI10007
+    Cidadap:
+      :city_code: SMX
+      :district_code: SMI10011
+    Cidahu:
+      :city_code: SMX
+      :district_code: SMI10009
+    Cidolog:
+      :city_code: SMX
+      :district_code: SMI10010
+    Ciemas:
+      :city_code: SMX
+      :district_code: SMI10012
+    Cikakak:
+      :city_code: SMX
+      :district_code: SMI10015
+    Cikembar:
+      :city_code: SMX
+      :district_code: SMI10014
+    Cikidang:
+      :city_code: SMX
+      :district_code: SMI10013
+    Cimanggu:
+      :city_code: SMX
+      :district_code: SMI10149
+    Ciracap:
+      :city_code: SMX
+      :district_code: SMI10016
+    Cireunghas:
+      :city_code: SMX
+      :district_code: SMI10017
+    Cisaat:
+      :city_code: SMX
+      :district_code: SMI10018
+    Cisolok:
+      :city_code: SMX
+      :district_code: SMI10019
+    Curugkembar:
+      :city_code: SMX
+      :district_code: SMI10020
+    Gegerbitung:
+      :city_code: SMX
+      :district_code: SMI10021
+    Gunungguruh:
+      :city_code: SMX
+      :district_code: SMI10022
+    Jampangkulon:
+      :city_code: SMX
+      :district_code: SMI10023
+    Jampangtengah:
+      :city_code: SMX
+      :district_code: SMI10024
+    Kabandungan:
+      :city_code: SMX
+      :district_code: SMI10025
+    Kadudampit:
+      :city_code: SMX
+      :district_code: SMI10026
+    Kalapanunggal:
+      :city_code: SMX
+      :district_code: SMI10027
+    Kalibunder:
+      :city_code: SMX
+      :district_code: SMI10028
+    Kebonpedes:
+      :city_code: SMX
+      :district_code: SMI10029
+    Lengkong:
+      :city_code: SMX
+      :district_code: SMI10030
+    Nagrak:
+      :city_code: SMX
+      :district_code: SMI10031
+    Nyalindung:
+      :city_code: SMX
+      :district_code: SMI10032
+    Pabuaran:
+      :city_code: SMX
+      :district_code: SMI10033
+    Palabuhanratu:
+      :city_code: SMX
+      :district_code: SMI10036
+    Parakansalak:
+      :city_code: SMX
+      :district_code: SMI10035
+    Parungkuda:
+      :city_code: SMX
+      :district_code: SMI10034
+    Purabaya:
+      :city_code: SMX
+      :district_code: SMI10037
+    Sagaranten:
+      :city_code: SMX
+      :district_code: SMI10038
+    Simpenan:
+      :city_code: SMX
+      :district_code: SMI10039
+    Sukabumi:
+      :city_code: SMX
+      :district_code: SMI10080
+    Sukalarang:
+      :city_code: SMX
+      :district_code: SMI10040
+    Sukaraja:
+      :city_code: SMX
+      :district_code: SMI10042
+    Surade:
+      :city_code: SMX
+      :district_code: SMI10043
+    Tegalbuleud:
+      :city_code: SMX
+      :district_code: SMI10044
+    Waluran:
+      :city_code: SMX
+      :district_code: SMI10045
+    Warungkiara:
+      :city_code: SMX
+      :district_code: SMI10046
+  Karawang:
+    Banyusari:
+      :city_code: KRW
+      :district_code: KRW10018
+    Batujaya:
+      :city_code: KRW
+      :district_code: KRW10001
+    Ciampel:
+      :city_code: KRW
+      :district_code: KRW10019
+    Cibuaya:
+      :city_code: KRW
+      :district_code: KRW10002
+    Cikampek:
+      :city_code: KRW
+      :district_code: KRW10003
+    Cilamaya Kulon:
+      :city_code: KRW
+      :district_code: KRW10004
+    Cilamaya Wetan:
+      :city_code: KRW
+      :district_code: KRW10020
+    Cilebar:
+      :city_code: KRW
+      :district_code: KRW10021
+    Jatisari:
+      :city_code: KRW
+      :district_code: KRW10005
+    Jayakerta:
+      :city_code: KRW
+      :district_code: KRW10022
+    Karawang Barat:
+      :city_code: KRW
+      :district_code: KRW10023
+    Karawang Timur:
+      :city_code: KRW
+      :district_code: KRW10024
+    Klari:
+      :city_code: KRW
+      :district_code: KRW10006
+    Kota Baru:
+      :city_code: KRW
+      :district_code: KRW10025
+    Kutawaluya:
+      :city_code: KRW
+      :district_code: KRW10026
+    Lemahabang:
+      :city_code: KRW
+      :district_code: KRW10007
+    Majalaya:
+      :city_code: KRW
+      :district_code: KRW10027
+    Pakisjaya:
+      :city_code: KRW
+      :district_code: KRW10008
+    Pangkalan:
+      :city_code: KRW
+      :district_code: KRW10009
+    Pedes:
+      :city_code: KRW
+      :district_code: KRW10010
+    Purwasari:
+      :city_code: KRW
+      :district_code: KRW10028
+    Rawamerta:
+      :city_code: KRW
+      :district_code: KRW10011
+    Rengasdengklok:
+      :city_code: KRW
+      :district_code: KRW10012
+    Tegalwaru:
+      :city_code: KRW
+      :district_code: KRW10017
+    Telagasari:
+      :city_code: KRW
+      :district_code: KRW10013
+    Telukjambe Barat:
+      :city_code: KRW
+      :district_code: KRW10014
+    Telukjambe Timur:
+      :city_code: KRW
+      :district_code: KRW10029
+    Tempuran:
+      :city_code: KRW
+      :district_code: KRW10015
+    Tirtajaya:
+      :city_code: KRW
+      :district_code: KRW10030
+    Tirtamulya:
+      :city_code: KRW
+      :district_code: KRW10016
+  Kuningan:
+    Ciawigebang:
+      :city_code: KUN
+      :district_code: CBN20202
+    Cibeureum:
+      :city_code: KUN
+      :district_code: CBN20204
+    Cibingbin:
+      :city_code: KUN
+      :district_code: CBN20203
+    Cidahu:
+      :city_code: KUN
+      :district_code: CBN20205
+    Cigandamekar:
+      :city_code: KUN
+      :district_code: CBN20237
+    Cigugur:
+      :city_code: KUN
+      :district_code: CBN20206
+    Cilebak:
+      :city_code: KUN
+      :district_code: CBN20209
+    Cilimus:
+      :city_code: KUN
+      :district_code: CBN20208
+    Cimahi:
+      :city_code: KUN
+      :district_code: CBN20210
+    Ciniru:
+      :city_code: KUN
+      :district_code: CBN20211
+    Cipicung:
+      :city_code: KUN
+      :district_code: CBN20212
+    Ciwaru:
+      :city_code: KUN
+      :district_code: CBN20238
+    Darma:
+      :city_code: KUN
+      :district_code: CBN20213
+    Garawangi:
+      :city_code: KUN
+      :district_code: CBN20214
+    Hantara:
+      :city_code: KUN
+      :district_code: CBN20215
+    Jalaksana:
+      :city_code: KUN
+      :district_code: CBN20216
+    Japara:
+      :city_code: KUN
+      :district_code: CBN20217
+    Kadugede:
+      :city_code: KUN
+      :district_code: CBN20218
+    Kalimanggis:
+      :city_code: KUN
+      :district_code: CBN20219
+    Karang Kancana:
+      :city_code: KUN
+      :district_code: CBN20220
+    Kramatmulya:
+      :city_code: KUN
+      :district_code: CBN20221
+    Kuningan:
+      :city_code: KUN
+      :district_code: CBN20200
+    Lebakwangi:
+      :city_code: KUN
+      :district_code: CBN20222
+    Luragung:
+      :city_code: KUN
+      :district_code: CBN20224
+    Maleber:
+      :city_code: KUN
+      :district_code: CBN20225
+    Mandirancan:
+      :city_code: KUN
+      :district_code: CBN20226
+    Nusaherang:
+      :city_code: KUN
+      :district_code: CBN20228
+    Pancalang:
+      :city_code: KUN
+      :district_code: CBN20230
+    Pasawahan:
+      :city_code: KUN
+      :district_code: CBN20231
+    Selajambe:
+      :city_code: KUN
+      :district_code: CBN20232
+    Sindangagung:
+      :city_code: KUN
+      :district_code: CBN20233
+    Subang:
+      :city_code: KUN
+      :district_code: CBN20234
+  Purwakarta:
+    Babakancikao:
+      :city_code: PWA
+      :district_code: BDO20804
+    Bojong:
+      :city_code: PWA
+      :district_code: BDO20820
+    Bungursari:
+      :city_code: PWA
+      :district_code: BDO20805
+    Campaka:
+      :city_code: PWA
+      :district_code: BDO20802
+    Cibatu:
+      :city_code: PWA
+      :district_code: BDO20806
+    Darangdan:
+      :city_code: PWA
+      :district_code: BDO20809
+    Jatiluhur:
+      :city_code: PWA
+      :district_code: BDO20801
+    Kiarapedes:
+      :city_code: PWA
+      :district_code: BDO20821
+    Maniis:
+      :city_code: PWA
+      :district_code: BDO20810
+    Pasawahan:
+      :city_code: PWA
+      :district_code: BDO20803
+    Plered:
+      :city_code: PWA
+      :district_code: BDO20807
+    Pondoksalam:
+      :city_code: PWA
+      :district_code: BDO20814
+    Purwakarta:
+      :city_code: PWA
+      :district_code: BDO20800
+    Sukasari:
+      :city_code: PWA
+      :district_code: BDO20813
+    Sukatani:
+      :city_code: PWA
+      :district_code: BDO20808
+    Tegalwaru:
+      :city_code: PWA
+      :district_code: BDO20811
+    Wanayasa:
+      :city_code: PWA
+      :district_code: BDO20812
+  Subang:
+    Binong:
+      :city_code: SBG
+      :district_code: BDO21102
+    Blanakan:
+      :city_code: SBG
+      :district_code: BDO21103
+    Ciasem:
+      :city_code: SBG
+      :district_code: BDO21104
+    Ciater:
+      :city_code: SBG
+      :district_code: BDO21124
+    Cibogo:
+      :city_code: SBG
+      :district_code: BDO21105
+    Cijambe:
+      :city_code: SBG
+      :district_code: BDO21106
+    Cikaum:
+      :city_code: SBG
+      :district_code: BDO21119
+    Cipeundeuy:
+      :city_code: SBG
+      :district_code: BDO21101
+    Cipunagara:
+      :city_code: SBG
+      :district_code: BDO21120
+    Cisalak:
+      :city_code: SBG
+      :district_code: BDO21107
+    Compreng:
+      :city_code: SBG
+      :district_code: BDO21108
+    Dawuan:
+      :city_code: SBG
+      :district_code: BDO21132
+    Jalancagak:
+      :city_code: SBG
+      :district_code: BDO21109
+    Kalijati:
+      :city_code: SBG
+      :district_code: BDO21110
+    Kasomalang:
+      :city_code: SBG
+      :district_code: BDO21125
+    Legonkulon:
+      :city_code: SBG
+      :district_code: BDO21121
+    Pabuaran:
+      :city_code: SBG
+      :district_code: BDO21111
+    Pagaden:
+      :city_code: SBG
+      :district_code: BDO21122
+    Pagaden Barat:
+      :city_code: SBG
+      :district_code: BDO21130
+    Pamanukan:
+      :city_code: SBG
+      :district_code: BDO21113
+    Patokbeusi:
+      :city_code: SBG
+      :district_code: BDO21114
+    Purwadadi:
+      :city_code: SBG
+      :district_code: BDO21115
+    Pusakajaya:
+      :city_code: SBG
+      :district_code: BDO21127
+    Pusakanagara:
+      :city_code: SBG
+      :district_code: BDO21116
+    Sagalaherang:
+      :city_code: SBG
+      :district_code: BDO21117
+    Serangpanjang:
+      :city_code: SBG
+      :district_code: BDO21129
+    Subang:
+      :city_code: SBG
+      :district_code: BDO21100
+    Sukasari:
+      :city_code: SBG
+      :district_code: BDO21131
+    Tambakdahan:
+      :city_code: SBG
+      :district_code: BDO21123
+    Tanjungsiang:
+      :city_code: SBG
+      :district_code: BDO21118
+  Sukabumi:
+    Baros:
+      :city_code: SMI
+      :district_code: SMI10002
+    Cibeureum:
+      :city_code: SMI
+      :district_code: SMI10055
+    Cikole:
+      :city_code: SMI
+      :district_code: SMI10051
+    Citamiang:
+      :city_code: SMI
+      :district_code: SMI10052
+    Gunungpuyuh:
+      :city_code: SMI
+      :district_code: SMI10053
+    Lembursitu:
+      :city_code: SMI
+      :district_code: SMI10047
+    Warudoyong:
+      :city_code: SMI
+      :district_code: SMI10054
+  Sumedang:
+    Buahdua:
+      :city_code: SMD
+      :district_code: BDO20201
+    Cibugel:
+      :city_code: SMD
+      :district_code: BDO20203
+    Cimalaka:
+      :city_code: SMD
+      :district_code: BDO20205
+    Cimanggung:
+      :city_code: SMD
+      :district_code: BDO20206
+    Cisarua:
+      :city_code: SMD
+      :district_code: BDO20248
+    Cisitu:
+      :city_code: SMD
+      :district_code: BDO20249
+    Conggeang:
+      :city_code: SMD
+      :district_code: BDO20208
+    Darmaraja:
+      :city_code: SMD
+      :district_code: BDO20209
+    Ganeas:
+      :city_code: SMD
+      :district_code: BDO20210
+    Jatigede:
+      :city_code: SMD
+      :district_code: BDO20250
+    Jatinangor:
+      :city_code: SMD
+      :district_code: BDO20247
+    Jatinunggal:
+      :city_code: SMD
+      :district_code: BDO20251
+    Pamulihan:
+      :city_code: SMD
+      :district_code: BDO20214
+    Paseh:
+      :city_code: SMD
+      :district_code: BDO20215
+    Rancakalong:
+      :city_code: SMD
+      :district_code: BDO20216
+    Situraja:
+      :city_code: SMD
+      :district_code: BDO20217
+    Sukasari:
+      :city_code: SMD
+      :district_code: BDO20218
+    Sumedang Selatan:
+      :city_code: SMD
+      :district_code: BDO20252
+    Sumedang Utara:
+      :city_code: SMD
+      :district_code: BDO20253
+    Surian:
+      :city_code: SMD
+      :district_code: BDO20219
+    Tanjungkerta:
+      :city_code: SMD
+      :district_code: BDO20220
+    Tanjungmedar:
+      :city_code: SMD
+      :district_code: BDO20254
+    Tanjungsari:
+      :city_code: SMD
+      :district_code: BDO20221
+    Tomo:
+      :city_code: SMD
+      :district_code: BDO20222
+    Ujungjaya:
+      :city_code: SMD
+      :district_code: BDO20223
+    Wado:
+      :city_code: SMD
+      :district_code: BDO20224
+  Tasikmalaya:
+    Bantarkalong:
+      :city_code: TSX
+      :district_code: BDO20612
+    Bojongasih:
+      :city_code: TSX
+      :district_code: BDO20630
+    Bojonggambir:
+      :city_code: TSX
+      :district_code: BDO20601
+    Bungursari:
+      :city_code: TSI
+      :district_code: BDO21339
+    Ciawi:
+      :city_code: TSX
+      :district_code: BDO20614
+    Cibalong:
+      :city_code: TSX
+      :district_code: BDO20615
+    Cibeureum:
+      :city_code: TSI
+      :district_code: BDO20306
+    Cigalontang:
+      :city_code: TSX
+      :district_code: BDO20602
+    Cihideung:
+      :city_code: TSI
+      :district_code: BDO20333
+    Cikalong:
+      :city_code: TSX
+      :district_code: BDO20617
+    Cikatomas:
+      :city_code: TSX
+      :district_code: BDO20616
+    Cineam:
+      :city_code: TSX
+      :district_code: BDO20618
+    Cipatujah:
+      :city_code: TSX
+      :district_code: BDO20619
+    Cipedes:
+      :city_code: TSI
+      :district_code: BDO20334
+    Cisayong:
+      :city_code: TSX
+      :district_code: BDO20620
+    Culamega:
+      :city_code: TSX
+      :district_code: BDO20613
+    Gunung Tanjung:
+      :city_code: TSX
+      :district_code: BDO20631
+    Indihiang:
+      :city_code: TSI
+      :district_code: BDO20317
+    Jamanis:
+      :city_code: TSX
+      :district_code: BDO20621
+    Jatiwaras:
+      :city_code: TSX
+      :district_code: BDO20632
+    Kadipaten:
+      :city_code: TSX
+      :district_code: BDO20629
+    Karang Jaya:
+      :city_code: TSX
+      :district_code: BDO20633
+    Karangnunggal:
+      :city_code: TSX
+      :district_code: BDO20622
+    Kawalu:
+      :city_code: TSI
+      :district_code: BDO20321
+    Leuwisari:
+      :city_code: TSX
+      :district_code: BDO20603
+    Mangkubumi:
+      :city_code: TSI
+      :district_code: BDO20335
+    Mangunreja:
+      :city_code: TSX
+      :district_code: BDO20609
+    Manonjaya:
+      :city_code: TSX
+      :district_code: BDO20623
+    Padakembang:
+      :city_code: TSX
+      :district_code: BDO20634
+    Pagerageung:
+      :city_code: TSX
+      :district_code: BDO20635
+    Pancatengah:
+      :city_code: TSX
+      :district_code: BDO20624
+    Parungponteng:
+      :city_code: TSX
+      :district_code: BDO20636
+    Purbaratu:
+      :city_code: TSI
+      :district_code: BDO20339
+    Puspahiang:
+      :city_code: TSX
+      :district_code: BDO20637
+    Rajapolah:
+      :city_code: TSX
+      :district_code: BDO20625
+    Salawu:
+      :city_code: TSX
+      :district_code: BDO20606
+    Salopa:
+      :city_code: TSX
+      :district_code: BDO20626
+    Sariwangi:
+      :city_code: TSX
+      :district_code: BDO20605
+    Singaparna:
+      :city_code: TSX
+      :district_code: BDO20600
+    Sodonghilir:
+      :city_code: TSX
+      :district_code: BDO20610
+    Sukahening:
+      :city_code: TSX
+      :district_code: BDO20642
+    Sukaraja:
+      :city_code: TSX
+      :district_code: BDO20627
+    Sukarame:
+      :city_code: TSX
+      :district_code: BDO20608
+    Sukaratu:
+      :city_code: TSX
+      :district_code: BDO20638
+    Sukaresik:
+      :city_code: TSX
+      :district_code: BDO20639
+    Tamansari:
+      :city_code: TSI
+      :district_code: BDO20336
+    Tanjungjaya:
+      :city_code: TSX
+      :district_code: BDO20640
+    Taraju:
+      :city_code: TSX
+      :district_code: BDO20611
+    Tawang:
+      :city_code: TSI
+      :district_code: BDO20337
+Jawa Tengah:
+  Banyumas:
+    Ajibarang:
+      :city_code: PWT
+      :district_code: SRG10401
+    Banyumas:
+      :city_code: PWT
+      :district_code: SRG10402
+    Baturraden:
+      :city_code: PWT
+      :district_code: SRG10403
+    Cilongok:
+      :city_code: PWT
+      :district_code: SRG10404
+    Gumelar:
+      :city_code: PWT
+      :district_code: SRG10405
+    Jatilawang:
+      :city_code: PWT
+      :district_code: SRG10406
+    Kalibagor:
+      :city_code: PWT
+      :district_code: SRG10407
+    Karanglewas:
+      :city_code: PWT
+      :district_code: SRG10408
+    Kebasen:
+      :city_code: PWT
+      :district_code: SRG10409
+    Kedungbanteng:
+      :city_code: PWT
+      :district_code: SRG10410
+    Kembaran:
+      :city_code: PWT
+      :district_code: SRG10411
+    Kemranjen:
+      :city_code: PWT
+      :district_code: SRG10412
+    Lumbir:
+      :city_code: PWT
+      :district_code: SRG10413
+    Patikraja:
+      :city_code: PWT
+      :district_code: SRG10415
+    Pekuncen:
+      :city_code: PWT
+      :district_code: SRG10414
+    Purwojati:
+      :city_code: PWT
+      :district_code: SRG10416
+    Purwokerto Barat:
+      :city_code: PWT
+      :district_code: SRG10424
+    Purwokerto Selatan:
+      :city_code: PWT
+      :district_code: SRG10425
+    Purwokerto Timur:
+      :city_code: PWT
+      :district_code: SRG10426
+    Purwokerto Utara:
+      :city_code: PWT
+      :district_code: SRG10427
+    Rawalo:
+      :city_code: PWT
+      :district_code: SRG10417
+    Sokaraja:
+      :city_code: PWT
+      :district_code: SRG10418
+    Somagede:
+      :city_code: PWT
+      :district_code: SRG10419
+    Sumbang:
+      :city_code: PWT
+      :district_code: SRG10421
+    Sumpiuh:
+      :city_code: PWT
+      :district_code: SRG10420
+    Tambak:
+      :city_code: PWT
+      :district_code: SRG10422
+    Wangon:
+      :city_code: PWT
+      :district_code: SRG10423
+  Batang:
+    Bandar:
+      :city_code: BTA
+      :district_code: SRG20201
+    Banyuputih:
+      :city_code: BTA
+      :district_code: SRG20212
+    Batang:
+      :city_code: BTA
+      :district_code: SRG20200
+    Bawang:
+      :city_code: BTA
+      :district_code: SRG20202
+    Blado:
+      :city_code: BTA
+      :district_code: SRG20203
+    Gringsing:
+      :city_code: BTA
+      :district_code: SRG20204
+    Kandeman:
+      :city_code: BTA
+      :district_code: SRG20213
+    Limpung:
+      :city_code: BTA
+      :district_code: SRG20205
+    Pecalungan:
+      :city_code: BTA
+      :district_code: SRG20214
+    Reban:
+      :city_code: BTA
+      :district_code: SRG20206
+    Subah:
+      :city_code: BTA
+      :district_code: SRG20207
+    Tersono:
+      :city_code: BTA
+      :district_code: SRG20208
+    Tulis:
+      :city_code: BTA
+      :district_code: SRG20209
+    Warungasem:
+      :city_code: BTA
+      :district_code: SRG20210
+    Wonotunggal:
+      :city_code: BTA
+      :district_code: SRG20211
+  Boyolali:
+    Ampel:
+      :city_code: BYO
+      :district_code: SOC20101
+    Andong:
+      :city_code: BYO
+      :district_code: SOC20102
+    Banyudono:
+      :city_code: BYO
+      :district_code: SOC20103
+    Boyolali:
+      :city_code: BYO
+      :district_code: SOC20100
+    Cepogo:
+      :city_code: BYO
+      :district_code: SOC20104
+    Gladagsari:
+      :city_code: BYO
+      :district_code: SOC20120
+    Juwangi:
+      :city_code: BYO
+      :district_code: SOC20105
+    Karanggede:
+      :city_code: BYO
+      :district_code: SOC20106
+    Kemusu:
+      :city_code: BYO
+      :district_code: SOC20107
+    Klego:
+      :city_code: BYO
+      :district_code: SOC20108
+    Mojosongo:
+      :city_code: BYO
+      :district_code: SOC20119
+    Musuk:
+      :city_code: BYO
+      :district_code: SOC20122
+    Ngemplak:
+      :city_code: BYO
+      :district_code: SOC20109
+    Nogosari:
+      :city_code: BYO
+      :district_code: SOC20110
+    Sambi:
+      :city_code: BYO
+      :district_code: SOC20111
+    Sawit:
+      :city_code: BYO
+      :district_code: SOC20112
+    Selo:
+      :city_code: BYO
+      :district_code: SOC20113
+    Simo:
+      :city_code: BYO
+      :district_code: SOC20114
+    Tamansari:
+      :city_code: BYO
+      :district_code: SOC20118
+    Teras:
+      :city_code: BYO
+      :district_code: SOC20115
+    Wonosamodro:
+      :city_code: BYO
+      :district_code: SOC20121
+    Wonosegoro:
+      :city_code: BYO
+      :district_code: SOC20116
+  Cilacap:
+    Adipala:
+      :city_code: CXP
+      :district_code: CXP10001
+    Bantarsari:
+      :city_code: CXP
+      :district_code: CXP10023
+    Binangun:
+      :city_code: CXP
+      :district_code: CXP10002
+    Cilacap Selatan:
+      :city_code: CXP
+      :district_code: CXP10019
+    Cilacap Tengah:
+      :city_code: CXP
+      :district_code: CXP10020
+    Cilacap Utara:
+      :city_code: CXP
+      :district_code: CXP10021
+    Cimanggu:
+      :city_code: CXP
+      :district_code: CXP10003
+    Cipari:
+      :city_code: CXP
+      :district_code: CXP10004
+    Dayeuhluhur:
+      :city_code: CXP
+      :district_code: CXP10005
+    Gandrungmangu:
+      :city_code: CXP
+      :district_code: CXP10006
+    Jeruklegi:
+      :city_code: CXP
+      :district_code: CXP10007
+    Kampung Laut:
+      :city_code: CXP
+      :district_code: CXP10024
+    Karangpucung:
+      :city_code: CXP
+      :district_code: CXP10008
+    Kawunganten:
+      :city_code: CXP
+      :district_code: CXP10009
+    Kedungreja:
+      :city_code: CXP
+      :district_code: CXP10010
+    Kesugihan:
+      :city_code: CXP
+      :district_code: CXP10011
+    Kroya:
+      :city_code: CXP
+      :district_code: CXP10012
+    Majenang:
+      :city_code: CXP
+      :district_code: CXP10013
+    Maos:
+      :city_code: CXP
+      :district_code: CXP10014
+    Nusawungu:
+      :city_code: CXP
+      :district_code: CXP10015
+    Patimuan:
+      :city_code: CXP
+      :district_code: CXP10022
+    Sampang:
+      :city_code: CXP
+      :district_code: CXP10016
+    Sidareja:
+      :city_code: CXP
+      :district_code: CXP10017
+    Wanareja:
+      :city_code: CXP
+      :district_code: CXP10018
+  Demak:
+    Bonang:
+      :city_code: DMK
+      :district_code: SRG20701
+    Demak:
+      :city_code: DMK
+      :district_code: SRG20700
+    Dempet:
+      :city_code: DMK
+      :district_code: SRG20702
+    Gajah:
+      :city_code: DMK
+      :district_code: SRG20703
+    Guntur:
+      :city_code: DMK
+      :district_code: SRG20704
+    Karanganyar:
+      :city_code: DMK
+      :district_code: SRG20707
+    Karangawen:
+      :city_code: DMK
+      :district_code: SRG20706
+    Karangtengah:
+      :city_code: DMK
+      :district_code: SRG20705
+    Kebonagung:
+      :city_code: DMK
+      :district_code: SRG20713
+    Mijen:
+      :city_code: DMK
+      :district_code: SRG20708
+    Mranggen:
+      :city_code: DMK
+      :district_code: SRG20709
+    Sayung:
+      :city_code: DMK
+      :district_code: SRG20710
+    Wedung:
+      :city_code: DMK
+      :district_code: SRG20711
+    Wonosalam:
+      :city_code: DMK
+      :district_code: SRG20712
+  Jepara:
+    Bangsri:
+      :city_code: JPR
+      :district_code: SRG10101
+    Batealit:
+      :city_code: JPR
+      :district_code: SRG10102
+    Donorojo:
+      :city_code: JPR
+      :district_code: SRG10116
+    Jepara:
+      :city_code: JPR
+      :district_code: SRG10100
+    Kalinyamatan:
+      :city_code: JPR
+      :district_code: SRG10112
+    Karimunjawa:
+      :city_code: JPR
+      :district_code: SRG10104
+    Kedung:
+      :city_code: JPR
+      :district_code: SRG10105
+    Keling:
+      :city_code: JPR
+      :district_code: SRG10106
+    Kembang:
+      :city_code: JPR
+      :district_code: SRG10113
+    Mayong:
+      :city_code: JPR
+      :district_code: SRG10107
+    Mlonggo:
+      :city_code: JPR
+      :district_code: SRG10108
+    Nalumsari:
+      :city_code: JPR
+      :district_code: SRG10109
+    Pakis Aji:
+      :city_code: JPR
+      :district_code: SRG10115
+    Pecangaan:
+      :city_code: JPR
+      :district_code: SRG10110
+    Tahunan:
+      :city_code: JPR
+      :district_code: SRG10114
+    Welahan:
+      :city_code: JPR
+      :district_code: SRG10111
+  Kab. Magelang:
+    Bandongan:
+      :city_code: MGX
+      :district_code: MGL10502
+    Borobudur:
+      :city_code: MGX
+      :district_code: MGL10520
+    Candimulyo:
+      :city_code: MGX
+      :district_code: MGL10503
+    Dukun:
+      :city_code: MGX
+      :district_code: MGL10516
+    Grabag:
+      :city_code: MGX
+      :district_code: MGL10504
+    Kajoran:
+      :city_code: MGX
+      :district_code: MGL10505
+    Kaliangkrik:
+      :city_code: MGX
+      :district_code: MGL10506
+    MERTOYUDAN:
+      :city_code: MGX
+      :district_code: MGL10507
+    Mungkid:
+      :city_code: MGX
+      :district_code: MGL10500
+    Muntilan:
+      :city_code: MGX
+      :district_code: MGL10518
+    Ngablak:
+      :city_code: MGX
+      :district_code: MGL10508
+    Ngluwar:
+      :city_code: MGX
+      :district_code: MGL10519
+    Pakis:
+      :city_code: MGX
+      :district_code: MGL10509
+    Salam:
+      :city_code: MGX
+      :district_code: MGL10501
+    Salaman:
+      :city_code: MGX
+      :district_code: MGL10510
+    Sawangan:
+      :city_code: MGX
+      :district_code: MGL10517
+    Secang:
+      :city_code: MGX
+      :district_code: MGL10511
+    Srumbung:
+      :city_code: MGX
+      :district_code: MGL10515
+    Tegalrejo:
+      :city_code: MGX
+      :district_code: MGL10512
+    Tempuran:
+      :city_code: MGX
+      :district_code: MGL10513
+    WINDUSARI:
+      :city_code: MGX
+      :district_code: MGL10514
+  Kab. Pekalongan:
+    Bojong:
+      :city_code: PKX
+      :district_code: SRG22201
+    Buaran:
+      :city_code: PKX
+      :district_code: SRG22202
+    Doro:
+      :city_code: PKX
+      :district_code: SRG22203
+    Kajen:
+      :city_code: PKX
+      :district_code: SRG22200
+    Kandangserang:
+      :city_code: PKX
+      :district_code: SRG22204
+    Karanganyar:
+      :city_code: PKX
+      :district_code: SRG22205
+    Karangdadap:
+      :city_code: PKX
+      :district_code: SRG22206
+    Kedungwuni:
+      :city_code: PKX
+      :district_code: SRG22207
+    Kesesi:
+      :city_code: PKX
+      :district_code: SRG22208
+    Lebakbarang:
+      :city_code: PKX
+      :district_code: SRG22209
+    Paninggaran:
+      :city_code: PKX
+      :district_code: SRG22210
+    Petungkriyono:
+      :city_code: PKX
+      :district_code: SRG22211
+    Siwalan:
+      :city_code: PKX
+      :district_code: SRG22212
+    Sragi:
+      :city_code: PKX
+      :district_code: SRG22213
+    Talun:
+      :city_code: PKX
+      :district_code: SRG22214
+    Tirto:
+      :city_code: PKX
+      :district_code: SRG22215
+    Wiradesa:
+      :city_code: PKX
+      :district_code: SRG22216
+    Wonokerto:
+      :city_code: PKX
+      :district_code: SRG22217
+    Wonopringgo:
+      :city_code: PKX
+      :district_code: SRG22218
+  Kab. Tegal:
+    Adiwerna:
+      :city_code: TLX
+      :district_code: SRG21411
+    Balapulang:
+      :city_code: TLX
+      :district_code: SRG21401
+    Bojong:
+      :city_code: TLX
+      :district_code: SRG21402
+    Bumijawa:
+      :city_code: TLX
+      :district_code: SRG21403
+    Dukuhturi:
+      :city_code: TLX
+      :district_code: SRG21412
+    Dukuhwaru:
+      :city_code: TLX
+      :district_code: SRG21404
+    Jatinegara:
+      :city_code: TLX
+      :district_code: SRG21405
+    Kedungbanteng:
+      :city_code: TLX
+      :district_code: SRG21406
+    Kramat:
+      :city_code: TLX
+      :district_code: SRG21413
+    Lebaksiu:
+      :city_code: TLX
+      :district_code: SRG21407
+    Margasari:
+      :city_code: TLX
+      :district_code: SRG21408
+    Pagerbarang:
+      :city_code: TLX
+      :district_code: SRG21409
+    Pangkah:
+      :city_code: TLX
+      :district_code: SRG21410
+    Slawi:
+      :city_code: TLX
+      :district_code: SRG21400
+    Suradadi:
+      :city_code: TLX
+      :district_code: SRG21414
+    Talang:
+      :city_code: TLX
+      :district_code: SRG21415
+    Tarub:
+      :city_code: TLX
+      :district_code: SRG21416
+    Warureja:
+      :city_code: TLX
+      :district_code: SRG21417
+  Karanganyar:
+    Colomadu:
+      :city_code: KRG
+      :district_code: SOC20213
+    Gondangrejo:
+      :city_code: KRG
+      :district_code: SOC20214
+    Jaten:
+      :city_code: KRG
+      :district_code: SOC20215
+    Jatipuro:
+      :city_code: KRG
+      :district_code: SOC20201
+    Jatiyoso:
+      :city_code: KRG
+      :district_code: SOC20202
+    Jenawi:
+      :city_code: KRG
+      :district_code: SOC20203
+    Jumantono:
+      :city_code: KRG
+      :district_code: SOC20204
+    Jumapolo:
+      :city_code: KRG
+      :district_code: SOC20205
+    Karanganyar:
+      :city_code: KRG
+      :district_code: SOC20200
+    Karangpandan:
+      :city_code: KRG
+      :district_code: SOC20206
+    Kebakkramat:
+      :city_code: KRG
+      :district_code: SOC20207
+    Kerjo:
+      :city_code: KRG
+      :district_code: SOC20208
+    Matesih:
+      :city_code: KRG
+      :district_code: SOC20209
+    Mojogedang:
+      :city_code: KRG
+      :district_code: SOC20210
+    Ngargoyoso:
+      :city_code: KRG
+      :district_code: SOC20211
+    Tasikmadu:
+      :city_code: KRG
+      :district_code: SOC20216
+    Tawangmangu:
+      :city_code: KRG
+      :district_code: SOC20212
+  Kebumen:
+    Adimulyo:
+      :city_code: KBM
+      :district_code: MGL10101
+    Alian:
+      :city_code: KBM
+      :district_code: MGL10102
+    Ambal:
+      :city_code: KBM
+      :district_code: MGL10103
+    Ayah:
+      :city_code: KBM
+      :district_code: MGL10118
+    Bonorowo:
+      :city_code: KBM
+      :district_code: MGL10121
+    Buayan:
+      :city_code: KBM
+      :district_code: MGL10119
+    Buluspesantren:
+      :city_code: KBM
+      :district_code: MGL10104
+    Gombong:
+      :city_code: KBM
+      :district_code: MGL10117
+    Karanganyar:
+      :city_code: KBM
+      :district_code: MGL10105
+    Karanggayam:
+      :city_code: KBM
+      :district_code: MGL10106
+    Karangsambung:
+      :city_code: KBM
+      :district_code: MGL10122
+    Kebumen:
+      :city_code: KBM
+      :district_code: MGL10100
+    Klirong:
+      :city_code: KBM
+      :district_code: MGL10107
+    Kutowinangun:
+      :city_code: KBM
+      :district_code: MGL10108
+    Kuwarasan:
+      :city_code: KBM
+      :district_code: MGL10109
+    Mirit:
+      :city_code: KBM
+      :district_code: MGL10110
+    Padureso:
+      :city_code: KBM
+      :district_code: MGL10123
+    Pejagoan:
+      :city_code: KBM
+      :district_code: MGL10111
+    Petanahan:
+      :city_code: KBM
+      :district_code: MGL10112
+    Poncowarno:
+      :city_code: KBM
+      :district_code: MGL10124
+    Prembun:
+      :city_code: KBM
+      :district_code: MGL10113
+    Puring:
+      :city_code: KBM
+      :district_code: MGL10114
+    Rowokele:
+      :city_code: KBM
+      :district_code: MGL10120
+    Sadang:
+      :city_code: KBM
+      :district_code: MGL10115
+    Sempor:
+      :city_code: KBM
+      :district_code: MGL10125
+    Sruweng:
+      :city_code: KBM
+      :district_code: MGL10116
+  Klaten:
+    Bayat:
+      :city_code: KLN
+      :district_code: SOC20301
+    Cawas:
+      :city_code: KLN
+      :district_code: SOC20302
+    Ceper:
+      :city_code: KLN
+      :district_code: SOC20303
+    Delanggu:
+      :city_code: KLN
+      :district_code: SOC20304
+    Gantiwarno:
+      :city_code: KLN
+      :district_code: SOC20305
+    Jatinom:
+      :city_code: KLN
+      :district_code: SOC20306
+    Jogonalan:
+      :city_code: KLN
+      :district_code: SOC20307
+    Juwiring:
+      :city_code: KLN
+      :district_code: SOC20308
+    Kalikotes:
+      :city_code: KLN
+      :district_code: SOC20309
+    Karanganom:
+      :city_code: KLN
+      :district_code: SOC20311
+    Karangdowo:
+      :city_code: KLN
+      :district_code: SOC20312
+    Karangnongko:
+      :city_code: KLN
+      :district_code: SOC20310
+    Kebonarum:
+      :city_code: KLN
+      :district_code: SOC20313
+    Kemalang:
+      :city_code: KLN
+      :district_code: SOC20314
+    Klaten Selatan:
+      :city_code: KLN
+      :district_code: SOC20324
+    Klaten Tengah:
+      :city_code: KLN
+      :district_code: SOC20325
+    Klaten Utara:
+      :city_code: KLN
+      :district_code: SOC20326
+    Manisrenggo:
+      :city_code: KLN
+      :district_code: SOC20315
+    Ngawen:
+      :city_code: KLN
+      :district_code: SOC20316
+    Pedan:
+      :city_code: KLN
+      :district_code: SOC20317
+    Polanharjo:
+      :city_code: KLN
+      :district_code: SOC20318
+    Prambanan:
+      :city_code: KLN
+      :district_code: SOC20319
+    Trucuk:
+      :city_code: KLN
+      :district_code: SOC20320
+    Tulung:
+      :city_code: KLN
+      :district_code: SOC20321
+    Wedi:
+      :city_code: KLN
+      :district_code: SOC20322
+    Wonosari:
+      :city_code: KLN
+      :district_code: SOC20323
+  Kudus:
+    Bae:
+      :city_code: KDS
+      :district_code: SRG10208
+    Dawe:
+      :city_code: KDS
+      :district_code: SRG10201
+    Gebog:
+      :city_code: KDS
+      :district_code: SRG10205
+    Jati:
+      :city_code: KDS
+      :district_code: SRG10206
+    Jekulo:
+      :city_code: KDS
+      :district_code: SRG10202
+    Kaliwungu:
+      :city_code: KDS
+      :district_code: SRG10207
+    Kota Kudus:
+      :city_code: KDS
+      :district_code: SRG10200
+    Mejobo:
+      :city_code: KDS
+      :district_code: SRG10203
+    Undaan:
+      :city_code: KDS
+      :district_code: SRG10204
+  Magelang:
+    Magelang Selatan:
+      :city_code: MGL
+      :district_code: MGL10022
+    Magelang Tengah:
+      :city_code: MGL
+      :district_code: MGL10023
+    Magelang Utara:
+      :city_code: MGL
+      :district_code: MGL10024
+  Pati:
+    Batangan:
+      :city_code: PAT
+      :district_code: SRG20901
+    Cluwak:
+      :city_code: PAT
+      :district_code: SRG20902
+    Dukuhseti:
+      :city_code: PAT
+      :district_code: SRG20903
+    Gabus:
+      :city_code: PAT
+      :district_code: SRG20904
+    Gembong:
+      :city_code: PAT
+      :district_code: SRG20905
+    Gunungwungkal:
+      :city_code: PAT
+      :district_code: SRG20906
+    Jaken:
+      :city_code: PAT
+      :district_code: SRG20907
+    Jakenan:
+      :city_code: PAT
+      :district_code: SRG20908
+    Juwana:
+      :city_code: PAT
+      :district_code: SRG20909
+    Kayen:
+      :city_code: PAT
+      :district_code: SRG20910
+    Margorejo:
+      :city_code: PAT
+      :district_code: SRG20911
+    Margoyoso:
+      :city_code: PAT
+      :district_code: SRG20912
+    Pati:
+      :city_code: PAT
+      :district_code: SRG20900
+    Pucakwangi:
+      :city_code: PAT
+      :district_code: SRG20913
+    Sukolilo:
+      :city_code: PAT
+      :district_code: SRG20914
+    Tambakromo:
+      :city_code: PAT
+      :district_code: SRG20915
+    Tayu:
+      :city_code: PAT
+      :district_code: SRG20916
+    Tlogowungu:
+      :city_code: PAT
+      :district_code: SRG20917
+    Trangkil:
+      :city_code: PAT
+      :district_code: SRG20918
+    Wedarijaksa:
+      :city_code: PAT
+      :district_code: SRG20919
+    Winong:
+      :city_code: PAT
+      :district_code: SRG20920
+  Pekalongan:
+    Pekalongan Barat:
+      :city_code: PKL
+      :district_code: SRG10322
+    Pekalongan Selatan:
+      :city_code: PKL
+      :district_code: SRG10323
+    Pekalongan Timur:
+      :city_code: PKL
+      :district_code: SRG10324
+    Pekalongan Utara:
+      :city_code: PKL
+      :district_code: SRG10325
+  Pemalang:
+    Ampelgading:
+      :city_code: PML
+      :district_code: SRG21001
+    Bantarbolang:
+      :city_code: PML
+      :district_code: SRG21002
+    Belik:
+      :city_code: PML
+      :district_code: SRG21003
+    Bodeh:
+      :city_code: PML
+      :district_code: SRG21004
+    Comal:
+      :city_code: PML
+      :district_code: SRG21005
+    Moga:
+      :city_code: PML
+      :district_code: SRG21006
+    Pemalang:
+      :city_code: PML
+      :district_code: SRG21000
+    Petarukan:
+      :city_code: PML
+      :district_code: SRG21007
+    Pulosari:
+      :city_code: PML
+      :district_code: SRG21008
+    Randudongkal:
+      :city_code: PML
+      :district_code: SRG21009
+    Taman:
+      :city_code: PML
+      :district_code: SRG21010
+    Ulujami:
+      :city_code: PML
+      :district_code: SRG21011
+    Warungpring:
+      :city_code: PML
+      :district_code: SRG21012
+    Watukumpul:
+      :city_code: PML
+      :district_code: SRG21013
+  Purbalingga:
+    Bobotsari:
+      :city_code: PBG
+      :district_code: SRG21701
+    Bojongsari:
+      :city_code: PBG
+      :district_code: SRG21702
+    Bukateja:
+      :city_code: PBG
+      :district_code: SRG21703
+    Kaligondang:
+      :city_code: PBG
+      :district_code: SRG21704
+    Kalimanah:
+      :city_code: PBG
+      :district_code: SRG21705
+    Karanganyar:
+      :city_code: PBG
+      :district_code: SRG21707
+    Karangjambu:
+      :city_code: PBG
+      :district_code: SRG21715
+    Karangmoncol:
+      :city_code: PBG
+      :district_code: SRG21708
+    Karangreja:
+      :city_code: PBG
+      :district_code: SRG21709
+    Kejobong:
+      :city_code: PBG
+      :district_code: SRG21710
+    Kemangkon:
+      :city_code: PBG
+      :district_code: SRG21711
+    Kertanegara:
+      :city_code: PBG
+      :district_code: SRG21716
+    Kutasari:
+      :city_code: PBG
+      :district_code: SRG21712
+    Mrebet:
+      :city_code: PBG
+      :district_code: SRG21713
+    Padamara:
+      :city_code: PBG
+      :district_code: SRG21717
+    Pengadegan:
+      :city_code: PBG
+      :district_code: SRG21718
+    Purbalingga:
+      :city_code: PBG
+      :district_code: SRG21700
+    Rembang:
+      :city_code: PBG
+      :district_code: SRG21714
+  Salatiga:
+    Argomulyo:
+      :city_code: SLT
+      :district_code: SRG21308
+    Sidomukti:
+      :city_code: SLT
+      :district_code: SRG21309
+    Sidorejo:
+      :city_code: SLT
+      :district_code: SRG21310
+    Tingkir:
+      :city_code: SLT
+      :district_code: SRG21311
+  Semarang:
+    Ambarawa:
+      :city_code: SRX
+      :district_code: SRG21602
+    Bancak:
+      :city_code: SRX
+      :district_code: SRG21604
+    Bandungan:
+      :city_code: SRX
+      :district_code: SRG21620
+    Banyubiru:
+      :city_code: SRX
+      :district_code: SRG21603
+    Banyumanik:
+      :city_code: SRG
+      :district_code: SRG10001
+    Bawen:
+      :city_code: SRX
+      :district_code: SRG21605
+    Bergas:
+      :city_code: SRX
+      :district_code: SRG21606
+    Bringin:
+      :city_code: SRX
+      :district_code: SRG21607
+    Candisari:
+      :city_code: SRG
+      :district_code: SRG10002
+    Gajahmungkur:
+      :city_code: SRG
+      :district_code: SRG10003
+    Gayamsari:
+      :city_code: SRG
+      :district_code: SRG10004
+    Genuk:
+      :city_code: SRG
+      :district_code: SRG10005
+    Getasan:
+      :city_code: SRX
+      :district_code: SRG21608
+    Gunungpati:
+      :city_code: SRG
+      :district_code: SRG10006
+    Jambu:
+      :city_code: SRX
+      :district_code: SRG21609
+    Kaliwungu:
+      :city_code: SRX
+      :district_code: SRG21610
+    Mijen:
+      :city_code: SRG
+      :district_code: SRG10007
+    Ngaliyan:
+      :city_code: SRG
+      :district_code: SRG10008
+    Pabelan:
+      :city_code: SRX
+      :district_code: SRG21611
+    Pedurungan:
+      :city_code: SRG
+      :district_code: SRG10009
+    Pringapus:
+      :city_code: SRX
+      :district_code: SRG21612
+    Semarang Barat:
+      :city_code: SRG
+      :district_code: SRG10010
+    Semarang Selatan:
+      :city_code: SRG
+      :district_code: SRG10011
+    Semarang Tengah:
+      :city_code: SRG
+      :district_code: SRG10012
+    Semarang Timur:
+      :city_code: SRG
+      :district_code: SRG10013
+    Semarang Utara:
+      :city_code: SRG
+      :district_code: SRG10014
+    Sumowono:
+      :city_code: SRX
+      :district_code: SRG21615
+    Suruh:
+      :city_code: SRX
+      :district_code: SRG21614
+    Susukan:
+      :city_code: SRX
+      :district_code: SRG21613
+    Tembalang:
+      :city_code: SRG
+      :district_code: SRG10015
+    Tengaran:
+      :city_code: SRX
+      :district_code: SRG21616
+    Tugu:
+      :city_code: SRG
+      :district_code: SRG10016
+    Tuntang:
+      :city_code: SRX
+      :district_code: SRG21617
+    Ungaran Barat:
+      :city_code: SRX
+      :district_code: SRG21618
+    Ungaran Timur:
+      :city_code: SRX
+      :district_code: SRG21619
+  Solo:
+    Banjarsari:
+      :city_code: SOC
+      :district_code: SOC10001
+    Jebres:
+      :city_code: SOC
+      :district_code: SOC10002
+    Laweyan:
+      :city_code: SOC
+      :district_code: SOC10003
+    Pasar Kliwon:
+      :city_code: SOC
+      :district_code: SOC10004
+    Serengan:
+      :city_code: SOC
+      :district_code: SOC10005
+  Sragen:
+    Gemolong:
+      :city_code: SGN
+      :district_code: SOC20402
+    Gesi:
+      :city_code: SGN
+      :district_code: SOC20401
+    Gondang:
+      :city_code: SGN
+      :district_code: SOC20403
+    Jenar:
+      :city_code: SGN
+      :district_code: SOC20404
+    Kalijambe:
+      :city_code: SGN
+      :district_code: SOC20405
+    Karangmalang:
+      :city_code: SGN
+      :district_code: SOC20420
+    Kedawung:
+      :city_code: SGN
+      :district_code: SOC20406
+    Masaran:
+      :city_code: SGN
+      :district_code: SOC20408
+    Miri:
+      :city_code: SGN
+      :district_code: SOC20407
+    Mondokan:
+      :city_code: SGN
+      :district_code: SOC20409
+    Ngrampal:
+      :city_code: SGN
+      :district_code: SOC20410
+    Plupuh:
+      :city_code: SGN
+      :district_code: SOC20411
+    Sambirejo:
+      :city_code: SGN
+      :district_code: SOC20413
+    Sambungmacan:
+      :city_code: SGN
+      :district_code: SOC20412
+    Sidoharjo:
+      :city_code: SGN
+      :district_code: SOC20414
+    Sragen:
+      :city_code: SGN
+      :district_code: SOC20400
+    Sukodono:
+      :city_code: SGN
+      :district_code: SOC20416
+    Sumberlawang:
+      :city_code: SGN
+      :district_code: SOC20417
+    Tangen:
+      :city_code: SGN
+      :district_code: SOC20419
+    Tanon:
+      :city_code: SGN
+      :district_code: SOC20418
+  Sukoharjo:
+    Baki:
+      :city_code: SKH
+      :district_code: SOC20508
+    Bendosari:
+      :city_code: SKH
+      :district_code: SOC20509
+    Bulu:
+      :city_code: SKH
+      :district_code: SOC20501
+    Gatak:
+      :city_code: SKH
+      :district_code: SOC20510
+    Grogol:
+      :city_code: SKH
+      :district_code: SOC20511
+    Kartasura:
+      :city_code: SKH
+      :district_code: SOC20512
+    Mojolaban:
+      :city_code: SKH
+      :district_code: SOC20502
+    Nguter:
+      :city_code: SKH
+      :district_code: SOC20503
+    Polokarto:
+      :city_code: SKH
+      :district_code: SOC20504
+    Sukoharjo:
+      :city_code: SKH
+      :district_code: SOC20500
+    Tawangsari:
+      :city_code: SKH
+      :district_code: SOC20505
+    Weru:
+      :city_code: SKH
+      :district_code: SOC20506
+  Tegal:
+    Margadana:
+      :city_code: TLG
+      :district_code: SRG21508
+    Tegal Barat:
+      :city_code: TLG
+      :district_code: SRG21509
+    Tegal Selatan:
+      :city_code: TLG
+      :district_code: SRG21510
+    Tegal Timur:
+      :city_code: TLG
+      :district_code: SRG21511
+  Temanggung:
+    Bansari:
+      :city_code: TMG
+      :district_code: MGL10420
+    Bejen:
+      :city_code: TMG
+      :district_code: MGL10414
+    Bulu:
+      :city_code: TMG
+      :district_code: MGL10401
+    Candiroto:
+      :city_code: TMG
+      :district_code: MGL10402
+    Gemawang:
+      :city_code: TMG
+      :district_code: MGL10419
+    Jumo:
+      :city_code: TMG
+      :district_code: MGL10403
+    Kaloran:
+      :city_code: TMG
+      :district_code: MGL10404
+    Kandangan:
+      :city_code: TMG
+      :district_code: MGL10405
+    Kedu:
+      :city_code: TMG
+      :district_code: MGL10406
+    Kledung:
+      :city_code: TMG
+      :district_code: MGL10416
+    Kranggan:
+      :city_code: TMG
+      :district_code: MGL10407
+    Ngadirejo:
+      :city_code: TMG
+      :district_code: MGL10408
+    Parakan:
+      :city_code: TMG
+      :district_code: MGL10409
+    Pringsurat:
+      :city_code: TMG
+      :district_code: MGL10410
+    Selopampang:
+      :city_code: TMG
+      :district_code: MGL10421
+    Temanggung:
+      :city_code: TMG
+      :district_code: MGL10400
+    Tembarak:
+      :city_code: TMG
+      :district_code: MGL10411
+    Tlogomulyo:
+      :city_code: TMG
+      :district_code: MGL10415
+    Tretep:
+      :city_code: TMG
+      :district_code: MGL10412
+    Wonoboyo:
+      :city_code: TMG
+      :district_code: MGL10418
+Jawa Timur:
+  Batu:
+    Batu:
+      :city_code: BTU
+      :district_code: MLG20200
+    Bumiaji:
+      :city_code: BTU
+      :district_code: MLG20204
+    Junrejo:
+      :city_code: BTU
+      :district_code: MLG20205
+  Blitar:
+    Kepanjenkidul:
+      :city_code: BLT
+      :district_code: MLG20123
+    Sananwetan:
+      :city_code: BLT
+      :district_code: MLG20124
+    Sukorejo:
+      :city_code: BLT
+      :district_code: MLG20125
+  Gresik:
+    Balongpanggang:
+      :city_code: GSK
+      :district_code: SUB10101
+    Benjeng:
+      :city_code: GSK
+      :district_code: SUB10102
+    Bungah:
+      :city_code: GSK
+      :district_code: SUB10103
+    Cerme:
+      :city_code: GSK
+      :district_code: SUB10104
+    Driyorejo:
+      :city_code: GSK
+      :district_code: SUB10105
+    Duduksampeyan:
+      :city_code: GSK
+      :district_code: SUB10106
+    Dukun:
+      :city_code: GSK
+      :district_code: SUB10107
+    Gresik:
+      :city_code: GSK
+      :district_code: SUB10100
+    Kebomas:
+      :city_code: GSK
+      :district_code: SUB10117
+    Kedamean:
+      :city_code: GSK
+      :district_code: SUB10108
+    Manyar:
+      :city_code: GSK
+      :district_code: SUB10109
+    Menganti:
+      :city_code: GSK
+      :district_code: SUB10110
+    Panceng:
+      :city_code: GSK
+      :district_code: SUB10111
+    Sangkapura:
+      :city_code: GSK
+      :district_code: SUB10112
+    Sidayu:
+      :city_code: GSK
+      :district_code: SUB10113
+    Tambak:
+      :city_code: GSK
+      :district_code: SUB10114
+    Ujungpangkah:
+      :city_code: GSK
+      :district_code: SUB10115
+    Wringinanom:
+      :city_code: GSK
+      :district_code: SUB10116
+  Jember:
+    Ajung:
+      :city_code: JBR
+      :district_code: JBR10026
+    Ambulu:
+      :city_code: JBR
+      :district_code: JBR10001
+    Arjasa:
+      :city_code: JBR
+      :district_code: JBR10002
+    Balung:
+      :city_code: JBR
+      :district_code: JBR10003
+    Bangsalsari:
+      :city_code: JBR
+      :district_code: JBR10004
+    Gumukmas:
+      :city_code: JBR
+      :district_code: JBR10005
+    Jelbuk:
+      :city_code: JBR
+      :district_code: JBR10006
+    Jenggawah:
+      :city_code: JBR
+      :district_code: JBR10007
+    Jombang:
+      :city_code: JBR
+      :district_code: JBR10027
+    Kalisat:
+      :city_code: JBR
+      :district_code: JBR10008
+    Kaliwates:
+      :city_code: JBR
+      :district_code: JBR10028
+    Kencong:
+      :city_code: JBR
+      :district_code: JBR10009
+    Ledokombo:
+      :city_code: JBR
+      :district_code: JBR10010
+    Mayang:
+      :city_code: JBR
+      :district_code: JBR10011
+    Mumbulsari:
+      :city_code: JBR
+      :district_code: JBR10012
+    Pakusari:
+      :city_code: JBR
+      :district_code: JBR10013
+    Panti:
+      :city_code: JBR
+      :district_code: JBR10014
+    Patrang:
+      :city_code: JBR
+      :district_code: JBR10029
+    Puger:
+      :city_code: JBR
+      :district_code: JBR10015
+    Rambipuji:
+      :city_code: JBR
+      :district_code: JBR10016
+    Semboro:
+      :city_code: JBR
+      :district_code: JBR10030
+    Silo:
+      :city_code: JBR
+      :district_code: JBR10017
+    Sukorambi:
+      :city_code: JBR
+      :district_code: JBR10018
+    Sukowono:
+      :city_code: JBR
+      :district_code: JBR10019
+    Sumberbaru:
+      :city_code: JBR
+      :district_code: JBR10020
+    Sumberjambe:
+      :city_code: JBR
+      :district_code: JBR10021
+    Sumbersari:
+      :city_code: JBR
+      :district_code: JBR10031
+    Tanggul:
+      :city_code: JBR
+      :district_code: JBR10022
+    Tempurejo:
+      :city_code: JBR
+      :district_code: JBR10023
+    Umbulsari:
+      :city_code: JBR
+      :district_code: JBR10024
+    Wuluhan:
+      :city_code: JBR
+      :district_code: JBR10025
+  Jombang:
+    Bandarkedungmulyo:
+      :city_code: JBG
+      :district_code: SUB20201
+    Bareng:
+      :city_code: JBG
+      :district_code: SUB20202
+    Diwek:
+      :city_code: JBG
+      :district_code: SUB20203
+    Gudo:
+      :city_code: JBG
+      :district_code: SUB20204
+    Jogoroto:
+      :city_code: JBG
+      :district_code: SUB20205
+    Jombang:
+      :city_code: JBG
+      :district_code: SUB20200
+    Kabuh:
+      :city_code: JBG
+      :district_code: SUB20206
+    Kesamben:
+      :city_code: JBG
+      :district_code: SUB20207
+    Kudu:
+      :city_code: JBG
+      :district_code: SUB20208
+    Megaluh:
+      :city_code: JBG
+      :district_code: SUB20209
+    Mojoagung:
+      :city_code: JBG
+      :district_code: SUB20210
+    Mojowarno:
+      :city_code: JBG
+      :district_code: SUB20211
+    Ngoro:
+      :city_code: JBG
+      :district_code: SUB20212
+    Ngusikan:
+      :city_code: JBG
+      :district_code: SUB20221
+    Perak:
+      :city_code: JBG
+      :district_code: SUB20213
+    Peterongan:
+      :city_code: JBG
+      :district_code: SUB20214
+    Plandaan:
+      :city_code: JBG
+      :district_code: SUB20215
+    Ploso:
+      :city_code: JBG
+      :district_code: SUB20216
+    Sumobito:
+      :city_code: JBG
+      :district_code: SUB20217
+    Tembelang:
+      :city_code: JBG
+      :district_code: SUB20218
+    Wonosalam:
+      :city_code: JBG
+      :district_code: SUB20219
+  Kab. Blitar:
+    Bakung:
+      :city_code: BLX
+      :district_code: MLG20101
+    Binangun:
+      :city_code: BLX
+      :district_code: MLG20102
+    Doko:
+      :city_code: BLX
+      :district_code: MLG20103
+    Gandusari:
+      :city_code: BLX
+      :district_code: MLG20104
+    Garum:
+      :city_code: BLX
+      :district_code: MLG20105
+    Kademangan:
+      :city_code: BLX
+      :district_code: MLG20106
+    Kanigoro:
+      :city_code: BLX
+      :district_code: MLG20107
+    Kesamben:
+      :city_code: BLX
+      :district_code: MLG20108
+    Nglegok:
+      :city_code: BLX
+      :district_code: MLG20109
+    Panggungrejo:
+      :city_code: BLX
+      :district_code: MLG20110
+    Ponggok:
+      :city_code: BLX
+      :district_code: MLG20111
+    Sanankulon:
+      :city_code: BLX
+      :district_code: MLG20112
+    Selopuro:
+      :city_code: BLX
+      :district_code: MLG20122
+    Selorejo:
+      :city_code: BLX
+      :district_code: MLG20113
+    Srengat:
+      :city_code: BLX
+      :district_code: MLG20114
+    Sutojayan:
+      :city_code: BLX
+      :district_code: MLG20115
+    Talun:
+      :city_code: BLX
+      :district_code: MLG20116
+    Udanawu:
+      :city_code: BLX
+      :district_code: MLG20117
+    Wates:
+      :city_code: BLX
+      :district_code: MLG20118
+    Wlingi:
+      :city_code: BLX
+      :district_code: MLG20119
+    Wonodadi:
+      :city_code: BLX
+      :district_code: MLG20120
+    Wonotirto:
+      :city_code: BLX
+      :district_code: MLG20121
+  Kab. Malang:
+    Ampelgading:
+      :city_code: MLX
+      :district_code: MLG20301
+    Bantur:
+      :city_code: MLX
+      :district_code: MLG20302
+    Bululawang:
+      :city_code: MLX
+      :district_code: MLG20303
+    Dampit:
+      :city_code: MLX
+      :district_code: MLG20304
+    Dau:
+      :city_code: MLX
+      :district_code: MLG20305
+    Donomulyo:
+      :city_code: MLX
+      :district_code: MLG20306
+    Gedangan:
+      :city_code: MLX
+      :district_code: MLG20307
+    Gondanglegi:
+      :city_code: MLX
+      :district_code: MLG20308
+    Jabung:
+      :city_code: MLX
+      :district_code: MLG20309
+    Kalipare:
+      :city_code: MLX
+      :district_code: MLG20310
+    Karangploso:
+      :city_code: MLX
+      :district_code: MLG20311
+    Kasembon:
+      :city_code: MLX
+      :district_code: MLG20330
+    Kepanjen:
+      :city_code: MLX
+      :district_code: MLG20300
+    Kromengan:
+      :city_code: MLX
+      :district_code: MLG20312
+    Lawang:
+      :city_code: MLX
+      :district_code: MLG20331
+    Ngajum:
+      :city_code: MLX
+      :district_code: MLG20313
+    Ngantang:
+      :city_code: MLX
+      :district_code: MLG20328
+    Pagak:
+      :city_code: MLX
+      :district_code: MLG20314
+    Pagelaran:
+      :city_code: MLX
+      :district_code: MLG20332
+    Pakis:
+      :city_code: MLX
+      :district_code: MLG20315
+    Pakisaji:
+      :city_code: MLX
+      :district_code: MLG20316
+    Poncokusumo:
+      :city_code: MLX
+      :district_code: MLG20317
+    Pujon:
+      :city_code: MLX
+      :district_code: MLG20329
+    Singosari:
+      :city_code: MLX
+      :district_code: MLG20318
+    Sumbermanjing Wetan:
+      :city_code: MLX
+      :district_code: MLG20320
+    Sumberpucung:
+      :city_code: MLX
+      :district_code: MLG20319
+    Tajinan:
+      :city_code: MLX
+      :district_code: MLG20321
+    Tirtoyudo:
+      :city_code: MLX
+      :district_code: MLG20322
+    Tumpang:
+      :city_code: MLX
+      :district_code: MLG20324
+    Turen:
+      :city_code: MLX
+      :district_code: MLG20323
+    Wagir:
+      :city_code: MLX
+      :district_code: MLG20325
+    Wajak:
+      :city_code: MLX
+      :district_code: MLG20326
+    Wonosari:
+      :city_code: MLX
+      :district_code: MLG20327
+  Kediri:
+    Badas:
+      :city_code: KDX
+      :district_code: KDR10027
+    Banyakan:
+      :city_code: KDX
+      :district_code: KDR10022
+    Gampengrejo:
+      :city_code: KDX
+      :district_code: KDR10001
+    Grogol:
+      :city_code: KDX
+      :district_code: KDR10002
+    Gurah:
+      :city_code: KDX
+      :district_code: KDR10003
+    Kandangan:
+      :city_code: KDX
+      :district_code: KDR10018
+    Kandat:
+      :city_code: KDX
+      :district_code: KDR10004
+    Kayen Kidul:
+      :city_code: KDX
+      :district_code: KDR10023
+    Kepung:
+      :city_code: KDX
+      :district_code: KDR10019
+    Kota:
+      :city_code: KDR
+      :district_code: KDR10035
+    Kras:
+      :city_code: KDX
+      :district_code: KDR10005
+    Kunjang:
+      :city_code: KDX
+      :district_code: KDR10006
+    Mojo:
+      :city_code: KDX
+      :district_code: KDR10007
+    Mojoroto:
+      :city_code: KDR
+      :district_code: KDR10025
+    Ngadiluwih:
+      :city_code: KDX
+      :district_code: KDR10008
+    Ngancar:
+      :city_code: KDX
+      :district_code: KDR10020
+    Ngasem:
+      :city_code: KDX
+      :district_code: KDR10036
+    Pagu:
+      :city_code: KDX
+      :district_code: KDR10009
+    Papar:
+      :city_code: KDX
+      :district_code: KDR10010
+    Pare:
+      :city_code: KDX
+      :district_code: KDR10017
+    Pesantren:
+      :city_code: KDR
+      :district_code: KDR10026
+    Plemahan:
+      :city_code: KDX
+      :district_code: KDR10011
+    Plosoklaten:
+      :city_code: KDX
+      :district_code: KDR10012
+    Puncu:
+      :city_code: KDX
+      :district_code: KDR10021
+    Purwoasri:
+      :city_code: KDX
+      :district_code: KDR10013
+    Ringinrejo:
+      :city_code: KDX
+      :district_code: KDR10024
+    Semen:
+      :city_code: KDX
+      :district_code: KDR10014
+    Tarokan:
+      :city_code: KDX
+      :district_code: KDR10015
+    Wates:
+      :city_code: KDX
+      :district_code: KDR10016
+  Madiun:
+    Balerejo:
+      :city_code: MDX
+      :district_code: MDN10101
+    Dagangan:
+      :city_code: MDX
+      :district_code: MDN10102
+    Dolopo:
+      :city_code: MDX
+      :district_code: MDN10103
+    Geger:
+      :city_code: MDX
+      :district_code: MDN10104
+    Gemarang:
+      :city_code: MDX
+      :district_code: MDN10105
+    Jiwan:
+      :city_code: MDX
+      :district_code: MDN10106
+    Kare:
+      :city_code: MDX
+      :district_code: MDN10107
+    Kartoharjo:
+      :city_code: MDN
+      :district_code: MDN10016
+    Kebon Sari:
+      :city_code: MDX
+      :district_code: MDN10108
+    Madiun:
+      :city_code: MDX
+      :district_code: MDN10109
+    Manguharjo:
+      :city_code: MDN
+      :district_code: MDN10017
+    Mejayan:
+      :city_code: MDX
+      :district_code: MDN10110
+    Pilangkenceng:
+      :city_code: MDX
+      :district_code: MDN10111
+    Saradan:
+      :city_code: MDX
+      :district_code: MDN10112
+    Sawahan:
+      :city_code: MDX
+      :district_code: MDN10113
+    Taman:
+      :city_code: MDN
+      :district_code: MDN10018
+    Wonoasri:
+      :city_code: MDX
+      :district_code: MDN10114
+    Wungu:
+      :city_code: MDX
+      :district_code: MDN10115
+  Malang:
+    Blimbing:
+      :city_code: MLG
+      :district_code: MLG10035
+    Kedungkandang:
+      :city_code: MLG
+      :district_code: MLG10036
+    Klojen:
+      :city_code: MLG
+      :district_code: MLG10037
+    Lowokwaru:
+      :city_code: MLG
+      :district_code: MLG10038
+    Sukun:
+      :city_code: MLG
+      :district_code: MLG10039
+  Mojokerto:
+    Bangsal:
+      :city_code: MJX
+      :district_code: MJK10001
+    Dawarblandong:
+      :city_code: MJX
+      :district_code: MJK10002
+    Dlanggu:
+      :city_code: MJX
+      :district_code: MJK10003
+    Gedeg:
+      :city_code: MJX
+      :district_code: MJK10004
+    Gondang:
+      :city_code: MJX
+      :district_code: MJK10005
+    Jatirejo:
+      :city_code: MJX
+      :district_code: MJK10006
+    Jetis:
+      :city_code: MJX
+      :district_code: MJK10007
+    Kemlagi:
+      :city_code: MJX
+      :district_code: MJK10008
+    Kranggan:
+      :city_code: MJK
+      :district_code: MJK10025
+    Kutorejo:
+      :city_code: MJX
+      :district_code: MJK10009
+    Magersari:
+      :city_code: MJK
+      :district_code: MJK10022
+    Mojoanyar:
+      :city_code: MJX
+      :district_code: MJK10021
+    Mojosari:
+      :city_code: MJX
+      :district_code: MJK10010
+    Ngoro:
+      :city_code: MJX
+      :district_code: MJK10011
+    Pacet:
+      :city_code: MJX
+      :district_code: MJK10012
+    Prajuritkulon:
+      :city_code: MJK
+      :district_code: MJK10023
+    Pungging:
+      :city_code: MJX
+      :district_code: MJK10013
+    Puri:
+      :city_code: MJX
+      :district_code: MJK10014
+    Sooko:
+      :city_code: MJX
+      :district_code: MJK10015
+    Trawas:
+      :city_code: MJX
+      :district_code: MJK10016
+    Trowulan:
+      :city_code: MJX
+      :district_code: MJK10017
+  Nganjuk:
+    Bagor:
+      :city_code: NJK
+      :district_code: SUB20401
+    Baron:
+      :city_code: NJK
+      :district_code: SUB20415
+    Berbek:
+      :city_code: NJK
+      :district_code: SUB20402
+    Gondang:
+      :city_code: NJK
+      :district_code: SUB20403
+    Jatikalen:
+      :city_code: NJK
+      :district_code: SUB20416
+    Kertosono:
+      :city_code: NJK
+      :district_code: SUB20414
+    Lengkong:
+      :city_code: NJK
+      :district_code: SUB20417
+    Loceret:
+      :city_code: NJK
+      :district_code: SUB20404
+    Nganjuk:
+      :city_code: NJK
+      :district_code: SUB20400
+    Ngetos:
+      :city_code: NJK
+      :district_code: SUB20405
+    Ngluyu:
+      :city_code: NJK
+      :district_code: SUB20406
+    Ngronggot:
+      :city_code: NJK
+      :district_code: SUB20418
+    Pace:
+      :city_code: NJK
+      :district_code: SUB20407
+    Patianrowo:
+      :city_code: NJK
+      :district_code: SUB20419
+    Prambon:
+      :city_code: NJK
+      :district_code: SUB20408
+    Rejoso:
+      :city_code: NJK
+      :district_code: SUB20409
+    Sawahan:
+      :city_code: NJK
+      :district_code: SUB20410
+    Sukomoro:
+      :city_code: NJK
+      :district_code: SUB20411
+    Tanjunganom:
+      :city_code: NJK
+      :district_code: SUB20412
+    Wilangan:
+      :city_code: NJK
+      :district_code: SUB20413
+  Ngawi:
+    Bringin:
+      :city_code: NGW
+      :district_code: MDN20201
+    Geneng:
+      :city_code: NGW
+      :district_code: MDN20202
+    Gerih:
+      :city_code: NGW
+      :district_code: MDN20218
+    Jogorogo:
+      :city_code: NGW
+      :district_code: MDN20203
+    Karanganyar:
+      :city_code: NGW
+      :district_code: MDN20216
+    Karangjati:
+      :city_code: NGW
+      :district_code: MDN20204
+    Kasreman:
+      :city_code: NGW
+      :district_code: MDN20219
+    Kedunggalar:
+      :city_code: NGW
+      :district_code: MDN20205
+    Kendal:
+      :city_code: NGW
+      :district_code: MDN20206
+    Kwadungan:
+      :city_code: NGW
+      :district_code: MDN20207
+    Mantingan:
+      :city_code: NGW
+      :district_code: MDN20208
+    Ngawi:
+      :city_code: NGW
+      :district_code: MDN20200
+    Ngrambe:
+      :city_code: NGW
+      :district_code: MDN20209
+    Padas:
+      :city_code: NGW
+      :district_code: MDN20210
+    Pangkur:
+      :city_code: NGW
+      :district_code: MDN20211
+    Paron:
+      :city_code: NGW
+      :district_code: MDN20212
+    Pitu:
+      :city_code: NGW
+      :district_code: MDN20213
+    Sine:
+      :city_code: NGW
+      :district_code: MDN20214
+    Widodaren:
+      :city_code: NGW
+      :district_code: MDN20215
+  Pasuruan:
+    Bangil:
+      :city_code: PDX
+      :district_code: PDN10001
+    Beji:
+      :city_code: PDX
+      :district_code: PDN10002
+    Bugul Kidul:
+      :city_code: PDN
+      :district_code: PDN20101
+    Gadingrejo:
+      :city_code: PDN
+      :district_code: PDN20102
+    Gempol:
+      :city_code: PDX
+      :district_code: PDN10003
+    Gondangwetan:
+      :city_code: PDX
+      :district_code: PDN10004
+    Grati:
+      :city_code: PDX
+      :district_code: PDN10005
+    Kejayan:
+      :city_code: PDX
+      :district_code: PDN10006
+    Kraton:
+      :city_code: PDX
+      :district_code: PDN10007
+    Lekok:
+      :city_code: PDX
+      :district_code: PDN10008
+    Lumbang:
+      :city_code: PDX
+      :district_code: PDN10009
+    Nguling:
+      :city_code: PDX
+      :district_code: PDN10010
+    Pandaan:
+      :city_code: PDX
+      :district_code: PDN10030
+    Panggungrejo:
+      :city_code: PDN
+      :district_code: PDN20104
+    Pasrepan:
+      :city_code: PDX
+      :district_code: PDN10012
+    Pohjentrek:
+      :city_code: PDX
+      :district_code: PDN10013
+    Prigen:
+      :city_code: PDX
+      :district_code: PDN10014
+    Purwodadi:
+      :city_code: PDX
+      :district_code: PDN10015
+    Purworejo:
+      :city_code: PDN
+      :district_code: PDN20103
+    Purwosari:
+      :city_code: PDX
+      :district_code: PDN10016
+    Puspo:
+      :city_code: PDX
+      :district_code: PDN10017
+    Rejoso:
+      :city_code: PDX
+      :district_code: PDN10018
+    Rembang:
+      :city_code: PDX
+      :district_code: PDN10019
+    Sukorejo:
+      :city_code: PDX
+      :district_code: PDN10020
+    Tosari:
+      :city_code: PDX
+      :district_code: PDN10021
+    Tutur:
+      :city_code: PDX
+      :district_code: PDN10022
+    Winongan:
+      :city_code: PDX
+      :district_code: PDN10023
+    Wonorejo:
+      :city_code: PDX
+      :district_code: PDN10024
+  Ponorogo:
+    Babadan:
+      :city_code: PNG
+      :district_code: MDN20401
+    Badegan:
+      :city_code: PNG
+      :district_code: MDN20402
+    Balong:
+      :city_code: PNG
+      :district_code: MDN20403
+    Bungkal:
+      :city_code: PNG
+      :district_code: MDN20404
+    Jambon:
+      :city_code: PNG
+      :district_code: MDN20419
+    Jenangan:
+      :city_code: PNG
+      :district_code: MDN20405
+    Jetis:
+      :city_code: PNG
+      :district_code: MDN20406
+    Kauman:
+      :city_code: PNG
+      :district_code: MDN20407
+    Mlarak:
+      :city_code: PNG
+      :district_code: MDN20408
+    Ngebel:
+      :city_code: PNG
+      :district_code: MDN20409
+    Ngrayun:
+      :city_code: PNG
+      :district_code: MDN20410
+    Ponorogo:
+      :city_code: PNG
+      :district_code: MDN20400
+    Pudak:
+      :city_code: PNG
+      :district_code: MDN20420
+    Pulung:
+      :city_code: PNG
+      :district_code: MDN20411
+    Sambit:
+      :city_code: PNG
+      :district_code: MDN20412
+    Sampung:
+      :city_code: PNG
+      :district_code: MDN20413
+    Sawoo:
+      :city_code: PNG
+      :district_code: MDN20414
+    Siman:
+      :city_code: PNG
+      :district_code: MDN20415
+    Slahung:
+      :city_code: PNG
+      :district_code: MDN20416
+    Sooko:
+      :city_code: PNG
+      :district_code: MDN20417
+    Sukorejo:
+      :city_code: PNG
+      :district_code: MDN20418
+  Sidoarjo:
+    Balongbendo:
+      :city_code: SDA
+      :district_code: SUB10040
+    Buduran:
+      :city_code: SDA
+      :district_code: SUB20702
+    Candi:
+      :city_code: SDA
+      :district_code: SUB20703
+    Gedangan:
+      :city_code: SDA
+      :district_code: SUB20704
+    Jabon:
+      :city_code: SDA
+      :district_code: SUB20705
+    Krembung:
+      :city_code: SDA
+      :district_code: SUB20706
+    Krian:
+      :city_code: SDA
+      :district_code: SUB20719
+    Porong:
+      :city_code: SDA
+      :district_code: SUB20708
+    Prambon:
+      :city_code: SDA
+      :district_code: SUB10046
+    Sedati:
+      :city_code: SDA
+      :district_code: SUB20710
+    Sidoarjo:
+      :city_code: SDA
+      :district_code: SUB20700
+    Sukodono:
+      :city_code: SDA
+      :district_code: SUB20711
+    Taman:
+      :city_code: SDA
+      :district_code: SUB20720
+    Tanggulangin:
+      :city_code: SDA
+      :district_code: SUB20713
+    Tarik:
+      :city_code: SDA
+      :district_code: SUB10045
+    Tulangan:
+      :city_code: SDA
+      :district_code: SUB20715
+    Waru:
+      :city_code: SDA
+      :district_code: SUB20716
+    Wonoayu:
+      :city_code: SDA
+      :district_code: SUB20717
+  Surabaya:
+    Asem Rowo:
+      :city_code: SUB
+      :district_code: SUB10001
+    Benowo:
+      :city_code: SUB
+      :district_code: SUB10002
+    Bubutan:
+      :city_code: SUB
+      :district_code: SUB10003
+    Bulak:
+      :city_code: SUB
+      :district_code: SUB10004
+    Dukuh Pakis:
+      :city_code: SUB
+      :district_code: SUB10005
+    Gayungan:
+      :city_code: SUB
+      :district_code: SUB10006
+    Genteng:
+      :city_code: SUB
+      :district_code: SUB10007
+    Gubeng:
+      :city_code: SUB
+      :district_code: SUB10008
+    Gunung Anyar:
+      :city_code: SUB
+      :district_code: SUB10009
+    Jambangan:
+      :city_code: SUB
+      :district_code: SUB10010
+    Karang Pilang:
+      :city_code: SUB
+      :district_code: SUB10011
+    Kenjeran:
+      :city_code: SUB
+      :district_code: SUB10012
+    Krembangan:
+      :city_code: SUB
+      :district_code: SUB10013
+    Lakarsantri:
+      :city_code: SUB
+      :district_code: SUB10014
+    Mulyorejo:
+      :city_code: SUB
+      :district_code: SUB10015
+    Pabean Cantian:
+      :city_code: SUB
+      :district_code: SUB10016
+    Pakal:
+      :city_code: SUB
+      :district_code: SUB10017
+    Rungkut:
+      :city_code: SUB
+      :district_code: SUB10018
+    Sambikerep:
+      :city_code: SUB
+      :district_code: SUB10019
+    Sawahan:
+      :city_code: SUB
+      :district_code: SUB10020
+    Semampir:
+      :city_code: SUB
+      :district_code: SUB10021
+    Simokerto:
+      :city_code: SUB
+      :district_code: SUB10022
+    Sukolilo:
+      :city_code: SUB
+      :district_code: SUB10023
+    Sukomanunggal:
+      :city_code: SUB
+      :district_code: SUB10024
+    Tambaksari:
+      :city_code: SUB
+      :district_code: SUB10025
+    Tandes:
+      :city_code: SUB
+      :district_code: SUB10026
+    Tegalsari:
+      :city_code: SUB
+      :district_code: SUB10027
+    Tenggilis Mejoyo:
+      :city_code: SUB
+      :district_code: SUB10028
+    Wiyung:
+      :city_code: SUB
+      :district_code: SUB10029
+    Wonocolo:
+      :city_code: SUB
+      :district_code: SUB10030
+    Wonokromo:
+      :city_code: SUB
+      :district_code: SUB10031
+  Tulungagung:
+    Bandung:
+      :city_code: TGA
+      :district_code: SUB21001
+    Besuki:
+      :city_code: TGA
+      :district_code: SUB21002
+    Boyolangu:
+      :city_code: TGA
+      :district_code: SUB21017
+    Campurdarat:
+      :city_code: TGA
+      :district_code: SUB21003
+    Gondang:
+      :city_code: TGA
+      :district_code: SUB21004
+    Kalidawir:
+      :city_code: TGA
+      :district_code: SUB21005
+    Karangrejo:
+      :city_code: TGA
+      :district_code: SUB21006
+    Kauman:
+      :city_code: TGA
+      :district_code: SUB21018
+    Kedungwaru:
+      :city_code: TGA
+      :district_code: SUB21019
+    Ngantru:
+      :city_code: TGA
+      :district_code: SUB21008
+    Ngunut:
+      :city_code: TGA
+      :district_code: SUB21009
+    Pagerwojo:
+      :city_code: TGA
+      :district_code: SUB21010
+    Pakel:
+      :city_code: TGA
+      :district_code: SUB21011
+    Pucanglaban:
+      :city_code: TGA
+      :district_code: SUB21012
+    Rejotangan:
+      :city_code: TGA
+      :district_code: SUB21013
+    Sendang:
+      :city_code: TGA
+      :district_code: SUB21014
+    Sumbergempol:
+      :city_code: TGA
+      :district_code: SUB21015
+    Tanggunggunung:
+      :city_code: TGA
+      :district_code: SUB21016
+    Tulungagung:
+      :city_code: TGA
+      :district_code: SUB21000
+Kalimantan Barat:
+  Pontianak:
+    Pontianak Barat:
+      :city_code: PNK
+      :district_code: PNK10027
+    Pontianak Kota:
+      :city_code: PNK
+      :district_code: PNK10028
+    Pontianak Selatan:
+      :city_code: PNK
+      :district_code: PNK10029
+    Pontianak Tenggara:
+      :city_code: PNK
+      :district_code: PNK10030
+    Pontianak Timur:
+      :city_code: PNK
+      :district_code: PNK10031
+    Pontianak Utara:
+      :city_code: PNK
+      :district_code: PNK10032
+Kalimantan Selatan:
+  Banjarmasin:
+    Banjarmasin Barat:
+      :city_code: BDJ
+      :district_code: BDJ10001
+    Banjarmasin Selatan:
+      :city_code: BDJ
+      :district_code: BDJ10002
+    Banjarmasin Tengah:
+      :city_code: BDJ
+      :district_code: BDJ10003
+    Banjarmasin Timur:
+      :city_code: BDJ
+      :district_code: BDJ10004
+    Banjarmasin Utara:
+      :city_code: BDJ
+      :district_code: BDJ10005
+Kalimantan Tengah: {}
+Kalimantan Timur:
+  Balikpapan:
+    Balikpapan Barat:
+      :city_code: BPN
+      :district_code: BPN10009
+    Balikpapan Kota:
+      :city_code: BPN
+      :district_code: BPN10017
+    Balikpapan Selatan:
+      :city_code: BPN
+      :district_code: BPN10010
+    Balikpapan Tengah:
+      :city_code: BPN
+      :district_code: BPN10011
+    Balikpapan Timur:
+      :city_code: BPN
+      :district_code: BPN10012
+    Balikpapan Utara:
+      :city_code: BPN
+      :district_code: BPN10013
+  Samarinda:
+    Loa Janan Ilir:
+      :city_code: SRI
+      :district_code: SRI10014
+    Palaran:
+      :city_code: SRI
+      :district_code: SRI10007
+    Samarinda Ilir:
+      :city_code: SRI
+      :district_code: SRI10009
+    Samarinda Kota:
+      :city_code: SRI
+      :district_code: SRI10020
+    Samarinda Seberang:
+      :city_code: SRI
+      :district_code: SRI10005
+    Samarinda Ulu:
+      :city_code: SRI
+      :district_code: SRI10010
+    Samarinda Utara:
+      :city_code: SRI
+      :district_code: SRI10011
+    Sambutan:
+      :city_code: SRI
+      :district_code: SRI10013
+    Sungai Kunjang:
+      :city_code: SRI
+      :district_code: SRI10012
+    Sungai Pinang:
+      :city_code: SRI
+      :district_code: SRI10015
+Kalimantan Utara: {}
+Kepulauan Bangka Belitung: {}
+Kepulauan Riau:
+  Batam:
+    Batam Kota:
+      :city_code: BTH
+      :district_code: BTH10090
+    Batu Aji:
+      :city_code: BTH
+      :district_code: BTH10087
+    Batu Ampar:
+      :city_code: BTH
+      :district_code: BTH10080
+    Belakang Padang:
+      :city_code: BTH
+      :district_code: BTH10081
+    Bengkong:
+      :city_code: BTH
+      :district_code: BTH10088
+    Bulang:
+      :city_code: BTH
+      :district_code: BTH10089
+    Galang:
+      :city_code: BTH
+      :district_code: BTH10083
+    Lubuk Baja:
+      :city_code: BTH
+      :district_code: BTH10084
+    Nongsa:
+      :city_code: BTH
+      :district_code: BTH10052
+    Sagulung:
+      :city_code: BTH
+      :district_code: BTH10086
+    Sei Beduk:
+      :city_code: BTH
+      :district_code: BTH10085
+    Sekupang:
+      :city_code: BTH
+      :district_code: BTH10054
+  Bintan:
+    Bintan Pesisir:
+      :city_code: BTN
+      :district_code: TNJ10110
+    Bintan Timur:
+      :city_code: BTN
+      :district_code: TNJ10101
+    Bintan Utara:
+      :city_code: BTN
+      :district_code: TNJ10102
+    Gunung Kijang:
+      :city_code: BTN
+      :district_code: TNJ10103
+    Mantang:
+      :city_code: BTN
+      :district_code: TNJ10109
+    Seri Kuala Lobam:
+      :city_code: BTN
+      :district_code: TNJ10111
+    Tambelan:
+      :city_code: BTN
+      :district_code: TNJ10104
+    Telok Sebong:
+      :city_code: BTN
+      :district_code: TNJ10106
+    Teluk Bintan:
+      :city_code: BTN
+      :district_code: TNJ10105
+    Toapaya:
+      :city_code: BTN
+      :district_code: TNJ10108
+  Tanjung Pinang:
+    Bukit Bestari:
+      :city_code: TNJ
+      :district_code: TNJ10016
+    Tanjung Pinang Barat:
+      :city_code: TNJ
+      :district_code: TNJ10017
+    Tanjung Pinang Kota:
+      :city_code: TNJ
+      :district_code: TNJ10018
+    Tanjung Pinang Timur:
+      :city_code: TNJ
+      :district_code: TNJ10019
+Lampung:
+  Bandar Lampung:
+    Bumi Waras:
+      :city_code: TKG
+      :district_code: TKG10050
+    Enggal:
+      :city_code: TKG
+      :district_code: TKG10048
+    Kedamaian:
+      :city_code: TKG
+      :district_code: TKG10047
+    Kedaton:
+      :city_code: TKG
+      :district_code: TKG10032
+    Kemiling:
+      :city_code: TKG
+      :district_code: TKG10033
+    Labuhan Ratu:
+      :city_code: TKG
+      :district_code: TKG10150
+    Langkapura:
+      :city_code: TKG
+      :district_code: TKG10049
+    Panjang:
+      :city_code: TKG
+      :district_code: TKG10034
+    Rajabasa:
+      :city_code: TKG
+      :district_code: TKG10035
+    Sukabumi:
+      :city_code: TKG
+      :district_code: TKG10036
+    Sukarame:
+      :city_code: TKG
+      :district_code: TKG10037
+    Tanjung Senang:
+      :city_code: TKG
+      :district_code: TKG10041
+    Tanjungkarang Barat:
+      :city_code: TKG
+      :district_code: TKG10038
+    Tanjungkarang Pusat:
+      :city_code: TKG
+      :district_code: TKG10039
+    Tanjungkarang Timur:
+      :city_code: TKG
+      :district_code: TKG10040
+    Telukbetung Barat:
+      :city_code: TKG
+      :district_code: TKG10042
+    Telukbetung Selatan:
+      :city_code: TKG
+      :district_code: TKG10043
+    Telukbetung Timur:
+      :city_code: TKG
+      :district_code: TKG10045
+    Telukbetung Utara:
+      :city_code: TKG
+      :district_code: TKG10044
+    Way Halim:
+      :city_code: TKG
+      :district_code: TKG10046
+Maluku: {}
+Maluku Utara: {}
+Nanggroe Aceh Darussalam: {}
+Nusa Tenggara Barat: {}
+Nusa Tenggara Timur: {}
+Papua: {}
+Papua Barat: {}
+Riau:
+  Pekanbaru:
+    Binawidya:
+      :city_code: PKU
+      :district_code: PKU10017
+    Bukit Raya:
+      :city_code: PKU
+      :district_code: PKU10016
+    Kulim:
+      :city_code: PKU
+      :district_code: PKU10028
+    Lima Puluh:
+      :city_code: PKU
+      :district_code: PKU10010
+    Marpoyan Damai:
+      :city_code: PKU
+      :district_code: PKU10011
+    Payung Sekaki:
+      :city_code: PKU
+      :district_code: PKU10021
+    Pekanbaru Kota:
+      :city_code: PKU
+      :district_code: PKU10029
+    Rumbai:
+      :city_code: PKU
+      :district_code: PKU10020
+    Rumbai Barat:
+      :city_code: PKU
+      :district_code: PKU10026
+    Rumbai Timur:
+      :city_code: PKU
+      :district_code: PKU10025
+    Sail:
+      :city_code: PKU
+      :district_code: PKU10012
+    Senapelan:
+      :city_code: PKU
+      :district_code: PKU10013
+    Sukajadi:
+      :city_code: PKU
+      :district_code: PKU10014
+    Tenayan Raya:
+      :city_code: PKU
+      :district_code: PKU10019
+    Tuahmadani:
+      :city_code: PKU
+      :district_code: PKU10027
+Sulawesi Barat: {}
+Sulawesi Selatan:
+  Makassar:
+    Biringkanaya:
+      :city_code: UPG
+      :district_code: UPG10004
+    Bontoala:
+      :city_code: UPG
+      :district_code: UPG10005
+    Kepulauan Sangkarrang:
+      :city_code: UPG
+      :district_code: UPG10016
+    Makassar:
+      :city_code: UPG
+      :district_code: UPG10015
+    Mamajang:
+      :city_code: UPG
+      :district_code: UPG10006
+    Manggala:
+      :city_code: UPG
+      :district_code: UPG10007
+    Mariso:
+      :city_code: UPG
+      :district_code: UPG10008
+    Panakkukang:
+      :city_code: UPG
+      :district_code: UPG10009
+    Rappocini:
+      :city_code: UPG
+      :district_code: UPG10010
+    Tallo:
+      :city_code: UPG
+      :district_code: UPG10011
+    Tamalanrea:
+      :city_code: UPG
+      :district_code: UPG10012
+    Tamalate:
+      :city_code: UPG
+      :district_code: UPG10003
+    Ujung Pandang:
+      :city_code: UPG
+      :district_code: UPG10090
+    Ujung Tanah:
+      :city_code: UPG
+      :district_code: UPG10013
+    Wajo:
+      :city_code: UPG
+      :district_code: UPG10014
+Sulawesi Tengah: {}
+Sulawesi Tenggara: {}
+Sulawesi Utara: {}
+Sumatera Barat:
+  Padang:
+    Bungus Teluk Kabung:
+      :city_code: PDG
+      :district_code: PDG10008
+    Koto Tangah:
+      :city_code: PDG
+      :district_code: PDG10009
+    Kuranji:
+      :city_code: PDG
+      :district_code: PDG10010
+    Lubuk Begalung:
+      :city_code: PDG
+      :district_code: PDG10011
+    Lubuk Kilangan:
+      :city_code: PDG
+      :district_code: PDG10012
+    Nanggalo:
+      :city_code: PDG
+      :district_code: PDG10013
+    Padang Barat:
+      :city_code: PDG
+      :district_code: PDG10014
+    Padang Selatan:
+      :city_code: PDG
+      :district_code: PDG10015
+    Padang Timur:
+      :city_code: PDG
+      :district_code: PDG10016
+    Padang Utara:
+      :city_code: PDG
+      :district_code: PDG10017
+    Pauh:
+      :city_code: PDG
+      :district_code: PDG10018
+Sumatera Selatan:
+  Palembang:
+    Alang-Alang Lebar:
+      :city_code: PLM
+      :district_code: PLM10003
+    Bukitkecil:
+      :city_code: PLM
+      :district_code: PLM10004
+    Gandus:
+      :city_code: PLM
+      :district_code: PLM10005
+    Ilir Barat Dua:
+      :city_code: PLM
+      :district_code: PLM10007
+    Ilir Barat Satu:
+      :city_code: PLM
+      :district_code: PLM10006
+    Ilir Timur Dua:
+      :city_code: PLM
+      :district_code: PLM10009
+    Ilir Timur Satu:
+      :city_code: PLM
+      :district_code: PLM10008
+    Ilir Timur Tiga:
+      :city_code: PLM
+      :district_code: PLM10018
+    Jakabaring:
+      :city_code: PLM
+      :district_code: PLM10019
+    Kalidoni:
+      :city_code: PLM
+      :district_code: PLM10010
+    Kemuning:
+      :city_code: PLM
+      :district_code: PLM10011
+    Kertapati:
+      :city_code: PLM
+      :district_code: PLM10012
+    Plaju:
+      :city_code: PLM
+      :district_code: PLM10001
+    Sako:
+      :city_code: PLM
+      :district_code: PLM10013
+    Seberang Ulu Dua:
+      :city_code: PLM
+      :district_code: PLM10015
+    Seberang Ulu Satu:
+      :city_code: PLM
+      :district_code: PLM10014
+    Sematangborang:
+      :city_code: PLM
+      :district_code: PLM10016
+    Sukarami:
+      :city_code: PLM
+      :district_code: PLM10017
+Sumatera Utara:
+  Medan:
+    Medan Amplas:
+      :city_code: MES
+      :district_code: MES10017
+    Medan Area:
+      :city_code: MES
+      :district_code: MES10018
+    Medan Barat:
+      :city_code: MES
+      :district_code: MES10019
+    Medan Baru:
+      :city_code: MES
+      :district_code: MES10020
+    Medan Belawan:
+      :city_code: MES
+      :district_code: MES10045
+    Medan Deli:
+      :city_code: MES
+      :district_code: MES10021
+    Medan Denai:
+      :city_code: MES
+      :district_code: MES10022
+    Medan Helvetia:
+      :city_code: MES
+      :district_code: MES10023
+    Medan Johor:
+      :city_code: MES
+      :district_code: MES10024
+    Medan Kota:
+      :city_code: MES
+      :district_code: MES10025
+    Medan Labuhan:
+      :city_code: MES
+      :district_code: MES10026
+    Medan Maimun:
+      :city_code: MES
+      :district_code: MES10027
+    Medan Marelan:
+      :city_code: MES
+      :district_code: MES10028
+    Medan Perjuangan:
+      :city_code: MES
+      :district_code: MES10029
+    Medan Petisah:
+      :city_code: MES
+      :district_code: MES10030
+    Medan Polonia:
+      :city_code: MES
+      :district_code: MES10031
+    Medan Selayang:
+      :city_code: MES
+      :district_code: MES10032
+    Medan Sunggal:
+      :city_code: MES
+      :district_code: MES10046
+    Medan Tembung:
+      :city_code: MES
+      :district_code: MES10033
+    Medan Timur:
+      :city_code: MES
+      :district_code: MES10034
+    Medan Tuntungan:
+      :city_code: MES
+      :district_code: MES10035
