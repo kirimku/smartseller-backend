@@ -298,13 +298,13 @@ func (r *UserRepositoryImpl) IncrementTransactionCount(userID string) error {
 // determineUserTier determines the appropriate tier based on transaction count
 func determineUserTier(transactionCount int) entity.UserTier {
 	if transactionCount >= 100 {
-		return entity.UserTierTuanRaja
+		return entity.UserTierEnterprise
 	} else if transactionCount >= 50 {
-		return entity.UserTierTuanBesar
+		return entity.UserTierPro
 	} else if transactionCount >= 20 {
-		return entity.UserTierTuanMuda
+		return entity.UserTierPremium
 	} else {
-		return entity.UserTierPendekar
+		return entity.UserTierBasic
 	}
 }
 

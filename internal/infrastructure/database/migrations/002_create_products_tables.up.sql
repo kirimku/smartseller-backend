@@ -104,12 +104,9 @@ CREATE TABLE IF NOT EXISTS product_variants (
     -- Example: {"Color": "Red", "Size": "Large", "Material": "Cotton"}
     variant_options JSONB NOT NULL,
     
-    -- Pricing Override (if NULL, use product's base_price)
-    price DECIMAL(15,2), -- Variant-specific price (overrides product base_price)
-    cost_price DECIMAL(15,2), -- Variant-specific cost price
-    
-    -- Sale Price for Variants
-    sale_price DECIMAL(15,2), -- Variant-specific sale price
+    -- Pricing Override
+    price DECIMAL(15,2),
+    cost_price DECIMAL(15,2),
     
     -- Inventory Override
     stock_quantity INTEGER NOT NULL DEFAULT 0,
@@ -167,27 +164,6 @@ CREATE INDEX IF NOT EXISTS idx_product_variants_product_id ON product_variants(p
 CREATE INDEX IF NOT EXISTS idx_product_variants_sku ON product_variants(sku);
 CREATE INDEX IF NOT EXISTS idx_product_variants_is_active ON product_variants(is_active);
 CREATE INDEX IF NOT EXISTS idx_product_variants_options ON product_variants USING gin(variant_options);
-
--- Triggers for updated_at
-CREATE TRIGGER update_products_updated_at 
-    BEFORE UPDATE ON products 
-    FOR EACH ROW 
-    EXECUTE FUNCTION update_updated_at_column();
-
-CREATE TRIGGER update_product_categories_updated_at 
-    BEFORE UPDATE ON product_categories 
-    FOR EACH ROW 
-    EXECUTE FUNCTION update_updated_at_column();
-
-CREATE TRIGGER update_product_variant_options_updated_at 
-    BEFORE UPDATE ON product_variant_options 
-    FOR EACH ROW 
-    EXECUTE FUNCTION update_updated_at_column();
-
-CREATE TRIGGER update_product_variants_updated_at 
-    BEFORE UPDATE ON product_variants 
-    FOR EACH ROW 
-    EXECUTE FUNCTION update_updated_at_column();
 
 -- Function to auto-generate variant name from options
 CREATE OR REPLACE FUNCTION generate_variant_name(variant_options JSONB) RETURNS TEXT AS $$
@@ -272,42 +248,3 @@ CREATE TRIGGER validate_variant_options_trigger
     BEFORE INSERT OR UPDATE ON product_variants
     FOR EACH ROW
     EXECUTE FUNCTION validate_variant_options();
-
--- Function to get effective price for product/variant (helper for queries)
-CREATE OR REPLACE FUNCTION get_effective_price(
-    product_base_price DECIMAL(15,2),
-    product_sale_price DECIMAL(15,2),
-    variant_price DECIMAL(15,2),
-    variant_sale_price DECIMAL(15,2)
-) RETURNS DECIMAL(15,2) AS $$
-BEGIN
-    -- Priority: variant_sale_price > variant_price > product_sale_price > product_base_price
-    IF variant_sale_price IS NOT NULL THEN
-        RETURN variant_sale_price;
-    ELSIF variant_price IS NOT NULL THEN
-        RETURN variant_price;
-    ELSIF product_sale_price IS NOT NULL THEN
-        RETURN product_sale_price;
-    ELSE
-        RETURN product_base_price;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
--- View for easy querying of products with effective pricing
-CREATE OR REPLACE VIEW product_variants_with_pricing AS
-SELECT 
-    pv.*,
-    p.name as product_name,
-    p.base_price as product_base_price,
-    p.sale_price as product_sale_price,
-    get_effective_price(p.base_price, p.sale_price, pv.price, pv.sale_price) as effective_price,
-    CASE 
-        WHEN pv.sale_price IS NOT NULL THEN 'variant_sale'
-        WHEN pv.price IS NOT NULL THEN 'variant_regular'
-        WHEN p.sale_price IS NOT NULL THEN 'product_sale'
-        ELSE 'product_regular'
-    END as price_source
-FROM product_variants pv
-JOIN products p ON pv.product_id = p.id
-WHERE pv.deleted_at IS NULL AND p.deleted_at IS NULL;

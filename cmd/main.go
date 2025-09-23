@@ -9,11 +9,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/kirimku/smartseller-backend/internal/application/service"
-	"github.com/kirimku/smartseller-backend/internal/application/usecase"
 	"github.com/kirimku/smartseller-backend/internal/config"
 	"github.com/kirimku/smartseller-backend/internal/infrastructure/database"
-	infraRepo "github.com/kirimku/smartseller-backend/internal/infrastructure/repository"
 	"github.com/kirimku/smartseller-backend/internal/interfaces/api/router"
 	"github.com/kirimku/smartseller-backend/pkg/email"
 	"github.com/kirimku/smartseller-backend/pkg/logger"
@@ -21,7 +18,7 @@ import (
 
 func main() {
 	// Initialize logger
-	logger.Init()
+	logger.Init("INFO")
 	logger.Info("application_start", "SmartSeller backend starting up", nil)
 
 	// Load configuration
@@ -30,7 +27,7 @@ func main() {
 	}
 
 	// Initialize database connection
-	db, err := database.NewConnection()
+	db, err := database.Connect(config.AppConfig.Database.URL)
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
@@ -47,25 +44,17 @@ func main() {
 
 	logger.Info("database_connected", "Successfully connected to database", nil)
 
-	// Initialize repositories
-	userRepo := infraRepo.NewUserRepositoryImpl(db)
-
 	// Initialize services
 	emailService := email.NewEmailService()
-	userService := service.NewUserService(userRepo, emailService)
-
-	// Initialize use cases
-	userUseCase := usecase.NewUserUseCase(userRepo, userService)
 
 	// Initialize router with minimal services
 	r := router.NewRouter(
 		db,
 		emailService,
-		userUseCase,
 	)
 
 	// Setup routes
-	engine := r.Setup()
+	engine := r.SetupRoutes()
 
 	// Configure server
 	port := config.AppConfig.Port

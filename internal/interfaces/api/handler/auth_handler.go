@@ -158,16 +158,15 @@ func (h *AuthHandler) GoogleCallback(c *gin.Context) {
 
 	// Create a new user or update existing one
 	user := &entity.User{
-		ID:               userID,
-		GoogleID:         userInfo.Id,
-		Name:             userInfo.Name,
-		Email:            userInfo.Email,
-		Picture:          userInfo.Picture,
-		UserType:         entity.UserTypePersonal, // Default to personal for Google OAuth users
-		UserTier:         entity.UserTierPendekar, // Default tier for new users
-		TransactionCount: 0,                       // Start with 0 transactions
-		AccessToken:      token.AccessToken,
-		RefreshToken:     refreshToken,
+		ID:           userID,
+		GoogleID:     userInfo.Id,
+		Name:         userInfo.Name,
+		Email:        userInfo.Email,
+		Picture:      userInfo.Picture,
+		UserType:     entity.UserTypeIndividual, // Default to individual for Google OAuth users
+		UserTier:     entity.UserTierBasic,      // Default tier for new users
+		AccessToken:  token.AccessToken,
+		RefreshToken: refreshToken,
 		TokenExpiry: sql.NullTime{
 			Time:  token.Expiry,
 			Valid: !token.Expiry.IsZero(),

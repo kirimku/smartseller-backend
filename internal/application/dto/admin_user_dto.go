@@ -11,7 +11,7 @@ type AdminUserListRequest struct {
 	Page     int    `form:"page" binding:"omitempty,min=1"`
 	Limit    int    `form:"limit" binding:"omitempty,min=1,max=100"`
 	Search   string `form:"search" binding:"omitempty,max=255"`
-	UserType string `form:"user_type" binding:"omitempty,oneof=personal bisnis agen"`
+	UserType string `form:"user_type" binding:"omitempty,oneof=individual business enterprise"`
 	UserTier string `form:"user_tier" binding:"omitempty,oneof=pendekar tuan_muda tuan_besar tuan_raja"`
 	UserRole string `form:"user_role" binding:"omitempty,oneof=owner admin manager support user"`
 }
@@ -50,17 +50,16 @@ type AdminUserListResponse struct {
 // ToAdminUserSummary converts a User entity to AdminUserSummary DTO
 func ToAdminUserSummary(user *entity.User) AdminUserSummary {
 	return AdminUserSummary{
-		ID:               user.ID,
-		Name:             user.Name,
-		Email:            user.Email,
-		Phone:            user.Phone,
-		UserType:         user.UserType,
-		UserTier:         user.UserTier,
-		UserRole:         user.UserRole,
-		TransactionCount: user.TransactionCount,
-		IsAdmin:          user.IsAdmin,
-		CreatedAt:        user.CreatedAt,
-		UpdatedAt:        user.UpdatedAt,
+		ID:        user.ID,
+		Name:      user.Name,
+		Email:     user.Email,
+		Phone:     user.Phone,
+		UserType:  user.UserType,
+		UserTier:  user.UserTier,
+		UserRole:  user.UserRole,
+		IsAdmin:   user.IsAdmin,
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
 	}
 }
 

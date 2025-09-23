@@ -18,7 +18,7 @@ type RegistrationRequest struct {
 	Email        string          `json:"email" binding:"required,email"`
 	Phone        string          `json:"phone" binding:"required,min=10,max=20"`
 	Password     string          `json:"password" binding:"required,min=8,max=100"`
-	UserType     entity.UserType `json:"user_type" binding:"required,oneof=personal bisnis agen"`
+	UserType     entity.UserType `json:"user_type" binding:"required,oneof=individual business enterprise"`
 	AcceptTerms  bool            `json:"accept_terms" binding:"required,eq=true"`
 	AcceptPromos bool            `json:"accept_promos"`
 }

@@ -48,12 +48,7 @@ func RequirePermission(permission entity.Permission, userUsecase usecase.UserUse
 		}
 
 		// Check if the user's role has the required permission
-		hasPermission := utils.HasPermission(user.UserRole, permission)
-
-		// If no explicit role permission but user has IsAdmin=true, grant permission for backward compatibility
-		if !hasPermission && user.IsAdmin {
-			hasPermission = true
-		}
+		hasPermission := user.IsAdmin // For now, simplify to only check admin status
 
 		if !hasPermission {
 			utils.ErrorResponse(c, http.StatusForbidden,

@@ -13,24 +13,21 @@ import (
 	"github.com/kirimku/smartseller-backend/internal/application/dto"
 	"github.com/kirimku/smartseller-backend/internal/domain/entity"
 	"github.com/kirimku/smartseller-backend/internal/domain/repository"
-	domainservice "github.com/kirimku/smartseller-backend/internal/domain/service"
 	"github.com/kirimku/smartseller-backend/pkg/email"
 	"github.com/kirimku/smartseller-backend/pkg/utils"
 )
 
 // userUseCase implements the UserUseCase interface
 type userUseCase struct {
-	userRepo      repository.UserRepository
-	emailService  email.EmailSender           // Changed type to interface
-	walletService domainservice.WalletService // Added wallet service for wallet creation
+	userRepo     repository.UserRepository
+	emailService email.EmailSender // Changed type to interface
 }
 
 // NewUserUseCase creates a new instance of UserUseCase
-func NewUserUseCase(userRepo repository.UserRepository, emailService email.EmailSender, walletService domainservice.WalletService) UserUseCase {
+func NewUserUseCase(userRepo repository.UserRepository, emailService email.EmailSender) UserUseCase {
 	return &userUseCase{
-		userRepo:      userRepo,
-		emailService:  emailService,
-		walletService: walletService,
+		userRepo:     userRepo,
+		emailService: emailService,
 	}
 }
 
@@ -57,11 +54,11 @@ func (uc *userUseCase) CreateOrUpdateUser(user *entity.User) error {
 	currentTime := time.Now()
 
 	if currentTime.Before(campaignEndDate) {
-		// User is registering during the campaign period, set to Tuan Besar tier
-		user.UserTier = entity.UserTierTuanBesar
+		// User is registering during the campaign period, set to premium tier
+		user.UserTier = entity.UserTierPremium
 	} else {
 		// Default tier for users outside campaign period
-		user.UserTier = entity.UserTierPendekar
+		user.UserTier = entity.UserTierBasic
 	}
 
 	err = uc.userRepo.CreateUser(user)
@@ -266,34 +263,33 @@ func (uc *userUseCase) Register(name, email, phone, password string, userType en
 	refreshToken := uuid.New().String()
 
 	// Check if user is registering during the promotion period (before November 30, 2025)
-	// Campaign: Users registering before November 30, 2025 get "Tuan Besar" tier immediately
-	var userTier entity.UserTier = entity.UserTierPendekar // Default tier
+	// Campaign: Users registering before November 30, 2025 get "Premium" tier immediately
+	var userTier entity.UserTier = entity.UserTierBasic // Default tier
 	campaignEndDate := time.Date(2025, time.November, 30, 23, 59, 59, 0, time.Local)
 	currentTime := time.Now()
 
 	if currentTime.Before(campaignEndDate) {
-		// User is registering during the campaign period, set to Tuan Besar tier
-		userTier = entity.UserTierTuanBesar
+		// User is registering during the campaign period, set to Premium tier
+		userTier = entity.UserTierPremium
 	}
 
 	// Create new user
 	user := &entity.User{
-		ID:               userID,
-		Name:             name,
-		Email:            email,
-		Phone:            phone,
-		PasswordHash:     passwordHash,
-		PasswordSalt:     utils.EncodeSalt(saltBytes),
-		UserType:         userType,
-		UserTier:         userTier, // Use the determined tier based on campaign
-		TransactionCount: 0,        // Start with 0 transactions
-		AcceptTerms:      acceptTerms,
-		AcceptPromos:     acceptPromos,
-		AccessToken:      accessToken,
-		RefreshToken:     refreshToken,
-		TokenExpiry:      sql.NullTime{Time: expiryTime, Valid: true},
-		CreatedAt:        time.Now(),
-		UpdatedAt:        time.Now(),
+		ID:           userID,
+		Name:         name,
+		Email:        email,
+		Phone:        phone,
+		PasswordHash: passwordHash,
+		PasswordSalt: utils.EncodeSalt(saltBytes),
+		UserType:     userType,
+		UserTier:     userTier, // Use the determined tier based on campaign
+		AcceptTerms:  acceptTerms,
+		AcceptPromos: acceptPromos,
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+		TokenExpiry:  sql.NullTime{Time: expiryTime, Valid: true},
+		CreatedAt:    time.Now(),
+		UpdatedAt:    time.Now(),
 	}
 
 	// Save user to database
@@ -316,25 +312,12 @@ func (uc *userUseCase) Register(name, email, phone, password string, userType en
 
 	// Auto-create a wallet for the user - this is critical for cashback processing
 	// Using the wallet service via dependency injection
-	go func(userID string) {
-		// Create wallet asynchronously to not block registration
-		ctx := context.Background()
-
-		// Check if wallet already exists first
-		existingWallet, err := uc.walletService.GetWalletByUserID(ctx, userID)
-		if err == nil && existingWallet != nil {
-			// Wallet already exists, nothing to do
-			return
-		}
-
-		// Create new wallet using the wallet service
-		wallet, err := uc.walletService.CreateWallet(ctx, userID)
-		if err != nil {
-			fmt.Printf("Error creating wallet for user %s: %v\n", userID, err)
-		} else {
-			fmt.Printf("Successfully created wallet for user %s with ID %s\n", userID, wallet.ID)
-		}
-	}(userID)
+	// Note: Wallet creation can be added here when wallet service is implemented
+	// go func(userID string) {
+	//     // Create wallet asynchronously
+	//     ctx := context.Background()
+	//     // wallet creation logic here
+	// }(userID)
 
 	return user, accessToken, refreshToken, expiryTime, nil
 }
@@ -510,16 +493,9 @@ func (uc *userUseCase) GetUserProfile(ctx context.Context, userID string) (*dto.
 		return nil, errors.New("user not found")
 	}
 
-	// Get wallet information
-	wallet, err := uc.walletService.GetWalletByUserID(ctx, userID)
-	if err != nil {
-		// If wallet doesn't exist, create a default response with zero balance
-		response := dto.BuildUserProfileResponse(user, 0.0, "")
-		return &response, nil
-	}
-
-	// Build response with wallet information
-	response := dto.BuildUserProfileResponse(user, wallet.Balance, wallet.ID)
+	// Note: Wallet information can be added here when wallet service is implemented
+	// For now, return user profile without wallet information
+	response := dto.BuildUserProfileResponse(user, 0.0, "")
 	return &response, nil
 }
 
