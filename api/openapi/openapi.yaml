@@ -1,0 +1,395 @@
+openapi: 3.0.3
+info:
+  title: SmartSeller Backend API
+  description: |
+    Comprehensive API documentation for the SmartSeller e-commerce platform backend.
+    
+    ## Authentication
+    
+    All endpoints require Bearer token authentication unless otherwise specified.
+    
+    ## Error Handling
+    
+    All endpoints return standardized error responses with:
+    - Error codes for programmatic handling
+    - User-friendly messages for display
+    - Request IDs for debugging
+    - Detailed validation errors where applicable
+    
+    ## Pagination
+    
+    List endpoints support pagination with:
+    - `page` - Page number (1-based)
+    - `page_size` - Items per page (max 100)
+    - `sort_by` - Sort field
+    - `sort_desc` - Sort direction (boolean)
+    
+  version: 1.0.0
+  contact:
+    name: SmartSeller API Support
+    email: api-support@smartseller.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+  - url: https://api-dev.smartseller.com
+    description: Development server
+  - url: https://api-staging.smartseller.com
+    description: Staging server
+  - url: https://api.smartseller.com
+    description: Production server
+
+# Import paths from separate files
+paths:
+  # Authentication endpoints
+  /api/v1/auth/register:
+    $ref: './auth-endpoints.yaml#/paths/~1api~1v1~1auth~1register'
+  
+  /api/v1/auth/login:
+    $ref: './auth-endpoints.yaml#/paths/~1api~1v1~1auth~1login'
+  
+  /api/v1/auth/logout:
+    $ref: './auth-endpoints.yaml#/paths/~1api~1v1~1auth~1logout'
+  
+  /api/v1/auth/refresh:
+    $ref: './auth-endpoints.yaml#/paths/~1api~1v1~1auth~1refresh'
+  
+  /api/v1/auth/forgot-password:
+    $ref: './auth-endpoints.yaml#/paths/~1api~1v1~1auth~1forgot-password'
+  
+  /api/v1/auth/reset-password:
+    $ref: './auth-endpoints.yaml#/paths/~1api~1v1~1auth~1reset-password'
+  
+  /api/v1/auth/verify-email:
+    $ref: './auth-endpoints.yaml#/paths/~1api~1v1~1auth~1verify-email'
+  
+  /api/v1/auth/resend-verification:
+    $ref: './auth-endpoints.yaml#/paths/~1api~1v1~1auth~1resend-verification'
+  
+  # User management endpoints
+  /api/v1/users/profile:
+    $ref: './user-endpoints.yaml#/paths/~1api~1v1~1users~1profile'
+  
+  /api/v1/users/profile/update:
+    $ref: './user-endpoints.yaml#/paths/~1api~1v1~1users~1profile~1update'
+  
+  /api/v1/users/change-password:
+    $ref: './user-endpoints.yaml#/paths/~1api~1v1~1users~1change-password'
+  
+  # Product management endpoints
+  /api/v1/products:
+    $ref: './product-endpoints.yaml#/paths/~1api~1v1~1products'
+  
+  /api/v1/products/{id}:
+    $ref: './product-endpoints.yaml#/paths/~1api~1v1~1products~1{id}'
+
+# Tag definitions
+tags:
+  - name: Authentication
+    description: User authentication and authorization endpoints
+  - name: User Management
+    description: User profile and account management
+  - name: Products
+    description: Product catalog management
+
+# Security schemes
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT Bearer token authentication. Include the token in the Authorization header:
+        `Authorization: Bearer <token>`
+  
+  # Import schemas from separate files
+  schemas:
+    # Common schemas
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Operation completed successfully"
+        data:
+          description: "Response data (varies by endpoint)"
+    
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: "Error code for programmatic handling"
+            message:
+              type: string
+              description: "Technical error message"
+            user_message:
+              type: string
+              description: "User-friendly error message"
+            details:
+              type: object
+              description: "Additional error details (varies by error type)"
+          required:
+            - code
+            - message
+        request_id:
+          type: string
+          description: "Unique request identifier for debugging"
+        timestamp:
+          type: string
+          format: date-time
+          description: "Error timestamp"
+        path:
+          type: string
+          description: "Request path where error occurred"
+        method:
+          type: string
+          description: "HTTP method that caused the error"
+      required:
+        - error
+        - request_id
+        - timestamp
+    
+    ValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              enum: ["VALIDATION_FAILED"]
+            message:
+              type: string
+            fields:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  value:
+                    description: "Value that failed validation"
+                  message:
+                    type: string
+                  rule:
+                    type: string
+                required:
+                  - field
+                  - message
+          required:
+            - code
+            - message
+            - fields
+        request_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        path:
+          type: string
+        method:
+          type: string
+      required:
+        - error
+        - request_id
+        - timestamp
+    
+    # Authentication schemas (reference existing schemas.yaml)
+    LoginRequest:
+      $ref: './schemas.yaml#/components/schemas/LoginRequest'
+    
+    LoginResponse:
+      $ref: './schemas.yaml#/components/schemas/LoginResponse'
+    
+    RegisterRequest:
+      $ref: './schemas.yaml#/components/schemas/RegisterRequest'
+    
+    RegisterResponse:
+      $ref: './schemas.yaml#/components/schemas/RegisterResponse'
+    
+    RefreshTokenRequest:
+      $ref: './schemas.yaml#/components/schemas/RefreshTokenRequest'
+    
+    RefreshTokenResponse:
+      $ref: './schemas.yaml#/components/schemas/RefreshTokenResponse'
+    
+    ForgotPasswordRequest:
+      $ref: './schemas.yaml#/components/schemas/ForgotPasswordRequest'
+    
+    ResetPasswordRequest:
+      $ref: './schemas.yaml#/components/schemas/ResetPasswordRequest'
+    
+    # User schemas (reference existing schemas.yaml)
+    UserProfile:
+      $ref: './schemas.yaml#/components/schemas/UserProfile'
+    
+    UpdateUserProfileRequest:
+      $ref: './schemas.yaml#/components/schemas/UpdateUserProfileRequest'
+    
+    ChangePasswordRequest:
+      $ref: './schemas.yaml#/components/schemas/ChangePasswordRequest'
+    
+    # Product schemas (reference product-schemas.yaml)
+    CreateProductRequest:
+      $ref: './product-schemas.yaml#/components/schemas/CreateProductRequest'
+    
+    UpdateProductRequest:
+      $ref: './product-schemas.yaml#/components/schemas/UpdateProductRequest'
+    
+    ProductResponse:
+      $ref: './product-schemas.yaml#/components/schemas/ProductResponse'
+    
+    ProductListItem:
+      $ref: './product-schemas.yaml#/components/schemas/ProductListItem'
+    
+    ProductListResponse:
+      $ref: './product-schemas.yaml#/components/schemas/ProductListResponse'
+    
+    PaginationResponse:
+      $ref: './product-schemas.yaml#/components/schemas/PaginationResponse'
+
+  # Common response templates
+  responses:
+    UnauthorizedError:
+      description: Authentication required or token invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: "UNAUTHORIZED"
+              message: "Authentication required"
+              user_message: "Please log in to access this resource."
+            request_id: "req_123456789"
+            timestamp: "2025-09-24T10:00:00Z"
+    
+    ForbiddenError:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: "FORBIDDEN"
+              message: "Insufficient permissions"
+              user_message: "You don't have permission to access this resource."
+            request_id: "req_123456789"
+            timestamp: "2025-09-24T10:00:00Z"
+    
+    NotFoundError:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: "NOT_FOUND"
+              message: "Resource not found"
+              user_message: "The requested resource could not be found."
+            request_id: "req_123456789"
+            timestamp: "2025-09-24T10:00:00Z"
+    
+    ValidationError:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationErrorResponse'
+          example:
+            error:
+              code: "VALIDATION_FAILED"
+              message: "Request validation failed"
+              fields:
+                - field: "email"
+                  value: "invalid-email"
+                  message: "Invalid email format"
+                  rule: "email"
+            request_id: "req_123456789"
+            timestamp: "2025-09-24T10:00:00Z"
+            path: "/api/v1/auth/register"
+            method: "POST"
+    
+    ConflictError:
+      description: Request conflicts with current state
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: "CONFLICT"
+              message: "Resource already exists"
+              user_message: "A resource with this identifier already exists."
+            request_id: "req_123456789"
+            timestamp: "2025-09-24T10:00:00Z"
+    
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: "INTERNAL_SERVER_ERROR"
+              message: "An unexpected error occurred"
+              user_message: "We're experiencing technical difficulties. Please try again later."
+            request_id: "req_123456789"
+            timestamp: "2025-09-24T10:00:00Z"
+    
+    RateLimitError:
+      description: Too many requests
+      headers:
+        X-RateLimit-Limit:
+          description: Request limit per time window
+          schema:
+            type: integer
+          example: 100
+        X-RateLimit-Remaining:
+          description: Remaining requests in current window
+          schema:
+            type: integer
+          example: 0
+        X-RateLimit-Reset:
+          description: Time when rate limit resets (Unix timestamp)
+          schema:
+            type: integer
+          example: 1695297600
+        Retry-After:
+          description: Seconds to wait before retrying
+          schema:
+            type: integer
+          example: 60
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: "RATE_LIMIT_EXCEEDED"
+              message: "Too many requests"
+              user_message: "You've made too many requests. Please try again later."
+              details:
+                limit: 100
+                window: "1 hour"
+                retry_after: 60
+            request_id: "req_123456789"
+            timestamp: "2025-09-24T10:00:00Z"
+
+# Global security requirement (can be overridden per endpoint)
+security:
+  - bearerAuth: []

@@ -1,0 +1,419 @@
+paths:
+  /api/v1/products:
+    post:
+      summary: Create a new product
+      description: Creates a new product with the provided details. Requires authentication.
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './product-schemas.yaml#/components/schemas/CreateProductRequest'
+            examples:
+              basic_product:
+                summary: Basic product example
+                value:
+                  name: "Wireless Bluetooth Headphones"
+                  description: "High-quality wireless headphones with noise cancellation"
+                  sku: "WBH-001"
+                  category_id: "550e8400-e29b-41d4-a716-446655440001"
+                  brand: "AudioTech"
+                  tags: ["electronics", "audio", "wireless"]
+                  base_price: 199.99
+                  sale_price: 149.99
+                  cost_price: 100.00
+                  stock_quantity: 50
+                  low_stock_threshold: 10
+                  track_inventory: true
+                  weight: 0.25
+                  dimensions_length: 20.0
+                  dimensions_width: 15.0
+                  dimensions_height: 8.0
+      responses:
+        '201':
+          description: Product created successfully
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/SuccessResponse'
+              example:
+                success: true
+                message: "Product created successfully"
+                data:
+                  id: "550e8400-e29b-41d4-a716-446655440000"
+                  sku: "WBH-001"
+                  name: "Wireless Bluetooth Headphones"
+                  description: "High-quality wireless headphones with noise cancellation"
+                  category_id: "550e8400-e29b-41d4-a716-446655440001"
+                  brand: "AudioTech"
+                  tags: ["electronics", "audio", "wireless"]
+                  base_price: 199.99
+                  sale_price: 149.99
+                  cost_price: 100.00
+                  effective_price: 149.99
+                  profit_margin: 49.99
+                  track_inventory: true
+                  stock_quantity: 50
+                  low_stock_threshold: 10
+                  is_low_stock: false
+                  status: "draft"
+                  weight: 0.25
+                  dimensions_length: 20.0
+                  dimensions_width: 15.0
+                  dimensions_height: 8.0
+                  created_by: "550e8400-e29b-41d4-a716-446655440002"
+                  created_at: "2025-09-24T10:00:00Z"
+                  updated_at: "2025-09-24T10:00:00Z"
+        '400':
+          description: Bad request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict - SKU already exists
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+    
+    get:
+      summary: List products with filtering and pagination
+      description: Retrieves a paginated list of products with optional filtering, sorting, and search capabilities
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: Page number (1-based)
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          example: 1
+        - name: page_size
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          example: 20
+        - name: sort_by
+          in: query
+          description: Field to sort by
+          schema:
+            type: string
+            enum: [name, created_at, updated_at, base_price]
+            default: created_at
+          example: created_at
+        - name: sort_desc
+          in: query
+          description: Sort in descending order
+          schema:
+            type: boolean
+            default: true
+          example: true
+        - name: search
+          in: query
+          description: Search term for product name, description, or SKU
+          schema:
+            type: string
+          example: "wireless headphones"
+        - name: category_id
+          in: query
+          description: Filter by category ID
+          schema:
+            type: string
+            format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440001"
+        - name: brand
+          in: query
+          description: Filter by brand
+          schema:
+            type: string
+          example: "AudioTech"
+        - name: status
+          in: query
+          description: Filter by product status
+          schema:
+            type: string
+            enum: [draft, active, inactive, archived]
+          example: active
+        - name: min_price
+          in: query
+          description: Minimum price filter
+          schema:
+            type: number
+            format: decimal
+          example: 50.00
+        - name: max_price
+          in: query
+          description: Maximum price filter
+          schema:
+            type: number
+            format: decimal
+          example: 500.00
+        - name: low_stock
+          in: query
+          description: Filter products with low stock
+          schema:
+            type: boolean
+          example: false
+      responses:
+        '200':
+          description: Products retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Products retrieved successfully"
+                  data:
+                    $ref: './product-schemas.yaml#/components/schemas/ProductListResponse'
+        '400':
+          description: Bad request - Invalid query parameters
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+
+  /api/v1/products/{id}:
+    get:
+      summary: Get product by ID
+      description: Retrieves a specific product by its ID with optional related data inclusion
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Product ID
+          schema:
+            type: string
+            format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        - name: include
+          in: query
+          description: Include related data (comma-separated)
+          schema:
+            type: string
+          example: "category,variants,images"
+      responses:
+        '200':
+          description: Product retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Product retrieved successfully"
+                  data:
+                    $ref: './product-schemas.yaml#/components/schemas/ProductResponse'
+        '400':
+          description: Bad request - Invalid product ID format
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+    
+    put:
+      summary: Update an existing product
+      description: Updates an existing product with the provided details. Only provided fields will be updated.
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Product ID
+          schema:
+            type: string
+            format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './product-schemas.yaml#/components/schemas/UpdateProductRequest'
+            examples:
+              partial_update:
+                summary: Partial update example
+                value:
+                  name: "Premium Wireless Bluetooth Headphones"
+                  sale_price: 129.99
+                  stock_quantity: 75
+              price_update:
+                summary: Price update example
+                value:
+                  base_price: 229.99
+                  sale_price: 179.99
+                  cost_price: 120.00
+      responses:
+        '200':
+          description: Product updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Product updated successfully"
+                  data:
+                    $ref: './product-schemas.yaml#/components/schemas/ProductResponse'
+        '400':
+          description: Bad request - Invalid input data or product ID
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+    
+    delete:
+      summary: Delete a product
+      description: Soft deletes a product by marking it as deleted. Products with active variants cannot be deleted.
+      tags:
+        - Products
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Product ID
+          schema:
+            type: string
+            format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        '200':
+          description: Product deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Product deleted successfully"
+                  data:
+                    type: "null"
+                    example: null
+        '400':
+          description: Bad request - Invalid product ID format
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict - Cannot delete product with active variants
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
