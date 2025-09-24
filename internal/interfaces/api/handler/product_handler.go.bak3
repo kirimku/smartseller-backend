@@ -1,0 +1,368 @@
+package handler
+
+import (
+	"log/slog"
+	"net/http"
+	"strconv"
+	"strings"
+
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
+
+	"github.com/kirimku/smartseller-backend/internal/application/dto"
+	"github.com/kirimku/smartseller-backend/internal/application/usecase"
+	"github.com/kirimku/smartseller-backend/internal/domain/entity"
+	"github.com/kirimku/smartseller-backend/internal/domain/repository"
+	"github.com/kirimku/smartseller-backend/pkg/utils"
+)
+
+// ProductHandler handles HTTP requests related to products
+type ProductHandler struct {
+	productUseCase *usecase.ProductUseCase
+	converter      *dto.ProductConverter
+	logger         *slog.Logger
+}
+
+// NewProductHandler creates a new ProductHandler
+func NewProductHandler(productUseCase *usecase.ProductUseCase, logger *slog.Logger) *ProductHandler {
+	return &ProductHandler{
+		productUseCase: productUseCase,
+		converter:      dto.NewProductConverter(),
+		logger:         logger,
+	}
+}
+
+// CreateProduct creates a new product
+func (h *ProductHandler) CreateProduct(c *gin.Context) {
+	userID := utils.GetUserIDFromContext(c)
+	if userID == "" {
+		utils.ErrorResponse(c, http.StatusUnauthorized, "Authentication required", nil)
+		return
+	}
+
+	var req dto.CreateProductRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		utils.ErrorResponse(c, http.StatusBadRequest, "Invalid request format", err)
+		return
+	}
+
+	// Convert user ID to UUID
+	userUUID, err := uuid.Parse(userID)
+	if err != nil {
+		utils.ErrorResponse(c, http.StatusBadRequest, "Invalid user ID", err)
+		return
+	}
+
+	// Map DTO request to use case request
+	useCaseReq := usecase.CreateProductRequest{
+		Name:              req.Name,
+		Description:       req.Description,
+		SKU:               req.SKU,
+		CategoryID:        req.CategoryID,
+		Brand:             req.Brand,
+		Tags:              req.Tags,
+		BasePrice:         req.BasePrice,
+		SalePrice:         req.SalePrice,
+		CostPrice:         req.CostPrice,
+		TrackInventory:    true, // Default to tracking inventory
+		StockQuantity:     req.StockQuantity,
+		LowStockThreshold: req.LowStockThreshold,
+		Status:            entity.ProductStatusDraft, // Default status
+		MetaTitle:         req.MetaTitle,
+		MetaDescription:   req.MetaDescription,
+		Slug:              req.Slug,
+		Weight:            req.Weight,
+		DimensionsLength:  req.DimensionsLength,
+		DimensionsWidth:   req.DimensionsWidth,
+		DimensionsHeight:  req.DimensionsHeight,
+		CreatedBy:         userUUID,
+	}
+
+	// Create product using use case
+	product, err := h.productUseCase.CreateProduct(c.Request.Context(), useCaseReq)
+	if err != nil {
+		if strings.Contains(err.Error(), "already exists") {
+			utils.ErrorResponse(c, http.StatusConflict, "Product with this SKU already exists", err)
+			return
+		}
+		if strings.Contains(err.Error(), "category not found") {
+			utils.ErrorResponse(c, http.StatusBadRequest, "Specified category does not exist", err)
+			return
+		}
+		h.logger.Error("Failed to create product", slog.String("error", err.Error()), slog.String("user_id", userID))
+		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to create product", err)
+		return
+	}
+
+	// Convert entity to DTO response
+	response := h.converter.ToResponse(product)
+
+	h.logger.Info("Product created successfully",
+		slog.String("product_id", product.ID.String()),
+		slog.String("sku", product.SKU),
+		slog.String("user_id", userID),
+	)
+
+	utils.SuccessResponse(c, http.StatusCreated, "Product created successfully", response)
+}
+
+// GetProduct retrieves a product by ID
+func (h *ProductHandler) GetProduct(c *gin.Context) {
+	userID := utils.GetUserIDFromContext(c)
+	if userID == "" {
+		utils.ErrorResponse(c, http.StatusUnauthorized, "Authentication required", nil)
+		return
+	}
+
+	productIDStr := c.Param("id")
+	productID, err := uuid.Parse(productIDStr)
+	if err != nil {
+		utils.ErrorResponse(c, http.StatusBadRequest, "Invalid product ID", err)
+		return
+	}
+
+	// Parse include parameter
+	includeParam := c.Query("include")
+	include := h.parseIncludeParameter(includeParam)
+
+	// Retrieve product using use case
+	product, err := h.productUseCase.GetProduct(c.Request.Context(), productID, include)
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			utils.ErrorResponse(c, http.StatusNotFound, "Product not found", err)
+			return
+		}
+		h.logger.Error("Failed to retrieve product",
+			slog.String("error", err.Error()),
+			slog.String("product_id", productID.String()),
+			slog.String("user_id", userID))
+		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to retrieve product", err)
+		return
+	}
+
+	// Convert entity to DTO response
+	response := h.converter.ToResponse(product)
+
+	utils.SuccessResponse(c, http.StatusOK, "Product retrieved successfully", response)
+}
+
+// UpdateProduct updates an existing product
+func (h *ProductHandler) UpdateProduct(c *gin.Context) {
+	userID := utils.GetUserIDFromContext(c)
+	if userID == "" {
+		utils.ErrorResponse(c, http.StatusUnauthorized, "Authentication required", nil)
+		return
+	}
+
+	productIDStr := c.Param("id")
+	productID, err := uuid.Parse(productIDStr)
+	if err != nil {
+		utils.ErrorResponse(c, http.StatusBadRequest, "Invalid product ID", err)
+		return
+	}
+
+	var req dto.UpdateProductRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		utils.ErrorResponse(c, http.StatusBadRequest, "Invalid request format", err)
+		return
+	}
+
+	// Convert DTO to use case request
+	useCaseReq := usecase.UpdateProductRequest{
+		Name:              req.Name,
+		Description:       req.Description,
+		CategoryID:        req.CategoryID,
+		Brand:             req.Brand,
+		Tags:              req.Tags,
+		BasePrice:         req.BasePrice,
+		SalePrice:         req.SalePrice,
+		CostPrice:         req.CostPrice,
+		TrackInventory:    req.TrackInventory,
+		StockQuantity:     req.StockQuantity,
+		LowStockThreshold: req.LowStockThreshold,
+		Status:            req.Status,
+		MetaTitle:         req.MetaTitle,
+		MetaDescription:   req.MetaDescription,
+		Slug:              req.Slug,
+		Weight:            req.Weight,
+		DimensionsLength:  req.DimensionsLength,
+		DimensionsWidth:   req.DimensionsWidth,
+		DimensionsHeight:  req.DimensionsHeight,
+	}
+
+	// Update product using use case
+	product, err := h.productUseCase.UpdateProduct(c.Request.Context(), productID, useCaseReq)
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			utils.ErrorResponse(c, http.StatusNotFound, "Product not found", err)
+			return
+		}
+		if strings.Contains(err.Error(), "already exists") {
+			utils.ErrorResponse(c, http.StatusConflict, "Product with this SKU already exists", err)
+			return
+		}
+		if strings.Contains(err.Error(), "category not found") {
+			utils.ErrorResponse(c, http.StatusBadRequest, "Specified category does not exist", err)
+			return
+		}
+		h.logger.Error("Failed to update product",
+			slog.String("error", err.Error()),
+			slog.String("product_id", productID.String()),
+			slog.String("user_id", userID))
+		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to update product", err)
+		return
+	}
+
+	// Convert entity to DTO response
+	response := h.converter.ToResponse(product)
+
+	h.logger.Info("Product updated successfully",
+		slog.String("product_id", product.ID.String()),
+		slog.String("user_id", userID),
+	)
+
+	utils.SuccessResponse(c, http.StatusOK, "Product updated successfully", response)
+}
+
+// DeleteProduct soft deletes a product
+func (h *ProductHandler) DeleteProduct(c *gin.Context) {
+	userID := utils.GetUserIDFromContext(c)
+	if userID == "" {
+		utils.ErrorResponse(c, http.StatusUnauthorized, "Authentication required", nil)
+		return
+	}
+
+	productIDStr := c.Param("id")
+	productID, err := uuid.Parse(productIDStr)
+	if err != nil {
+		utils.ErrorResponse(c, http.StatusBadRequest, "Invalid product ID", err)
+		return
+	}
+
+	// Delete product using use case
+	err = h.productUseCase.DeleteProduct(c.Request.Context(), productID)
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			utils.ErrorResponse(c, http.StatusNotFound, "Product not found", err)
+			return
+		}
+		if strings.Contains(err.Error(), "active variants") {
+			utils.ErrorResponse(c, http.StatusConflict, "Cannot delete product with active variants", err)
+			return
+		}
+		h.logger.Error("Failed to delete product",
+			slog.String("error", err.Error()),
+			slog.String("product_id", productID.String()),
+			slog.String("user_id", userID))
+		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to delete product", err)
+		return
+	}
+
+	h.logger.Info("Product deleted successfully",
+		slog.String("product_id", productID.String()),
+		slog.String("user_id", userID),
+	)
+
+	utils.SuccessResponse(c, http.StatusOK, "Product deleted successfully", nil)
+}
+
+// ListProducts retrieves a paginated list of products with filtering
+func (h *ProductHandler) ListProducts(c *gin.Context) {
+	userID := utils.GetUserIDFromContext(c)
+	if userID == "" {
+		utils.ErrorResponse(c, http.StatusUnauthorized, "Authentication required", nil)
+		return
+	}
+
+	// Parse pagination parameters
+	page := 1
+	pageSize := 20
+	sortBy := "created_at"
+	sortDesc := true
+
+	if pageStr := c.Query("page"); pageStr != "" {
+		if p, err := strconv.Atoi(pageStr); err == nil && p > 0 {
+			page = p
+		}
+	}
+
+	if pageSizeStr := c.Query("page_size"); pageSizeStr != "" {
+		if ps, err := strconv.Atoi(pageSizeStr); err == nil && ps > 0 && ps <= 100 {
+			pageSize = ps
+		}
+	}
+
+	if sortByStr := c.Query("sort_by"); sortByStr != "" {
+		validSortFields := []string{"name", "created_at", "updated_at", "base_price"}
+		for _, field := range validSortFields {
+			if sortByStr == field {
+				sortBy = sortByStr
+				break
+			}
+		}
+	}
+
+	if sortDescStr := c.Query("sort_desc"); sortDescStr == "false" {
+		sortDesc = false
+	}
+
+	// Build filters
+	filter := usecase.ProductListFilter{}
+	if search := c.Query("search"); search != "" {
+		filter.SearchQuery = search
+	}
+
+	// Build use case request
+	useCaseReq := usecase.ListProductsRequest{
+		Filter:   filter,
+		Page:     page,
+		PageSize: pageSize,
+		SortBy:   sortBy,
+		SortDesc: sortDesc,
+		Include:  &repository.ProductInclude{}, // Basic include
+	}
+
+	// Retrieve products using use case
+	products, total, err := h.productUseCase.ListProducts(c.Request.Context(), useCaseReq)
+	if err != nil {
+		h.logger.Error("Failed to retrieve products",
+			slog.String("error", err.Error()),
+			slog.String("user_id", userID))
+		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to retrieve products", err)
+		return
+	}
+
+	// Convert entities to DTO response
+	productEntities := make([]entity.Product, len(products))
+	for i, p := range products {
+		productEntities[i] = *p
+	}
+
+	response := h.converter.ToResponseList(productEntities, total, page, pageSize)
+
+	utils.SuccessResponse(c, http.StatusOK, "Products retrieved successfully", response)
+}
+
+// parseIncludeParameter parses the include query parameter
+func (h *ProductHandler) parseIncludeParameter(include string) *repository.ProductInclude {
+	if include == "" {
+		return &repository.ProductInclude{}
+	}
+
+	result := &repository.ProductInclude{}
+
+	// Parse comma-separated include values
+	includes := strings.Split(include, ",")
+	for _, item := range includes {
+		switch strings.TrimSpace(item) {
+		case "category":
+			result.Category = true
+		case "variants":
+			result.Variants = true
+		case "images":
+			result.Images = true
+		}
+	}
+
+	return result
+}

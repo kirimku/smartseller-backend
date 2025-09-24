@@ -102,11 +102,9 @@ func (c *ProductConverter) ToResponseList(products []entity.Product, total int, 
 		Products: items,
 		Pagination: PaginationResponse{
 			Page:       page,
-			Limit:      pageSize,
+			PageSize:   pageSize,
 			Total:      total,
 			TotalPages: (total + pageSize - 1) / pageSize,
-                        HasNext:    page < (total+pageSize-1)/pageSize,
-                        HasPrev:    page > 1,
 		},
 	}
 }
