@@ -1,6 +1,9 @@
 package router
 
 import (
+	"log/slog"
+	"os"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
@@ -63,15 +66,32 @@ func (r *Router) SetupRoutes() *gin.Engine {
 
 // setupAPIRoutes configures the API routes
 func (r *Router) setupAPIRoutes(router *gin.Engine) {
+	// Create a default structured logger
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+
 	// Create repositories
 	userRepo := infraRepo.NewUserRepositoryImpl(r.db)
+	productRepo := infraRepo.NewPostgreSQLProductRepository(r.db)
+	productCategoryRepo := infraRepo.NewPostgreSQLProductCategoryRepository(r.db)
+	productVariantRepo := infraRepo.NewPostgreSQLProductVariantRepository(r.db)
+	productVariantOptionRepo := infraRepo.NewPostgreSQLProductVariantOptionRepository(r.db)
+	productImageRepo := infraRepo.NewPostgreSQLProductImageRepository(r.db)
 
 	// Create use cases
 	userUseCase := usecase.NewUserUseCase(userRepo, r.emailService)
+	productUseCase := usecase.NewProductUseCase(
+		productRepo,
+		productCategoryRepo,
+		productVariantRepo,
+		productVariantOptionRepo,
+		productImageRepo,
+		logger,
+	)
 
 	// Create handlers
 	authHandler := handler.NewAuthHandler(userUseCase)
 	userHandler := handler.NewUserHandler(userUseCase)
+	productHandler := handler.NewProductHandler(productUseCase, logger)
 
 	// API v1 routes
 	v1 := router.Group("/api/v1")
@@ -94,6 +114,18 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 		users.Use(middleware.AuthMiddleware())
 		{
 			users.GET("/profile", userHandler.GetUserProfile)
+		}
+
+		// Product routes (protected)
+		products := v1.Group("/products")
+		products.Use(middleware.AuthMiddleware())
+		{
+			// CRUD operations
+			products.POST("/", productHandler.CreateProduct)
+			products.GET("/", productHandler.ListProducts)
+			products.GET("/:id", productHandler.GetProduct)
+			products.PUT("/:id", productHandler.UpdateProduct)
+			products.DELETE("/:id", productHandler.DeleteProduct)
 		}
 	}
 }

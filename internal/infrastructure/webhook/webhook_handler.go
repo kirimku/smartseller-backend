@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	domainservice "github.com/kirimku/smartseller-backend/internal/domain/service"
+	// domainservice "github.com/kirimku/smartseller-backend/internal/domain/service"
 )
 
 // WebhookHandler defines the interface for handling courier webhooks

@@ -1,0 +1,311 @@
+name: Integration Tests
+
+on:
+  push:
+    branches: [ main, develop, 'feature/**' ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  GO_VERSION: 1.24
+
+jobs:
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: smartseller_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_HOST_AUTH_METHOD: trust
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+          
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: ${{ env.GO_VERSION }}
+
+    - name: Cache Go modules
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/go-build
+          ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+
+    - name: Install golang-migrate
+      run: |
+        curl -L https://github.com/golang-migrate/migrate/releases/latest/download/migrate.linux-amd64.tar.gz | tar xvz
+        sudo mv migrate /usr/local/bin/migrate
+        migrate -version
+
+    - name: Wait for PostgreSQL
+      run: |
+        timeout 60s bash -c 'until pg_isready -h localhost -p 5432 -U postgres; do sleep 2; done'
+
+    - name: Run database migrations
+      env:
+        DATABASE_URL: postgres://postgres:password@localhost:5432/smartseller_test?sslmode=disable
+      run: |
+        migrate -path ./migrations -database $DATABASE_URL up
+
+    - name: Download dependencies
+      run: go mod download
+
+    - name: Verify dependencies
+      run: go mod verify
+
+    - name: Build application
+      run: go build -o ./bin/smartseller ./cmd/main.go
+
+    - name: Start application in background
+      env:
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_USER: postgres
+        DB_PASSWORD: password
+        DB_NAME: smartseller_test
+        DB_SSL_MODE: disable
+        REDIS_HOST: localhost
+        REDIS_PORT: 6379
+        REDIS_PASSWORD: ""
+        REDIS_DB: 0
+        APP_ENV: test
+        APP_PORT: 8080
+        JWT_SECRET: test-jwt-secret-key-for-ci
+      run: |
+        ./bin/smartseller &
+        echo $! > smartseller.pid
+        
+    - name: Wait for application to be ready
+      run: |
+        timeout 60s bash -c 'until curl -f http://localhost:8080/health; do sleep 2; done'
+
+    - name: Run integration tests
+      env:
+        TEST_DATABASE_URL: postgres://postgres:password@localhost:5432/smartseller_test?sslmode=disable
+        TEST_BASE_URL: http://localhost:8080
+        TEST_MIGRATIONS_PATH: file://./migrations
+        CLEANUP_AFTER_TEST: true
+        GO_TEST_TIMEOUT: 20m
+      run: |
+        go test -v -timeout $GO_TEST_TIMEOUT -tags=integration ./tests/integration/...
+
+    - name: Run integration tests with race detection
+      if: success() || failure()
+      env:
+        TEST_DATABASE_URL: postgres://postgres:password@localhost:5432/smartseller_test?sslmode=disable
+        TEST_BASE_URL: http://localhost:8080
+        TEST_MIGRATIONS_PATH: file://./migrations
+        CLEANUP_AFTER_TEST: true
+        GO_TEST_TIMEOUT: 25m
+      run: |
+        go test -v -race -timeout $GO_TEST_TIMEOUT -tags=integration ./tests/integration/...
+
+    - name: Generate test coverage report
+      if: success() || failure()
+      env:
+        TEST_DATABASE_URL: postgres://postgres:password@localhost:5432/smartseller_test?sslmode=disable
+        TEST_BASE_URL: http://localhost:8080
+        TEST_MIGRATIONS_PATH: file://./migrations
+        CLEANUP_AFTER_TEST: true
+      run: |
+        go test -v -coverprofile=coverage.out -covermode=atomic -tags=integration ./tests/integration/...
+        go tool cover -html=coverage.out -o coverage.html
+
+    - name: Upload coverage reports to Codecov
+      if: success() || failure()
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.out
+        flags: integration
+        name: integration-tests
+        fail_ci_if_error: false
+
+    - name: Archive test artifacts
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: integration-test-artifacts
+        path: |
+          coverage.out
+          coverage.html
+          smartseller.log
+        retention-days: 7
+
+    - name: Stop application
+      if: always()
+      run: |
+        if [ -f smartseller.pid ]; then
+          kill $(cat smartseller.pid) || true
+          rm smartseller.pid
+        fi
+
+    - name: Dump logs on failure
+      if: failure()
+      run: |
+        echo "=== Application logs ==="
+        if [ -f smartseller.log ]; then
+          cat smartseller.log
+        fi
+        
+        echo "=== PostgreSQL logs ==="
+        docker logs $(docker ps -q --filter ancestor=postgres:15) || true
+        
+        echo "=== Redis logs ==="
+        docker logs $(docker ps -q --filter ancestor=redis:7-alpine) || true
+
+  docker-integration-tests:
+    name: Docker Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build test environment
+      run: |
+        docker-compose -f docker-compose.test.yml build
+
+    - name: Run tests in Docker
+      run: |
+        docker-compose -f docker-compose.test.yml up --abort-on-container-exit --exit-code-from test-app
+
+    - name: Collect test results
+      if: always()
+      run: |
+        docker-compose -f docker-compose.test.yml logs test-app > docker-test.log
+        docker-compose -f docker-compose.test.yml logs test-postgres > docker-postgres.log
+
+    - name: Archive Docker test artifacts
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: docker-integration-test-artifacts
+        path: |
+          docker-test.log
+          docker-postgres.log
+        retention-days: 7
+
+    - name: Cleanup Docker
+      if: always()
+      run: |
+        docker-compose -f docker-compose.test.yml down -v
+
+  performance-tests:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: integration-tests
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: smartseller_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+          
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: ${{ env.GO_VERSION }}
+
+    - name: Install golang-migrate
+      run: |
+        curl -L https://github.com/golang-migrate/migrate/releases/latest/download/migrate.linux-amd64.tar.gz | tar xvz
+        sudo mv migrate /usr/local/bin/migrate
+
+    - name: Run database migrations
+      env:
+        DATABASE_URL: postgres://postgres:password@localhost:5432/smartseller_test?sslmode=disable
+      run: |
+        migrate -path ./migrations -database $DATABASE_URL up
+
+    - name: Build application
+      run: go build -o ./bin/smartseller ./cmd/main.go
+
+    - name: Start application
+      env:
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_USER: postgres
+        DB_PASSWORD: password
+        DB_NAME: smartseller_test
+        DB_SSL_MODE: disable
+        REDIS_HOST: localhost
+        REDIS_PORT: 6379
+        APP_ENV: test
+        APP_PORT: 8080
+        JWT_SECRET: test-jwt-secret-key-for-ci
+      run: |
+        ./bin/smartseller &
+        echo $! > smartseller.pid
+        timeout 60s bash -c 'until curl -f http://localhost:8080/health; do sleep 2; done'
+
+    - name: Run performance tests
+      env:
+        TEST_DATABASE_URL: postgres://postgres:password@localhost:5432/smartseller_test?sslmode=disable
+        TEST_BASE_URL: http://localhost:8080
+        CLEANUP_AFTER_TEST: true
+      run: |
+        go test -v -bench=. -benchmem -timeout=15m -tags="integration,performance" ./tests/integration/...
+
+    - name: Stop application
+      if: always()
+      run: |
+        if [ -f smartseller.pid ]; then
+          kill $(cat smartseller.pid) || true
+        fi
