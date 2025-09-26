@@ -35,9 +35,13 @@ func NewRouter(db *sqlx.DB, emailService email.EmailSender) *Router {
 func (r *Router) SetupRoutes() *gin.Engine {
 	router := gin.New()
 
-	// Add middleware
+	// Add core middleware
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
+
+	// Add CORS and Security middleware
+	router.Use(middleware.CORSMiddleware())
+	router.Use(middleware.SecurityHeadersMiddleware())
 
 	// Session middleware
 	store := cookie.NewStore([]byte(config.AppConfig.SessionConfig.Key))
@@ -69,7 +73,7 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 	// Create a default structured logger
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
-	// Create repositories
+	// Create existing repositories
 	userRepo := infraRepo.NewUserRepositoryImpl(r.db)
 	productRepo := infraRepo.NewPostgreSQLProductRepository(r.db)
 	productCategoryRepo := infraRepo.NewPostgreSQLProductCategoryRepository(r.db)
@@ -77,7 +81,16 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 	productVariantOptionRepo := infraRepo.NewPostgreSQLProductVariantOptionRepository(r.db)
 	productImageRepo := infraRepo.NewPostgreSQLProductImageRepository(r.db)
 
-	// Create use cases
+	// TODO: Phase 4 Implementation - Add new repository implementations
+	// The following repository implementations need to be created:
+	// - CustomerRepositoryImpl
+	// - CustomerAddressRepositoryImpl
+	// - StorefrontRepositoryImpl
+	// - SimpleTenantResolver
+	//
+	// Once these are implemented, uncomment the service and handler creation below
+
+	// Create use cases (existing)
 	userUseCase := usecase.NewUserUseCase(userRepo, r.emailService)
 	productUseCase := usecase.NewProductUseCase(
 		productRepo,
@@ -88,7 +101,7 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 		logger,
 	)
 
-	// Create handlers
+	// Create handlers (existing)
 	authHandler := handler.NewAuthHandler(userUseCase)
 	userHandler := handler.NewUserHandler(userUseCase)
 	productHandler := handler.NewProductHandler(productUseCase, logger)
@@ -115,6 +128,72 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 		{
 			users.GET("/profile", userHandler.GetUserProfile)
 		}
+
+		// TODO: Phase 4 Implementation - Customer Routes
+		// Uncomment and complete customer routes once repositories are implemented
+		/*
+			customers := v1.Group("/customers")
+			{
+				customers.POST("/register", customerHandler.RegisterCustomer)
+
+				protected := customers.Group("")
+				protected.Use(middleware.AuthMiddleware())
+				{
+					protected.GET("/:id", customerHandler.GetCustomer)
+					protected.GET("/by-email", customerHandler.GetCustomerByEmail)
+					protected.PUT("/:id", customerHandler.UpdateCustomer)
+					protected.POST("/:id/deactivate", customerHandler.DeactivateCustomer)
+					protected.POST("/:id/reactivate", customerHandler.ReactivateCustomer)
+					protected.GET("/search", customerHandler.SearchCustomers)
+					protected.GET("/stats", customerHandler.GetCustomerStats)
+					protected.POST("/:id/addresses", customerHandler.CreateCustomerAddress)
+					protected.GET("/:id/addresses", customerHandler.GetCustomerAddresses)
+					protected.POST("/:customer_id/addresses/:address_id/default", customerHandler.SetDefaultAddress)
+					protected.GET("/:id/addresses/default", customerHandler.GetDefaultAddress)
+				}
+			}
+		*/
+
+		// TODO: Phase 4 Implementation - Storefront Routes
+		// Uncomment and complete storefront routes once repositories are implemented
+		/*
+			storefronts := v1.Group("/storefronts")
+			storefronts.Use(middleware.AuthMiddleware())
+			{
+				storefronts.POST("/", storefrontHandler.CreateStorefront)
+				storefronts.GET("/:id", storefrontHandler.GetStorefront)
+				storefronts.GET("/by-slug", storefrontHandler.GetStorefrontBySlug)
+				storefronts.PUT("/:id", storefrontHandler.UpdateStorefront)
+				storefronts.DELETE("/:id", storefrontHandler.DeleteStorefront)
+				storefronts.POST("/:id/activate", storefrontHandler.ActivateStorefront)
+				storefronts.POST("/:id/deactivate", storefrontHandler.DeactivateStorefront)
+				storefronts.POST("/:id/suspend", storefrontHandler.SuspendStorefront)
+				storefronts.PUT("/:id/settings", storefrontHandler.UpdateStorefrontSettings)
+				storefronts.GET("/search", storefrontHandler.SearchStorefronts)
+				storefronts.GET("/:id/stats", storefrontHandler.GetStorefrontStats)
+				storefronts.POST("/validate-domain", storefrontHandler.ValidateCustomDomain)
+			}
+		*/
+
+		// TODO: Phase 4 Implementation - Address Routes
+		// Uncomment and complete address routes once repositories are implemented
+		/*
+			addresses := v1.Group("/addresses")
+			addresses.Use(middleware.AuthMiddleware())
+			{
+				addresses.GET("/:id", addressHandler.GetAddress)
+				addresses.PUT("/:id", addressHandler.UpdateAddress)
+				addresses.DELETE("/:id", addressHandler.DeleteAddress)
+				addresses.POST("/validate", addressHandler.ValidateAddress)
+				addresses.POST("/geocode", addressHandler.GeocodeAddress)
+				addresses.POST("/nearby", addressHandler.GetNearbyAddresses)
+				addresses.POST("/bulk", addressHandler.BulkCreateAddresses)
+				addresses.PUT("/bulk", addressHandler.BulkUpdateAddresses)
+				addresses.DELETE("/bulk", addressHandler.BulkDeleteAddresses)
+				addresses.POST("/stats", addressHandler.GetAddressStats)
+				addresses.POST("/distribution", addressHandler.GetAddressDistribution)
+			}
+		*/
 
 		// Product routes (protected)
 		products := v1.Group("/products")
