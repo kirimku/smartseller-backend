@@ -7,17 +7,17 @@ import (
 // DefaultTenantConfig returns a default configuration for the tenant resolver
 func DefaultTenantConfig() *TenantConfig {
 	return &TenantConfig{
-		DefaultTenantType:        TenantTypeShared,
+		DefaultTenantType:       TenantTypeShared,
 		TenantOverrides:         make(map[string]TenantType),
 		SharedDatabaseURL:       "postgres://localhost:5432/smartseller?sslmode=disable",
 		TenantDatabasePattern:   "postgres://localhost:5432/smartseller_tenant_%s?sslmode=disable",
 		MaxConnectionsPerTenant: 10,
 		MigrationThresholds: MigrationThresholds{
 			SchemaThreshold: struct {
-				CustomerCount    int           `yaml:"customer_count"`
-				OrderCount       int           `yaml:"order_count"`
-				DataSizeMB       float64       `yaml:"data_size_mb"`
-				AvgQueryTime     time.Duration `yaml:"avg_query_time"`
+				CustomerCount int           `yaml:"customer_count"`
+				OrderCount    int           `yaml:"order_count"`
+				DataSizeMB    float64       `yaml:"data_size_mb"`
+				AvgQueryTime  time.Duration `yaml:"avg_query_time"`
 			}{
 				CustomerCount: 1000,
 				OrderCount:    5000,
@@ -58,13 +58,13 @@ func LoadTenantConfigFromEnv() *TenantConfig {
 type TenantMiddlewareConfig struct {
 	// Header names to check for tenant identification
 	TenantHeaders []string `yaml:"tenant_headers"`
-	
+
 	// Default tenant to use if none is found
 	DefaultTenant string `yaml:"default_tenant"`
-	
+
 	// Whether to require tenant identification
 	RequireTenant bool `yaml:"require_tenant"`
-	
+
 	// Timeout for tenant resolution
 	ResolutionTimeout time.Duration `yaml:"resolution_timeout"`
 }

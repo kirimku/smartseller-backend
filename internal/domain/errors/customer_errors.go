@@ -27,46 +27,46 @@ func NewDomainError(code, message string, httpStatus int) *DomainError {
 
 // Customer-related errors
 var (
-	ErrCustomerNotFound         = NewDomainError("CUSTOMER_NOT_FOUND", "Customer not found", http.StatusNotFound)
-	ErrEmailAlreadyExists       = NewDomainError("EMAIL_ALREADY_EXISTS", "Email address is already registered", http.StatusConflict)
-	ErrPhoneAlreadyExists       = NewDomainError("PHONE_ALREADY_EXISTS", "Phone number is already registered", http.StatusConflict)
-	ErrInvalidCredentials       = NewDomainError("INVALID_CREDENTIALS", "Invalid email or password", http.StatusUnauthorized)
-	ErrAccountSuspended         = NewDomainError("ACCOUNT_SUSPENDED", "Customer account is suspended", http.StatusForbidden)
-	ErrAccountLocked            = NewDomainError("ACCOUNT_LOCKED", "Account is temporarily locked due to too many failed login attempts", http.StatusForbidden)
-	ErrEmailNotVerified         = NewDomainError("EMAIL_NOT_VERIFIED", "Email address is not verified", http.StatusForbidden)
-	ErrPhoneNotVerified         = NewDomainError("PHONE_NOT_VERIFIED", "Phone number is not verified", http.StatusForbidden)
-	ErrInvalidEmailToken        = NewDomainError("INVALID_EMAIL_TOKEN", "Invalid or expired email verification token", http.StatusBadRequest)
-	ErrInvalidPhoneToken        = NewDomainError("INVALID_PHONE_TOKEN", "Invalid or expired phone verification token", http.StatusBadRequest)
-	ErrInvalidPasswordToken     = NewDomainError("INVALID_PASSWORD_TOKEN", "Invalid or expired password reset token", http.StatusBadRequest)
-	ErrWeakPassword            = NewDomainError("WEAK_PASSWORD", "Password does not meet security requirements", http.StatusBadRequest)
-	ErrInvalidRefreshToken     = NewDomainError("INVALID_REFRESH_TOKEN", "Invalid or expired refresh token", http.StatusUnauthorized)
-	ErrSessionExpired          = NewDomainError("SESSION_EXPIRED", "Session has expired", http.StatusUnauthorized)
-	ErrSessionNotFound         = NewDomainError("SESSION_NOT_FOUND", "Session not found", http.StatusUnauthorized)
-	ErrTooManyFailedAttempts   = NewDomainError("TOO_MANY_FAILED_ATTEMPTS", "Too many failed login attempts", http.StatusTooManyRequests)
-	ErrInvalidCustomerStatus   = NewDomainError("INVALID_CUSTOMER_STATUS", "Invalid customer status", http.StatusBadRequest)
-	ErrInvalidCustomerType     = NewDomainError("INVALID_CUSTOMER_TYPE", "Invalid customer type", http.StatusBadRequest)
-	ErrCustomerInactive        = NewDomainError("CUSTOMER_INACTIVE", "Customer account is inactive", http.StatusForbidden)
-	ErrCustomerBlocked         = NewDomainError("CUSTOMER_BLOCKED", "Customer account is blocked", http.StatusForbidden)
-	ErrInvalidEmailFormat      = NewDomainError("INVALID_EMAIL_FORMAT", "Invalid email format", http.StatusBadRequest)
-	ErrInvalidPhoneFormat      = NewDomainError("INVALID_PHONE_FORMAT", "Invalid phone number format", http.StatusBadRequest)
-	ErrCustomerDataRequired    = NewDomainError("CUSTOMER_DATA_REQUIRED", "Customer data is required", http.StatusBadRequest)
-	ErrDuplicateCustomerData   = NewDomainError("DUPLICATE_CUSTOMER_DATA", "Customer data already exists", http.StatusConflict)
+	ErrCustomerNotFound      = NewDomainError("CUSTOMER_NOT_FOUND", "Customer not found", http.StatusNotFound)
+	ErrEmailAlreadyExists    = NewDomainError("EMAIL_ALREADY_EXISTS", "Email address is already registered", http.StatusConflict)
+	ErrPhoneAlreadyExists    = NewDomainError("PHONE_ALREADY_EXISTS", "Phone number is already registered", http.StatusConflict)
+	ErrInvalidCredentials    = NewDomainError("INVALID_CREDENTIALS", "Invalid email or password", http.StatusUnauthorized)
+	ErrAccountSuspended      = NewDomainError("ACCOUNT_SUSPENDED", "Customer account is suspended", http.StatusForbidden)
+	ErrAccountLocked         = NewDomainError("ACCOUNT_LOCKED", "Account is temporarily locked due to too many failed login attempts", http.StatusForbidden)
+	ErrEmailNotVerified      = NewDomainError("EMAIL_NOT_VERIFIED", "Email address is not verified", http.StatusForbidden)
+	ErrPhoneNotVerified      = NewDomainError("PHONE_NOT_VERIFIED", "Phone number is not verified", http.StatusForbidden)
+	ErrInvalidEmailToken     = NewDomainError("INVALID_EMAIL_TOKEN", "Invalid or expired email verification token", http.StatusBadRequest)
+	ErrInvalidPhoneToken     = NewDomainError("INVALID_PHONE_TOKEN", "Invalid or expired phone verification token", http.StatusBadRequest)
+	ErrInvalidPasswordToken  = NewDomainError("INVALID_PASSWORD_TOKEN", "Invalid or expired password reset token", http.StatusBadRequest)
+	ErrWeakPassword          = NewDomainError("WEAK_PASSWORD", "Password does not meet security requirements", http.StatusBadRequest)
+	ErrInvalidRefreshToken   = NewDomainError("INVALID_REFRESH_TOKEN", "Invalid or expired refresh token", http.StatusUnauthorized)
+	ErrSessionExpired        = NewDomainError("SESSION_EXPIRED", "Session has expired", http.StatusUnauthorized)
+	ErrSessionNotFound       = NewDomainError("SESSION_NOT_FOUND", "Session not found", http.StatusUnauthorized)
+	ErrTooManyFailedAttempts = NewDomainError("TOO_MANY_FAILED_ATTEMPTS", "Too many failed login attempts", http.StatusTooManyRequests)
+	ErrInvalidCustomerStatus = NewDomainError("INVALID_CUSTOMER_STATUS", "Invalid customer status", http.StatusBadRequest)
+	ErrInvalidCustomerType   = NewDomainError("INVALID_CUSTOMER_TYPE", "Invalid customer type", http.StatusBadRequest)
+	ErrCustomerInactive      = NewDomainError("CUSTOMER_INACTIVE", "Customer account is inactive", http.StatusForbidden)
+	ErrCustomerBlocked       = NewDomainError("CUSTOMER_BLOCKED", "Customer account is blocked", http.StatusForbidden)
+	ErrInvalidEmailFormat    = NewDomainError("INVALID_EMAIL_FORMAT", "Invalid email format", http.StatusBadRequest)
+	ErrInvalidPhoneFormat    = NewDomainError("INVALID_PHONE_FORMAT", "Invalid phone number format", http.StatusBadRequest)
+	ErrCustomerDataRequired  = NewDomainError("CUSTOMER_DATA_REQUIRED", "Customer data is required", http.StatusBadRequest)
+	ErrDuplicateCustomerData = NewDomainError("DUPLICATE_CUSTOMER_DATA", "Customer data already exists", http.StatusConflict)
 )
 
 // Storefront-related errors
 var (
-	ErrStorefrontNotFound       = NewDomainError("STOREFRONT_NOT_FOUND", "Storefront not found", http.StatusNotFound)
-	ErrStorefrontInactive       = NewDomainError("STOREFRONT_INACTIVE", "Storefront is not active", http.StatusForbidden)
-	ErrStorefrontSuspended      = NewDomainError("STOREFRONT_SUSPENDED", "Storefront is suspended", http.StatusForbidden)
-	ErrSlugAlreadyExists        = NewDomainError("SLUG_ALREADY_EXISTS", "Storefront slug already exists", http.StatusConflict)
-	ErrDomainAlreadyExists      = NewDomainError("DOMAIN_ALREADY_EXISTS", "Domain already exists", http.StatusConflict)
-	ErrSubdomainAlreadyExists   = NewDomainError("SUBDOMAIN_ALREADY_EXISTS", "Subdomain already exists", http.StatusConflict)
-	ErrUnauthorizedStorefront   = NewDomainError("UNAUTHORIZED_STOREFRONT", "Not authorized to access this storefront", http.StatusForbidden)
-	ErrInvalidStorefrontSlug    = NewDomainError("INVALID_STOREFRONT_SLUG", "Invalid storefront slug format", http.StatusBadRequest)
-	ErrInvalidStorefrontDomain  = NewDomainError("INVALID_STOREFRONT_DOMAIN", "Invalid domain format", http.StatusBadRequest)
-	ErrInvalidStorefrontStatus  = NewDomainError("INVALID_STOREFRONT_STATUS", "Invalid storefront status", http.StatusBadRequest)
-	ErrStorefrontNameRequired   = NewDomainError("STOREFRONT_NAME_REQUIRED", "Storefront name is required", http.StatusBadRequest)
-	ErrStorefrontOwnerMismatch  = NewDomainError("STOREFRONT_OWNER_MISMATCH", "Storefront owner mismatch", http.StatusForbidden)
+	ErrStorefrontNotFound      = NewDomainError("STOREFRONT_NOT_FOUND", "Storefront not found", http.StatusNotFound)
+	ErrStorefrontInactive      = NewDomainError("STOREFRONT_INACTIVE", "Storefront is not active", http.StatusForbidden)
+	ErrStorefrontSuspended     = NewDomainError("STOREFRONT_SUSPENDED", "Storefront is suspended", http.StatusForbidden)
+	ErrSlugAlreadyExists       = NewDomainError("SLUG_ALREADY_EXISTS", "Storefront slug already exists", http.StatusConflict)
+	ErrDomainAlreadyExists     = NewDomainError("DOMAIN_ALREADY_EXISTS", "Domain already exists", http.StatusConflict)
+	ErrSubdomainAlreadyExists  = NewDomainError("SUBDOMAIN_ALREADY_EXISTS", "Subdomain already exists", http.StatusConflict)
+	ErrUnauthorizedStorefront  = NewDomainError("UNAUTHORIZED_STOREFRONT", "Not authorized to access this storefront", http.StatusForbidden)
+	ErrInvalidStorefrontSlug   = NewDomainError("INVALID_STOREFRONT_SLUG", "Invalid storefront slug format", http.StatusBadRequest)
+	ErrInvalidStorefrontDomain = NewDomainError("INVALID_STOREFRONT_DOMAIN", "Invalid domain format", http.StatusBadRequest)
+	ErrInvalidStorefrontStatus = NewDomainError("INVALID_STOREFRONT_STATUS", "Invalid storefront status", http.StatusBadRequest)
+	ErrStorefrontNameRequired  = NewDomainError("STOREFRONT_NAME_REQUIRED", "Storefront name is required", http.StatusBadRequest)
+	ErrStorefrontOwnerMismatch = NewDomainError("STOREFRONT_OWNER_MISMATCH", "Storefront owner mismatch", http.StatusForbidden)
 )
 
 // Address-related errors
@@ -84,14 +84,14 @@ var (
 
 // Multi-tenancy and tenant-related errors
 var (
-	ErrTenantMismatch          = NewDomainError("TENANT_MISMATCH", "Resource does not belong to this tenant", http.StatusForbidden)
-	ErrTenantNotFound          = NewDomainError("TENANT_NOT_FOUND", "Tenant not found", http.StatusNotFound)
-	ErrTenantAccessDenied      = NewDomainError("TENANT_ACCESS_DENIED", "Access denied for this tenant", http.StatusForbidden)
-	ErrInvalidTenantContext    = NewDomainError("INVALID_TENANT_CONTEXT", "Invalid tenant context", http.StatusBadRequest)
-	ErrTenantLimitExceeded     = NewDomainError("TENANT_LIMIT_EXCEEDED", "Tenant limit exceeded", http.StatusPaymentRequired)
-	ErrTenantStorageExceeded   = NewDomainError("TENANT_STORAGE_EXCEEDED", "Tenant storage limit exceeded", http.StatusPaymentRequired)
-	ErrTenantFeatureDisabled   = NewDomainError("TENANT_FEATURE_DISABLED", "Feature is disabled for this tenant", http.StatusForbidden)
-	ErrCrossTenantAccess       = NewDomainError("CROSS_TENANT_ACCESS", "Cross-tenant access is not allowed", http.StatusForbidden)
+	ErrTenantMismatch        = NewDomainError("TENANT_MISMATCH", "Resource does not belong to this tenant", http.StatusForbidden)
+	ErrTenantNotFound        = NewDomainError("TENANT_NOT_FOUND", "Tenant not found", http.StatusNotFound)
+	ErrTenantAccessDenied    = NewDomainError("TENANT_ACCESS_DENIED", "Access denied for this tenant", http.StatusForbidden)
+	ErrInvalidTenantContext  = NewDomainError("INVALID_TENANT_CONTEXT", "Invalid tenant context", http.StatusBadRequest)
+	ErrTenantLimitExceeded   = NewDomainError("TENANT_LIMIT_EXCEEDED", "Tenant limit exceeded", http.StatusPaymentRequired)
+	ErrTenantStorageExceeded = NewDomainError("TENANT_STORAGE_EXCEEDED", "Tenant storage limit exceeded", http.StatusPaymentRequired)
+	ErrTenantFeatureDisabled = NewDomainError("TENANT_FEATURE_DISABLED", "Feature is disabled for this tenant", http.StatusForbidden)
+	ErrCrossTenantAccess     = NewDomainError("CROSS_TENANT_ACCESS", "Cross-tenant access is not allowed", http.StatusForbidden)
 )
 
 // Authentication and authorization errors
@@ -122,12 +122,12 @@ var (
 
 // System and infrastructure errors
 var (
-	ErrDatabaseConnection      = NewDomainError("DATABASE_CONNECTION_ERROR", "Database connection error", http.StatusInternalServerError)
-	ErrDatabaseQuery           = NewDomainError("DATABASE_QUERY_ERROR", "Database query error", http.StatusInternalServerError)
-	ErrExternalServiceUnavail  = NewDomainError("EXTERNAL_SERVICE_UNAVAILABLE", "External service unavailable", http.StatusServiceUnavailable)
-	ErrCacheUnavailable        = NewDomainError("CACHE_UNAVAILABLE", "Cache service unavailable", http.StatusServiceUnavailable)
-	ErrConfigurationError      = NewDomainError("CONFIGURATION_ERROR", "Configuration error", http.StatusInternalServerError)
-	ErrInternalServerError     = NewDomainError("INTERNAL_SERVER_ERROR", "Internal server error", http.StatusInternalServerError)
+	ErrDatabaseConnection        = NewDomainError("DATABASE_CONNECTION_ERROR", "Database connection error", http.StatusInternalServerError)
+	ErrDatabaseQuery             = NewDomainError("DATABASE_QUERY_ERROR", "Database query error", http.StatusInternalServerError)
+	ErrExternalServiceUnavail    = NewDomainError("EXTERNAL_SERVICE_UNAVAILABLE", "External service unavailable", http.StatusServiceUnavailable)
+	ErrCacheUnavailable          = NewDomainError("CACHE_UNAVAILABLE", "Cache service unavailable", http.StatusServiceUnavailable)
+	ErrConfigurationError        = NewDomainError("CONFIGURATION_ERROR", "Configuration error", http.StatusInternalServerError)
+	ErrInternalServerError       = NewDomainError("INTERNAL_SERVER_ERROR", "Internal server error", http.StatusInternalServerError)
 	ErrServiceTemporarilyUnavail = NewDomainError("SERVICE_TEMPORARILY_UNAVAILABLE", "Service temporarily unavailable", http.StatusServiceUnavailable)
 )
 
@@ -169,9 +169,9 @@ func IsUnauthorized(err error) bool {
 
 func IsValidationError(err error) bool {
 	if domainErr, ok := err.(*DomainError); ok {
-		return domainErr.Code == "VALIDATION_FAILED" || 
-			   domainErr.Code == "REQUIRED_FIELD_MISSING" ||
-			   domainErr.Code == "INVALID_FIELD_VALUE"
+		return domainErr.Code == "VALIDATION_FAILED" ||
+			domainErr.Code == "REQUIRED_FIELD_MISSING" ||
+			domainErr.Code == "INVALID_FIELD_VALUE"
 	}
 	return false
 }

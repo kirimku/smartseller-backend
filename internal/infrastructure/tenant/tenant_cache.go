@@ -13,12 +13,12 @@ type TenantCache interface {
 	GetStorefront(key string) *entity.Storefront
 	SetStorefront(key string, storefront *entity.Storefront, ttl time.Duration)
 	InvalidateStorefront(key string)
-	
+
 	// Customer caching (optional for performance)
 	GetCustomer(storefrontID, customerID string) *entity.Customer
 	SetCustomer(storefrontID, customerID string, customer *entity.Customer, ttl time.Duration)
 	InvalidateCustomer(storefrontID, customerID string)
-	
+
 	// Generic cache operations
 	Clear()
 	Size() int
@@ -32,10 +32,10 @@ type cacheItem struct {
 
 // inMemoryCache is a simple in-memory cache implementation
 type inMemoryCache struct {
-	items        map[string]cacheItem
-	mu           sync.RWMutex
-	maxSize      int
-	cleanupDone  chan bool
+	items       map[string]cacheItem
+	mu          sync.RWMutex
+	maxSize     int
+	cleanupDone chan bool
 }
 
 // NewInMemoryTenantCache creates a new in-memory tenant cache
@@ -45,10 +45,10 @@ func NewInMemoryTenantCache(maxSize int, cleanupInterval time.Duration) TenantCa
 		maxSize:     maxSize,
 		cleanupDone: make(chan bool, 1),
 	}
-	
+
 	// Start cleanup goroutine
 	go cache.startCleanup(cleanupInterval)
-	
+
 	return cache
 }
 
@@ -56,17 +56,17 @@ func NewInMemoryTenantCache(maxSize int, cleanupInterval time.Duration) TenantCa
 func (c *inMemoryCache) GetStorefront(key string) *entity.Storefront {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
-	
+
 	cacheKey := "storefront:" + key
 	item, exists := c.items[cacheKey]
 	if !exists || time.Now().After(item.expiresAt) {
 		return nil
 	}
-	
+
 	if storefront, ok := item.data.(*entity.Storefront); ok {
 		return storefront
 	}
-	
+
 	return nil
 }
 
@@ -74,12 +74,12 @@ func (c *inMemoryCache) GetStorefront(key string) *entity.Storefront {
 func (c *inMemoryCache) SetStorefront(key string, storefront *entity.Storefront, ttl time.Duration) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	
+
 	// Check if we need to make space
 	if len(c.items) >= c.maxSize {
 		c.evictOldest()
 	}
-	
+
 	cacheKey := "storefront:" + key
 	c.items[cacheKey] = cacheItem{
 		data:      storefront,
@@ -91,7 +91,7 @@ func (c *inMemoryCache) SetStorefront(key string, storefront *entity.Storefront,
 func (c *inMemoryCache) InvalidateStorefront(key string) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	
+
 	cacheKey := "storefront:" + key
 	delete(c.items, cacheKey)
 }
@@ -100,17 +100,17 @@ func (c *inMemoryCache) InvalidateStorefront(key string) {
 func (c *inMemoryCache) GetCustomer(storefrontID, customerID string) *entity.Customer {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
-	
+
 	cacheKey := "customer:" + storefrontID + ":" + customerID
 	item, exists := c.items[cacheKey]
 	if !exists || time.Now().After(item.expiresAt) {
 		return nil
 	}
-	
+
 	if customer, ok := item.data.(*entity.Customer); ok {
 		return customer
 	}
-	
+
 	return nil
 }
 
@@ -118,12 +118,12 @@ func (c *inMemoryCache) GetCustomer(storefrontID, customerID string) *entity.Cus
 func (c *inMemoryCache) SetCustomer(storefrontID, customerID string, customer *entity.Customer, ttl time.Duration) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	
+
 	// Check if we need to make space
 	if len(c.items) >= c.maxSize {
 		c.evictOldest()
 	}
-	
+
 	cacheKey := "customer:" + storefrontID + ":" + customerID
 	c.items[cacheKey] = cacheItem{
 		data:      customer,
@@ -135,7 +135,7 @@ func (c *inMemoryCache) SetCustomer(storefrontID, customerID string, customer *e
 func (c *inMemoryCache) InvalidateCustomer(storefrontID, customerID string) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	
+
 	cacheKey := "customer:" + storefrontID + ":" + customerID
 	delete(c.items, cacheKey)
 }
@@ -144,7 +144,7 @@ func (c *inMemoryCache) InvalidateCustomer(storefrontID, customerID string) {
 func (c *inMemoryCache) Clear() {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	
+
 	c.items = make(map[string]cacheItem)
 }
 
@@ -152,7 +152,7 @@ func (c *inMemoryCache) Clear() {
 func (c *inMemoryCache) Size() int {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
-	
+
 	return len(c.items)
 }
 
@@ -161,25 +161,25 @@ func (c *inMemoryCache) evictOldest() {
 	if len(c.items) == 0 {
 		return
 	}
-	
+
 	now := time.Now()
 	var oldestKey string
 	var oldestTime time.Time
-	
+
 	// First, try to remove any expired items
 	for key, item := range c.items {
 		if now.After(item.expiresAt) {
 			delete(c.items, key)
 			return
 		}
-		
+
 		// Track oldest item as fallback
 		if oldestKey == "" || item.expiresAt.Before(oldestTime) {
 			oldestKey = key
 			oldestTime = item.expiresAt
 		}
 	}
-	
+
 	// If no expired items, remove the oldest one
 	if oldestKey != "" {
 		delete(c.items, oldestKey)
@@ -190,7 +190,7 @@ func (c *inMemoryCache) evictOldest() {
 func (c *inMemoryCache) startCleanup(interval time.Duration) {
 	ticker := time.NewTicker(interval)
 	defer ticker.Stop()
-	
+
 	for {
 		select {
 		case <-ticker.C:
@@ -205,7 +205,7 @@ func (c *inMemoryCache) startCleanup(interval time.Duration) {
 func (c *inMemoryCache) cleanupExpired() {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	
+
 	now := time.Now()
 	for key, item := range c.items {
 		if now.After(item.expiresAt) {
