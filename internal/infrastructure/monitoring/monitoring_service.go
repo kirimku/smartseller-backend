@@ -16,12 +16,12 @@ import (
 
 // MonitoringService provides comprehensive database performance monitoring
 type MonitoringService struct {
-	config              Config
-	performanceMonitor  *QueryPerformanceMonitor
-	alertManager        *AlertManager
-	dashboard           *MetricsDashboard
-	connectionManager   *database.ConnectionManager
-	enabled             bool
+	config             Config
+	performanceMonitor *QueryPerformanceMonitor
+	alertManager       *AlertManager
+	dashboard          *MetricsDashboard
+	connectionManager  *database.ConnectionManager
+	enabled            bool
 }
 
 // NewMonitoringService creates a new monitoring service
@@ -163,13 +163,13 @@ func (ms *MonitoringService) GetConfig() Config {
 func (ms *MonitoringService) getAlertHistory(c *gin.Context) {
 	limitStr := c.DefaultQuery("limit", "50")
 	limit := 50
-	
+
 	if l, err := fmt.Sscanf(limitStr, "%d", &limit); err != nil || l != 1 || limit <= 0 {
 		limit = 50
 	}
 
 	alerts := ms.alertManager.GetAlertHistory(limit)
-	
+
 	c.JSON(200, gin.H{
 		"alerts": alerts,
 		"count":  len(alerts),
@@ -178,7 +178,7 @@ func (ms *MonitoringService) getAlertHistory(c *gin.Context) {
 
 func (ms *MonitoringService) acknowledgeAlert(c *gin.Context) {
 	alertIDStr := c.Param("alert_id")
-	
+
 	// Parse UUID would go here, simplified for now
 	err := ms.alertManager.AcknowledgeAlert(uuid.New()) // Placeholder
 	if err != nil {
@@ -188,16 +188,16 @@ func (ms *MonitoringService) acknowledgeAlert(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	c.JSON(200, gin.H{
-		"message": "Alert acknowledged successfully",
+		"message":  "Alert acknowledged successfully",
 		"alert_id": alertIDStr,
 	})
 }
 
 func (ms *MonitoringService) resolveAlert(c *gin.Context) {
 	alertIDStr := c.Param("alert_id")
-	
+
 	// Parse UUID would go here, simplified for now
 	err := ms.alertManager.ResolveAlert(uuid.New()) // Placeholder
 	if err != nil {
@@ -207,25 +207,25 @@ func (ms *MonitoringService) resolveAlert(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	c.JSON(200, gin.H{
-		"message": "Alert resolved successfully",
+		"message":  "Alert resolved successfully",
 		"alert_id": alertIDStr,
 	})
 }
 
 func (ms *MonitoringService) getAlertStats(c *gin.Context) {
 	alerts := ms.alertManager.GetAlertHistory(0) // Get all alerts
-	
+
 	stats := make(map[AlertType]int)
 	severityStats := make(map[Severity]int)
 	acknowledged := 0
 	resolved := 0
-	
+
 	for _, alert := range alerts {
 		stats[alert.Type]++
 		severityStats[alert.Severity]++
-		
+
 		if alert.Acknowledged {
 			acknowledged++
 		}
@@ -233,7 +233,7 @@ func (ms *MonitoringService) getAlertStats(c *gin.Context) {
 			resolved++
 		}
 	}
-	
+
 	c.JSON(200, gin.H{
 		"total_alerts":        len(alerts),
 		"alerts_by_type":      stats,
