@@ -55,140 +55,140 @@ func TestJNEWebhookHandler_normalizeJNEStatus(t *testing.T) {
 		name        string
 		status      string
 		statusCode  string
-		expected    domainservice.TrackingState
+		expected    TrackingStateTrackingState
 		description string
 	}{
 		{
 			name:        "D01 delivered status",
 			status:      "Delivered",
 			statusCode:  "D01",
-			expected:    domainservice.TrackingStateDelivered,
+			expected:    TrackingStateTrackingStateDelivered,
 			description: "Should recognize D01 as delivered",
 		},
 		{
 			name:        "DB1 delivered status",
 			status:      "Package delivered",
 			statusCode:  "DB1",
-			expected:    domainservice.TrackingStateDelivered,
+			expected:    TrackingStateTrackingStateDelivered,
 			description: "Should recognize DB1 as delivered",
 		},
 		{
 			name:        "D12 delivered status",
 			status:      "Package delivered successfully",
 			statusCode:  "D12",
-			expected:    domainservice.TrackingStateDelivered,
+			expected:    TrackingStateTrackingStateDelivered,
 			description: "Should recognize D12 as delivered",
 		},
 		{
 			name:        "M01 manifest status",
 			status:      "Package manifested",
 			statusCode:  "M01",
-			expected:    domainservice.TrackingStatePickedUp,
+			expected:    TrackingStateTrackingStatePickedUp,
 			description: "Should recognize M01 as picked up",
 		},
 		{
 			name:        "T01 transit status",
 			status:      "In transit",
 			statusCode:  "T01",
-			expected:    domainservice.TrackingStateInTransit,
+			expected:    TrackingStateTrackingStateInTransit,
 			description: "Should recognize T01 as in transit",
 		},
 		{
 			name:        "O01 out for delivery",
 			status:      "Out for delivery",
 			statusCode:  "O01",
-			expected:    domainservice.TrackingStateOutForDelivery,
+			expected:    TrackingStateTrackingStateOutForDelivery,
 			description: "Should recognize O01 as out for delivery",
 		},
 		{
 			name:        "F01 delivery failed",
 			status:      "Delivery failed",
 			statusCode:  "F01",
-			expected:    domainservice.TrackingStateDeliveryFailed,
+			expected:    TrackingStateTrackingStateDeliveryFailed,
 			description: "Should recognize F01 as delivery failed",
 		},
 		{
 			name:        "R01 returning",
 			status:      "Returning to sender",
 			statusCode:  "R01",
-			expected:    domainservice.TrackingStateReturning,
+			expected:    TrackingStateTrackingStateReturning,
 			description: "Should recognize R01 as returning",
 		},
 		{
 			name:        "R03 returned",
 			status:      "Returned to sender",
 			statusCode:  "R03",
-			expected:    domainservice.TrackingStateReturned,
+			expected:    TrackingStateTrackingStateReturned,
 			description: "Should recognize R03 as returned",
 		},
 		{
 			name:        "C01 cancelled",
 			status:      "Package cancelled",
 			statusCode:  "C01",
-			expected:    domainservice.TrackingStateException,
+			expected:    TrackingStateTrackingStateException,
 			description: "Should recognize C01 as exception",
 		},
 		{
 			name:        "B01 booking",
 			status:      "Package booked",
 			statusCode:  "B01",
-			expected:    domainservice.TrackingStatePickupPending,
+			expected:    TrackingStateTrackingStatePickupPending,
 			description: "Should recognize B01 as pickup pending",
 		},
 		{
 			name:        "Indonesian delivered text without code",
 			status:      "Paket telah diterima",
 			statusCode:  "",
-			expected:    domainservice.TrackingStateDelivered,
+			expected:    TrackingStateTrackingStateDelivered,
 			description: "Should recognize Indonesian delivered text",
 		},
 		{
 			name:        "Indonesian transit text without code",
 			status:      "Paket dalam perjalanan",
 			statusCode:  "",
-			expected:    domainservice.TrackingStateInTransit,
+			expected:    TrackingStateTrackingStateInTransit,
 			description: "Should recognize Indonesian transit text",
 		},
 		{
 			name:        "Indonesian pickup text without code",
 			status:      "Paket telah diambil",
 			statusCode:  "",
-			expected:    domainservice.TrackingStatePickedUp,
+			expected:    TrackingStateTrackingStatePickedUp,
 			description: "Should recognize Indonesian pickup text",
 		},
 		{
 			name:        "Indonesian delivery text without code",
 			status:      "Sedang dalam pengiriman",
 			statusCode:  "",
-			expected:    domainservice.TrackingStateOutForDelivery,
+			expected:    TrackingStateTrackingStateOutForDelivery,
 			description: "Should recognize Indonesian delivery text",
 		},
 		{
 			name:        "Indonesian failed text without code",
 			status:      "Pengiriman gagal",
 			statusCode:  "",
-			expected:    domainservice.TrackingStateDeliveryFailed,
+			expected:    TrackingStateTrackingStateDeliveryFailed,
 			description: "Should recognize Indonesian failed text",
 		},
 		{
 			name:        "Indonesian cancelled text without code",
 			status:      "Paket dibatalkan",
 			statusCode:  "",
-			expected:    domainservice.TrackingStateException,
+			expected:    TrackingStateTrackingStateException,
 			description: "Should recognize Indonesian cancelled text",
 		},
 		{
 			name:        "Indonesian returned text without code",
 			status:      "Paket dikembalikan",
 			statusCode:  "",
-			expected:    domainservice.TrackingStateReturned,
+			expected:    TrackingStateTrackingStateReturned,
 			description: "Should recognize Indonesian returned text",
 		},
 		{
 			name:        "Unknown status",
 			status:      "Some unknown status",
 			statusCode:  "UNKNOWN",
-			expected:    domainservice.TrackingStateUnknown,
+			expected:    TrackingStateTrackingStateUnknown,
 			description: "Should return unknown for unrecognized status",
 		},
 	}
@@ -258,7 +258,7 @@ func TestJNEWebhookHandler_HandleWebhook_Success(t *testing.T) {
 	update := updates[0]
 	assert.Equal(t, "JNE123456789", update.TrackingNumber)
 	assert.Equal(t, "jne", update.CourierCode)
-	assert.Equal(t, domainservice.TrackingStateDelivered, update.Status)
+	assert.Equal(t, TrackingStateTrackingStateDelivered, update.Status)
 	assert.Equal(t, "Delivered successfully", update.StatusText)
 	assert.Equal(t, "Jakarta Selatan, Jakarta, (JNE Jakarta Selatan)", update.Location)
 
@@ -304,7 +304,7 @@ func TestJNEWebhookHandler_HandleWebhook_WithDifferentDeliveredCodes(t *testing.
 			require.Len(t, updates, 1)
 
 			update := updates[0]
-			assert.Equal(t, domainservice.TrackingStateDelivered, update.Status, "Code %s should be recognized as delivered", code)
+			assert.Equal(t, TrackingStateTrackingStateDelivered, update.Status, "Code %s should be recognized as delivered", code)
 		})
 	}
 }

@@ -126,7 +126,7 @@ func (h *SiCepatWebhookHandler) publishInToOutLatency(timeReceived float64) bool
 }
 
 // HandleWebhook processes SiCepat webhook payload following Ruby HandleRequest logic exactly
-func (h *SiCepatWebhookHandler) HandleWebhook(ctx context.Context, payload []byte) ([]*domainservice.TrackingUpdate, error) {
+func (h *SiCepatWebhookHandler) HandleWebhook(ctx context.Context, payload []byte) ([]*TrackingUpdate, error) {
 	logger.Info("processing_sicepat_webhook",
 		"Processing SiCepat webhook payload",
 		map[string]interface{}{
@@ -186,7 +186,7 @@ func (h *SiCepatWebhookHandler) HandleWebhook(ctx context.Context, payload []byt
 	}
 
 	// Create tracking update with Ruby reference metadata structure
-	update := &domainservice.TrackingUpdate{
+	update := &TrackingUpdate{
 		TrackingNumber: trackingNumber,
 		CourierCode:    "sicepat",
 		Status:         normalizedStatus,
@@ -219,7 +219,7 @@ func (h *SiCepatWebhookHandler) HandleWebhook(ctx context.Context, payload []byt
 	}
 
 	// Validate history events
-	updates := []*domainservice.TrackingUpdate{update}
+	updates := []*TrackingUpdate{update}
 
 	logger.Info("sicepat_webhook_processed",
 		"SiCepat webhook processed successfully",
@@ -291,50 +291,50 @@ func (h *SiCepatWebhookHandler) CreateSuccessResponse() []byte {
 }
 
 // normalizeSiCepatStatus converts SiCepat status codes to our standard tracking states
-func (h *SiCepatWebhookHandler) normalizeSiCepatStatus(summaryStatus, lastStatus string) domainservice.TrackingState {
+func (h *SiCepatWebhookHandler) normalizeSiCepatStatus(summaryStatus, lastStatus string) TrackingStateTrackingState {
 	// Check both summary and last status for comprehensive mapping
 	status := strings.ToLower(strings.TrimSpace(summaryStatus + " " + lastStatus))
 
 	switch {
 	case strings.Contains(status, "booking"), strings.Contains(status, "created"),
 		strings.Contains(status, "new"), strings.Contains(status, "pending"):
-		return domainservice.TrackingStatePickupPending
+		return TrackingStateTrackingStatePickupPending
 	case strings.Contains(status, "pickup"), strings.Contains(status, "picked"),
 		strings.Contains(status, "manifest"), strings.Contains(status, "collected"):
-		return domainservice.TrackingStatePickedUp
+		return TrackingStateTrackingStatePickedUp
 	case strings.Contains(status, "transit"), strings.Contains(status, "processing"),
 		strings.Contains(status, "sorting"), strings.Contains(status, "shipment"):
-		return domainservice.TrackingStateInTransit
+		return TrackingStateTrackingStateInTransit
 	case strings.Contains(status, "delivering"), strings.Contains(status, "out for delivery"),
 		strings.Contains(status, "with courier"), strings.Contains(status, "on delivery"):
-		return domainservice.TrackingStateOutForDelivery
+		return TrackingStateTrackingStateOutForDelivery
 	case strings.Contains(status, "delivered"), strings.Contains(status, "pod"),
 		strings.Contains(status, "success"), strings.Contains(status, "complete"):
-		return domainservice.TrackingStateDelivered
+		return TrackingStateTrackingStateDelivered
 	case strings.Contains(status, "failed"), strings.Contains(status, "unsuccessful"),
 		strings.Contains(status, "problem"), strings.Contains(status, "exception"):
-		return domainservice.TrackingStateDeliveryFailed
+		return TrackingStateTrackingStateDeliveryFailed
 	case strings.Contains(status, "returning"), strings.Contains(status, "return"):
 		if strings.Contains(status, "returned") || strings.Contains(status, "complete") {
-			return domainservice.TrackingStateReturned
+			return TrackingStateTrackingStateReturned
 		}
-		return domainservice.TrackingStateReturning
+		return TrackingStateTrackingStateReturning
 	case strings.Contains(status, "cancelled"), strings.Contains(status, "void"),
 		strings.Contains(status, "cancel"):
-		return domainservice.TrackingStateException
+		return TrackingStateTrackingStateException
 	default:
-		return domainservice.TrackingStateUnknown
+		return TrackingStateTrackingStateUnknown
 	}
 }
 
 // validateHistoryEvents filters out history entries with 00:00:00 timestamps
 // Based on the reference implementation's ValidateHistoryParam function
-func (h *SiCepatWebhookHandler) validateHistoryEvents(events []*domainservice.TrackingUpdate) []*domainservice.TrackingUpdate {
+func (h *SiCepatWebhookHandler) validateHistoryEvents(events []*TrackingUpdate) []*TrackingUpdate {
 	if len(events) == 0 {
 		return events
 	}
 
-	validEvents := make([]*domainservice.TrackingUpdate, 0, len(events))
+	validEvents := make([]*TrackingUpdate, 0, len(events))
 	for _, event := range events {
 		if !event.Timestamp.IsZero() {
 			// Check if time is 00:00:00

@@ -1,0 +1,1200 @@
+openapi: 3.0.3
+info:
+  title: SmartSeller Backend API - Complete Specification
+  description: |
+    Complete API specification for SmartSeller e-commerce platform.
+    
+    ## Overview
+    SmartSeller is a comprehensive e-commerce platform that enables customers to create and manage their own storefronts. This API provides complete functionality for:
+    
+    - **Customer Management**: Registration, authentication, profile management
+    - **Storefront Operations**: Create, customize, and manage online stores
+    - **Address Management**: Customer address handling and validation
+    - **Authentication**: JWT-based security system
+    
+    ## Authentication
+    Most endpoints require authentication using Bearer tokens (JWT). Include the token in the Authorization header:
+    ```
+    Authorization: Bearer <your-jwt-token>
+    ```
+    
+    ## Error Handling
+    All endpoints return consistent error responses with appropriate HTTP status codes:
+    - `400` - Bad Request (validation errors)
+    - `401` - Unauthorized (authentication required)
+    - `403` - Forbidden (insufficient permissions)
+    - `404` - Not Found (resource doesn't exist)
+    - `409` - Conflict (duplicate resource)
+    - `422` - Unprocessable Entity (business logic errors)
+    - `500` - Internal Server Error
+    
+    ## Rate Limiting
+    API requests are rate limited to prevent abuse:
+    - **Public endpoints**: 100 requests per minute
+    - **Authenticated endpoints**: 1000 requests per minute
+    - **Admin endpoints**: 5000 requests per minute
+    
+    ## Pagination
+    List endpoints support pagination with the following parameters:
+    - `page` - Page number (default: 1)
+    - `page_size` - Items per page (default: 20, max: 100)
+    
+    ## API Versioning
+    This API uses URL versioning with the `/api/v1/` prefix.
+    
+  version: 1.0.0
+  contact:
+    name: SmartSeller API Support
+    email: api-support@smartseller.com
+    url: https://docs.smartseller.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: https://smartseller.com/terms
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Development server
+  - url: https://staging-api.smartseller.com/api/v1
+    description: Staging server
+  - url: https://api.smartseller.com/api/v1
+    description: Production server
+
+security:
+  - BearerAuth: []
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT Bearer token authentication. Include the token in the Authorization header:
+        `Authorization: Bearer <your-jwt-token>`
+
+  schemas:
+    # Common Schemas
+    ErrorResponse:
+      type: object
+      description: Standard error response format
+      properties:
+        success:
+          type: boolean
+          example: false
+          description: Always false for error responses
+        message:
+          type: string
+          example: "Operation failed"
+          description: Human-readable error message
+        error:
+          type: string
+          example: "validation_error"
+          description: Error type identifier
+        error_detail:
+          type: string
+          example: "The email field is required"
+          description: Detailed error information
+        validation_errors:
+          type: array
+          items:
+            type: string
+          example: ["Email: wajib diisi", "Password: minimal 8 karakter"]
+          description: List of validation error messages
+        meta:
+          type: object
+          properties:
+            http_status:
+              type: integer
+              example: 400
+              description: HTTP status code
+            request_id:
+              type: string
+              example: "req_1234567890"
+              description: Unique request identifier for debugging
+            timestamp:
+              type: string
+              format: date-time
+              example: "2023-01-15T10:30:00Z"
+              description: Error timestamp
+
+    SuccessResponse:
+      type: object
+      description: Standard success response format
+      properties:
+        success:
+          type: boolean
+          example: true
+          description: Always true for successful responses
+        message:
+          type: string
+          example: "Operation completed successfully"
+          description: Human-readable success message
+        data:
+          type: object
+          nullable: true
+          description: Response data (can be null, object, or array)
+        meta:
+          type: object
+          nullable: true
+          properties:
+            request_id:
+              type: string
+              example: "req_1234567890"
+            timestamp:
+              type: string
+              format: date-time
+              example: "2023-01-15T10:30:00Z"
+
+    PaginationMeta:
+      type: object
+      description: Pagination metadata
+      properties:
+        total:
+          type: integer
+          example: 150
+          description: Total number of items
+        per_page:
+          type: integer
+          example: 20
+          description: Items per page
+        current_page:
+          type: integer
+          example: 1
+          description: Current page number
+        last_page:
+          type: integer
+          example: 8
+          description: Last page number
+        from:
+          type: integer
+          nullable: true
+          example: 1
+          description: First item number on current page
+        to:
+          type: integer
+          nullable: true
+          example: 20
+          description: Last item number on current page
+        has_more_pages:
+          type: boolean
+          example: true
+          description: Whether there are more pages
+
+    # Customer Schemas
+    CustomerRegistrationRequest:
+      type: object
+      description: Request payload for customer registration
+      required:
+        - email
+        - password
+        - first_name
+        - last_name
+      properties:
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+          description: Customer email address (must be unique)
+        password:
+          type: string
+          minLength: 8
+          example: "SecurePassword123"
+          description: Password (minimum 8 characters, must contain letters and numbers)
+        first_name:
+          type: string
+          minLength: 2
+          maxLength: 50
+          example: "John"
+          description: Customer first name
+        last_name:
+          type: string
+          minLength: 2
+          maxLength: 50
+          example: "Doe"
+          description: Customer last name
+        phone:
+          type: string
+          pattern: '^[0-9+\-\s()]+$'
+          example: "+62812345678"
+          description: Phone number (optional)
+        date_of_birth:
+          type: string
+          format: date
+          example: "1990-01-15"
+          description: Date of birth (optional)
+
+    CustomerResponse:
+      type: object
+      description: Customer data response
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+          description: Unique customer identifier
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+          description: Customer email address
+        first_name:
+          type: string
+          example: "John"
+          description: Customer first name
+        last_name:
+          type: string
+          example: "Doe"
+          description: Customer last name
+        phone:
+          type: string
+          nullable: true
+          example: "+62812345678"
+          description: Customer phone number
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+          example: "1990-01-15"
+          description: Customer date of birth
+        status:
+          type: string
+          enum: [active, inactive, suspended]
+          example: "active"
+          description: Customer account status
+        customer_type:
+          type: string
+          enum: [individual, business]
+          example: "individual"
+          description: Type of customer account
+        email_verified_at:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2023-01-15T10:35:00Z"
+          description: Email verification timestamp
+        last_login_at:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2023-01-20T14:22:00Z"
+          description: Last login timestamp
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-01-15T10:30:00Z"
+          description: Account creation timestamp
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-01-15T10:30:00Z"
+          description: Last update timestamp
+
+    CustomerUpdateRequest:
+      type: object
+      description: Request payload for updating customer profile
+      properties:
+        first_name:
+          type: string
+          minLength: 2
+          maxLength: 50
+          example: "John"
+          description: Customer first name
+        last_name:
+          type: string
+          minLength: 2
+          maxLength: 50
+          example: "Doe"
+          description: Customer last name
+        phone:
+          type: string
+          pattern: '^[0-9+\-\s()]+$'
+          example: "+62812345678"
+          description: Customer phone number
+        date_of_birth:
+          type: string
+          format: date
+          example: "1990-01-15"
+          description: Customer date of birth
+
+    # Address Schemas
+    CreateAddressRequest:
+      type: object
+      description: Request payload for creating a new address
+      required:
+        - customer_id
+        - label
+        - recipient_name
+        - phone
+        - address_line_1
+        - city
+        - state
+        - postal_code
+        - country
+      properties:
+        customer_id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+          description: Customer ID who owns this address
+        label:
+          type: string
+          maxLength: 100
+          example: "Home"
+          description: Address label (e.g., Home, Office, Warehouse)
+        recipient_name:
+          type: string
+          maxLength: 100
+          example: "John Doe"
+          description: Name of the person who will receive deliveries
+        phone:
+          type: string
+          pattern: '^[0-9+\-\s()]+$'
+          example: "+62812345678"
+          description: Contact phone number for this address
+        address_line_1:
+          type: string
+          maxLength: 200
+          example: "Jl. Sudirman No. 123"
+          description: Primary address line (street, number)
+        address_line_2:
+          type: string
+          maxLength: 200
+          nullable: true
+          example: "Apartment 4B"
+          description: Secondary address line (apartment, suite, etc.)
+        city:
+          type: string
+          maxLength: 100
+          example: "Jakarta"
+          description: City name
+        state:
+          type: string
+          maxLength: 100
+          example: "DKI Jakarta"
+          description: State or province
+        postal_code:
+          type: string
+          maxLength: 20
+          example: "12190"
+          description: Postal or ZIP code
+        country:
+          type: string
+          maxLength: 100
+          example: "Indonesia"
+          description: Country name
+        is_default:
+          type: boolean
+          default: false
+          example: false
+          description: Whether this is the default address
+
+    CustomerAddressResponse:
+      type: object
+      description: Customer address data response
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+          description: Unique address identifier
+        customer_id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+          description: Customer who owns this address
+        label:
+          type: string
+          example: "Home"
+          description: Address label
+        recipient_name:
+          type: string
+          example: "John Doe"
+          description: Recipient name
+        phone:
+          type: string
+          example: "+62812345678"
+          description: Contact phone
+        address_line_1:
+          type: string
+          example: "Jl. Sudirman No. 123"
+          description: Primary address line
+        address_line_2:
+          type: string
+          nullable: true
+          example: "Apartment 4B"
+          description: Secondary address line
+        city:
+          type: string
+          example: "Jakarta"
+          description: City
+        state:
+          type: string
+          example: "DKI Jakarta"
+          description: State or province
+        postal_code:
+          type: string
+          example: "12190"
+          description: Postal code
+        country:
+          type: string
+          example: "Indonesia"
+          description: Country
+        is_default:
+          type: boolean
+          example: true
+          description: Whether this is the default address
+        latitude:
+          type: number
+          format: float
+          nullable: true
+          example: -6.2088
+          description: Geocoded latitude coordinate
+        longitude:
+          type: number
+          format: float
+          nullable: true
+          example: 106.8456
+          description: Geocoded longitude coordinate
+        is_verified:
+          type: boolean
+          example: true
+          description: Whether the address has been verified
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-01-15T10:30:00Z"
+          description: Creation timestamp
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-01-15T10:30:00Z"
+          description: Last update timestamp
+
+    # Storefront Schemas
+    CreateStorefrontRequest:
+      type: object
+      description: Request payload for creating a new storefront
+      required:
+        - customer_id
+        - name
+        - slug
+        - domain
+      properties:
+        customer_id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+          description: Customer ID who owns this storefront
+        name:
+          type: string
+          minLength: 3
+          maxLength: 100
+          example: "My Awesome Store"
+          description: Display name of the storefront
+        slug:
+          type: string
+          pattern: '^[a-z0-9-]+$'
+          minLength: 3
+          maxLength: 50
+          example: "my-awesome-store"
+          description: URL-friendly identifier (must be unique)
+        domain:
+          type: string
+          format: hostname
+          minLength: 3
+          maxLength: 100
+          example: "mystore.smartseller.com"
+          description: Custom domain for the storefront (must be unique)
+        description:
+          type: string
+          maxLength: 500
+          nullable: true
+          example: "Premium electronics and gadgets store"
+          description: Store description
+        logo_url:
+          type: string
+          format: uri
+          nullable: true
+          example: "https://cdn.smartseller.com/logos/mystore.png"
+          description: URL to store logo image
+        theme:
+          type: string
+          enum: [default, modern, classic, minimal]
+          default: default
+          example: "modern"
+          description: Visual theme for the storefront
+
+    StorefrontResponse:
+      type: object
+      description: Storefront data response
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+          description: Unique storefront identifier
+        customer_id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+          description: Owner customer ID
+        name:
+          type: string
+          example: "My Awesome Store"
+          description: Storefront display name
+        slug:
+          type: string
+          example: "my-awesome-store"
+          description: URL slug
+        domain:
+          type: string
+          example: "mystore.smartseller.com"
+          description: Custom domain
+        description:
+          type: string
+          nullable: true
+          example: "Premium electronics and gadgets store"
+          description: Store description
+        logo_url:
+          type: string
+          nullable: true
+          example: "https://cdn.smartseller.com/logos/mystore.png"
+          description: Logo URL
+        theme:
+          type: string
+          example: "modern"
+          description: Visual theme
+        status:
+          type: string
+          enum: [active, inactive, suspended, draft]
+          example: "active"
+          description: Storefront status
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-01-15T10:30:00Z"
+          description: Creation timestamp
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-01-15T10:30:00Z"
+          description: Last update timestamp
+
+  parameters:
+    # Common Parameters
+    CustomerIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Customer ID
+      example: "550e8400-e29b-41d4-a716-446655440000"
+
+    StorefrontIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Storefront ID
+      example: "550e8400-e29b-41d4-a716-446655440000"
+
+    AddressIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Address ID
+      example: "550e8400-e29b-41d4-a716-446655440000"
+
+    PageParam:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for pagination
+      example: 1
+
+    PageSizeParam:
+      name: page_size
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+      description: Number of items per page
+      example: 20
+
+    SearchQueryParam:
+      name: query
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Search query string
+      example: "search term"
+
+  responses:
+    # Common Responses
+    BadRequest:
+      description: Bad Request - Validation errors
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Validation failed"
+            error: "validation_error"
+            error_detail: "The request contains invalid data"
+            validation_errors:
+              - "Email: field is required"
+              - "Password: minimum length is 8 characters"
+            meta:
+              http_status: 400
+              request_id: "req_1234567890"
+              timestamp: "2023-01-15T10:30:00Z"
+
+    Unauthorized:
+      description: Unauthorized - Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Authentication required"
+            error: "unauthorized"
+            error_detail: "A valid authentication token is required"
+            meta:
+              http_status: 401
+              request_id: "req_1234567890"
+              timestamp: "2023-01-15T10:30:00Z"
+
+    Forbidden:
+      description: Forbidden - Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Access forbidden"
+            error: "forbidden"
+            error_detail: "You don't have permission to access this resource"
+            meta:
+              http_status: 403
+              request_id: "req_1234567890"
+              timestamp: "2023-01-15T10:30:00Z"
+
+    NotFound:
+      description: Not Found - Resource doesn't exist
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Resource not found"
+            error: "not_found"
+            error_detail: "The requested resource could not be found"
+            meta:
+              http_status: 404
+              request_id: "req_1234567890"
+              timestamp: "2023-01-15T10:30:00Z"
+
+    Conflict:
+      description: Conflict - Resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Resource already exists"
+            error: "conflict"
+            error_detail: "A resource with these details already exists"
+            meta:
+              http_status: 409
+              request_id: "req_1234567890"
+              timestamp: "2023-01-15T10:30:00Z"
+
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Internal server error"
+            error: "internal_error"
+            error_detail: "An unexpected error occurred. Please try again later"
+            meta:
+              http_status: 500
+              request_id: "req_1234567890"
+              timestamp: "2023-01-15T10:30:00Z"
+
+tags:
+  - name: customers
+    description: |
+      Customer management operations including registration, profile management, 
+      and account operations. Customers are the primary users of the SmartSeller platform.
+  - name: addresses
+    description: |
+      Address management for customers including creation, validation, geocoding,
+      and setting default addresses. Supports both billing and shipping addresses.
+  - name: storefronts
+    description: |
+      Storefront creation and management operations. Storefronts are customer-owned
+      online stores that can be customized with themes, domains, and content.
+  - name: authentication
+    description: |
+      Authentication and authorization endpoints including login, logout, 
+      token refresh, and password management.
+  - name: analytics
+    description: |
+      Analytics and reporting endpoints for storefronts including views, 
+      orders, revenue, and performance metrics.
+
+paths:
+  # Customer Management Endpoints
+  /customers/register:
+    post:
+      tags:
+        - customers
+      summary: Register a new customer
+      description: |
+        Register a new customer account with email and password.
+        This endpoint is public and doesn't require authentication.
+        
+        **Validation Rules:**
+        - Email must be unique across the platform
+        - Password must be at least 8 characters
+        - First name and last name are required
+        - Phone number format must be valid if provided
+      security: []  # Public endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRegistrationRequest'
+            example:
+              email: "john.doe@example.com"
+              password: "SecurePassword123"
+              first_name: "John"
+              last_name: "Doe"
+              phone: "+62812345678"
+              date_of_birth: "1990-01-15"
+      responses:
+        '201':
+          description: Customer registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Customer registered successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /customers/{id}:
+    get:
+      tags:
+        - customers
+      summary: Get customer by ID
+      description: |
+        Retrieve detailed customer information by customer ID.
+        Requires authentication and customers can only access their own data.
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      responses:
+        '200':
+          description: Customer retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Customer retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      tags:
+        - customers
+      summary: Update customer profile
+      description: |
+        Update customer profile information. Customers can only update their own profiles.
+        Email address cannot be changed through this endpoint.
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerUpdateRequest'
+            example:
+              first_name: "John"
+              last_name: "Smith"
+              phone: "+62812345679"
+              date_of_birth: "1990-01-15"
+      responses:
+        '200':
+          description: Customer updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Customer updated successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Customer Address Endpoints  
+  /customers/{id}/addresses:
+    get:
+      tags:
+        - customers
+        - addresses
+      summary: Get all customer addresses
+      description: |
+        Retrieve all addresses associated with a customer account.
+        Results are ordered by default address first, then by creation date.
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      responses:
+        '200':
+          description: Addresses retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Addresses retrieved successfully"
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CustomerAddressResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags:
+        - customers
+        - addresses
+      summary: Create a new address
+      description: |
+        Create a new address for a customer. If this is the first address,
+        it will automatically be set as the default address.
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAddressRequest'
+            example:
+              customer_id: "550e8400-e29b-41d4-a716-446655440000"
+              label: "Home"
+              recipient_name: "John Doe"
+              phone: "+62812345678"
+              address_line_1: "Jl. Sudirman No. 123"
+              address_line_2: "Apartment 4B"
+              city: "Jakarta"
+              state: "DKI Jakarta"
+              postal_code: "12190"
+              country: "Indonesia"
+              is_default: false
+      responses:
+        '201':
+          description: Address created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Address created successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerAddressResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Individual Address Management
+  /addresses/{id}:
+    get:
+      tags:
+        - addresses
+      summary: Get address by ID
+      description: Retrieve specific address details by address ID
+      parameters:
+        - $ref: '#/components/parameters/AddressIdParam'
+      responses:
+        '200':
+          description: Address retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Address retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerAddressResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+      tags:
+        - addresses
+      summary: Delete an address
+      description: |
+        Delete a customer address. If the deleted address was the default,
+        another address will automatically be set as default if available.
+      parameters:
+        - $ref: '#/components/parameters/AddressIdParam'
+      responses:
+        '200':
+          description: Address deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Storefront Management Endpoints
+  /storefronts:
+    post:
+      tags:
+        - storefronts
+      summary: Create a new storefront
+      description: |
+        Create a new storefront for a customer. Each customer can have multiple storefronts.
+        The slug and domain must be unique across the platform.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStorefrontRequest'
+            example:
+              customer_id: "550e8400-e29b-41d4-a716-446655440000"
+              name: "My Awesome Store"
+              slug: "my-awesome-store"
+              domain: "mystore.smartseller.com"
+              description: "Premium electronics and gadgets store"
+              theme: "modern"
+      responses:
+        '201':
+          description: Storefront created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Storefront created successfully"
+                  data:
+                    $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /storefronts/{id}:
+    get:
+      tags:
+        - storefronts
+      summary: Get storefront by ID
+      description: Retrieve detailed storefront information by storefront ID
+      parameters:
+        - $ref: '#/components/parameters/StorefrontIdParam'
+      responses:
+        '200':
+          description: Storefront retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Storefront retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/StorefrontResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+      tags:
+        - storefronts
+      summary: Delete a storefront
+      description: |
+        Soft delete a storefront. The storefront will be marked as deleted but
+        data will be preserved for recovery purposes.
+      parameters:
+        - $ref: '#/components/parameters/StorefrontIdParam'
+      responses:
+        '200':
+          description: Storefront deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Public Storefront Access
+  /storefronts/slug/{slug}:
+    get:
+      tags:
+        - storefronts
+      summary: Get storefront by slug (Public)
+      description: |
+        Retrieve storefront details by slug. This is a public endpoint
+        used for displaying storefronts to visitors.
+      security: []  # Public endpoint
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-z0-9-]+$'
+          description: Storefront slug
+          example: "my-awesome-store"
+      responses:
+        '200':
+          description: Storefront retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Storefront retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/StorefrontResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'

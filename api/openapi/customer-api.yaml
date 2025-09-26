@@ -1,0 +1,1164 @@
+openapi: 3.0.3
+info:
+  title: SmartSeller Backend API
+  description: |
+    SmartSeller is a comprehensive e-commerce platform that enables customers to create and manage their own storefronts.
+    This API provides endpoints for customer management, storefront operations, address handling, and more.
+  version: 1.0.0
+  contact:
+    name: SmartSeller Team
+    email: support@smartseller.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Development server
+  - url: https://api.smartseller.com/api/v1
+    description: Production server
+
+security:
+  - BearerAuth: []
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    # Error Responses
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Operation failed"
+        error:
+          type: string
+          example: "validation_error"
+        error_detail:
+          type: string
+          example: "Email field is required"
+        validation_errors:
+          type: array
+          items:
+            type: string
+          example: ["Email: wajib diisi", "Password: minimal 8 karakter"]
+        meta:
+          type: object
+          properties:
+            http_status:
+              type: integer
+              example: 400
+
+    # Success Responses
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Operation completed successfully"
+        data:
+          type: object
+          nullable: true
+
+    # Customer Schemas
+    CustomerRegistrationRequest:
+      type: object
+      required:
+        - email
+        - password
+        - first_name
+        - last_name
+      properties:
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+        password:
+          type: string
+          minLength: 8
+          example: "SecurePassword123"
+        first_name:
+          type: string
+          minLength: 2
+          maxLength: 50
+          example: "John"
+        last_name:
+          type: string
+          minLength: 2
+          maxLength: 50
+          example: "Doe"
+        phone:
+          type: string
+          pattern: '^[0-9+\-\s()]+$'
+          example: "+62812345678"
+        date_of_birth:
+          type: string
+          format: date
+          example: "1990-01-15"
+
+    CustomerResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        phone:
+          type: string
+          nullable: true
+          example: "+62812345678"
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+          example: "1990-01-15"
+        status:
+          type: string
+          enum: [active, inactive, suspended]
+          example: "active"
+        customer_type:
+          type: string
+          enum: [individual, business]
+          example: "individual"
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-01-15T10:30:00Z"
+
+    CustomerUpdateRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          minLength: 2
+          maxLength: 50
+          example: "John"
+        last_name:
+          type: string
+          minLength: 2
+          maxLength: 50
+          example: "Doe"
+        phone:
+          type: string
+          pattern: '^[0-9+\-\s()]+$'
+          example: "+62812345678"
+        date_of_birth:
+          type: string
+          format: date
+          example: "1990-01-15"
+
+    CustomerDeactivationRequest:
+      type: object
+      required:
+        - reason
+      properties:
+        reason:
+          type: string
+          minLength: 10
+          maxLength: 500
+          example: "Customer requested account closure"
+
+    PaginatedCustomerResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerResponse'
+        pagination:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: 150
+            per_page:
+              type: integer
+              example: 20
+            current_page:
+              type: integer
+              example: 1
+            last_page:
+              type: integer
+              example: 8
+
+    CustomerStatsResponse:
+      type: object
+      properties:
+        total_customers:
+          type: integer
+          example: 1250
+        active_customers:
+          type: integer
+          example: 1180
+        inactive_customers:
+          type: integer
+          example: 70
+        new_customers_today:
+          type: integer
+          example: 15
+        new_customers_this_month:
+          type: integer
+          example: 342
+        customer_growth_rate:
+          type: number
+          format: float
+          example: 12.5
+
+    # Address Schemas
+    CreateAddressRequest:
+      type: object
+      required:
+        - customer_id
+        - label
+        - recipient_name
+        - phone
+        - address_line_1
+        - city
+        - state
+        - postal_code
+        - country
+      properties:
+        customer_id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        label:
+          type: string
+          maxLength: 100
+          example: "Home"
+        recipient_name:
+          type: string
+          maxLength: 100
+          example: "John Doe"
+        phone:
+          type: string
+          pattern: '^[0-9+\-\s()]+$'
+          example: "+62812345678"
+        address_line_1:
+          type: string
+          maxLength: 200
+          example: "Jl. Sudirman No. 123"
+        address_line_2:
+          type: string
+          maxLength: 200
+          nullable: true
+          example: "Apartment 4B"
+        city:
+          type: string
+          maxLength: 100
+          example: "Jakarta"
+        state:
+          type: string
+          maxLength: 100
+          example: "DKI Jakarta"
+        postal_code:
+          type: string
+          maxLength: 20
+          example: "12190"
+        country:
+          type: string
+          maxLength: 100
+          example: "Indonesia"
+        is_default:
+          type: boolean
+          default: false
+          example: false
+
+    UpdateAddressRequest:
+      type: object
+      properties:
+        label:
+          type: string
+          maxLength: 100
+          example: "Office"
+        recipient_name:
+          type: string
+          maxLength: 100
+          example: "John Doe"
+        phone:
+          type: string
+          pattern: '^[0-9+\-\s()]+$'
+          example: "+62812345678"
+        address_line_1:
+          type: string
+          maxLength: 200
+          example: "Jl. Sudirman No. 456"
+        address_line_2:
+          type: string
+          maxLength: 200
+          nullable: true
+          example: "Building C, Floor 10"
+        city:
+          type: string
+          maxLength: 100
+          example: "Jakarta"
+        state:
+          type: string
+          maxLength: 100
+          example: "DKI Jakarta"
+        postal_code:
+          type: string
+          maxLength: 20
+          example: "12190"
+        country:
+          type: string
+          maxLength: 100
+          example: "Indonesia"
+
+    CustomerAddressResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        customer_id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        label:
+          type: string
+          example: "Home"
+        recipient_name:
+          type: string
+          example: "John Doe"
+        phone:
+          type: string
+          example: "+62812345678"
+        address_line_1:
+          type: string
+          example: "Jl. Sudirman No. 123"
+        address_line_2:
+          type: string
+          nullable: true
+          example: "Apartment 4B"
+        city:
+          type: string
+          example: "Jakarta"
+        state:
+          type: string
+          example: "DKI Jakarta"
+        postal_code:
+          type: string
+          example: "12190"
+        country:
+          type: string
+          example: "Indonesia"
+        is_default:
+          type: boolean
+          example: true
+        latitude:
+          type: number
+          format: float
+          nullable: true
+          example: -6.2088
+        longitude:
+          type: number
+          format: float
+          nullable: true
+          example: 106.8456
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-01-15T10:30:00Z"
+
+    AddressValidationRequest:
+      type: object
+      required:
+        - address_line_1
+        - city
+        - state
+        - postal_code
+        - country
+      properties:
+        address_line_1:
+          type: string
+          example: "Jl. Sudirman No. 123"
+        address_line_2:
+          type: string
+          nullable: true
+          example: "Apartment 4B"
+        city:
+          type: string
+          example: "Jakarta"
+        state:
+          type: string
+          example: "DKI Jakarta"
+        postal_code:
+          type: string
+          example: "12190"
+        country:
+          type: string
+          example: "Indonesia"
+
+    AddressValidationResponse:
+      type: object
+      properties:
+        valid:
+          type: boolean
+          example: true
+        formatted_address:
+          type: string
+          example: "Jl. Sudirman No. 123, Apartment 4B, Jakarta, DKI Jakarta 12190, Indonesia"
+        suggestions:
+          type: array
+          items:
+            type: string
+          example: ["Consider using full street name", "Postal code verified"]
+        issues:
+          type: array
+          items:
+            type: string
+          example: []
+
+    GeocodeRequest:
+      type: object
+      required:
+        - address
+      properties:
+        address:
+          type: string
+          example: "Jl. Sudirman No. 123, Jakarta"
+
+    GeocodeResponse:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: float
+          example: -6.2088
+        longitude:
+          type: number
+          format: float
+          example: 106.8456
+        formatted_address:
+          type: string
+          example: "Jl. Sudirman No. 123, Jakarta, DKI Jakarta, Indonesia"
+        accuracy:
+          type: string
+          enum: [precise, approximate, rough]
+          example: "precise"
+
+  parameters:
+    CustomerIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Customer ID
+      example: "550e8400-e29b-41d4-a716-446655440000"
+
+    AddressIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Address ID
+      example: "550e8400-e29b-41d4-a716-446655440000"
+
+    PageParam:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for pagination
+      example: 1
+
+    PageSizeParam:
+      name: page_size
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+      description: Number of items per page
+      example: 20
+
+    SearchQueryParam:
+      name: query
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Search query string
+      example: "john"
+
+tags:
+  - name: customers
+    description: Customer management operations
+  - name: addresses
+    description: Address management operations
+  - name: authentication
+    description: Authentication and authorization
+
+paths:
+  # Customer endpoints
+  /customers/register:
+    post:
+      tags:
+        - customers
+      summary: Register a new customer
+      description: Register a new customer account with email and password
+      security: []  # Public endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRegistrationRequest'
+      responses:
+        '201':
+          description: Customer registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Customer registered successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: Bad request - validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict - email already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /customers/{id}:
+    get:
+      tags:
+        - customers
+      summary: Get customer by ID
+      description: Retrieve customer details by customer ID
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      responses:
+        '200':
+          description: Customer retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Customer retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerResponse'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags:
+        - customers
+      summary: Update customer profile
+      description: Update customer profile information
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerUpdateRequest'
+      responses:
+        '200':
+          description: Customer updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Customer updated successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: Bad request - validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /customers/by-email:
+    get:
+      tags:
+        - customers
+      summary: Get customer by email
+      description: Retrieve customer details by email address
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+            format: email
+          description: Customer email address
+          example: "john.doe@example.com"
+      responses:
+        '200':
+          description: Customer retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Customer retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerResponse'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /customers/{id}/deactivate:
+    post:
+      tags:
+        - customers
+      summary: Deactivate customer account
+      description: Deactivate a customer account with reason
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerDeactivationRequest'
+      responses:
+        '200':
+          description: Customer deactivated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Customer deactivated successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerResponse'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /customers/{id}/reactivate:
+    post:
+      tags:
+        - customers
+      summary: Reactivate customer account
+      description: Reactivate a previously deactivated customer account
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      responses:
+        '200':
+          description: Customer reactivated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Customer reactivated successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerResponse'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /customers/search:
+    get:
+      tags:
+        - customers
+      summary: Search customers
+      description: Search customers with filters and pagination
+      parameters:
+        - $ref: '#/components/parameters/SearchQueryParam'
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [active, inactive, suspended]
+          description: Filter by customer status
+          example: "active"
+        - name: customer_type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [individual, business]
+          description: Filter by customer type
+          example: "individual"
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PageSizeParam'
+        - name: sort_by
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [created_at, first_name, last_name, email]
+            default: created_at
+          description: Sort field
+          example: "created_at"
+        - name: sort_dir
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+          description: Sort direction
+          example: "desc"
+      responses:
+        '200':
+          description: Customers retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Customers retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/PaginatedCustomerResponse'
+
+  /customers/stats:
+    get:
+      tags:
+        - customers
+      summary: Get customer statistics
+      description: Get customer statistics and analytics
+      parameters:
+        - name: period
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [24h, 7d, 30d, 90d, 1y]
+            default: 30d
+          description: Time period for statistics
+          example: "30d"
+        - name: start_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Start date for custom period (YYYY-MM-DD)
+          example: "2023-01-01"
+        - name: end_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: End date for custom period (YYYY-MM-DD)
+          example: "2023-01-31"
+      responses:
+        '200':
+          description: Customer statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Customer statistics retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerStatsResponse'
+
+  # Customer Address endpoints
+  /customers/{id}/addresses:
+    get:
+      tags:
+        - customers
+        - addresses
+      summary: Get customer addresses
+      description: Retrieve all addresses for a specific customer
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      responses:
+        '200':
+          description: Addresses retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Addresses retrieved successfully"
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CustomerAddressResponse'
+
+    post:
+      tags:
+        - customers
+        - addresses
+      summary: Create customer address
+      description: Create a new address for a customer
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAddressRequest'
+      responses:
+        '201':
+          description: Address created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Address created successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerAddressResponse'
+        '400':
+          description: Bad request - validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /customers/{customer_id}/addresses/{address_id}/default:
+    post:
+      tags:
+        - customers
+        - addresses
+      summary: Set default address
+      description: Set an address as default for a customer
+      parameters:
+        - name: customer_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Customer ID
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        - name: address_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Address ID
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        '200':
+          description: Default address set successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '404':
+          description: Customer or address not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /customers/{id}/addresses/default:
+    get:
+      tags:
+        - customers
+        - addresses
+      summary: Get default address
+      description: Get the default address for a customer
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      responses:
+        '200':
+          description: Default address retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Default address retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerAddressResponse'
+        '404':
+          description: Customer or default address not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # Individual Address endpoints
+  /addresses/{id}:
+    get:
+      tags:
+        - addresses
+      summary: Get address by ID
+      description: Retrieve address details by address ID
+      parameters:
+        - $ref: '#/components/parameters/AddressIdParam'
+      responses:
+        '200':
+          description: Address retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Address retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerAddressResponse'
+        '404':
+          description: Address not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags:
+        - addresses
+      summary: Update address
+      description: Update address information
+      parameters:
+        - $ref: '#/components/parameters/AddressIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAddressRequest'
+      responses:
+        '200':
+          description: Address updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Address updated successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerAddressResponse'
+        '400':
+          description: Bad request - validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Address not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags:
+        - addresses
+      summary: Delete address
+      description: Delete an address
+      parameters:
+        - $ref: '#/components/parameters/AddressIdParam'
+      responses:
+        '200':
+          description: Address deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '404':
+          description: Address not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /addresses/validate:
+    post:
+      tags:
+        - addresses
+      summary: Validate address
+      description: Validate an address and return formatted information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressValidationRequest'
+      responses:
+        '200':
+          description: Address validation completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Address validation completed"
+                  data:
+                    $ref: '#/components/schemas/AddressValidationResponse'
+        '400':
+          description: Bad request - validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /addresses/geocode:
+    post:
+      tags:
+        - addresses
+      summary: Geocode address
+      description: Get latitude and longitude coordinates for an address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeocodeRequest'
+      responses:
+        '200':
+          description: Address geocoded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Address geocoded successfully"
+                  data:
+                    $ref: '#/components/schemas/GeocodeResponse'
+        '400':
+          description: Bad request - validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'

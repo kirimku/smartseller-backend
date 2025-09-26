@@ -7,14 +7,19 @@ import (
 	"encoding/hex"
 	"fmt"
 	"time"
-
-	// domainservice "github.com/kirimku/smartseller-backend/internal/domain/service"
 )
+
+// TrackingUpdate represents a tracking update (temporary placeholder)
+type TrackingUpdate struct {
+	TrackingNumber string
+	Status         string
+	Timestamp      time.Time
+}
 
 // WebhookHandler defines the interface for handling courier webhooks
 type WebhookHandler interface {
 	// HandleWebhook processes the webhook payload and returns tracking updates
-	HandleWebhook(ctx context.Context, payload []byte) ([]*domainservice.TrackingUpdate, error)
+	HandleWebhook(ctx context.Context, payload []byte) ([]*TrackingUpdate, error)
 
 	// ValidateSignature validates the webhook signature
 	ValidateSignature(payload []byte, signature string) error

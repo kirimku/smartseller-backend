@@ -77,3 +77,18 @@ func NewRateLimitError() *AppError {
 		Code:    429,
 	}
 }
+
+// NewBusinessError creates a new business logic error
+func NewBusinessError(baseErr error, message string, details map[string]interface{}) *AppError {
+	return &AppError{
+		Type:    ErrorTypeInternal,
+		Message: message,
+		Code:    500,
+		Err:     baseErr,
+	}
+}
+
+// Common error variables
+var (
+	ErrInvalidTenant = fmt.Errorf("invalid tenant context")
+)

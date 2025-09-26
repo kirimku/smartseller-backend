@@ -1,10 +1,8 @@
 package monitoring
-package monitoring
 
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"log"
 	"sync"
 	"time"
@@ -13,32 +11,31 @@ import (
 	"github.com/jmoiron/sqlx"
 
 	"github.com/kirimku/smartseller-backend/internal/infrastructure/tenant"
-	"github.com/kirimku/smartseller-backend/pkg/metrics"
 )
 
 // QueryPerformanceMonitor monitors database query performance across tenants
 type QueryPerformanceMonitor struct {
-	mu                sync.RWMutex
-	metricsCollector  interface{} // Using interface{} instead of metrics.Collector
-	tenantResolver    tenant.TenantResolver
-	queryStats        map[string]*QueryStats
-	slowQueryLog      []SlowQueryEntry
-	maxSlowQueries    int
+	mu                 sync.RWMutex
+	metricsCollector   interface{} // Using interface{} instead of metrics.Collector
+	tenantResolver     tenant.TenantResolver
+	queryStats         map[string]*QueryStats
+	slowQueryLog       []SlowQueryEntry
+	maxSlowQueries     int
 	slowQueryThreshold time.Duration
-	enabled           bool
+	enabled            bool
 }
 
 // QueryStats holds performance statistics for a specific query pattern
 type QueryStats struct {
-	QueryPattern      string        `json:"query_pattern"`
-	TotalExecutions   int64         `json:"total_executions"`
-	TotalDuration     time.Duration `json:"total_duration"`
-	AverageDuration   time.Duration `json:"average_duration"`
-	MinDuration       time.Duration `json:"min_duration"`
-	MaxDuration       time.Duration `json:"max_duration"`
-	ErrorCount        int64         `json:"error_count"`
-	LastExecuted      time.Time     `json:"last_executed"`
-	TenantBreakdown   map[uuid.UUID]*TenantQueryStats `json:"tenant_breakdown"`
+	QueryPattern    string                          `json:"query_pattern"`
+	TotalExecutions int64                           `json:"total_executions"`
+	TotalDuration   time.Duration                   `json:"total_duration"`
+	AverageDuration time.Duration                   `json:"average_duration"`
+	MinDuration     time.Duration                   `json:"min_duration"`
+	MaxDuration     time.Duration                   `json:"max_duration"`
+	ErrorCount      int64                           `json:"error_count"`
+	LastExecuted    time.Time                       `json:"last_executed"`
+	TenantBreakdown map[uuid.UUID]*TenantQueryStats `json:"tenant_breakdown"`
 }
 
 // TenantQueryStats holds per-tenant query statistics
@@ -52,26 +49,26 @@ type TenantQueryStats struct {
 
 // SlowQueryEntry represents a slow query log entry
 type SlowQueryEntry struct {
-	QueryPattern    string        `json:"query_pattern"`
-	ActualQuery     string        `json:"actual_query"`
-	Duration        time.Duration `json:"duration"`
-	StorefrontID    uuid.UUID     `json:"storefront_id"`
-	TenantType      tenant.TenantType `json:"tenant_type"`
-	Timestamp       time.Time     `json:"timestamp"`
-	ErrorMessage    string        `json:"error_message,omitempty"`
-	QueryParams     interface{}   `json:"query_params,omitempty"`
-	StackTrace      string        `json:"stack_trace,omitempty"`
+	QueryPattern string            `json:"query_pattern"`
+	ActualQuery  string            `json:"actual_query"`
+	Duration     time.Duration     `json:"duration"`
+	StorefrontID uuid.UUID         `json:"storefront_id"`
+	TenantType   tenant.TenantType `json:"tenant_type"`
+	Timestamp    time.Time         `json:"timestamp"`
+	ErrorMessage string            `json:"error_message,omitempty"`
+	QueryParams  interface{}       `json:"query_params,omitempty"`
+	StackTrace   string            `json:"stack_trace,omitempty"`
 }
 
 // MonitoringConfig holds configuration for performance monitoring
 type MonitoringConfig struct {
-	Enabled             bool          `yaml:"enabled"`
-	SlowQueryThreshold  time.Duration `yaml:"slow_query_threshold"`
-	MaxSlowQueries      int           `yaml:"max_slow_queries"`
-	MetricsInterval     time.Duration `yaml:"metrics_interval"`
-	AlertThreshold      time.Duration `yaml:"alert_threshold"`
-	EnableStackTrace    bool          `yaml:"enable_stack_trace"`
-	LogSlowQueries      bool          `yaml:"log_slow_queries"`
+	Enabled            bool          `yaml:"enabled"`
+	SlowQueryThreshold time.Duration `yaml:"slow_query_threshold"`
+	MaxSlowQueries     int           `yaml:"max_slow_queries"`
+	MetricsInterval    time.Duration `yaml:"metrics_interval"`
+	AlertThreshold     time.Duration `yaml:"alert_threshold"`
+	EnableStackTrace   bool          `yaml:"enable_stack_trace"`
+	LogSlowQueries     bool          `yaml:"log_slow_queries"`
 }
 
 // NewQueryPerformanceMonitor creates a new query performance monitor
@@ -141,8 +138,8 @@ func (qpm *QueryPerformanceMonitor) RecordQuery(
 
 	// Log slow queries if configured
 	if duration >= qpm.slowQueryThreshold {
-		log.Printf("SLOW QUERY: %s (%.2fms) - Tenant: %s", 
-			queryPattern, 
+		log.Printf("SLOW QUERY: %s (%.2fms) - Tenant: %s",
+			queryPattern,
 			float64(duration.Nanoseconds())/1e6,
 			storefrontID.String(),
 		)
@@ -168,7 +165,7 @@ func (mdb *MonitoredDB) QueryxContext(ctx context.Context, query string, args ..
 	start := time.Now()
 	rows, err := mdb.DB.QueryxContext(ctx, query, args...)
 	duration := time.Since(start)
-	
+
 	mdb.monitor.RecordQuery(ctx, normalizeQuery(query), query, duration, err, args)
 	return rows, err
 }
@@ -178,7 +175,7 @@ func (mdb *MonitoredDB) GetContext(ctx context.Context, dest interface{}, query 
 	start := time.Now()
 	err := mdb.DB.GetContext(ctx, dest, query, args...)
 	duration := time.Since(start)
-	
+
 	mdb.monitor.RecordQuery(ctx, normalizeQuery(query), query, duration, err, args)
 	return err
 }
@@ -188,7 +185,7 @@ func (mdb *MonitoredDB) SelectContext(ctx context.Context, dest interface{}, que
 	start := time.Now()
 	err := mdb.DB.SelectContext(ctx, dest, query, args...)
 	duration := time.Since(start)
-	
+
 	mdb.monitor.RecordQuery(ctx, normalizeQuery(query), query, duration, err, args)
 	return err
 }
@@ -198,7 +195,7 @@ func (mdb *MonitoredDB) ExecContext(ctx context.Context, query string, args ...i
 	start := time.Now()
 	result, err := mdb.DB.ExecContext(ctx, query, args...)
 	duration := time.Since(start)
-	
+
 	mdb.monitor.RecordQuery(ctx, normalizeQuery(query), query, duration, err, args)
 	return result, err
 }
@@ -207,7 +204,7 @@ func (mdb *MonitoredDB) ExecContext(ctx context.Context, query string, args ...i
 func (qpm *QueryPerformanceMonitor) GetQueryStats() map[string]*QueryStats {
 	qpm.mu.RLock()
 	defer qpm.mu.RUnlock()
-	
+
 	// Deep copy to avoid race conditions
 	stats := make(map[string]*QueryStats)
 	for pattern, stat := range qpm.queryStats {
@@ -219,7 +216,7 @@ func (qpm *QueryPerformanceMonitor) GetQueryStats() map[string]*QueryStats {
 		}
 		stats[pattern] = &statCopy
 	}
-	
+
 	return stats
 }
 
@@ -227,17 +224,17 @@ func (qpm *QueryPerformanceMonitor) GetQueryStats() map[string]*QueryStats {
 func (qpm *QueryPerformanceMonitor) GetSlowQueries(limit int) []SlowQueryEntry {
 	qpm.mu.RLock()
 	defer qpm.mu.RUnlock()
-	
+
 	if limit <= 0 || limit > len(qpm.slowQueryLog) {
 		limit = len(qpm.slowQueryLog)
 	}
-	
+
 	// Return most recent entries
 	start := len(qpm.slowQueryLog) - limit
 	if start < 0 {
 		start = 0
 	}
-	
+
 	return qpm.slowQueryLog[start:]
 }
 
@@ -245,7 +242,7 @@ func (qpm *QueryPerformanceMonitor) GetSlowQueries(limit int) []SlowQueryEntry {
 func (qpm *QueryPerformanceMonitor) GetTenantStats(storefrontID uuid.UUID) map[string]*TenantQueryStats {
 	qpm.mu.RLock()
 	defer qpm.mu.RUnlock()
-	
+
 	tenantStats := make(map[string]*TenantQueryStats)
 	for pattern, stat := range qpm.queryStats {
 		if tenantStat, exists := stat.TenantBreakdown[storefrontID]; exists {
@@ -253,7 +250,7 @@ func (qpm *QueryPerformanceMonitor) GetTenantStats(storefrontID uuid.UUID) map[s
 			tenantStats[pattern] = &tenantStatCopy
 		}
 	}
-	
+
 	return tenantStats
 }
 
@@ -261,7 +258,7 @@ func (qpm *QueryPerformanceMonitor) GetTenantStats(storefrontID uuid.UUID) map[s
 func (qpm *QueryPerformanceMonitor) ClearStats() {
 	qpm.mu.Lock()
 	defer qpm.mu.Unlock()
-	
+
 	qpm.queryStats = make(map[string]*QueryStats)
 	qpm.slowQueryLog = make([]SlowQueryEntry, 0)
 }

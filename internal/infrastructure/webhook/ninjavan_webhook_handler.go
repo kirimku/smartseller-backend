@@ -69,7 +69,7 @@ func NewNinjaVanWebhookHandler(secretKey string) *NinjaVanWebhookHandler {
 }
 
 // HandleWebhook processes NinjaVan webhook payload
-func (h *NinjaVanWebhookHandler) HandleWebhook(ctx context.Context, payload []byte) ([]*domainservice.TrackingUpdate, error) {
+func (h *NinjaVanWebhookHandler) HandleWebhook(ctx context.Context, payload []byte) ([]*TrackingUpdate, error) {
 	logger.Info("processing_ninjavan_webhook",
 		"Processing NinjaVan webhook payload",
 		map[string]interface{}{
@@ -101,7 +101,7 @@ func (h *NinjaVanWebhookHandler) HandleWebhook(ctx context.Context, payload []by
 			"orders_count": len(nvPayload.Orders),
 		})
 
-	var updates []*domainservice.TrackingUpdate
+	var updates []*TrackingUpdate
 
 	// If orders array is provided, process each order
 	if len(nvPayload.Orders) > 0 {
@@ -153,7 +153,7 @@ func (h *NinjaVanWebhookHandler) HandleWebhook(ctx context.Context, payload []by
 }
 
 // createTrackingUpdate creates a TrackingUpdate from NinjaVan payload
-func (h *NinjaVanWebhookHandler) createTrackingUpdate(nvPayload NinjaVanWebhookPayload, trackingNumber string) *domainservice.TrackingUpdate {
+func (h *NinjaVanWebhookHandler) createTrackingUpdate(nvPayload NinjaVanWebhookPayload, trackingNumber string) *TrackingUpdate {
 	// Normalize status
 	normalizedStatus := h.normalizeNinjaVanStatus(nvPayload.Status, nvPayload.StatusCode)
 
@@ -181,7 +181,7 @@ func (h *NinjaVanWebhookHandler) createTrackingUpdate(nvPayload NinjaVanWebhookP
 		statusText = nvPayload.Status
 	}
 
-	return &domainservice.TrackingUpdate{
+	return &TrackingUpdate{
 		TrackingNumber: trackingNumber,
 		CourierCode:    "ninjavan",
 		Status:         normalizedStatus,
@@ -199,29 +199,29 @@ func (h *NinjaVanWebhookHandler) ValidateSignature(payload []byte, signature str
 }
 
 // normalizeNinjaVanStatus converts NinjaVan status codes to our standard tracking states
-func (h *NinjaVanWebhookHandler) normalizeNinjaVanStatus(status, statusCode string) domainservice.TrackingState {
+func (h *NinjaVanWebhookHandler) normalizeNinjaVanStatus(status, statusCode string) TrackingStateTrackingState {
 	// Use status code for more precise mapping if available
 	if statusCode != "" {
 		switch strings.ToUpper(statusCode) {
 		case "PENDING", "PENDING_PICKUP", "CREATED", "BOOKED":
-			return domainservice.TrackingStatePickupPending
+			return TrackingStateTrackingStatePickupPending
 		case "PICKED_UP", "PICKUP_DONE", "COLLECTED", "MANIFEST":
-			return domainservice.TrackingStatePickedUp
+			return TrackingStateTrackingStatePickedUp
 		case "IN_TRANSIT", "ROUTING", "ARRIVED_AT_ORIGIN", "DEPARTED_FROM_ORIGIN",
 			"ARRIVED_AT_DESTINATION", "SORTING", "ON_VEHICLE", "TRANSIT":
-			return domainservice.TrackingStateInTransit
+			return TrackingStateTrackingStateInTransit
 		case "OUT_FOR_DELIVERY", "ON_VEHICLE_FOR_DELIVERY", "DELIVERY_PENDING", "DELIVERING":
-			return domainservice.TrackingStateOutForDelivery
+			return TrackingStateTrackingStateOutForDelivery
 		case "DELIVERED", "COMPLETED", "POD_RECEIVED", "DELIVERY_SUCCESS":
-			return domainservice.TrackingStateDelivered
+			return TrackingStateTrackingStateDelivered
 		case "FAILED_DELIVERY", "DELIVERY_FAIL", "RECIPIENT_NOT_AVAILABLE", "DELIVERY_FAILED":
-			return domainservice.TrackingStateDeliveryFailed
+			return TrackingStateTrackingStateDeliveryFailed
 		case "RETURNING", "RETURN_TO_SENDER", "RTO_PENDING":
-			return domainservice.TrackingStateReturning
+			return TrackingStateTrackingStateReturning
 		case "RETURNED", "RTO_DELIVERED", "CANCELLED":
-			return domainservice.TrackingStateReturned
+			return TrackingStateTrackingStateReturned
 		case "EXCEPTION", "DAMAGED", "LOST", "VOID":
-			return domainservice.TrackingStateException
+			return TrackingStateTrackingStateException
 		}
 	}
 
@@ -230,30 +230,30 @@ func (h *NinjaVanWebhookHandler) normalizeNinjaVanStatus(status, statusCode stri
 	switch {
 	case strings.Contains(statusLower, "pending"), strings.Contains(statusLower, "created"),
 		strings.Contains(statusLower, "booked"):
-		return domainservice.TrackingStatePickupPending
+		return TrackingStateTrackingStatePickupPending
 	case strings.Contains(statusLower, "picked"), strings.Contains(statusLower, "collected"),
 		strings.Contains(statusLower, "manifest"):
-		return domainservice.TrackingStatePickedUp
+		return TrackingStateTrackingStatePickedUp
 	case strings.Contains(statusLower, "transit"), strings.Contains(statusLower, "routing"),
 		strings.Contains(statusLower, "sorting"), strings.Contains(statusLower, "vehicle"):
-		return domainservice.TrackingStateInTransit
+		return TrackingStateTrackingStateInTransit
 	case strings.Contains(statusLower, "delivery") && !strings.Contains(statusLower, "delivered"):
-		return domainservice.TrackingStateOutForDelivery
+		return TrackingStateTrackingStateOutForDelivery
 	case strings.Contains(statusLower, "delivered"), strings.Contains(statusLower, "completed"),
 		strings.Contains(statusLower, "pod"):
-		return domainservice.TrackingStateDelivered
+		return TrackingStateTrackingStateDelivered
 	case strings.Contains(statusLower, "failed"), strings.Contains(statusLower, "unsuccessful"):
-		return domainservice.TrackingStateDeliveryFailed
+		return TrackingStateTrackingStateDeliveryFailed
 	case strings.Contains(statusLower, "returning"), strings.Contains(statusLower, "return"):
 		if strings.Contains(statusLower, "returned") {
-			return domainservice.TrackingStateReturned
+			return TrackingStateTrackingStateReturned
 		}
-		return domainservice.TrackingStateReturning
+		return TrackingStateTrackingStateReturning
 	case strings.Contains(statusLower, "cancelled"), strings.Contains(statusLower, "void"),
 		strings.Contains(statusLower, "exception"):
-		return domainservice.TrackingStateException
+		return TrackingStateTrackingStateException
 	default:
-		return domainservice.TrackingStateUnknown
+		return TrackingStateTrackingStateUnknown
 	}
 }
 

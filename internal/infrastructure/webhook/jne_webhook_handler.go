@@ -165,7 +165,7 @@ func publishInToOutLatency(timeReceived float64) bool {
 }
 
 // HandleWebhook processes JNE webhook payload
-func (h *JNEWebhookHandler) HandleWebhook(ctx context.Context, payload []byte) ([]*domainservice.TrackingUpdate, error) {
+func (h *JNEWebhookHandler) HandleWebhook(ctx context.Context, payload []byte) ([]*TrackingUpdate, error) {
 	logger.Info("processing_jne_webhook",
 		"Processing JNE webhook payload",
 		map[string]interface{}{
@@ -289,7 +289,7 @@ func (h *JNEWebhookHandler) HandleWebhook(ctx context.Context, payload []byte) (
 	normalizedStatus := h.normalizeJNEStatus(statusCode, statusText)
 
 	// Create tracking update
-	update := &domainservice.TrackingUpdate{
+	update := &TrackingUpdate{
 		TrackingNumber: trackingNumber,
 		CourierCode:    "jne",
 		Status:         normalizedStatus,
@@ -336,7 +336,7 @@ func (h *JNEWebhookHandler) HandleWebhook(ctx context.Context, payload []byte) (
 	}
 
 	// Validate history events and publish internal processing latency
-	updates := h.validateHistoryEvents([]*domainservice.TrackingUpdate{update})
+	updates := h.validateHistoryEvents([]*TrackingUpdate{update})
 	publishInToOutLatency(jnePayload.TimeReceived)
 
 	logger.Info("jne_webhook_processed",
@@ -364,10 +364,10 @@ func (h *JNEWebhookHandler) ValidateSignature(payload []byte, signature string) 
 // normalizeJNEStatus converts JNE status codes to our standard tracking states
 // Based on Ruby reference implementation with delivered codes D01-D12, DB1
 // Updated to handle new webhook format status values
-func (h *JNEWebhookHandler) normalizeJNEStatus(status, statusCode string) domainservice.TrackingState {
+func (h *JNEWebhookHandler) normalizeJNEStatus(status, statusCode string) TrackingStateTrackingState {
 	// Check if status code indicates delivered status first
 	if h.isDeliveredStatus(statusCode) {
-		return domainservice.TrackingStateDelivered
+		return TrackingStateTrackingStateDelivered
 	}
 
 	// Use status code for more precise mapping if available
@@ -375,39 +375,39 @@ func (h *JNEWebhookHandler) normalizeJNEStatus(status, statusCode string) domain
 		switch strings.ToUpper(statusCode) {
 		// New webhook format status codes
 		case "MANIFESTED", "PICKUPED", "PICKUP_COMPLETED":
-			return domainservice.TrackingStatePickedUp
+			return TrackingStateTrackingStatePickedUp
 		case "IN_TRANSIT", "INTRANSIT", "ON_TRANSIT":
-			return domainservice.TrackingStateInTransit
+			return TrackingStateTrackingStateInTransit
 		case "OUT_FOR_DELIVERY", "WITH_DELIVERY_COURIER":
-			return domainservice.TrackingStateOutForDelivery
+			return TrackingStateTrackingStateOutForDelivery
 		case "DELIVERED", "DELIVERY_COMPLETED":
-			return domainservice.TrackingStateDelivered
+			return TrackingStateTrackingStateDelivered
 		case "DELIVERY_FAILED", "FAILED":
-			return domainservice.TrackingStateDeliveryFailed
+			return TrackingStateTrackingStateDeliveryFailed
 		case "RETURN_TO_ORIGIN", "RETURNING":
-			return domainservice.TrackingStateReturning
+			return TrackingStateTrackingStateReturning
 		case "RETURNED", "RTO":
-			return domainservice.TrackingStateReturned
+			return TrackingStateTrackingStateReturned
 		case "CANCELLED", "VOID":
-			return domainservice.TrackingStateException
+			return TrackingStateTrackingStateException
 
 		// Legacy status codes
 		case "BOOKING", "BOOKED", "CREATED", "B01":
-			return domainservice.TrackingStatePickupPending
+			return TrackingStateTrackingStatePickupPending
 		case "PICKUP", "PICKED", "MANIFEST", "M01", "M02":
-			return domainservice.TrackingStatePickedUp
+			return TrackingStateTrackingStatePickedUp
 		case "TRANSIT", "SORTING", "T01", "T02", "T03":
-			return domainservice.TrackingStateInTransit
+			return TrackingStateTrackingStateInTransit
 		case "DELIVERING", "O01", "O02":
-			return domainservice.TrackingStateOutForDelivery
+			return TrackingStateTrackingStateOutForDelivery
 		case "UNSUCCESSFUL", "F01", "F02", "F03":
-			return domainservice.TrackingStateDeliveryFailed
+			return TrackingStateTrackingStateDeliveryFailed
 		case "RETURN", "R01", "R02":
-			return domainservice.TrackingStateReturning
+			return TrackingStateTrackingStateReturning
 		case "R03":
-			return domainservice.TrackingStateReturned
+			return TrackingStateTrackingStateReturned
 		case "CANCEL", "C01":
-			return domainservice.TrackingStateException
+			return TrackingStateTrackingStateException
 		}
 	}
 
@@ -416,48 +416,48 @@ func (h *JNEWebhookHandler) normalizeJNEStatus(status, statusCode string) domain
 	switch {
 	// New webhook format status mappings
 	case strings.Contains(statusLower, "in_transit"), strings.Contains(statusLower, "in transit"):
-		return domainservice.TrackingStateInTransit
+		return TrackingStateTrackingStateInTransit
 	case strings.Contains(statusLower, "manifested"):
-		return domainservice.TrackingStatePickedUp
+		return TrackingStateTrackingStatePickedUp
 	case strings.Contains(statusLower, "pickup_completed"), strings.Contains(statusLower, "pickup completed"):
-		return domainservice.TrackingStatePickedUp
+		return TrackingStateTrackingStatePickedUp
 	case strings.Contains(statusLower, "out_for_delivery"), strings.Contains(statusLower, "out for delivery"):
-		return domainservice.TrackingStateOutForDelivery
+		return TrackingStateTrackingStateOutForDelivery
 	case strings.Contains(statusLower, "delivery_completed"), strings.Contains(statusLower, "delivery completed"):
-		return domainservice.TrackingStateDelivered
+		return TrackingStateTrackingStateDelivered
 	case strings.Contains(statusLower, "delivery_failed"), strings.Contains(statusLower, "delivery failed"):
-		return domainservice.TrackingStateDeliveryFailed
+		return TrackingStateTrackingStateDeliveryFailed
 	case strings.Contains(statusLower, "return_to_origin"), strings.Contains(statusLower, "return to origin"):
-		return domainservice.TrackingStateReturning
+		return TrackingStateTrackingStateReturning
 
 	// Legacy status text mappings
 	case strings.Contains(statusLower, "delivered"), strings.Contains(statusLower, "terkirim"),
 		strings.Contains(statusLower, "selesai"), strings.Contains(statusLower, "diterima"):
-		return domainservice.TrackingStateDelivered
+		return TrackingStateTrackingStateDelivered
 	case strings.Contains(statusLower, "booking"), strings.Contains(statusLower, "created"),
 		strings.Contains(statusLower, "dibuat"):
-		return domainservice.TrackingStatePickupPending
+		return TrackingStateTrackingStatePickupPending
 	case strings.Contains(statusLower, "pickup"), strings.Contains(statusLower, "picked"),
 		strings.Contains(statusLower, "manifest"), strings.Contains(statusLower, "diambil"):
-		return domainservice.TrackingStatePickedUp
+		return TrackingStateTrackingStatePickedUp
 	case strings.Contains(statusLower, "transit"), strings.Contains(statusLower, "sorting"),
 		strings.Contains(statusLower, "perjalanan"):
-		return domainservice.TrackingStateInTransit
+		return TrackingStateTrackingStateInTransit
 	case strings.Contains(statusLower, "delivering"), strings.Contains(statusLower, "pengiriman"):
-		return domainservice.TrackingStateOutForDelivery
+		return TrackingStateTrackingStateOutForDelivery
 	case strings.Contains(statusLower, "failed"), strings.Contains(statusLower, "unsuccessful"),
 		strings.Contains(statusLower, "gagal"):
-		return domainservice.TrackingStateDeliveryFailed
+		return TrackingStateTrackingStateDeliveryFailed
 	case strings.Contains(statusLower, "returning"), strings.Contains(statusLower, "return"):
 		if strings.Contains(statusLower, "returned") || strings.Contains(statusLower, "dikembalikan") {
-			return domainservice.TrackingStateReturned
+			return TrackingStateTrackingStateReturned
 		}
-		return domainservice.TrackingStateReturning
+		return TrackingStateTrackingStateReturning
 	case strings.Contains(statusLower, "cancelled"), strings.Contains(statusLower, "void"),
 		strings.Contains(statusLower, "dibatalkan"):
-		return domainservice.TrackingStateException
+		return TrackingStateTrackingStateException
 	default:
-		return domainservice.TrackingStateUnknown
+		return TrackingStateTrackingStateUnknown
 	}
 }
 
@@ -499,12 +499,12 @@ func (h *JNEWebhookHandler) buildLocation(location, city, office string) string 
 
 // validateHistoryEvents filters out history entries with 00:00:00 timestamps
 // Based on the reference implementation's ValidateHistoryParam function
-func (h *JNEWebhookHandler) validateHistoryEvents(events []*domainservice.TrackingUpdate) []*domainservice.TrackingUpdate {
+func (h *JNEWebhookHandler) validateHistoryEvents(events []*TrackingUpdate) []*TrackingUpdate {
 	if len(events) == 0 {
 		return events
 	}
 
-	validEvents := make([]*domainservice.TrackingUpdate, 0, len(events))
+	validEvents := make([]*TrackingUpdate, 0, len(events))
 	for _, event := range events {
 		if !event.Timestamp.IsZero() {
 			// Check if time is 00:00:00
