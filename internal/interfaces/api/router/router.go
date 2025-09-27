@@ -108,6 +108,13 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 
 	// TODO: Temporary warranty barcode handler (will be replaced with full implementation)
 	warrantyBarcodeHandler := handler.NewWarrantyBarcodeHandler(logger)
+	
+	// Warranty claim handler
+	warrantyClaimHandler := handler.NewWarrantyClaimHandler(logger)
+	
+	// Claim attachment and timeline handlers
+	claimAttachmentHandler := handler.NewClaimAttachmentHandler()
+	claimTimelineHandler := handler.NewClaimTimelineHandler()
 
 	// API v1 routes
 	v1 := router.Group("/api/v1")
@@ -210,12 +217,13 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 			products.DELETE("/:id", productHandler.DeleteProduct)
 		}
 
-		// Admin Warranty Barcode routes (protected) - Phase 7 Implementation
+		// Admin Warranty routes (protected) - Phase 7 Implementation
 		admin := v1.Group("/admin")
 		admin.Use(middleware.AuthMiddleware())
 		{
 			warranty := admin.Group("/warranty")
 			{
+				// Barcode management routes
 				barcodes := warranty.Group("/barcodes")
 				{
 					// Barcode generation and management
@@ -228,6 +236,47 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 					// Statistics and validation
 					barcodes.GET("/stats", warrantyBarcodeHandler.GetBarcodeStats)
 					barcodes.GET("/validate/:barcode_value", warrantyBarcodeHandler.ValidateBarcode)
+				}
+
+				// Claim management routes
+				claims := warranty.Group("/claims")
+				{
+					// Claim listing and retrieval
+					claims.GET("/", warrantyClaimHandler.ListClaims)
+					claims.GET("/:id", warrantyClaimHandler.GetClaim)
+
+					// Claim validation and processing
+					claims.POST("/:id/validate", warrantyClaimHandler.ValidateClaim)
+					claims.POST("/:id/reject", warrantyClaimHandler.RejectClaim)
+					claims.POST("/:id/assign", warrantyClaimHandler.AssignTechnician)
+					claims.POST("/:id/complete", warrantyClaimHandler.CompleteClaim)
+
+					// Claim management
+					claims.POST("/:id/notes", warrantyClaimHandler.AddClaimNotes)
+					claims.POST("/bulk-status", warrantyClaimHandler.BulkUpdateClaimStatus)
+
+					// Statistics
+					claims.GET("/stats", warrantyClaimHandler.GetClaimStatistics)
+
+					// Attachment management routes
+					attachments := claims.Group("/:id/attachments")
+					{
+						attachments.GET("/", claimAttachmentHandler.ListAttachments)
+						attachments.POST("/upload", claimAttachmentHandler.UploadAttachment)
+						attachments.GET("/:attachment_id/download", claimAttachmentHandler.DownloadAttachment)
+						attachments.DELETE("/:attachment_id", claimAttachmentHandler.DeleteAttachment)
+						attachments.POST("/:attachment_id/approve", claimAttachmentHandler.ApproveAttachment)
+					}
+
+					// Timeline management routes
+					timeline := claims.Group("/:id/timeline")
+					{
+						timeline.GET("/", claimTimelineHandler.GetClaimTimeline)
+						timeline.POST("/", claimTimelineHandler.CreateTimelineEntry)
+						timeline.GET("/:entry_id", claimTimelineHandler.GetTimelineEntry)
+						timeline.PUT("/:entry_id", claimTimelineHandler.UpdateTimelineEntry)
+						timeline.DELETE("/:entry_id", claimTimelineHandler.DeleteTimelineEntry)
+					}
 				}
 			}
 		}

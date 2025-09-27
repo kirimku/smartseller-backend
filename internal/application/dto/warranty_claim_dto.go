@@ -224,4 +224,65 @@ type ClaimAttachmentUploadRequest struct {
 	Description    *string `json:"description,omitempty" example:"Purchase receipt"`
 }
 
+// ClaimTimelineResponse represents a claim timeline entry
+type ClaimTimelineResponse struct {
+	ID          string    `json:"id" example:"550e8400-e29b-41d4-a716-446655440000"`
+	ClaimID     string    `json:"claim_id" example:"550e8400-e29b-41d4-a716-446655440001"`
+	EventType   string    `json:"event_type" example:"claim_submitted"`
+	Description string    `json:"description" example:"Claim submitted by customer"`
+	CreatedBy   string    `json:"created_by" example:"550e8400-e29b-41d4-a716-446655440002"`
+	CreatedAt   time.Time `json:"created_at" example:"2024-01-20T14:30:00Z"`
+	IsVisible   bool      `json:"is_visible" example:"true"`
+}
+
+// WarrantyClaimDetailResponse represents detailed claim information with timeline and attachments
+type WarrantyClaimDetailResponse struct {
+	Claim       *WarrantyClaimResponse      `json:"claim"`
+	Timeline    []*ClaimTimelineResponse    `json:"timeline"`
+	Attachments []*ClaimAttachmentResponse  `json:"attachments"`
+}
+
+// ClaimCompletionRequest represents a request to complete a claim
+type ClaimCompletionRequest struct {
+	Resolution  string `json:"resolution" validate:"required,oneof=repaired replaced refunded" example:"repaired"`
+	Notes       string `json:"notes" validate:"omitempty,max=1000" example:"Successfully repaired the device"`
+	RepairNotes string `json:"repair_notes" validate:"omitempty,max=2000" example:"Replaced faulty component and tested functionality"`
+}
+
+// ClaimNotesRequest represents a request to add notes to a claim
+type ClaimNotesRequest struct {
+	Notes     string `json:"notes" validate:"required,min=1,max=1000" example:"Customer contacted for additional information"`
+	IsVisible bool   `json:"is_visible" example:"true"`
+}
+
+// ClaimTimelineCreateRequest represents a request to create a timeline entry
+type ClaimTimelineCreateRequest struct {
+	EventType   string `json:"event_type" validate:"required,oneof=claim_submitted claim_validated claim_rejected claim_assigned repair_started repair_completed claim_completed status_updated note_added attachment_uploaded" example:"note_added"`
+	Description string `json:"description" validate:"required,min=1,max=1000" example:"Customer contacted for additional information"`
+	IsVisible   bool   `json:"is_visible" example:"true"`
+}
+
+// ClaimAttachmentListResponse represents a list of claim attachments
+type ClaimAttachmentListResponse struct {
+	Attachments []*ClaimAttachmentResponse `json:"attachments"`
+	Total       int                        `json:"total" example:"5"`
+}
+
+// ClaimTimelineListResponse represents a list of claim timeline entries
+type ClaimTimelineListResponse struct {
+	Timeline []*ClaimTimelineResponse `json:"timeline"`
+	Total    int                      `json:"total" example:"10"`
+}
+
+// AttachmentApprovalRequest represents a request to approve/reject an attachment
+type AttachmentApprovalRequest struct {
+	Action string  `json:"action" validate:"required,oneof=approve reject" example:"approve"`
+	Notes  *string `json:"notes,omitempty" example:"Attachment verified and approved"`
+}
+
+// Type aliases for backward compatibility and cleaner handler code
+type ClaimValidationRequest = WarrantyClaimValidationRequest
+type ClaimRejectionRequest = WarrantyClaimValidationRequest
+type TechnicianAssignmentRequest = WarrantyClaimAssignmentRequest
+
 // Note: PaginationResponse is defined in admin_user_dto.go and reused here
