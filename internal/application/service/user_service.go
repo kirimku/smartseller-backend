@@ -21,22 +21,22 @@ func NewUserService(userRepo repository.UserRepository) *UserService {
 // GetTierDistribution gets the distribution of users across different tiers
 func (s *UserService) GetTierDistribution() (*dto.TierDistributionDTO, error) {
 	// Get counts for each tier
-	pendekarCount, err := s.userRepo.CountUsersByTier(entity.UserTierPendekar)
+	basicCount, err := s.userRepo.CountUsersByTier(entity.UserTierBasic)
 	if err != nil {
 		return nil, err
 	}
 
-	tuanMudaCount, err := s.userRepo.CountUsersByTier(entity.UserTierTuanMuda)
+	premiumCount, err := s.userRepo.CountUsersByTier(entity.UserTierPremium)
 	if err != nil {
 		return nil, err
 	}
 
-	tuanBesarCount, err := s.userRepo.CountUsersByTier(entity.UserTierTuanBesar)
+	proCount, err := s.userRepo.CountUsersByTier(entity.UserTierPro)
 	if err != nil {
 		return nil, err
 	}
 
-	tuanRajaCount, err := s.userRepo.CountUsersByTier(entity.UserTierTuanRaja)
+	enterpriseCount, err := s.userRepo.CountUsersByTier(entity.UserTierEnterprise)
 	if err != nil {
 		return nil, err
 	}
@@ -48,43 +48,15 @@ func (s *UserService) GetTierDistribution() (*dto.TierDistributionDTO, error) {
 	}
 
 	// Total users
-	totalUsers := pendekarCount + tuanMudaCount + tuanBesarCount + tuanRajaCount + noTierCount
-
-	// Calculate percentages
-	calculatePercentage := func(count int) float64 {
-		if totalUsers == 0 {
-			return 0
-		}
-		return float64(count) / float64(totalUsers) * 100
-	}
+	totalUsers := basicCount + premiumCount + proCount + enterpriseCount + noTierCount
 
 	// Build response
 	return &dto.TierDistributionDTO{
-		TotalUsers: totalUsers,
-		Distribution: map[string]struct {
-			Count      int     `json:"count"`
-			Percentage float64 `json:"percentage"`
-		}{
-			"no_tier": {
-				Count:      noTierCount,
-				Percentage: calculatePercentage(noTierCount),
-			},
-			string(entity.UserTierPendekar): {
-				Count:      pendekarCount,
-				Percentage: calculatePercentage(pendekarCount),
-			},
-			string(entity.UserTierTuanMuda): {
-				Count:      tuanMudaCount,
-				Percentage: calculatePercentage(tuanMudaCount),
-			},
-			string(entity.UserTierTuanBesar): {
-				Count:      tuanBesarCount,
-				Percentage: calculatePercentage(tuanBesarCount),
-			},
-			string(entity.UserTierTuanRaja): {
-				Count:      tuanRajaCount,
-				Percentage: calculatePercentage(tuanRajaCount),
-			},
-		},
+		BasicCount:      basicCount,
+		PremiumCount:    premiumCount,
+		ProCount:        proCount,
+		EnterpriseCount: enterpriseCount,
+		NoTierCount:     noTierCount,
+		TotalUsers:      totalUsers,
 	}, nil
 }
