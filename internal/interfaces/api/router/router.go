@@ -106,6 +106,9 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 	userHandler := handler.NewUserHandler(userUseCase)
 	productHandler := handler.NewProductHandler(productUseCase, logger)
 
+	// TODO: Temporary warranty barcode handler (will be replaced with full implementation)
+	warrantyBarcodeHandler := handler.NewWarrantyBarcodeHandler(logger)
+
 	// API v1 routes
 	v1 := router.Group("/api/v1")
 	{
@@ -205,6 +208,28 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 			products.GET("/:id", productHandler.GetProduct)
 			products.PUT("/:id", productHandler.UpdateProduct)
 			products.DELETE("/:id", productHandler.DeleteProduct)
+		}
+
+		// Admin Warranty Barcode routes (protected) - Phase 7 Implementation
+		admin := v1.Group("/admin")
+		admin.Use(middleware.AuthMiddleware())
+		{
+			warranty := admin.Group("/warranty")
+			{
+				barcodes := warranty.Group("/barcodes")
+				{
+					// Barcode generation and management
+					barcodes.POST("/generate", warrantyBarcodeHandler.GenerateBarcodes)
+					barcodes.GET("/", warrantyBarcodeHandler.ListBarcodes)
+					barcodes.GET("/:id", warrantyBarcodeHandler.GetBarcode)
+					barcodes.POST("/:id/activate", warrantyBarcodeHandler.ActivateBarcode)
+					barcodes.POST("/bulk-activate", warrantyBarcodeHandler.BulkActivateBarcodes)
+
+					// Statistics and validation
+					barcodes.GET("/stats", warrantyBarcodeHandler.GetBarcodeStats)
+					barcodes.GET("/validate/:barcode_value", warrantyBarcodeHandler.ValidateBarcode)
+				}
+			}
 		}
 	}
 }
