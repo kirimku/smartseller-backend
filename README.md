@@ -1,6 +1,20 @@
 # SmartSeller Backend
 
-A modern, cloud-native e-commerce management platform backend built with Go, designed to empower sellers with comprehensive business management tools.
+A modern, cloud-native e-commerce management platform### Phase 4: Customer### Phase 6: Marketing & Loyalty
+- [ ] Voucher and discount management
+- [ ] Loyalty points and rewards system
+- [ ] Email marketing automation
+- [ ] Customer segmentation campaigns
+- [ ] A/B testing framework
+
+### Phase 7: Analytics & Intelligenceent
+- [ ] 360-degree customer profiles
+- [ ] Communication history tracking
+- [ ] Customer segmentation tools
+- [ ] Support ticket system
+- [ ] Customer analytics and insights
+
+### Phase 5: Channel Management built with Go, designed to empower sellers with comprehensive business management tools.
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
 [![Go Version](https://img.shields.io/badge/go-1.24.0-blue)]()
@@ -20,7 +34,15 @@ SmartSeller is a comprehensive e-commerce business management platform that prov
 - Role-based access control (RBAC)
 - Password reset and account recovery
 
-### 🛍️ E-commerce Ready Foundation
+### �️ Warranty Management System
+- **Cryptographically Secure Barcodes**: REX format with 60-bit entropy (1.2×10¹⁸ combinations)
+- **Complete Claim Workflow**: 12-state workflow from submission to completion
+- **Repair Tracking**: Full repair lifecycle with technician assignment and parts tracking
+- **Customer Portal**: Self-service warranty lookup and claim submission
+- **Admin Dashboard**: Comprehensive warranty analytics and management tools
+- **Multi-tenant Support**: Storefront-specific warranty policies and management
+
+### �🛍️ E-commerce Ready Foundation
 - Multi-tenant architecture
 - User tiers: Basic, Premium, Pro, Enterprise
 - User types: Individual, Business, Enterprise
@@ -35,7 +57,17 @@ SmartSeller is a comprehensive e-commerce business management platform that prov
 
 ## 🎯 Planned Features
 
-### Phase 1: Product Management
+### Phase 1: Warranty Management (Current)
+- [x] **Secure Barcode Generation**: Cryptographically secure REX format barcodes
+- [x] **Database Schema**: Complete warranty system schema with 8 tables
+- [x] **Domain Models**: Warranty entities with comprehensive business logic
+- [x] **Barcode Service**: CSPRNG-based generation with collision detection
+- [ ] Repository layer implementation
+- [ ] Warranty Management APIs
+- [ ] Complete claim workflow system
+- [ ] Customer warranty portal
+
+### Phase 2: Product Management
 - [ ] Product catalog with unlimited variants
 - [ ] Category management and organization
 - [ ] Inventory tracking and alerts
@@ -49,28 +81,35 @@ SmartSeller is a comprehensive e-commerce business management platform that prov
 - [ ] Invoice generation and management
 - [ ] Return and refund processing
 
-### Phase 3: Customer Management
+### Phase 3: Product Management  
+- [ ] Product catalog with unlimited variants
+- [ ] Category management and organization
+- [ ] Inventory tracking and alerts
+- [ ] Digital asset management with CDN
+- [ ] Bulk import/export capabilities
+
+### Phase 4: Customer Management
 - [ ] 360-degree customer profiles
 - [ ] Communication history tracking
 - [ ] Customer segmentation tools
 - [ ] Support ticket system
 - [ ] Customer analytics and insights
 
-### Phase 4: Channel Management
+### Phase 5: Channel Management
 - [ ] Marketplace integration (Shopee, Tokopedia, etc.)
 - [ ] Social commerce (Instagram, Facebook)
 - [ ] Custom storefront deployment
 - [ ] Omnichannel inventory sync
 - [ ] Multi-channel order management
 
-### Phase 5: Marketing & Loyalty
+### Phase 6: Marketing & Loyalty
 - [ ] Voucher and discount management
 - [ ] Loyalty points and rewards system
 - [ ] Email marketing automation
 - [ ] Customer segmentation campaigns
 - [ ] A/B testing framework
 
-### Phase 6: Analytics & Intelligence
+### Phase 7: Analytics & Intelligence
 - [ ] Real-time sales dashboards
 - [ ] Business intelligence reports
 - [ ] Predictive analytics
@@ -275,6 +314,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [Business Plan](SMARTSELLER_BUSINESS_PLAN.md) - Comprehensive business strategy
 - [Technical Architecture](TECHNICAL_ARCHITECTURE.md) - Detailed technical design
+- [Warranty System Implementation](docs/WARRANTY_SYSTEM_IMPLEMENTATION.md) - Complete warranty system guide
+- [Secure Barcode Technical Specification](docs/SECURE_BARCODE_TECHNICAL_SPECIFICATION.md) - Secure barcode implementation
+- [Warranty API Specification](docs/WARRANTY_API_SPECIFICATION.md) - Complete API documentation
 - [Cleanup Summary](CLEANUP_SUMMARY.md) - Migration from kirimku to SmartSeller
 - [API Documentation](http://localhost:8080/docs) - OpenAPI/Swagger docs
 
