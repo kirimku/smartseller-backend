@@ -333,6 +333,9 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 		{
 			// Customer warranty registration and management endpoints
 			routes.CustomerWarrantyRoutes(customer)
+			
+			// Customer claim submission and management endpoints
+			routes.CustomerClaimRoutes(customer)
 		}
 	}
 }
