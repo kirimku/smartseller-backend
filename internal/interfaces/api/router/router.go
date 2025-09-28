@@ -138,6 +138,11 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 			auth.POST("/forgot-password", authHandler.ForgotPasswordHandler)
 			auth.POST("/reset-password", authHandler.ResetPasswordHandler)
 			auth.POST("/logout", middleware.AuthMiddleware(), authHandler.LogoutHandler)
+			
+			// Secure token endpoints
+			auth.POST("/set-secure-tokens", authHandler.SetSecureTokensHandler)
+			auth.POST("/clear-secure-tokens", authHandler.ClearSecureTokensHandler)
+			auth.GET("/secure-check", authHandler.SecureCheckHandler)
 		}
 
 		// User routes (protected)

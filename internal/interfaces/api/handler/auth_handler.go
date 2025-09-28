@@ -429,6 +429,11 @@ func (h *AuthHandler) LoginWithCredentialsHandler(c *gin.Context) {
 		return
 	}
 
+	// If secure tokens are requested, set them in httpOnly cookies
+	if loginRequest.UseSecureTokens {
+		h.setSecureAuthCookies(c, accessToken, refreshToken)
+	}
+
 	// Return auth response
 	authResponse := dto.AuthResponse{
 		AccessToken:  accessToken,
@@ -550,55 +555,198 @@ func (h *AuthHandler) ForgotPasswordHandler(c *gin.Context) {
 
 // ResetPasswordHandler handles password reset with token
 func (h *AuthHandler) ResetPasswordHandler(c *gin.Context) {
-	var resetPasswordRequest dto.ResetPasswordRequest
-	if err := c.ShouldBindJSON(&resetPasswordRequest); err != nil {
+	var resetRequest dto.ResetPasswordRequest
+	if err := c.ShouldBindJSON(&resetRequest); err != nil {
 		utils.ErrorResponse(c, http.StatusBadRequest, "Invalid request body", err)
 		return
 	}
 
-	// Validate token and password are provided
-	if resetPasswordRequest.Token == "" {
-		utils.ErrorResponse(c, http.StatusBadRequest, "Token reset password wajib diisi", nil)
-		return
-	}
+	// Reset password using the usecase
+	err := h.userUsecase.ResetPassword(
+		c.Request.Context(),
+		resetRequest.Token,
+		resetRequest.NewPassword,
+	)
 
-	if resetPasswordRequest.NewPassword == "" {
-		utils.ErrorResponse(c, http.StatusBadRequest, "Password baru wajib diisi", nil)
-		return
-	}
-
-	// Additional password validation
-	if len(resetPasswordRequest.NewPassword) < 8 {
-		utils.ErrorResponse(c, http.StatusBadRequest, "Password harus minimal 8 karakter", nil)
-		return
-	}
-
-	// Process password reset
-	ctx := c.Request.Context()
-	err := h.userUsecase.ResetPassword(ctx, resetPasswordRequest.Token, resetPasswordRequest.NewPassword)
 	if err != nil {
-		fmt.Printf("Error in reset password: %v\n", err)
-
-		// Handle specific errors
-		if strings.Contains(err.Error(), "invalid or expired reset token") {
-			utils.ErrorResponse(c, http.StatusBadRequest, "Token reset password tidak valid atau sudah kedaluwarsa", nil)
-			return
-		}
-
-		if strings.Contains(err.Error(), "reset token has expired") {
-			utils.ErrorResponse(c, http.StatusBadRequest, "Token reset password sudah kedaluwarsa. Silakan minta reset password baru", nil)
-			return
-		}
-
-		if strings.Contains(err.Error(), "password must be at least 8 characters") {
-			utils.ErrorResponse(c, http.StatusBadRequest, "Password harus minimal 8 karakter", nil)
-			return
-		}
-
-		// Generic error for any other issues
-		utils.ErrorResponse(c, http.StatusInternalServerError, "Gagal reset password. Silakan coba lagi", nil)
+		fmt.Printf("Error resetting password: %v\n", err)
+		utils.ErrorResponse(c, http.StatusBadRequest, "Failed to reset password", err)
 		return
 	}
 
-	utils.SuccessResponse(c, http.StatusOK, "Password berhasil direset. Silakan login dengan password baru", nil)
+	utils.SuccessResponse(c, http.StatusOK, "Password reset successful", nil)
+}
+
+// SetSecureTokensHandler sets authentication tokens as httpOnly cookies
+func (h *AuthHandler) SetSecureTokensHandler(c *gin.Context) {
+	var tokenRequest dto.SetSecureTokensRequest
+	if err := c.ShouldBindJSON(&tokenRequest); err != nil {
+		utils.ErrorResponse(c, http.StatusBadRequest, "Invalid request body", err)
+		return
+	}
+
+	// Validate tokens are not empty
+	if tokenRequest.AccessToken == "" || tokenRequest.RefreshToken == "" {
+		utils.ErrorResponse(c, http.StatusBadRequest, "Access token and refresh token are required", nil)
+		return
+	}
+
+	// Set httpOnly cookies with security flags
+	h.setSecureAuthCookies(c, tokenRequest.AccessToken, tokenRequest.RefreshToken)
+
+	utils.SuccessResponse(c, http.StatusOK, "Secure tokens set successfully", gin.H{
+		"message": "Tokens have been securely stored in httpOnly cookies",
+	})
+}
+
+// ClearSecureTokensHandler clears authentication cookies
+func (h *AuthHandler) ClearSecureTokensHandler(c *gin.Context) {
+	// Clear auth cookies
+	h.clearSecureAuthCookies(c)
+
+	// Clear session data
+	session := sessions.Default(c)
+	session.Clear()
+	if err := session.Save(); err != nil {
+		fmt.Printf("Error clearing session: %v\n", err)
+		// Continue anyway as cookies are cleared
+	}
+
+	utils.SuccessResponse(c, http.StatusOK, "Secure tokens cleared successfully", gin.H{
+		"message": "All authentication tokens have been cleared",
+	})
+}
+
+// SecureCheckHandler checks if user is authenticated via secure cookies
+func (h *AuthHandler) SecureCheckHandler(c *gin.Context) {
+	// Get access token from httpOnly cookie
+	accessToken, err := c.Cookie("access_token")
+	if err != nil || accessToken == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"authenticated": false,
+			"message":       "No authentication token found",
+		})
+		return
+	}
+
+	// Validate the token
+	claims, err := h.validateJWTToken(accessToken)
+	if err != nil {
+		// Token is invalid, clear cookies
+		h.clearSecureAuthCookies(c)
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"authenticated": false,
+			"message":       "Invalid or expired token",
+		})
+		return
+	}
+
+	// Extract user information from claims
+	userID, ok := claims["user_id"].(string)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"authenticated": false,
+			"message":       "Invalid token claims",
+		})
+		return
+	}
+
+	email, _ := claims["email"].(string)
+	name, _ := claims["name"].(string)
+	exp, _ := claims["exp"].(float64)
+
+	c.JSON(http.StatusOK, gin.H{
+		"authenticated": true,
+		"user": gin.H{
+			"id":    userID,
+			"email": email,
+			"name":  name,
+		},
+		"token_expiry": time.Unix(int64(exp), 0),
+		"message":      "User is authenticated",
+	})
+}
+
+// setSecureAuthCookies sets authentication cookies with security flags
+func (h *AuthHandler) setSecureAuthCookies(c *gin.Context, accessToken, refreshToken string) {
+	// Determine if we're in production (use HTTPS)
+	secure := os.Getenv("GIN_MODE") == "release"
+	
+	// Set access token cookie (1 hour expiry)
+	c.SetCookie(
+		"access_token",    // name
+		accessToken,       // value
+		3600,             // maxAge (1 hour)
+		"/",              // path
+		"",               // domain (empty for current domain)
+		secure,           // secure (HTTPS only in production)
+		true,             // httpOnly
+	)
+
+	// Set refresh token cookie (7 days expiry)
+	c.SetCookie(
+		"refresh_token",   // name
+		refreshToken,      // value
+		86400*7,          // maxAge (7 days)
+		"/",              // path
+		"",               // domain (empty for current domain)
+		secure,           // secure (HTTPS only in production)
+		true,             // httpOnly
+	)
+}
+
+// clearSecureAuthCookies clears authentication cookies
+func (h *AuthHandler) clearSecureAuthCookies(c *gin.Context) {
+	// Clear access token cookie
+	c.SetCookie(
+		"access_token",    // name
+		"",               // value (empty)
+		-1,               // maxAge (negative to delete)
+		"/",              // path
+		"",               // domain
+		false,            // secure
+		true,             // httpOnly
+	)
+
+	// Clear refresh token cookie
+	c.SetCookie(
+		"refresh_token",   // name
+		"",               // value (empty)
+		-1,               // maxAge (negative to delete)
+		"/",              // path
+		"",               // domain
+		false,            // secure
+		true,             // httpOnly
+	)
+}
+
+// validateJWTToken validates a JWT token and returns claims
+func (h *AuthHandler) validateJWTToken(tokenString string) (jwt.MapClaims, error) {
+	// Get JWT secret from environment variable (same as auth middleware)
+	secretKey := os.Getenv("SESSION_KEY")
+	if secretKey == "" {
+		return nil, fmt.Errorf("server configuration error: SESSION_KEY not set")
+	}
+
+	// Parse the token
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		// Validate the signing method
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		
+		// Return the secret key
+		return []byte(secretKey), nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	// Check if token is valid and extract claims
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		return claims, nil
+	}
+
+	return nil, fmt.Errorf("invalid token")
 }

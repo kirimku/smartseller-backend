@@ -4,7 +4,7 @@ info:
   description: API documentation for the SmartSeller Backend service - E-commerce Management Platform.
   version: 1.0.0
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:8090
     description: Local development server
 paths:
   /api/v1/auth/login:
@@ -31,9 +31,20 @@ paths:
                   type: string
                   description: User's password
                   example: password123
+                use_secure_tokens:
+                  type: boolean
+                  description: If true, tokens will be stored in httpOnly cookies for enhanced security
+                  example: false
+                  default: false
       responses:
         '200':
-          description: Successfully authenticated
+          description: Successfully authenticated. If use_secure_tokens is true, tokens are also set as httpOnly cookies.
+          headers:
+            Set-Cookie:
+              description: HttpOnly cookies containing access_token and refresh_token (only when use_secure_tokens is true)
+              schema:
+                type: string
+              example: "access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600"
           content:
             application/json:
               schema:
@@ -452,6 +463,155 @@ paths:
                     meta:
                       http_status: 500
 
+  /api/v1/auth/set-secure-tokens:
+    post:
+      summary: Set Secure Authentication Tokens
+      description: |
+        Sets the current user's access and refresh tokens as httpOnly cookies for enhanced security.
+        This endpoint requires a valid Authorization header with a Bearer token.
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Tokens successfully set as httpOnly cookies
+          headers:
+            Set-Cookie:
+              description: HttpOnly cookies containing access_token and refresh_token
+              schema:
+                type: string
+              example: "access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Secure tokens set successfully"
+                  meta:
+                    type: object
+                    properties:
+                      http_status:
+                        type: integer
+                        example: 200
+        '401':
+          description: Unauthorized - invalid or missing token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                message: "Unauthorized"
+                meta:
+                  http_status: 401
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/auth/clear-secure-tokens:
+    post:
+      summary: Clear Secure Authentication Tokens
+      description: |
+        Clears the httpOnly cookies containing access and refresh tokens, effectively logging out the user
+        from the secure token session. This endpoint can be called without authentication.
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: Tokens successfully cleared from httpOnly cookies
+          headers:
+            Set-Cookie:
+              description: Expired httpOnly cookies to clear access_token and refresh_token
+              schema:
+                type: string
+              example: "access_token=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Secure tokens cleared successfully"
+                  meta:
+                    type: object
+                    properties:
+                      http_status:
+                        type: integer
+                        example: 200
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/auth/secure-check:
+    get:
+      summary: Check Secure Token Authentication
+      description: |
+        Validates the user's authentication status using httpOnly cookies containing access and refresh tokens.
+        This endpoint automatically reads tokens from cookies and validates them.
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: User is authenticated with valid secure tokens
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "User is authenticated"
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/UserDTO'
+                      authenticated:
+                        type: boolean
+                        example: true
+                  meta:
+                    type: object
+                    properties:
+                      http_status:
+                        type: integer
+                        example: 200
+        '401':
+          description: Unauthorized - invalid or missing secure tokens
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                message: "Unauthorized"
+                meta:
+                  http_status: 401
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  
 components:
   schemas:
     SuccessResponse:
@@ -485,6 +645,111 @@ components:
           properties:
             http_status:
               type: integer
+
+    UserDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "Unique identifier for the user"
+        email:
+          type: string
+          format: email
+          description: "User's email address"
+        name:
+          type: string
+          description: "User's full name"
+        role:
+          type: string
+          enum: [admin, user, manager]
+          description: "User's role in the system"
+        isActive:
+          type: boolean
+          description: "Whether the user account is active"
+        createdAt:
+          type: string
+          format: date-time
+          description: "When the user account was created"
+        updatedAt:
+          type: string
+          format: date-time
+          description: "When the user account was last updated"
+      required:
+        - id
+        - email
+        - name
+        - role
+        - isActive
+        - createdAt
+        - updatedAt
+      example:
+        id: "123e4567-e89b-12d3-a456-426614174000"
+        email: "john.doe@example.com"
+        name: "John Doe"
+        role: "user"
+        isActive: true
+        createdAt: "2023-01-01T00:00:00Z"
+        updatedAt: "2023-01-01T00:00:00Z"
+
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: "Whether the authentication was successful"
+        message:
+          type: string
+          description: "Human-readable message about the authentication result"
+        data:
+          type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/UserDTO'
+            token:
+              type: string
+              description: "JWT access token"
+            refreshToken:
+              type: string
+              description: "JWT refresh token"
+            expiresIn:
+              type: integer
+              description: "Token expiration time in seconds"
+          required:
+            - user
+            - token
+            - refreshToken
+            - expiresIn
+        meta:
+          type: object
+          properties:
+            timestamp:
+              type: string
+              format: date-time
+            version:
+              type: string
+      required:
+        - success
+        - message
+        - data
+      example:
+        success: true
+        message: "Authentication successful"
+        data:
+          user:
+            id: "123e4567-e89b-12d3-a456-426614174000"
+            email: "john.doe@example.com"
+            name: "John Doe"
+            role: "user"
+            isActive: true
+            createdAt: "2023-01-01T00:00:00Z"
+            updatedAt: "2023-01-01T00:00:00Z"
+          token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          expiresIn: 3600
+        meta:
+          timestamp: "2023-01-01T00:00:00Z"
+          version: "1.0"
 
   responses:
     BadRequest:
@@ -527,3 +792,10 @@ components:
             error: "Internal server error"
             meta:
               http_status: 500
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for API authentication. Include the token in the Authorization header as 'Bearer <token>'.

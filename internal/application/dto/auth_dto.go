@@ -25,8 +25,9 @@ type RegistrationRequest struct {
 
 // LoginCredentialsRequest represents the request for email/phone + password login
 type LoginCredentialsRequest struct {
-	EmailOrPhone string `json:"email_or_phone" binding:"required"`
-	Password     string `json:"password" binding:"required"`
+	EmailOrPhone     string `json:"email_or_phone" binding:"required"`
+	Password         string `json:"password" binding:"required"`
+	UseSecureTokens  bool   `json:"use_secure_tokens,omitempty"` // Optional: if true, tokens will be stored in httpOnly cookies
 }
 
 // ForgotPasswordRequest represents the request for password reset
@@ -50,6 +51,12 @@ type ForgotPasswordResponse struct {
 // ResetPasswordResponse represents the response for reset password request
 type ResetPasswordResponse struct {
 	Message string `json:"message"`
+}
+
+// SetSecureTokensRequest represents the request for setting secure tokens
+type SetSecureTokensRequest struct {
+	AccessToken  string `json:"access_token" binding:"required"`
+	RefreshToken string `json:"refresh_token" binding:"required"`
 }
 
 // UserDTO represents user data
