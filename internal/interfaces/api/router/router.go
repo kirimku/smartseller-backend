@@ -12,6 +12,7 @@ import (
 	"github.com/kirimku/smartseller-backend/internal/config"
 	infraRepo "github.com/kirimku/smartseller-backend/internal/infrastructure/repository"
 	"github.com/kirimku/smartseller-backend/internal/interfaces/api/handler"
+	"github.com/kirimku/smartseller-backend/internal/interfaces/api/routes"
 	"github.com/kirimku/smartseller-backend/pkg/email"
 	"github.com/kirimku/smartseller-backend/pkg/middleware"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -115,6 +116,12 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 	// Claim attachment and timeline handlers
 	claimAttachmentHandler := handler.NewClaimAttachmentHandler()
 	claimTimelineHandler := handler.NewClaimTimelineHandler()
+	
+	// Repair ticket handler
+	repairTicketHandler := handler.NewRepairTicketHandler()
+	
+	// Batch generation handler
+	batchGenerationHandler := handler.NewBatchGenerationHandler()
 
 	// API v1 routes
 	v1 := router.Group("/api/v1")
@@ -238,6 +245,24 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 					barcodes.GET("/validate/:barcode_value", warrantyBarcodeHandler.ValidateBarcode)
 				}
 
+				// Batch generation routes
+				batches := warranty.Group("/claims/:id/batches")
+				{
+					// Batch CRUD operations
+					batches.POST("/", batchGenerationHandler.CreateBatch)
+					batches.GET("/", batchGenerationHandler.ListBatches)
+					batches.GET("/:batchId", batchGenerationHandler.GetBatch)
+					batches.DELETE("/:batchId", batchGenerationHandler.DeleteBatch)
+
+					// Batch management
+					batches.GET("/:batchId/progress", batchGenerationHandler.GetBatchProgress)
+					batches.POST("/:batchId/cancel", batchGenerationHandler.CancelBatch)
+
+					// Batch analysis
+					batches.GET("/:batchId/collisions", batchGenerationHandler.GetBatchCollisions)
+					batches.GET("/:batchId/statistics", batchGenerationHandler.GetBatchStatistics)
+				}
+
 				// Claim management routes
 				claims := warranty.Group("/claims")
 				{
@@ -277,8 +302,37 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 						timeline.PUT("/:entry_id", claimTimelineHandler.UpdateTimelineEntry)
 						timeline.DELETE("/:entry_id", claimTimelineHandler.DeleteTimelineEntry)
 					}
+
+					// Repair ticket management routes
+					repairTickets := claims.Group("/:id/repair-tickets")
+					{
+						repairTickets.POST("/", repairTicketHandler.CreateRepairTicket)
+						repairTickets.GET("/", repairTicketHandler.ListRepairTickets)
+						repairTickets.GET("/:ticketId", repairTicketHandler.GetRepairTicket)
+						repairTickets.PUT("/:ticketId", repairTicketHandler.UpdateRepairTicket)
+						repairTickets.PUT("/:ticketId/assign", repairTicketHandler.AssignTechnician)
+						repairTickets.PUT("/:ticketId/complete", repairTicketHandler.CompleteRepair)
+						repairTickets.PUT("/:ticketId/quality-check", repairTicketHandler.QualityCheck)
+						repairTickets.GET("/statistics", repairTicketHandler.GetRepairStatistics)
+					}
 				}
 			}
+		}
+
+		// Public API routes (no authentication required) - Phase 8 Implementation
+		public := v1.Group("/public")
+		{
+			// Public warranty validation endpoints
+			routes.PublicWarrantyRoutes(public)
+		}
+
+		// Customer API routes (authentication required for customers) - Phase 8 Implementation
+		customer := v1.Group("/customer")
+		// TODO: Add customer authentication middleware when implemented
+		// customer.Use(middleware.CustomerAuthMiddleware())
+		{
+			// Customer warranty registration and management endpoints
+			routes.CustomerWarrantyRoutes(customer)
 		}
 	}
 }
