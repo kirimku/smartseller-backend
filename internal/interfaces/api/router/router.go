@@ -150,6 +150,7 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 		users.Use(middleware.AuthMiddleware())
 		{
 			users.GET("/profile", userHandler.GetUserProfile)
+			users.GET("/me", userHandler.GetUserProfile) // Alias for /profile to match OpenAPI docs
 		}
 
 		// TODO: Phase 4 Implementation - Customer Routes
