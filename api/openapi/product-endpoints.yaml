@@ -91,7 +91,202 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/products/{product_id}/variant-options:
+    post:
+      tags:
+        - Product Variants
+      summary: Create variant options for a product
+      description: Create variant options (like Color, Size) for a product before creating variants
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVariantOptionRequest'
+      responses:
+        '201':
+          description: Variant option created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Variant option created successfully"
+                  data:
+                    $ref: '#/components/schemas/VariantOptionResponse'
+        '400':
+          description: Bad request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict - Variant option with this name already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/products/{product_id}/variants:
+    post:
+      tags:
+        - Product Variants
+      summary: Create a product variant
+      description: Create a specific variant for a product with defined option combinations
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVariantRequest'
+      responses:
+        '201':
+          description: Product variant created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Product variant created successfully"
+                  data:
+                    $ref: '#/components/schemas/ProductVariantResponse'
+        '400':
+          description: Bad request - Invalid input data or option values
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict - Variant with these options already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/products/{product_id}/variants/generate:
+    post:
+      tags:
+        - Product Variants
+      summary: Generate multiple product variants
+      description: Automatically generate all possible combinations of variant options for a product
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateVariantsRequest'
+      responses:
+        '201':
+          description: Product variants generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Product variants generated successfully"
+                  data:
+                    $ref: '#/components/schemas/GenerateVariantsResponse'
+        '400':
+          description: Bad request - Invalid input data or no variant options defined
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Unauthorized - Invalid or missing authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     
     get:
       summary: List products with filtering and pagination

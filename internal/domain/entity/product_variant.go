@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"database/sql/driver"
 	"encoding/json"
 	"fmt"
 	"sort"
@@ -19,9 +20,9 @@ type ProductVariant struct {
 	ProductID uuid.UUID `json:"product_id" db:"product_id"`
 
 	// Variant identification
-	VariantName string                 `json:"variant_name" db:"variant_name"` // Auto-generated or manual
-	VariantSKU  *string                `json:"variant_sku" db:"variant_sku"`   // Optional specific SKU
-	Options     map[string]interface{} `json:"options" db:"options"`           // JSONB: {"Color": "Red", "Size": "Large"}
+	VariantName string         `json:"variant_name" db:"variant_name"` // Auto-generated or manual
+	VariantSKU  *string        `json:"variant_sku" db:"variant_sku"`   // Optional specific SKU
+	Options     VariantOptions `json:"options" db:"options"`           // JSONB: {"Color": "Red", "Size": "Large"}
 
 	// Pricing
 	Price          decimal.Decimal  `json:"price" db:"price"`                       // Override price
@@ -61,7 +62,7 @@ func NewProductVariant(productID uuid.UUID, options map[string]interface{}, pric
 	variant := &ProductVariant{
 		ID:            uuid.New(),
 		ProductID:     productID,
-		Options:       options,
+		Options:       VariantOptions(options),
 		Price:         price,
 		StockQuantity: 0,
 		TrackQuantity: true,
@@ -495,6 +496,37 @@ func (pv *ProductVariant) ComputeFields() {
 	pv.ProfitAmount = pv.CalculateProfitAmount()
 	pv.FormattedPrice = fmt.Sprintf("Rp %s", pv.Price.StringFixed(0))
 	pv.OptionCount = len(pv.Options)
+}
+
+// VariantOptions represents the options for a product variant with custom database serialization
+type VariantOptions map[string]interface{}
+
+// Value implements the driver.Valuer interface for database serialization
+func (vo VariantOptions) Value() (driver.Value, error) {
+	if vo == nil {
+		return nil, nil
+	}
+	return json.Marshal(vo)
+}
+
+// Scan implements the sql.Scanner interface for database deserialization
+func (vo *VariantOptions) Scan(value interface{}) error {
+	if value == nil {
+		*vo = nil
+		return nil
+	}
+	
+	var bytes []byte
+	switch v := value.(type) {
+	case []byte:
+		bytes = v
+	case string:
+		bytes = []byte(v)
+	default:
+		return fmt.Errorf("cannot scan %T into VariantOptions", value)
+	}
+	
+	return json.Unmarshal(bytes, vo)
 }
 
 // String returns a string representation of the variant

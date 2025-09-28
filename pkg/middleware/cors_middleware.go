@@ -12,25 +12,8 @@ import (
 // CORSMiddleware handles Cross-Origin Resource Sharing (CORS) for Gin
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-
-		// Handle preflight OPTIONS requests even in preproduction
-		// This ensures AUTH endpoints work properly with CORS
-		if c.Request.Method == "OPTIONS" {
-			// Set permissive CORS headers for preflight requests in preproduction
-			if config.AppConfig.Environment == "preproduction" {
-				c.Header("Access-Control-Allow-Origin", "*")
-				c.Header("Access-Control-Allow-Credentials", "true")
-				c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH")
-				c.Header("Access-Control-Allow-Headers", "Authorization, Content-Type, X-Requested-With")
-				c.Header("Access-Control-Max-Age", "3600")
-				c.AbortWithStatus(http.StatusOK)
-				return
-			}
-		}
-
-		// Skip CORS middleware in production and preproduction (handled by DigitalOcean/nginx)
-		// BUT still handle OPTIONS requests above
-		if config.AppConfig.Environment == "preproduction" {
+		// Skip CORS middleware in production (handled by DigitalOcean/nginx)
+		if config.AppConfig.Environment == "production" {
 			c.Next()
 			return
 		}
@@ -71,36 +54,30 @@ func CORSMiddleware() gin.HandlerFunc {
 			}
 		}
 
-		if !isAllowedOrigin {
+		// In development, be more permissive with CORS
+		if config.AppConfig.Environment == "development" && !isAllowedOrigin {
+			// Check if it's a localhost variant that should be allowed
+			if strings.Contains(origin, "localhost") || strings.Contains(origin, "127.0.0.1") {
+				isAllowedOrigin = true
+			}
+		}
 
+		if !isAllowedOrigin {
 			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{
 				"error": "Not allowed by CORS",
 			})
 			return
 		}
 
-		// Set CORS headers (only if not already set to prevent duplication)
-		// Note: Use c.Writer.Header().Get() to check response headers, not request headers
-		existingOrigin := c.Writer.Header().Get("Access-Control-Allow-Origin")
+		// Set CORS headers EARLY - this ensures they're present even on redirects
+		c.Header("Access-Control-Allow-Origin", origin)
+		c.Header("Access-Control-Allow-Credentials", "true")
+		c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH")
+		c.Header("Access-Control-Allow-Headers", "Authorization, Content-Type, X-Requested-With")
 
-		if existingOrigin == "" {
-			c.Header("Access-Control-Allow-Origin", origin)
-		}
-		if c.Writer.Header().Get("Access-Control-Allow-Credentials") == "" {
-			c.Header("Access-Control-Allow-Credentials", "true")
-		}
-		if c.Writer.Header().Get("Access-Control-Allow-Methods") == "" {
-			c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH")
-		}
-		if c.Writer.Header().Get("Access-Control-Allow-Headers") == "" {
-			c.Header("Access-Control-Allow-Headers", "Authorization, Content-Type, X-Requested-With")
-		}
-
-		// Handle preflight requests
+		// Handle preflight OPTIONS requests
 		if c.Request.Method == http.MethodOptions {
-			if c.Writer.Header().Get("Access-Control-Max-Age") == "" {
-				c.Header("Access-Control-Max-Age", "3600")
-			}
+			c.Header("Access-Control-Max-Age", "3600")
 			c.AbortWithStatus(http.StatusOK)
 			return
 		}

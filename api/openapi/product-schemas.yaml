@@ -582,3 +582,313 @@ components:
         - error
         - request_id
         - timestamp
+    
+    # Variant Option Schemas
+    CreateVariantOptionRequest:
+      type: object
+      required:
+        - option_name
+        - option_values
+      properties:
+        option_name:
+          type: string
+          description: Name of the variant option (e.g., Color, Size)
+          example: "Color"
+          minLength: 1
+          maxLength: 50
+        option_values:
+          type: array
+          description: Array of possible values for this option
+          items:
+            type: string
+            minLength: 1
+            maxLength: 100
+          example: ["Red", "Blue", "Green", "Black"]
+          minItems: 1
+          maxItems: 50
+        display_name:
+          type: string
+          description: Human-readable display name for the option
+          example: "Product Color"
+          maxLength: 100
+        is_required:
+          type: boolean
+          description: Whether this option is required when creating variants
+          example: true
+          default: true
+        sort_order:
+          type: integer
+          description: Sort order for displaying options
+          example: 1
+          minimum: 0
+          maximum: 999
+
+    VariantOptionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the variant option
+          example: "550e8400-e29b-41d4-a716-446655440003"
+        product_id:
+          type: string
+          format: uuid
+          description: ID of the product this option belongs to
+          example: "6b946aee-e2a2-4e5b-b9bb-65b4f86e96a7"
+        option_name:
+          type: string
+          description: Name of the variant option
+          example: "Color"
+        option_values:
+          type: array
+          description: Array of possible values for this option
+          items:
+            type: string
+          example: ["Red", "Blue", "Green", "Black"]
+        display_name:
+          type: string
+          description: Human-readable display name for the option
+          example: "Product Color"
+        is_required:
+          type: boolean
+          description: Whether this option is required
+          example: true
+        sort_order:
+          type: integer
+          description: Sort order for displaying options
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the option was created
+          example: "2023-01-01T00:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the option was last updated
+          example: "2023-01-01T00:00:00Z"
+
+    # Product Variant Schemas
+    CreateVariantRequest:
+      type: object
+      required:
+        - options
+        - price
+      properties:
+        options:
+          type: object
+          description: Key-value pairs of option names and selected values
+          additionalProperties:
+            type: string
+          example:
+            Color: "Red"
+            Size: "L"
+        price:
+          type: number
+          format: decimal
+          description: Selling price for this variant
+          example: 199.99
+          minimum: 0
+          exclusiveMinimum: true
+        compare_at_price:
+          type: number
+          format: decimal
+          description: Original price before discount (optional)
+          example: 249.99
+          minimum: 0
+        cost_price:
+          type: number
+          format: decimal
+          description: Cost price for calculating profit margins
+          example: 120.00
+          minimum: 0
+        stock_quantity:
+          type: integer
+          description: Available stock quantity for this variant
+          example: 25
+          minimum: 0
+          default: 0
+        track_inventory:
+          type: boolean
+          description: Whether to track inventory for this variant
+          example: true
+          default: true
+        weight:
+          type: number
+          format: decimal
+          description: Weight of the variant in kilograms
+          example: 0.3
+          minimum: 0
+        barcode:
+          type: string
+          description: Barcode for the variant (optional)
+          example: "1234567890123"
+          maxLength: 50
+
+    ProductVariantResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the variant
+          example: "550e8400-e29b-41d4-a716-446655440004"
+        product_id:
+          type: string
+          format: uuid
+          description: ID of the parent product
+          example: "6b946aee-e2a2-4e5b-b9bb-65b4f86e96a7"
+        variant_name:
+          type: string
+          description: Auto-generated name for the variant
+          example: "Red Large"
+        variant_sku:
+          type: string
+          description: Auto-generated SKU for the variant
+          example: "WBH-001-RED-L"
+        options:
+          type: object
+          description: Key-value pairs of option names and selected values
+          additionalProperties:
+            type: string
+          example:
+            Color: "Red"
+            Size: "L"
+        price:
+          type: number
+          format: decimal
+          description: Selling price for this variant
+          example: 199.99
+        compare_at_price:
+          type: number
+          format: decimal
+          description: Original price before discount
+          example: 249.99
+        cost_price:
+          type: number
+          format: decimal
+          description: Cost price for calculating profit margins
+          example: 120.00
+        profit_margin:
+          type: number
+          format: decimal
+          description: Calculated profit margin (price - cost_price)
+          example: 79.99
+        stock_quantity:
+          type: integer
+          description: Available stock quantity
+          example: 25
+        track_inventory:
+          type: boolean
+          description: Whether inventory is tracked for this variant
+          example: true
+        weight:
+          type: number
+          format: decimal
+          description: Weight of the variant in kilograms
+          example: 0.3
+        barcode:
+          type: string
+          description: Barcode for the variant
+          example: "1234567890123"
+        is_active:
+          type: boolean
+          description: Whether the variant is active
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the variant was created
+          example: "2023-01-01T00:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the variant was last updated
+          example: "2023-01-01T00:00:00Z"
+
+    # Generate Variants Schemas
+    GenerateVariantsRequest:
+      type: object
+      required:
+        - options
+        - base_price
+      properties:
+        options:
+          type: object
+          description: Key-value pairs where keys are option names and values are arrays of option values to generate
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          example:
+            Color: ["Red", "Blue", "Green"]
+            Size: ["S", "M", "L", "XL"]
+        base_price:
+          type: number
+          format: decimal
+          description: Base price to apply to all generated variants
+          example: 199.99
+          minimum: 0
+          exclusiveMinimum: true
+        compare_at_price:
+          type: number
+          format: decimal
+          description: Compare at price to apply to all generated variants
+          example: 249.99
+          minimum: 0
+        cost_price:
+          type: number
+          format: decimal
+          description: Cost price to apply to all generated variants
+          example: 120.00
+          minimum: 0
+        stock_quantity:
+          type: integer
+          description: Stock quantity to apply to all generated variants
+          example: 10
+          minimum: 0
+          default: 0
+        track_inventory:
+          type: boolean
+          description: Whether to track inventory for all generated variants
+          example: true
+          default: true
+        weight:
+          type: number
+          format: decimal
+          description: Weight to apply to all generated variants
+          example: 0.3
+          minimum: 0
+
+    GenerateVariantsResponse:
+      type: object
+      properties:
+        generated_count:
+          type: integer
+          description: Number of variants successfully generated
+          example: 12
+        variants:
+          type: array
+          description: Array of generated variants (may be truncated for large responses)
+          items:
+            $ref: '#/components/schemas/ProductVariantResponse'
+          example:
+            - id: "550e8400-e29b-41d4-a716-446655440005"
+              variant_name: "Red Small"
+              variant_sku: "WBH-001-RED-S"
+              options:
+                Color: "Red"
+                Size: "S"
+              price: 199.99
+              cost_price: 120.00
+              stock_quantity: 10
+            - id: "550e8400-e29b-41d4-a716-446655440006"
+              variant_name: "Red Medium"
+              variant_sku: "WBH-001-RED-M"
+              options:
+                Color: "Red"
+                Size: "M"
+              price: 199.99
+              cost_price: 120.00
+              stock_quantity: 10

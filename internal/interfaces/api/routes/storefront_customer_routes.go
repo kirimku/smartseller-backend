@@ -16,7 +16,7 @@ func SetupStorefrontCustomerRoutes(
 	addressHandler *handler.AddressHandler,
 ) {
 	// Storefront-specific customer routes with tenant resolution
-	api := router.Group("/api")
+	api := router.Group("/api/v1")
 	{
 		storefront := api.Group("/storefront/:slug")
 		storefront.Use(tenantMiddleware.ResolveTenant())

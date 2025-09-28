@@ -1,0 +1,914 @@
+openapi: 3.0.3
+info:
+  title: SmartSeller Customer Authentication API
+  description: |
+    Customer authentication and registration API for SmartSeller storefronts.
+    This API provides multi-tenant customer management with storefront-specific authentication.
+  version: 1.0.0
+  contact:
+    name: SmartSeller API Support
+    email: api-support@smartseller.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8090
+    description: Development server
+  - url: https://api.smartseller.com
+    description: Production server
+
+paths:
+  /api/v1/storefront/{storefront_slug}/auth/register:
+    post:
+      summary: Register a new customer
+      description: |
+        Register a new customer for a specific storefront. The customer will be associated
+        with the storefront and can only authenticate within that storefront context.
+      operationId: registerCustomer
+      tags:
+        - Customer Authentication
+      parameters:
+        - $ref: '#/components/parameters/StorefrontSlug'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRegistrationRequest'
+            examples:
+              basic_registration:
+                summary: Basic customer registration
+                value:
+                  email: "john.doe@example.com"
+                  password: "SecurePass123!"
+                  first_name: "John"
+                  last_name: "Doe"
+              full_registration:
+                summary: Full customer registration with optional fields
+                value:
+                  email: "jane.smith@example.com"
+                  phone: "+1234567890"
+                  password: "SecurePass123!"
+                  first_name: "Jane"
+                  last_name: "Smith"
+                  date_of_birth: "1990-05-15T00:00:00Z"
+                  gender: "female"
+                  tags: ["premium", "newsletter"]
+                  preferences:
+                    newsletter: true
+                    sms_notifications: false
+      responses:
+        '201':
+          description: Customer registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAuthResponse'
+              examples:
+                success_response:
+                  summary: Successful registration response
+                  value:
+                    customer:
+                      id: "123e4567-e89b-12d3-a456-426614174000"
+                      email: "john.doe@example.com"
+                      first_name: "John"
+                      last_name: "Doe"
+                      storefront_id: "b0ea82e3-366d-49a4-8c03-316a1ac2a2c4"
+                      created_at: "2024-01-15T10:30:00Z"
+                      updated_at: "2024-01-15T10:30:00Z"
+                      created_by: "seller-123"
+                    access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    token_type: "Bearer"
+                    expires_in: 3600
+        '400':
+          description: Bad request - validation failed or email already exists
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                email_exists:
+                  summary: Email already exists
+                  value: "email already exists"
+                validation_error:
+                  summary: Validation error
+                  value: "Request validation failed: parsing time \"invalid-date\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"invalid-date\" as \"2006\""
+                storefront_not_found:
+                  summary: Storefront not found
+                  value: "STOREFRONT_NOT_FOUND: Storefront not found"
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Internal server error"
+
+  /api/v1/storefront/{storefront_slug}/auth/login:
+    post:
+      summary: Authenticate customer
+      description: |
+        Authenticate a customer using email and password within a specific storefront context.
+        Returns customer data and JWT tokens for subsequent API calls.
+      operationId: loginCustomer
+      tags:
+        - Customer Authentication
+      parameters:
+        - $ref: '#/components/parameters/StorefrontSlug'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerAuthRequest'
+            examples:
+              email_login:
+                summary: Login with email
+                value:
+                  email: "john.doe@example.com"
+                  password: "SecurePass123!"
+              phone_login:
+                summary: Login with phone
+                value:
+                  phone: "+1234567890"
+                  password: "SecurePass123!"
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAuthResponse'
+              examples:
+                success_response:
+                  summary: Successful login response
+                  value:
+                    customer:
+                      id: "123e4567-e89b-12d3-a456-426614174000"
+                      email: "john.doe@example.com"
+                      first_name: "John"
+                      last_name: "Doe"
+                      storefront_id: "b0ea82e3-366d-49a4-8c03-316a1ac2a2c4"
+                      created_at: "2024-01-15T10:30:00Z"
+                      updated_at: "2024-01-15T10:30:00Z"
+                      created_by: "seller-123"
+                    access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    token_type: "Bearer"
+                    expires_in: 3600
+        '400':
+          description: Bad request - invalid credentials or storefront not found
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                invalid_credentials:
+                  summary: Invalid credentials
+                  value: "Invalid credentials"
+                storefront_not_found:
+                  summary: Storefront not found
+                  value: "STOREFRONT_NOT_FOUND: Storefront not found"
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Internal server error"
+
+  /api/v1/storefront/{storefront_slug}/auth/refresh:
+    post:
+      summary: Refresh access token
+      description: |
+        Refresh an expired access token using a valid refresh token.
+        Returns a new access token and refresh token pair.
+      operationId: refreshToken
+      tags:
+        - Customer Authentication
+      parameters:
+        - $ref: '#/components/parameters/StorefrontSlug'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefreshResponse'
+              examples:
+                success_response:
+                  summary: Successful token refresh
+                  value:
+                    access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    token_type: "Bearer"
+                    expires_in: 3600
+        '401':
+          description: Unauthorized - invalid or expired refresh token
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Invalid or expired refresh token"
+        '400':
+          description: Bad request - storefront not found
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "STOREFRONT_NOT_FOUND: Storefront not found"
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Internal server error"
+
+  /api/v1/storefront/{storefront_slug}/auth/logout:
+    post:
+      summary: Logout customer
+      description: |
+        Logout a customer by invalidating their access token.
+        The client should also clear stored tokens locally.
+      operationId: logoutCustomer
+      tags:
+        - Customer Authentication
+      parameters:
+        - $ref: '#/components/parameters/StorefrontSlug'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Logout successful"
+        '401':
+          description: Unauthorized - invalid access token
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Invalid access token"
+        '400':
+          description: Bad request - storefront not found
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "STOREFRONT_NOT_FOUND: Storefront not found"
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Internal server error"
+
+  /api/v1/storefront/{storefront_slug}/auth/forgot-password:
+    post:
+      summary: Request password reset
+      description: |
+        Initiates the password reset process by sending a reset email to the customer's registered email address.
+        For security reasons, this endpoint always returns success regardless of whether the email exists in the system.
+      operationId: requestPasswordReset
+      tags:
+        - Customer Authentication
+      parameters:
+        - $ref: '#/components/parameters/StorefrontSlug'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Customer's email address
+                  example: "john.doe@example.com"
+            examples:
+              password_reset_request:
+                summary: Password reset request
+                value:
+                  email: "john.doe@example.com"
+      responses:
+        '200':
+          description: Password reset email sent (always returns success for security)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "If the email exists in our system, a password reset link has been sent"
+        '400':
+          description: Bad request - invalid email format or storefront not found
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                invalid_email:
+                  summary: Invalid email format
+                  value: "Invalid email format"
+                storefront_not_found:
+                  summary: Storefront not found
+                  value: "STOREFRONT_NOT_FOUND: Storefront not found"
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Internal server error"
+
+  /api/v1/storefront/{storefront_slug}/auth/reset-password:
+    post:
+      summary: Reset password with token
+      description: |
+        Resets the customer's password using a valid reset token received via email.
+        The token expires after a specified time for security purposes.
+      operationId: resetPassword
+      tags:
+        - Customer Authentication
+      parameters:
+        - $ref: '#/components/parameters/StorefrontSlug'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+                - new_password
+              properties:
+                token:
+                  type: string
+                  description: Password reset token received via email
+                  example: "a1b2c3d4e5f6789012345678901234567890abcdef"
+                new_password:
+                  type: string
+                  minLength: 8
+                  description: New password (minimum 8 characters)
+                  example: "NewSecurePass123!"
+            examples:
+              password_reset:
+                summary: Password reset with token
+                value:
+                  token: "a1b2c3d4e5f6789012345678901234567890abcdef"
+                  new_password: "NewSecurePass123!"
+      responses:
+        '200':
+          description: Password successfully reset
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Password successfully reset"
+        '400':
+          description: Bad request - invalid or expired token
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                invalid_token:
+                  summary: Invalid or expired token
+                  value: "Invalid or expired reset token"
+                storefront_not_found:
+                  summary: Storefront not found
+                  value: "STOREFRONT_NOT_FOUND: Storefront not found"
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Internal server error"
+
+  /api/v1/storefront/{storefront_slug}/auth/verify-email:
+    post:
+      summary: Verify email address
+      description: |
+        Verifies a customer's email address using a verification token sent via email.
+      operationId: verifyEmail
+      tags:
+        - Customer Authentication
+      parameters:
+        - $ref: '#/components/parameters/StorefrontSlug'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+              properties:
+                token:
+                  type: string
+                  description: Email verification token received via email
+                  example: "v1b2c3d4e5f6789012345678901234567890abcdef"
+            examples:
+              email_verification:
+                summary: Email verification with token
+                value:
+                  token: "v1b2c3d4e5f6789012345678901234567890abcdef"
+      responses:
+        '200':
+          description: Email successfully verified
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Email successfully verified"
+        '400':
+          description: Bad request - invalid or expired token
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                invalid_token:
+                  summary: Invalid or expired token
+                  value: "Invalid or expired verification token"
+                storefront_not_found:
+                  summary: Storefront not found
+                  value: "STOREFRONT_NOT_FOUND: Storefront not found"
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Internal server error"
+
+  /api/v1/storefront/{storefront_slug}/auth/resend-verification:
+    post:
+      summary: Resend email verification
+      description: |
+        Resends the email verification link to the customer's email address.
+      operationId: resendEmailVerification
+      tags:
+        - Customer Authentication
+      parameters:
+        - $ref: '#/components/parameters/StorefrontSlug'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Customer's email address
+                  example: "john.doe@example.com"
+            examples:
+              resend_verification:
+                summary: Resend verification email
+                value:
+                  email: "john.doe@example.com"
+      responses:
+        '200':
+          description: Verification email sent (always returns success for security)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "If the email exists in our system, a verification link has been sent"
+        '400':
+          description: Bad request - invalid email format or storefront not found
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                invalid_email:
+                  summary: Invalid email format
+                  value: "Invalid email format"
+                storefront_not_found:
+                  summary: Storefront not found
+                  value: "STOREFRONT_NOT_FOUND: Storefront not found"
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Internal server error"
+
+  /api/v1/storefront/{storefront_slug}/auth/validate-reset-token:
+    post:
+      summary: Validate password reset token
+      description: |
+        Validates a password reset token without actually resetting the password.
+        Useful for frontend validation before showing the password reset form.
+      operationId: validateResetToken
+      tags:
+        - Customer Authentication
+      parameters:
+        - $ref: '#/components/parameters/StorefrontSlug'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+              properties:
+                token:
+                  type: string
+                  description: Password reset token to validate
+                  example: "a1b2c3d4e5f6789012345678901234567890abcdef"
+            examples:
+              token_validation:
+                summary: Validate reset token
+                value:
+                  token: "a1b2c3d4e5f6789012345678901234567890abcdef"
+      responses:
+        '200':
+          description: Token is valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Token is valid"
+        '400':
+          description: Bad request - invalid or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Invalid or expired token"
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Internal server error"
+
+  /api/v1/storefront/{storefront_slug}/profile/change-password:
+    post:
+      summary: Change customer password
+      description: |
+        Allows an authenticated customer to change their password by providing
+        their current password and a new password.
+      operationId: changePassword
+      tags:
+        - Customer Profile
+      parameters:
+        - $ref: '#/components/parameters/StorefrontSlug'
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - current_password
+                - new_password
+              properties:
+                current_password:
+                  type: string
+                  description: Customer's current password
+                  example: "CurrentPass123!"
+                new_password:
+                  type: string
+                  minLength: 8
+                  description: New password (minimum 8 characters)
+                  example: "NewSecurePass123!"
+            examples:
+              change_password:
+                summary: Change password request
+                value:
+                  current_password: "CurrentPass123!"
+                  new_password: "NewSecurePass123!"
+      responses:
+        '200':
+          description: Password successfully changed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Password successfully changed"
+        '400':
+          description: Bad request - invalid current password or validation failed
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                invalid_current_password:
+                  summary: Invalid current password
+                  value: "Current password is incorrect"
+                validation_failed:
+                  summary: Validation failed
+                  value: "New password does not meet requirements"
+        '401':
+          description: Unauthorized - invalid access token
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Invalid access token"
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "Internal server error"
+
+components:
+  parameters:
+    StorefrontSlug:
+      name: storefront_slug
+      in: path
+      required: true
+      description: The unique slug identifier for the storefront
+      schema:
+        type: string
+        pattern: '^[a-z0-9-]+$'
+        minLength: 1
+        maxLength: 50
+      examples:
+        rexus:
+          summary: Rexus storefront
+          value: "rexus"
+        test-store:
+          summary: Test storefront
+          value: "test-store"
+
+  schemas:
+    CustomerRegistrationRequest:
+      type: object
+      required:
+        - email
+        - password
+        - first_name
+        - last_name
+      properties:
+        email:
+          type: string
+          format: email
+          description: Customer's email address (must be unique within storefront)
+          example: "john.doe@example.com"
+        phone:
+          type: string
+          description: Customer's phone number (optional)
+          pattern: '^\+?[1-9]\d{1,14}$'
+          example: "+1234567890"
+        password:
+          type: string
+          minLength: 8
+          description: Customer's password (minimum 8 characters)
+          example: "SecurePass123!"
+        first_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Customer's first name
+          example: "John"
+        last_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Customer's last name
+          example: "Doe"
+        date_of_birth:
+          type: string
+          format: date-time
+          description: Customer's date of birth in RFC3339 format
+          example: "1990-05-15T00:00:00Z"
+        gender:
+          type: string
+          enum: [male, female, other, prefer_not_to_say]
+          description: Customer's gender
+          example: "male"
+        tags:
+          type: array
+          items:
+            type: string
+          description: Array of tags associated with the customer
+          example: ["premium", "newsletter"]
+        preferences:
+          type: object
+          additionalProperties: true
+          description: Customer preferences as key-value pairs
+          example:
+            newsletter: true
+            sms_notifications: false
+
+    CustomerAuthRequest:
+      type: object
+      required:
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: Customer's email address (either email or phone required)
+          example: "john.doe@example.com"
+        phone:
+          type: string
+          description: Customer's phone number (either email or phone required)
+          pattern: '^\+?[1-9]\d{1,14}$'
+          example: "+1234567890"
+        password:
+          type: string
+          description: Customer's password
+          example: "SecurePass123!"
+      oneOf:
+        - required: [email]
+        - required: [phone]
+
+    CustomerAuthResponse:
+      type: object
+      required:
+        - customer
+        - access_token
+        - refresh_token
+        - token_type
+        - expires_in
+      properties:
+        customer:
+          $ref: '#/components/schemas/Customer'
+        access_token:
+          type: string
+          description: JWT access token for API authentication
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        refresh_token:
+          type: string
+          description: JWT refresh token for obtaining new access tokens
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        token_type:
+          type: string
+          description: Token type (always "Bearer")
+          example: "Bearer"
+        expires_in:
+          type: integer
+          description: Access token expiry time in seconds
+          example: 3600
+
+    TokenRefreshResponse:
+      type: object
+      required:
+        - access_token
+        - refresh_token
+        - token_type
+        - expires_in
+      properties:
+        access_token:
+          type: string
+          description: New JWT access token
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        refresh_token:
+          type: string
+          description: New JWT refresh token
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        token_type:
+          type: string
+          description: Token type (always "Bearer")
+          example: "Bearer"
+        expires_in:
+          type: integer
+          description: Access token expiry time in seconds
+          example: 3600
+
+    Customer:
+      type: object
+      required:
+        - id
+        - email
+        - first_name
+        - last_name
+        - storefront_id
+        - created_at
+        - updated_at
+        - created_by
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique customer identifier
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        email:
+          type: string
+          format: email
+          description: Customer's email address
+          example: "john.doe@example.com"
+        phone:
+          type: string
+          description: Customer's phone number
+          example: "+1234567890"
+        first_name:
+          type: string
+          description: Customer's first name
+          example: "John"
+        last_name:
+          type: string
+          description: Customer's last name
+          example: "Doe"
+        date_of_birth:
+          type: string
+          format: date-time
+          description: Customer's date of birth
+          example: "1990-05-15T00:00:00Z"
+        gender:
+          type: string
+          enum: [male, female, other, prefer_not_to_say]
+          description: Customer's gender
+          example: "male"
+        tags:
+          type: array
+          items:
+            type: string
+          description: Array of tags associated with the customer
+          example: ["premium", "newsletter"]
+        preferences:
+          type: object
+          additionalProperties: true
+          description: Customer preferences as key-value pairs
+          example:
+            newsletter: true
+            sms_notifications: false
+        storefront_id:
+          type: string
+          format: uuid
+          description: ID of the storefront this customer belongs to
+          example: "b0ea82e3-366d-49a4-8c03-316a1ac2a2c4"
+        created_at:
+          type: string
+          format: date-time
+          description: Customer creation timestamp
+          example: "2024-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Customer last update timestamp
+          example: "2024-01-15T10:30:00Z"
+        created_by:
+          type: string
+          description: ID of the user who created this customer
+          example: "seller-123"
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT token authentication. Include the access token in the Authorization header:
+        `Authorization: Bearer <access_token>`
+
+tags:
+  - name: Customer Authentication
+    description: Customer registration, login, and token management operations

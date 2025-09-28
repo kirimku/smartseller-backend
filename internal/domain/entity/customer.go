@@ -109,6 +109,37 @@ func (p *CustomerPreferences) Scan(value interface{}) error {
 	return json.Unmarshal(b, p)
 }
 
+// StringSlice represents a slice of strings that can be stored in the database
+type StringSlice []string
+
+// Value implements driver.Valuer interface for database storage
+func (s StringSlice) Value() (driver.Value, error) {
+	if len(s) == 0 {
+		return nil, nil
+	}
+	return json.Marshal(s)
+}
+
+// Scan implements sql.Scanner interface for database retrieval
+func (s *StringSlice) Scan(value interface{}) error {
+	if value == nil {
+		*s = StringSlice{}
+		return nil
+	}
+
+	var b []byte
+	switch v := value.(type) {
+	case []byte:
+		b = v
+	case string:
+		b = []byte(v)
+	default:
+		return fmt.Errorf("cannot scan %T into StringSlice", value)
+	}
+
+	return json.Unmarshal(b, s)
+}
+
 // Customer represents a customer in the multi-tenant system
 type Customer struct {
 	// Primary identification
@@ -143,7 +174,7 @@ type Customer struct {
 	// Customer status and segmentation
 	Status       CustomerStatus      `json:"status" db:"status"`
 	CustomerType CustomerType        `json:"customer_type" db:"customer_type"`
-	Tags         []string            `json:"tags,omitempty" db:"tags"`
+	Tags         StringSlice         `json:"tags,omitempty" db:"tags"`
 	Preferences  CustomerPreferences `json:"preferences" db:"preferences"`
 
 	// Marketing preferences

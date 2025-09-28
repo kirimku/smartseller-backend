@@ -145,11 +145,18 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 		productImageRepo,
 		logger,
 	)
+	productVariantUseCase := usecase.NewProductVariantUseCase(
+		productVariantRepo,
+		productVariantOptionRepo,
+		productRepo,
+		logger,
+	)
 
 	// Create handlers (existing)
 	authHandler := handler.NewAuthHandler(userUseCase)
 	userHandler := handler.NewUserHandler(userUseCase)
 	productHandler := handler.NewProductHandler(productUseCase, logger)
+	productVariantHandler := handler.NewProductVariantHandler(productVariantUseCase)
 
 	// TODO: Temporary warranty barcode handler (will be replaced with full implementation)
 	warrantyBarcodeHandler := handler.NewWarrantyBarcodeHandler(logger)
@@ -269,12 +276,25 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 		products := v1.Group("/products")
 		products.Use(middleware.AuthMiddleware())
 		{
-			// CRUD operations
+			// CRUD operations - handle both with and without trailing slash
+			products.POST("", productHandler.CreateProduct)
 			products.POST("/", productHandler.CreateProduct)
+			products.GET("", productHandler.ListProducts)
 			products.GET("/", productHandler.ListProducts)
 			products.GET("/:id", productHandler.GetProduct)
 			products.PUT("/:id", productHandler.UpdateProduct)
 			products.DELETE("/:id", productHandler.DeleteProduct)
+
+			// Variant routes
+			variants := products.Group("/:product_id/variants")
+			{
+				// Variant options
+				variants.POST("/options", productVariantHandler.CreateVariantOptions)
+				
+				// Variants
+				variants.POST("", productVariantHandler.CreateVariant)
+				variants.POST("/", productVariantHandler.CreateVariant)
+			}
 		}
 
 		// Admin Warranty routes (protected) - Phase 7 Implementation

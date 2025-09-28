@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 	"github.com/shopspring/decimal"
 )
 
@@ -72,9 +73,9 @@ type Product struct {
 	Description *string `json:"description" db:"description"`
 
 	// Organization
-	CategoryID *uuid.UUID `json:"category_id" db:"category_id"`
-	Brand      *string    `json:"brand" db:"brand"`
-	Tags       []string   `json:"tags" db:"tags"`
+	CategoryID *uuid.UUID     `json:"category_id" db:"category_id"`
+	Brand      *string        `json:"brand" db:"brand"`
+	Tags       pq.StringArray `json:"tags" db:"tags"`
 
 	// Pricing (using decimal for precise monetary calculations)
 	BasePrice decimal.Decimal  `json:"base_price" db:"base_price"`

@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -494,7 +495,47 @@ func (r *PostgreSQLProductVariantRepository) Exists(ctx context.Context, id uuid
 
 // CheckDuplicateVariant checks for duplicate variant options
 func (r *PostgreSQLProductVariantRepository) CheckDuplicateVariant(ctx context.Context, productID uuid.UUID, options map[string]interface{}, excludeID *uuid.UUID) error {
-	return fmt.Errorf("not implemented")
+	if productID == uuid.Nil {
+		return fmt.Errorf("product ID cannot be nil")
+	}
+
+	if len(options) == 0 {
+		return fmt.Errorf("options cannot be empty")
+	}
+
+	// Convert options map to JSON for comparison
+	optionsJSON, err := json.Marshal(options)
+	if err != nil {
+		return fmt.Errorf("failed to marshal options: %w", err)
+	}
+
+	// Build query to check for existing variant with same options
+	query := `
+		SELECT EXISTS(
+			SELECT 1 FROM product_variants 
+			WHERE product_id = $1 AND variant_options = $2`
+	
+	args := []interface{}{productID, optionsJSON}
+	
+	// Exclude specific variant ID if provided (for updates)
+	if excludeID != nil && *excludeID != uuid.Nil {
+		query += ` AND id != $3`
+		args = append(args, *excludeID)
+	}
+	
+	query += `)`
+
+	var exists bool
+	err = r.db.GetContext(ctx, &exists, query, args...)
+	if err != nil {
+		return fmt.Errorf("failed to check for duplicate variant: %w", err)
+	}
+
+	if exists {
+		return fmt.Errorf("variant with these options already exists")
+	}
+
+	return nil
 }
 
 // CleanupOrphanedVariants removes variants with no associated products
@@ -719,11 +760,23 @@ func (r *PostgreSQLProductVariantRepository) UpdateDimensions(ctx context.Contex
 }
 
 func (r *PostgreSQLProductVariantRepository) IsSkuExists(ctx context.Context, sku string) (bool, error) {
-	return false, fmt.Errorf("not implemented")
+	var count int
+	query := `SELECT COUNT(*) FROM product_variants WHERE sku = $1`
+	err := r.db.GetContext(ctx, &count, query, sku)
+	if err != nil {
+		return false, fmt.Errorf("failed to check SKU existence: %w", err)
+	}
+	return count > 0, nil
 }
 
 func (r *PostgreSQLProductVariantRepository) IsSkuExistsExcluding(ctx context.Context, sku string, excludeID uuid.UUID) (bool, error) {
-	return false, fmt.Errorf("not implemented")
+	var count int
+	query := `SELECT COUNT(*) FROM product_variants WHERE sku = $1 AND id != $2`
+	err := r.db.GetContext(ctx, &count, query, sku, excludeID)
+	if err != nil {
+		return false, fmt.Errorf("failed to check SKU existence excluding ID: %w", err)
+	}
+	return count > 0, nil
 }
 
 func (r *PostgreSQLProductVariantRepository) GenerateUniqueSKU(ctx context.Context, productSKU string, options map[string]string) (string, error) {

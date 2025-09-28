@@ -9,6 +9,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/kirimku/smartseller-backend/internal/domain/entity"
 	"github.com/kirimku/smartseller-backend/internal/domain/repository"
+	"github.com/lib/pq"
 	"github.com/shopspring/decimal"
 )
 
@@ -158,7 +159,7 @@ func (uc *ProductUseCase) CreateProduct(ctx context.Context, req CreateProductRe
 		Description:       req.Description,
 		CategoryID:        req.CategoryID,
 		Brand:             req.Brand,
-		Tags:              req.Tags,
+		Tags:              pq.StringArray(req.Tags),
 		BasePrice:         req.BasePrice,
 		SalePrice:         req.SalePrice,
 		CostPrice:         req.CostPrice,
@@ -495,7 +496,7 @@ func (uc *ProductUseCase) applyProductUpdates(product *entity.Product, req Updat
 		product.Brand = req.Brand
 	}
 	if req.Tags != nil {
-		product.Tags = req.Tags
+		product.Tags = pq.StringArray(req.Tags)
 	}
 	if req.BasePrice != nil {
 		product.BasePrice = *req.BasePrice

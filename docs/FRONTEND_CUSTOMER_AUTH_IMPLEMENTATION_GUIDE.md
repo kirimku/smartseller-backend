@@ -19,53 +19,54 @@ This document provides comprehensive guidance for implementing storefront custom
 
 ### Base URL Structure
 ```
-Base URL: https://api.smartseller.com/api/v1
-Storefront-specific: https://api.smartseller.com/api/storefront/{storefront_slug}
+Base URL: http://localhost:8090 (development)
+Production: https://api.smartseller.com
+Storefront-specific: {BASE_URL}/api/v1/storefront/{storefront_slug}
 ```
 
 ### Authentication Endpoints
 
 #### 1. Customer Registration
 ```http
-POST /api/v1/customers/register
+POST /api/v1/storefront/{storefront_slug}/auth/register
 Content-Type: application/json
 ```
 
 #### 2. Customer Login
 ```http
-POST /api/v1/auth/login
+POST /api/v1/storefront/{storefront_slug}/auth/login
 Content-Type: application/json
 ```
 
 #### 3. Token Refresh
 ```http
-POST /api/v1/auth/refresh
+POST /api/v1/storefront/{storefront_slug}/auth/refresh
 Content-Type: application/json
 Authorization: Bearer {refresh_token}
 ```
 
 #### 4. Logout
 ```http
-POST /api/v1/auth/logout
+POST /api/v1/storefront/{storefront_slug}/auth/logout
 Content-Type: application/json
 Authorization: Bearer {access_token}
 ```
 
 #### 5. Password Reset Flow
 ```http
-POST /api/v1/auth/forgot-password    # Request reset
-POST /api/v1/auth/reset-password     # Confirm reset
+POST /api/v1/storefront/{storefront_slug}/auth/forgot-password    # Request reset
+POST /api/v1/storefront/{storefront_slug}/auth/reset-password     # Confirm reset
 ```
 
 #### 6. Email Verification
 ```http
-POST /api/v1/auth/verify-email       # Verify email with token
+POST /api/v1/storefront/{storefront_slug}/auth/verify-email       # Verify email with token
 ```
 
 #### 7. Social Authentication
 ```http
-GET  /api/v1/auth/google/login       # Get Google OAuth URL
-GET  /api/v1/auth/google/callback    # Handle Google callback
+GET  /api/v1/storefront/{storefront_slug}/auth/google/login       # Get Google OAuth URL
+GET  /api/v1/storefront/{storefront_slug}/auth/google/callback    # Handle Google callback
 ```
 
 ## Authentication Flow
@@ -81,8 +82,8 @@ sequenceDiagram
 
     U->>F: Fill registration form
     F->>F: Validate form data
-    F->>A: POST /customers/register
-    A->>A: Validate & create customer
+    F->>A: POST /api/v1/storefront/{slug}/auth/register
+    A->>A: Validate storefront & create customer
     A->>E: Send verification email
     A->>F: Return customer data + tokens
     F->>F: Store tokens securely
@@ -99,8 +100,8 @@ sequenceDiagram
 
     U->>F: Enter credentials
     F->>F: Validate form
-    F->>A: POST /auth/login
-    A->>A: Authenticate user
+    F->>A: POST /api/v1/storefront/{slug}/auth/login
+    A->>A: Authenticate user in storefront context
     A->>F: Return tokens + user data
     F->>F: Store tokens securely
     F->>U: Redirect to dashboard
@@ -114,8 +115,8 @@ sequenceDiagram
     participant A as API
 
     F->>F: Detect token expiry
-    F->>A: POST /auth/refresh (with refresh token)
-    A->>A: Validate refresh token
+    F->>A: POST /api/v1/storefront/{slug}/auth/refresh (with refresh token)
+    A->>A: Validate refresh token in storefront context
     A->>F: Return new access token
     F->>F: Update stored tokens
     F->>F: Retry original request
@@ -129,22 +130,21 @@ interface CustomerRegistrationRequest {
   email: string;                    // Required, valid email format
   phone?: string;                   // Optional, valid phone format
   password: string;                 // Required, min 8 characters
-  confirmPassword: string;          // Required, must match password
-  firstName: string;                // Required, 2-50 characters
-  lastName: string;                 // Required, 2-50 characters
-  dateOfBirth?: string;            // Optional, ISO date format
+  first_name: string;               // Required, 2-50 characters
+  last_name: string;                // Required, 2-50 characters
+  date_of_birth?: string;          // Optional, RFC3339 format (2006-01-02T15:04:05Z07:00)
   gender?: 'male' | 'female' | 'other' | 'prefer_not_to_say';
-  acceptTerms: boolean;             // Required, must be true
-  marketingConsent?: boolean;       // Optional, default false
+  tags?: string[];                  // Optional, array of tags
+  preferences?: Record<string, any>; // Optional, customer preferences
 }
 ```
 
 ### Customer Login Request
 ```typescript
 interface CustomerAuthRequest {
-  identifier: string;               // Email or phone number
+  email?: string;                   // Email address (either email or phone required)
+  phone?: string;                   // Phone number (either email or phone required)
   password: string;                 // User password
-  rememberMe?: boolean;            // Optional, extends session
 }
 ```
 
@@ -155,20 +155,21 @@ interface CustomerAuthResponse {
     id: string;
     email: string;
     phone?: string;
-    firstName: string;
-    lastName: string;
-    dateOfBirth?: string;
+    first_name: string;
+    last_name: string;
+    date_of_birth?: string;
     gender?: string;
-    isEmailVerified: boolean;
-    isPhoneVerified: boolean;
-    status: 'active' | 'inactive' | 'suspended';
-    createdAt: string;
-    updatedAt: string;
+    tags?: string[];
+    preferences?: Record<string, any>;
+    storefront_id: string;
+    created_at: string;
+    updated_at: string;
+    created_by: string;
   };
-  accessToken: string;              // JWT access token
-  refreshToken: string;             // JWT refresh token
-  tokenType: string;                // "Bearer"
-  expiresIn: number;               // Token expiry in seconds
+  access_token: string;             // JWT access token
+  refresh_token: string;            // JWT refresh token
+  token_type: string;               // "Bearer"
+  expires_in: number;              // Token expiry in seconds
 }
 ```
 
@@ -212,12 +213,12 @@ const registrationSchema = z.object({
   phone: z.string().optional(),
   password: z.string().min(8, 'Password must be at least 8 characters'),
   confirmPassword: z.string(),
-  firstName: z.string().min(2, 'First name must be at least 2 characters'),
-  lastName: z.string().min(2, 'Last name must be at least 2 characters'),
-  dateOfBirth: z.string().optional(),
+  first_name: z.string().min(2, 'First name must be at least 2 characters'),
+  last_name: z.string().min(2, 'Last name must be at least 2 characters'),
+  date_of_birth: z.string().optional(),
   gender: z.enum(['male', 'female', 'other', 'prefer_not_to_say']).optional(),
-  acceptTerms: z.boolean().refine(val => val === true, 'You must accept the terms'),
-  marketingConsent: z.boolean().optional(),
+  tags: z.array(z.string()).optional(),
+  preferences: z.record(z.any()).optional(),
 }).refine(data => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -225,7 +226,7 @@ const registrationSchema = z.object({
 
 type RegistrationForm = z.infer<typeof registrationSchema>;
 
-export const useCustomerRegistration = () => {
+export const useCustomerRegistration = (storefrontSlug: string) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -240,7 +241,7 @@ export const useCustomerRegistration = () => {
       // Remove confirmPassword before sending to API
       const { confirmPassword, ...registrationData } = validatedData;
 
-      const response = await fetch('/api/v1/customers/register', {
+      const response = await fetch(`/api/v1/storefront/${storefrontSlug}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -248,25 +249,15 @@ export const useCustomerRegistration = () => {
         body: JSON.stringify(registrationData),
       });
 
-      const result = await response.json();
-
       if (!response.ok) {
-        if (result.error?.fields) {
-          // Handle field-specific errors
-          const fieldErrors: Record<string, string> = {};
-          result.error.fields.forEach((field: FieldError) => {
-            fieldErrors[field.field] = field.message;
-          });
-          setErrors(fieldErrors);
-        } else {
-          throw new Error(result.error?.message || 'Registration failed');
-        }
-        return { success: false };
+        const errorText = await response.text();
+        throw new Error(errorText || 'Registration failed');
       }
 
+      const authData = await response.json() as CustomerAuthResponse;
+
       // Store tokens securely
-      const authData = result.data as CustomerAuthResponse;
-      await storeTokens(authData.accessToken, authData.refreshToken);
+      await storeTokens(authData.access_token, authData.refresh_token);
 
       return { success: true, data: authData };
     } catch (error) {
@@ -295,47 +286,40 @@ export const useCustomerRegistration = () => {
 ### 2. Login Implementation
 
 ```typescript
-export const useCustomerLogin = () => {
+export const useCustomerLogin = (storefrontSlug: string) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const login = async (identifier: string, password: string, rememberMe = false) => {
+  const login = async (email: string, password: string) => {
     setLoading(true);
     setErrors({});
 
     try {
-      const response = await fetch('/api/v1/auth/login', {
+      const response = await fetch(`/api/v1/storefront/${storefrontSlug}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          identifier,
+          email,
           password,
-          rememberMe,
         }),
       });
 
-      const result = await response.json();
-
       if (!response.ok) {
-        if (response.status === 401) {
-          setErrors({ credentials: 'Invalid email/phone or password' });
-        } else if (result.error?.fields) {
-          const fieldErrors: Record<string, string> = {};
-          result.error.fields.forEach((field: FieldError) => {
-            fieldErrors[field.field] = field.message;
-          });
-          setErrors(fieldErrors);
+        const errorText = await response.text();
+        if (response.status === 400) {
+          setErrors({ credentials: 'Invalid email or password' });
         } else {
-          throw new Error(result.error?.message || 'Login failed');
+          throw new Error(errorText || 'Login failed');
         }
         return { success: false };
       }
 
+      const authData = await response.json() as CustomerAuthResponse;
+
       // Store tokens securely
-      const authData = result.data as CustomerAuthResponse;
-      await storeTokens(authData.accessToken, authData.refreshToken);
+      await TokenStorage.storeTokens(authData.access_token, authData.refresh_token);
 
       return { success: true, data: authData };
     } catch (error) {
@@ -392,6 +376,34 @@ export const TokenStorage = {
   // Check if tokens exist
   hasTokens(): boolean {
     return !!(this.getAccessToken() && this.getRefreshToken());
+  },
+
+  // Refresh access token
+  async refreshAccessToken(storefrontSlug: string): Promise<string | null> {
+    const refreshToken = this.getRefreshToken();
+    if (!refreshToken) return null;
+
+    try {
+      const response = await fetch(`/api/v1/storefront/${storefrontSlug}/auth/refresh`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${refreshToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        this.clearTokens();
+        return null;
+      }
+
+      const data = await response.json();
+      await this.storeTokens(data.access_token, data.refresh_token);
+      return data.access_token;
+    } catch (error) {
+      this.clearTokens();
+      return null;
+    }
   },
 };
 

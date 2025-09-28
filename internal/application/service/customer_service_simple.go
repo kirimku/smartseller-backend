@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/google/uuid"
@@ -12,6 +13,7 @@ import (
 	"github.com/kirimku/smartseller-backend/internal/domain/errors"
 	"github.com/kirimku/smartseller-backend/internal/domain/repository"
 	"github.com/kirimku/smartseller-backend/internal/infrastructure/tenant"
+	"github.com/kirimku/smartseller-backend/internal/interfaces/api/middleware"
 )
 
 // CustomerServiceSimple provides core customer business logic
@@ -33,11 +35,18 @@ func NewCustomerServiceSimple(
 
 // RegisterCustomer handles customer registration with basic validation
 func (cs *CustomerServiceSimple) RegisterCustomer(ctx context.Context, req *dto.CustomerRegistrationRequest) (*dto.CustomerResponse, error) {
-	// Get storefront ID from context
-	storefrontID, err := cs.getStorefrontFromContext(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get storefront context: %w", err)
+	log.Printf("[DEBUG] RegisterCustomer called with email: %s", req.Email)
+	
+	// Get tenant context to extract storefront ID and seller ID
+	tenantContext := middleware.GetTenantContextFromRequest(ctx)
+	if tenantContext == nil {
+		log.Printf("[ERROR] Failed to get tenant context")
+		return nil, fmt.Errorf("failed to get tenant context")
 	}
+	
+	storefrontID := tenantContext.StorefrontID
+	sellerID := tenantContext.SellerID
+	log.Printf("[DEBUG] Got storefront ID: %s, seller ID: %s", storefrontID, sellerID)
 
 	// Basic validation
 	if req.Email == "" {
@@ -54,10 +63,16 @@ func (cs *CustomerServiceSimple) RegisterCustomer(ctx context.Context, req *dto.
 	}
 
 	// Check if email already exists
+	log.Printf("[DEBUG] Checking if email exists: %s", req.Email)
 	existingCustomer, err := cs.customerRepo.GetByEmail(ctx, storefrontID, req.Email)
+	if err != nil {
+		log.Printf("[DEBUG] Error checking existing customer (this is normal if customer doesn't exist): %v", err)
+	}
 	if err == nil && existingCustomer != nil {
+		log.Printf("[ERROR] Email already exists: %s", req.Email)
 		return nil, errors.NewValidationError("email already exists", nil)
 	}
+	log.Printf("[DEBUG] Email is available: %s", req.Email)
 
 	// Create customer entity
 	customer := &entity.Customer{
@@ -71,6 +86,7 @@ func (cs *CustomerServiceSimple) RegisterCustomer(ctx context.Context, req *dto.
 		Gender:       req.Gender,
 		Status:       entity.CustomerStatusActive,
 		CustomerType: entity.CustomerTypeRegular,
+		CreatedBy:    sellerID,
 		CreatedAt:    time.Now(),
 		UpdatedAt:    time.Now(),
 	}
@@ -82,16 +98,23 @@ func (cs *CustomerServiceSimple) RegisterCustomer(ctx context.Context, req *dto.
 	customer.PasswordHash = &req.Password
 
 	// Validate customer
+	log.Printf("[DEBUG] Validating customer entity")
 	if err := customer.Validate(); err != nil {
+		log.Printf("[ERROR] Customer validation failed: %v", err)
 		return nil, fmt.Errorf("customer validation failed: %w", err)
 	}
+	log.Printf("[DEBUG] Customer validation passed")
 
 	// Save customer
+	log.Printf("[DEBUG] Saving customer to database")
 	if err := cs.customerRepo.Create(ctx, customer); err != nil {
+		log.Printf("[ERROR] Failed to create customer: %v", err)
 		return nil, fmt.Errorf("failed to create customer: %w", err)
 	}
+	log.Printf("[DEBUG] Customer saved successfully")
 
 	// Convert to response
+	log.Printf("[DEBUG] Converting customer to response")
 	return cs.entityToResponse(customer), nil
 }
 
@@ -422,9 +445,14 @@ func (cs *CustomerServiceSimple) GetCustomerStats(ctx context.Context, req *dto.
 // Helper methods
 
 func (cs *CustomerServiceSimple) getStorefrontFromContext(ctx context.Context) (uuid.UUID, error) {
-	if storefrontID, ok := ctx.Value("storefront_id").(uuid.UUID); ok {
-		return storefrontID, nil
+	// Use the middleware's helper function to get tenant context
+	tenantContext := middleware.GetTenantContextFromRequest(ctx)
+	if tenantContext != nil {
+		log.Printf("[DEBUG] Found tenant context using middleware helper: %s", tenantContext.StorefrontID)
+		return tenantContext.StorefrontID, nil
 	}
+	
+	log.Printf("[DEBUG] No tenant context found using middleware helper")
 	return uuid.Nil, fmt.Errorf("storefront ID not found in context")
 }
 
