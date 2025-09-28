@@ -1,4 +1,4 @@
-.PHONY: all build clean test migrate migrate-up migrate-down migrate-status migrate-force create-migration install-migrate seed-wallets topup-wallet dev check-routes check-coverage mock-jnt mock-services kiwi-setup kiwi-export-tests kiwi-run-tests kiwi-update-mapping kiwi-export-auth-tests kiwi-run-auth-tests kiwi-install-deps tunnel-start tunnel-stop tunnel-status droplet-on droplet-off tunnel-migrate-up tunnel-migrate-down tunnel-migrate-status tunnel-migrate-force db-health-check db-health-quick db-fix-blocking db-analyze-blocking db-configure-prevention sicepat-tunnel-start sicepat-tunnel-stop sicepat-tunnel-status sicepat-test-forwarded sicepat-test-forwarded-prod sicepat-test-remote sicepat-test-remote-prod sicepat-test-connectivity sicepat-help dev-receipt-build dev-receipt-stats dev-receipt-reset dev-receipt-check dev-receipt-test dev-receipt-clean docker-build docker-run docker-push docker-login docker-tag docker-clean docker-dev docker-build-preprod docker-push-preprod docker-run-preprod preprod-build-and-push ghcr-login ghcr-push ghcr-tag-latest ghcr-push-latest ghcr-push-all reset-password reset-password-interactive reset-password-help test-retry-deduct test-retry-deduct-functionality
+.PHONY: all build clean test migrate migrate-up migrate-down migrate-status migrate-force create-migration install-migrate seed-wallets topup-wallet dev check-routes check-coverage login login-token login-env login-quick login-quick-token login-quick-env mock-jnt mock-services kiwi-setup kiwi-export-tests kiwi-run-tests kiwi-update-mapping kiwi-export-auth-tests kiwi-run-auth-tests kiwi-install-deps tunnel-start tunnel-stop tunnel-status droplet-on droplet-off tunnel-migrate-up tunnel-migrate-down tunnel-migrate-status tunnel-migrate-force db-health-check db-health-quick db-fix-blocking db-analyze-blocking db-configure-prevention sicepat-tunnel-start sicepat-tunnel-stop sicepat-tunnel-status sicepat-test-forwarded sicepat-test-forwarded-prod sicepat-test-remote sicepat-test-remote-prod sicepat-test-connectivity sicepat-help dev-receipt-build dev-receipt-stats dev-receipt-reset dev-receipt-check dev-receipt-test dev-receipt-clean docker-build docker-run docker-push docker-login docker-tag docker-clean docker-dev docker-build-preprod docker-push-preprod docker-run-preprod preprod-build-and-push ghcr-login ghcr-push ghcr-tag-latest ghcr-push-latest ghcr-push-all reset-password reset-password-interactive reset-password-help test-retry-deduct test-retry-deduct-functionality
 
 # Go parameters
 GOCMD=go
@@ -77,6 +77,50 @@ test-coverage:
 # Check test coverage
 check-coverage:
 	bash scripts/check_coverage.sh
+
+# Platform login for testing
+# Usage: make login EMAIL=user@example.com PASSWORD=password123
+# or:    make login-token EMAIL=user@example.com PASSWORD=password123
+# or:    make login-env EMAIL=user@example.com PASSWORD=password123
+login:
+	@if [ -z "$(EMAIL)" ] || [ -z "$(PASSWORD)" ]; then \
+		echo "Error: EMAIL and PASSWORD are required"; \
+		echo "Usage: make login EMAIL=user@example.com PASSWORD=password123"; \
+		echo "Or set environment variables: LOGIN_EMAIL and LOGIN_PASSWORD"; \
+		exit 1; \
+	fi
+	@echo "Logging in to platform..."
+	@$(GORUN) scripts/login.go -email="$(EMAIL)" -password="$(PASSWORD)" -url=http://localhost:8090 -output=json
+
+login-token:
+	@if [ -z "$(EMAIL)" ] || [ -z "$(PASSWORD)" ]; then \
+		echo "Error: EMAIL and PASSWORD are required"; \
+		echo "Usage: make login-token EMAIL=user@example.com PASSWORD=password123"; \
+		echo "Or set environment variables: LOGIN_EMAIL and LOGIN_PASSWORD"; \
+		exit 1; \
+	fi
+	@$(GORUN) scripts/login.go -email="$(EMAIL)" -password="$(PASSWORD)" -url=http://localhost:8090 -output=token
+
+login-env:
+	@if [ -z "$(EMAIL)" ] || [ -z "$(PASSWORD)" ]; then \
+		echo "Error: EMAIL and PASSWORD are required"; \
+		echo "Usage: make login-env EMAIL=user@example.com PASSWORD=password123"; \
+		echo "Example: eval $$(make login-env EMAIL=user@example.com PASSWORD=password123)"; \
+		echo "Or set environment variables: LOGIN_EMAIL and LOGIN_PASSWORD"; \
+		exit 1; \
+	fi
+	@$(GORUN) scripts/login.go -email="$(EMAIL)" -password="$(PASSWORD)" -url=http://localhost:8090 -output=env
+
+# Login with environment variables (no parameters needed if LOGIN_EMAIL and LOGIN_PASSWORD are set)
+login-quick:
+	@echo "Logging in with environment variables..."
+	@$(GORUN) scripts/login.go -url=http://localhost:8090 -output=json
+
+login-quick-token:
+	@$(GORUN) scripts/login.go -url=http://localhost:8090 -output=token
+
+login-quick-env:
+	@$(GORUN) scripts/login.go -url=http://localhost:8090 -output=env
 
 # Database migrations
 migrate-up:
@@ -958,6 +1002,14 @@ help:
 	@echo "  make test          - Run tests"
 	@echo "  make test-coverage - Run tests with coverage report"
 	@echo "  make check-coverage - Check test coverage"
+	@echo ""
+	@echo "Authentication Commands:"
+	@echo "  make login EMAIL=<email> PASSWORD=<password>       - Login and get full JSON response"
+	@echo "  make login-token EMAIL=<email> PASSWORD=<password> - Login and get only access token"
+	@echo "  make login-env EMAIL=<email> PASSWORD=<password>   - Login and get environment variables"
+	@echo "  make login-quick                                   - Login using LOGIN_EMAIL and LOGIN_PASSWORD env vars"
+	@echo "  make login-quick-token                             - Get token using env vars"
+	@echo "  make login-quick-env                               - Get env vars using env vars"
 	@echo ""
 	@echo "Database Commands:"
 	@echo "  make migrate-up    - Run database migrations"
