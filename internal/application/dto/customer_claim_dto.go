@@ -259,3 +259,93 @@ type CustomerClaimUpdateResponse struct {
 	UpdatedFields []string `json:"updated_fields"`
 	Message     string    `json:"message"`
 }
+
+// CustomerClaimStatusResponse represents current status of a claim
+type CustomerClaimStatusResponse struct {
+	ClaimID             string                   `json:"claim_id"`
+	ClaimNumber         string                   `json:"claim_number"`
+	Status              string                   `json:"status"`
+	StatusDescription   string                   `json:"status_description"`
+	Priority            string                   `json:"priority"`
+	SubmittedAt         time.Time                `json:"submitted_at"`
+	LastUpdated         time.Time                `json:"last_updated"`
+	EstimatedResolution time.Time                `json:"estimated_resolution"`
+	CurrentStage        string                   `json:"current_stage"`
+	StageDescription    string                   `json:"stage_description"`
+	Progress            CustomerClaimProgress    `json:"progress"`
+	AssignedAgent       *CustomerClaimAgent      `json:"assigned_agent,omitempty"`
+	ContactInfo         CustomerClaimContactInfo `json:"contact_info"`
+}
+
+// CustomerClaimProgress represents progress tracking for a claim
+type CustomerClaimProgress struct {
+	CurrentStep int       `json:"current_step"`
+	TotalSteps  int       `json:"total_steps"`
+	Percentage  int       `json:"percentage"`
+	NextStep    string    `json:"next_step"`
+	NextStepETA time.Time `json:"next_step_eta"`
+}
+
+// CustomerClaimUpdate represents an update/notification for a claim
+type CustomerClaimUpdate struct {
+	ID             string                 `json:"id"`
+	ClaimID        string                 `json:"claim_id"`
+	Type           string                 `json:"type"`
+	Title          string                 `json:"title"`
+	Message        string                 `json:"message"`
+	Timestamp      time.Time              `json:"timestamp"`
+	IsRead         bool                   `json:"is_read"`
+	Priority       string                 `json:"priority"`
+	ActionRequired bool                   `json:"action_required"`
+	Metadata       map[string]interface{} `json:"metadata,omitempty"`
+}
+
+// CustomerClaimUpdatesResponse represents response for claim updates
+type CustomerClaimUpdatesResponse struct {
+	ClaimID     string                `json:"claim_id"`
+	Updates     []CustomerClaimUpdate `json:"updates"`
+	Total       int                   `json:"total"`
+	UnreadCount int                   `json:"unread_count"`
+	LastChecked time.Time             `json:"last_checked"`
+	HasMore     bool                  `json:"has_more"`
+}
+
+// CustomerClaimCommunicationRequest represents request to send communication
+type CustomerClaimCommunicationRequest struct {
+	Type             string                    `json:"type" validate:"required,oneof=message question complaint compliment"`
+	Subject          string                    `json:"subject" validate:"required,min=5,max=200"`
+	Message          string                    `json:"message" validate:"required,min=10,max=2000"`
+	Priority         string                    `json:"priority" validate:"required,oneof=low medium high urgent"`
+	ResponseExpected bool                      `json:"response_expected"`
+	Attachments      []CustomerClaimAttachment `json:"attachments,omitempty"`
+}
+
+// CustomerClaimCommunicationResponse represents response after sending communication
+type CustomerClaimCommunicationResponse struct {
+	CommunicationID  string                    `json:"communication_id"`
+	ClaimID          string                    `json:"claim_id"`
+	Type             string                    `json:"type"`
+	Subject          string                    `json:"subject"`
+	Message          string                    `json:"message"`
+	SentAt           time.Time                 `json:"sent_at"`
+	Status           string                    `json:"status"`
+	DeliveryStatus   string                    `json:"delivery_status"`
+	ReadStatus       string                    `json:"read_status"`
+	ResponseExpected bool                      `json:"response_expected"`
+	Priority         string                    `json:"priority"`
+	Attachments      []CustomerClaimAttachment `json:"attachments,omitempty"`
+	Metadata         map[string]interface{}    `json:"metadata,omitempty"`
+}
+
+// MarkUpdatesReadRequest represents request to mark updates as read
+type MarkUpdatesReadRequest struct {
+	UpdateIDs []string `json:"update_ids" validate:"required,min=1"`
+}
+
+// MarkUpdatesReadResponse represents response after marking updates as read
+type MarkUpdatesReadResponse struct {
+	ClaimID         string    `json:"claim_id"`
+	UpdatesMarked   int       `json:"updates_marked"`
+	MarkedAt        time.Time `json:"marked_at"`
+	RemainingUnread int       `json:"remaining_unread"`
+}
