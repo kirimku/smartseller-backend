@@ -832,8 +832,39 @@ func (r *PostgreSQLCustomerRepository) ClearRefreshToken(ctx context.Context, st
 }
 
 func (r *PostgreSQLCustomerRepository) UpdateEmailVerification(ctx context.Context, storefrontID, customerID uuid.UUID, verified bool) error {
-	// Implementation would update email_verified_at field
-	return nil
+	return WithMetrics(r.metricsCollector, "UPDATE", "customers", func() error {
+		var emailVerifiedAt *time.Time
+		if verified {
+			now := time.Now()
+			emailVerifiedAt = &now
+		}
+
+		query := `
+			UPDATE customers 
+			SET email_verified_at = $1, email_verification_token = NULL, updated_at = $2
+			WHERE id = $3 AND storefront_id = $4 AND deleted_at IS NULL`
+
+		db, err := r.GetDB(ctx, storefrontID)
+		if err != nil {
+			return err
+		}
+
+		result, err := db.ExecContext(ctx, query, emailVerifiedAt, time.Now(), customerID, storefrontID)
+		if err != nil {
+			return fmt.Errorf("failed to update email verification: %w", err)
+		}
+
+		rowsAffected, err := result.RowsAffected()
+		if err != nil {
+			return fmt.Errorf("failed to get rows affected: %w", err)
+		}
+
+		if rowsAffected == 0 {
+			return errors.ErrCustomerNotFound
+		}
+
+		return nil
+	})
 }
 
 func (r *PostgreSQLCustomerRepository) UpdatePhoneVerification(ctx context.Context, storefrontID, customerID uuid.UUID, verified bool) error {
@@ -857,23 +888,123 @@ func (r *PostgreSQLCustomerRepository) UnlockAccount(ctx context.Context, storef
 }
 
 func (r *PostgreSQLCustomerRepository) UpdatePassword(ctx context.Context, storefrontID, customerID uuid.UUID, passwordHash string) error {
-	// Implementation would update password_hash field
-	return nil
+	return WithMetrics(r.metricsCollector, "UPDATE", "customers", func() error {
+		query := `
+			UPDATE customers 
+			SET password_hash = $1, updated_at = $2
+			WHERE id = $3 AND storefront_id = $4 AND deleted_at IS NULL`
+
+		db, err := r.GetDB(ctx, storefrontID)
+		if err != nil {
+			return err
+		}
+
+		result, err := db.ExecContext(ctx, query, passwordHash, time.Now(), customerID, storefrontID)
+		if err != nil {
+			return fmt.Errorf("failed to update password: %w", err)
+		}
+
+		rowsAffected, err := result.RowsAffected()
+		if err != nil {
+			return fmt.Errorf("failed to get rows affected: %w", err)
+		}
+
+		if rowsAffected == 0 {
+			return errors.ErrCustomerNotFound
+		}
+
+		return nil
+	})
 }
 
 func (r *PostgreSQLCustomerRepository) SetPasswordResetToken(ctx context.Context, storefrontID, customerID uuid.UUID, token string, expiresAt time.Time) error {
-	// Implementation would set password reset token and expiry
-	return nil
+	return WithMetrics(r.metricsCollector, "UPDATE", "customers", func() error {
+		query := `
+			UPDATE customers 
+			SET password_reset_token = $1, password_reset_expires_at = $2, updated_at = $3
+			WHERE id = $4 AND storefront_id = $5 AND deleted_at IS NULL`
+
+		db, err := r.GetDB(ctx, storefrontID)
+		if err != nil {
+			return err
+		}
+
+		result, err := db.ExecContext(ctx, query, token, expiresAt, time.Now(), customerID, storefrontID)
+		if err != nil {
+			return fmt.Errorf("failed to set password reset token: %w", err)
+		}
+
+		rowsAffected, err := result.RowsAffected()
+		if err != nil {
+			return fmt.Errorf("failed to get rows affected: %w", err)
+		}
+
+		if rowsAffected == 0 {
+			return errors.ErrCustomerNotFound
+		}
+
+		return nil
+	})
 }
 
 func (r *PostgreSQLCustomerRepository) ClearPasswordResetToken(ctx context.Context, storefrontID, customerID uuid.UUID) error {
-	// Implementation would clear password reset token
-	return nil
+	return WithMetrics(r.metricsCollector, "UPDATE", "customers", func() error {
+		query := `
+			UPDATE customers 
+			SET password_reset_token = NULL, password_reset_expires_at = NULL, updated_at = $1
+			WHERE id = $2 AND storefront_id = $3 AND deleted_at IS NULL`
+
+		db, err := r.GetDB(ctx, storefrontID)
+		if err != nil {
+			return err
+		}
+
+		result, err := db.ExecContext(ctx, query, time.Now(), customerID, storefrontID)
+		if err != nil {
+			return fmt.Errorf("failed to clear password reset token: %w", err)
+		}
+
+		rowsAffected, err := result.RowsAffected()
+		if err != nil {
+			return fmt.Errorf("failed to get rows affected: %w", err)
+		}
+
+		if rowsAffected == 0 {
+			return errors.ErrCustomerNotFound
+		}
+
+		return nil
+	})
 }
 
 func (r *PostgreSQLCustomerRepository) SetEmailVerificationToken(ctx context.Context, storefrontID, customerID uuid.UUID, token string) error {
-	// Implementation would set email verification token
-	return nil
+	return WithMetrics(r.metricsCollector, "UPDATE", "customers", func() error {
+		query := `
+			UPDATE customers 
+			SET email_verification_token = $1, updated_at = $2
+			WHERE id = $3 AND storefront_id = $4 AND deleted_at IS NULL`
+
+		db, err := r.GetDB(ctx, storefrontID)
+		if err != nil {
+			return err
+		}
+
+		result, err := db.ExecContext(ctx, query, token, time.Now(), customerID, storefrontID)
+		if err != nil {
+			return fmt.Errorf("failed to set email verification token: %w", err)
+		}
+
+		rowsAffected, err := result.RowsAffected()
+		if err != nil {
+			return fmt.Errorf("failed to get rows affected: %w", err)
+		}
+
+		if rowsAffected == 0 {
+			return errors.ErrCustomerNotFound
+		}
+
+		return nil
+	})
 }
 
 func (r *PostgreSQLCustomerRepository) SetPhoneVerificationToken(ctx context.Context, storefrontID, customerID uuid.UUID, token string) error {

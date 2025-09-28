@@ -86,6 +86,75 @@ paths:
   /api/v1/products/{id}:
     $ref: './product-endpoints.yaml#/paths/~1api~1v1~1products~1{id}'
 
+  # Admin Warranty Management endpoints
+  /api/v1/admin/warranty/barcodes:
+    $ref: './warranty-admin-endpoints.yaml#/paths/~1api~1v1~1admin~1warranty~1barcodes'
+  
+  /api/v1/admin/warranty/barcodes/generate:
+    $ref: './warranty-admin-endpoints.yaml#/paths/~1api~1v1~1admin~1warranty~1barcodes~1generate'
+  
+  /api/v1/admin/warranty/barcodes/{id}:
+    $ref: './warranty-admin-endpoints.yaml#/paths/~1api~1v1~1admin~1warranty~1barcodes~1{id}'
+  
+  /api/v1/admin/warranty/barcodes/{id}/revoke:
+    $ref: './warranty-admin-endpoints.yaml#/paths/~1api~1v1~1admin~1warranty~1barcodes~1{id}~1revoke'
+  
+  /api/v1/admin/warranty/claims:
+    $ref: './warranty-admin-endpoints.yaml#/paths/~1api~1v1~1admin~1warranty~1claims'
+  
+  /api/v1/admin/warranty/claims/{id}:
+    $ref: './warranty-admin-endpoints.yaml#/paths/~1api~1v1~1admin~1warranty~1claims~1{id}'
+  
+  /api/v1/admin/warranty/claims/{id}/assign:
+    $ref: './warranty-admin-endpoints.yaml#/paths/~1api~1v1~1admin~1warranty~1claims~1{id}~1assign'
+  
+  /api/v1/admin/warranty/batches:
+    $ref: './warranty-admin-endpoints.yaml#/paths/~1api~1v1~1admin~1warranty~1batches'
+  
+  /api/v1/admin/warranty/batches/{id}:
+    $ref: './warranty-admin-endpoints.yaml#/paths/~1api~1v1~1admin~1warranty~1batches~1{id}'
+  
+  /api/v1/admin/warranty/analytics/dashboard:
+    $ref: './warranty-admin-endpoints.yaml#/paths/~1api~1v1~1admin~1warranty~1analytics~1dashboard'
+  
+  /api/v1/admin/warranty/reports/export:
+    $ref: './warranty-admin-endpoints.yaml#/paths/~1api~1v1~1admin~1warranty~1reports~1export'
+
+  # Public Warranty endpoints
+  /api/v1/public/warranty/validate:
+    $ref: './warranty-customer-endpoints.yaml#/paths/~1api~1v1~1public~1warranty~1validate'
+  
+  /api/v1/public/warranty/activate:
+    $ref: './warranty-customer-endpoints.yaml#/paths/~1api~1v1~1public~1warranty~1activate'
+
+  # Customer Warranty Management endpoints
+  /api/v1/customer/warranties:
+    $ref: './warranty-customer-endpoints.yaml#/paths/~1api~1v1~1customer~1warranties'
+  
+  /api/v1/customer/warranties/{id}:
+    $ref: './warranty-customer-endpoints.yaml#/paths/~1api~1v1~1customer~1warranties~1{id}'
+  
+  /api/v1/customer/claims:
+    $ref: './warranty-customer-endpoints.yaml#/paths/~1api~1v1~1customer~1claims'
+  
+  /api/v1/customer/claims/{id}:
+    $ref: './warranty-customer-endpoints.yaml#/paths/~1api~1v1~1customer~1claims~1{id}'
+  
+  /api/v1/customer/claims/{id}/cancel:
+    $ref: './warranty-customer-endpoints.yaml#/paths/~1api~1v1~1customer~1claims~1{id}~1cancel'
+  
+  /api/v1/customer/claims/{id}/attachments:
+    $ref: './warranty-customer-endpoints.yaml#/paths/~1api~1v1~1customer~1claims~1{id}~1attachments'
+  
+  /api/v1/customer/claims/{id}/attachments/{attachment_id}:
+    $ref: './warranty-customer-endpoints.yaml#/paths/~1api~1v1~1customer~1claims~1{id}~1attachments~1{attachment_id}'
+  
+  /api/v1/customer/notifications:
+    $ref: './warranty-customer-endpoints.yaml#/paths/~1api~1v1~1customer~1notifications'
+  
+  /api/v1/customer/notifications/{id}/read:
+    $ref: './warranty-customer-endpoints.yaml#/paths/~1api~1v1~1customer~1notifications~1{id}~1read'
+
 # Tag definitions
 tags:
   - name: Authentication
@@ -94,6 +163,12 @@ tags:
     description: User profile and account management
   - name: Products
     description: Product catalog management
+  - name: Warranty Admin
+    description: Administrative warranty management endpoints
+  - name: Warranty Public
+    description: Public warranty validation and activation endpoints
+  - name: Warranty Customer
+    description: Customer warranty and claims management endpoints
 
 # Security schemes
 components:
@@ -258,6 +333,61 @@ components:
     
     PaginationResponse:
       $ref: './product-schemas.yaml#/components/schemas/PaginationResponse'
+
+    # Warranty schemas (reference warranty-schemas.yaml)
+    WarrantyBarcode:
+      $ref: './warranty-schemas.yaml#/components/schemas/WarrantyBarcode'
+    
+    WarrantyClaim:
+      $ref: './warranty-schemas.yaml#/components/schemas/WarrantyClaim'
+    
+    BarcodeGenerationBatch:
+      $ref: './warranty-schemas.yaml#/components/schemas/BarcodeGenerationBatch'
+    
+    RepairTicket:
+      $ref: './warranty-schemas.yaml#/components/schemas/RepairTicket'
+    
+    ClaimAttachment:
+      $ref: './warranty-schemas.yaml#/components/schemas/ClaimAttachment'
+    
+    ClaimTimeline:
+      $ref: './warranty-schemas.yaml#/components/schemas/ClaimTimeline'
+    
+    RepairPart:
+      $ref: './warranty-schemas.yaml#/components/schemas/RepairPart'
+    
+    WarrantyNotification:
+      $ref: './warranty-schemas.yaml#/components/schemas/WarrantyNotification'
+    
+    Address:
+      $ref: './warranty-schemas.yaml#/components/schemas/Address'
+    
+    Product:
+      $ref: './warranty-schemas.yaml#/components/schemas/Product'
+    
+    Storefront:
+      $ref: './warranty-schemas.yaml#/components/schemas/Storefront'
+    
+    Customer:
+      $ref: './warranty-schemas.yaml#/components/schemas/Customer'
+    
+    WarrantyAnalytics:
+      $ref: './warranty-schemas.yaml#/components/schemas/WarrantyAnalytics'
+    
+    BarcodeMetrics:
+      $ref: './warranty-schemas.yaml#/components/schemas/BarcodeMetrics'
+    
+    ClaimMetrics:
+      $ref: './warranty-schemas.yaml#/components/schemas/ClaimMetrics'
+    
+    PerformanceMetrics:
+      $ref: './warranty-schemas.yaml#/components/schemas/PerformanceMetrics'
+    
+    TrendData:
+      $ref: './warranty-schemas.yaml#/components/schemas/TrendData'
+    
+    TrendDataPoint:
+      $ref: './warranty-schemas.yaml#/components/schemas/TrendDataPoint'
 
   # Common response templates
   responses:

@@ -1,0 +1,1102 @@
+components:
+  schemas:
+    # Core Warranty Entities
+    WarrantyBarcode:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "Unique identifier for the warranty barcode"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        barcode:
+          type: string
+          description: "The warranty barcode string"
+          example: "WB-2023-ABC123DEF456"
+        product_id:
+          type: string
+          format: uuid
+          description: "ID of the associated product"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        storefront_id:
+          type: string
+          format: uuid
+          description: "ID of the storefront that owns this warranty"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        batch_id:
+          type: string
+          format: uuid
+          description: "ID of the generation batch"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        status:
+          type: string
+          enum: [generated, activated, expired, revoked]
+          description: "Current status of the warranty barcode"
+          example: "generated"
+        warranty_period_months:
+          type: integer
+          minimum: 1
+          maximum: 120
+          description: "Warranty period in months"
+          example: 12
+        generation_algorithm:
+          type: string
+          enum: [UUID_BASED, SEQUENTIAL, RANDOM]
+          description: "Algorithm used to generate the barcode"
+          example: "UUID_BASED"
+        security_hash:
+          type: string
+          description: "Security hash for barcode verification"
+          example: "sha256:abc123def456..."
+        activation_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Date when the warranty was activated"
+          example: "2023-12-01T10:00:00Z"
+        expiry_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Date when the warranty expires"
+          example: "2024-12-01T10:00:00Z"
+        activated_by_customer_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: "ID of the customer who activated the warranty"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        activation_ip:
+          type: string
+          nullable: true
+          description: "IP address from which the warranty was activated"
+          example: "192.168.1.1"
+        activation_location:
+          type: string
+          nullable: true
+          description: "Location where the warranty was activated"
+          example: "Jakarta, Indonesia"
+        created_at:
+          type: string
+          format: date-time
+          description: "Creation timestamp"
+          example: "2023-11-01T10:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: "Last update timestamp"
+          example: "2023-11-01T10:00:00Z"
+        deleted_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Soft deletion timestamp"
+          example: null
+
+    WarrantyClaim:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "Unique identifier for the warranty claim"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        claim_number:
+          type: string
+          description: "Human-readable claim number"
+          example: "WC-2023-001234"
+        barcode_id:
+          type: string
+          format: uuid
+          description: "ID of the associated warranty barcode"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        customer_id:
+          type: string
+          format: uuid
+          description: "ID of the customer who submitted the claim"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        status:
+          type: string
+          enum: [pending, validated, in_progress, completed, rejected, cancelled]
+          description: "Current status of the claim"
+          example: "pending"
+        priority:
+          type: string
+          enum: [low, medium, high, urgent]
+          description: "Priority level of the claim"
+          example: "medium"
+        issue_category:
+          type: string
+          description: "Category of the reported issue"
+          example: "Hardware Malfunction"
+        issue_description:
+          type: string
+          description: "Detailed description of the issue"
+          example: "Screen flickering and touch not responsive"
+        customer_name:
+          type: string
+          description: "Name of the customer"
+          example: "John Doe"
+        customer_email:
+          type: string
+          format: email
+          description: "Email of the customer"
+          example: "john.doe@example.com"
+        customer_phone:
+          type: string
+          description: "Phone number of the customer"
+          example: "+6281234567890"
+        preferred_contact_method:
+          type: string
+          enum: [email, phone, whatsapp]
+          description: "Preferred contact method"
+          example: "email"
+        shipping_address:
+          $ref: '#/components/schemas/Address'
+        assigned_to:
+          type: string
+          format: uuid
+          nullable: true
+          description: "ID of the assigned technician/admin"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        estimated_completion:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Estimated completion date"
+          example: "2023-12-15T10:00:00Z"
+        actual_completion:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Actual completion date"
+          example: "2023-12-14T16:30:00Z"
+        resolution_type:
+          type: string
+          enum: [repair, replacement, refund]
+          nullable: true
+          description: "Type of resolution provided"
+          example: "repair"
+        resolution_description:
+          type: string
+          nullable: true
+          description: "Description of the resolution"
+          example: "Screen replaced and device tested"
+        admin_notes:
+          type: string
+          nullable: true
+          description: "Internal admin notes"
+          example: "Customer very satisfied with repair quality"
+        customer_satisfaction_score:
+          type: integer
+          minimum: 1
+          maximum: 5
+          nullable: true
+          description: "Customer satisfaction rating (1-5)"
+          example: 5
+        created_at:
+          type: string
+          format: date-time
+          description: "Creation timestamp"
+          example: "2023-12-01T10:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: "Last update timestamp"
+          example: "2023-12-01T10:00:00Z"
+        deleted_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Soft deletion timestamp"
+          example: null
+
+    BarcodeGenerationBatch:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "Unique identifier for the batch"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        batch_name:
+          type: string
+          description: "Human-readable batch name"
+          example: "Samsung Galaxy S23 - December 2023"
+        product_id:
+          type: string
+          format: uuid
+          description: "ID of the product for which barcodes are generated"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        storefront_id:
+          type: string
+          format: uuid
+          description: "ID of the storefront requesting the batch"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        requested_quantity:
+          type: integer
+          minimum: 1
+          description: "Number of barcodes requested"
+          example: 1000
+        generated_quantity:
+          type: integer
+          minimum: 0
+          description: "Number of barcodes actually generated"
+          example: 1000
+        status:
+          type: string
+          enum: [pending, processing, completed, failed]
+          description: "Current status of the batch generation"
+          example: "completed"
+        generation_algorithm:
+          type: string
+          enum: [UUID_BASED, SEQUENTIAL, RANDOM]
+          description: "Algorithm used for generation"
+          example: "UUID_BASED"
+        prefix:
+          type: string
+          nullable: true
+          description: "Prefix for generated barcodes"
+          example: "WB-2023"
+        suffix:
+          type: string
+          nullable: true
+          description: "Suffix for generated barcodes"
+          example: ""
+        warranty_period_months:
+          type: integer
+          minimum: 1
+          maximum: 120
+          description: "Warranty period for generated barcodes"
+          example: 12
+        collision_count:
+          type: integer
+          minimum: 0
+          description: "Number of collisions detected during generation"
+          example: 0
+        processing_time_ms:
+          type: integer
+          minimum: 0
+          description: "Time taken to process the batch in milliseconds"
+          example: 5432
+        error_message:
+          type: string
+          nullable: true
+          description: "Error message if batch failed"
+          example: null
+        created_by:
+          type: string
+          format: uuid
+          description: "ID of the admin who created the batch"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        created_at:
+          type: string
+          format: date-time
+          description: "Creation timestamp"
+          example: "2023-12-01T10:00:00Z"
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Processing start timestamp"
+          example: "2023-12-01T10:00:30Z"
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Processing completion timestamp"
+          example: "2023-12-01T10:05:32Z"
+
+    RepairTicket:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "Unique identifier for the repair ticket"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        ticket_number:
+          type: string
+          description: "Human-readable ticket number"
+          example: "RT-2023-001234"
+        claim_id:
+          type: string
+          format: uuid
+          description: "ID of the associated warranty claim"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        repair_type:
+          type: string
+          enum: [hardware_repair, software_fix, replacement, refund]
+          description: "Type of repair being performed"
+          example: "hardware_repair"
+        status:
+          type: string
+          enum: [pending, in_progress, completed, quality_check, approved]
+          description: "Current status of the repair"
+          example: "in_progress"
+        diagnosis:
+          type: string
+          description: "Technical diagnosis of the issue"
+          example: "Screen digitizer malfunction"
+        repair_description:
+          type: string
+          description: "Description of repair work performed"
+          example: "Replaced screen digitizer and tested functionality"
+        technician_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: "ID of the assigned technician"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        estimated_completion:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Estimated completion date"
+          example: "2023-12-05T14:30:00Z"
+        actual_completion:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Actual completion date"
+          example: "2023-12-05T14:30:00Z"
+        labor_hours:
+          type: number
+          format: decimal
+          minimum: 0
+          description: "Hours of labor required"
+          example: 2.5
+        total_cost:
+          type: number
+          format: decimal
+          minimum: 0
+          description: "Total cost of repair"
+          example: 200000
+        currency:
+          type: string
+          description: "Currency code"
+          example: "IDR"
+        quality_check_passed:
+          type: boolean
+          nullable: true
+          description: "Whether quality check passed"
+          example: true
+        customer_approval_required:
+          type: boolean
+          description: "Whether customer approval is required"
+          example: false
+        customer_approved:
+          type: boolean
+          nullable: true
+          description: "Whether customer has approved the repair"
+          example: true
+        warranty_extension_months:
+          type: integer
+          minimum: 0
+          nullable: true
+          description: "Additional warranty months granted"
+          example: 3
+        created_at:
+          type: string
+          format: date-time
+          description: "Creation timestamp"
+          example: "2023-12-02T09:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: "Last update timestamp"
+          example: "2023-12-05T14:30:00Z"
+
+    ClaimAttachment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "Unique identifier for the attachment"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        claim_id:
+          type: string
+          format: uuid
+          description: "ID of the associated claim"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        filename:
+          type: string
+          description: "Stored filename"
+          example: "receipt_20231201_001.jpg"
+        original_filename:
+          type: string
+          description: "Original filename uploaded by user"
+          example: "purchase_receipt.jpg"
+        file_type:
+          type: string
+          enum: [receipt, photo, document, video]
+          description: "Type of file attachment"
+          example: "receipt"
+        mime_type:
+          type: string
+          description: "MIME type of the file"
+          example: "image/jpeg"
+        file_size:
+          type: integer
+          minimum: 0
+          description: "File size in bytes"
+          example: 1024000
+        file_path:
+          type: string
+          description: "Storage path of the file"
+          example: "/claims/attachments/2023/12/receipt_20231201_001.jpg"
+        url:
+          type: string
+          format: uri
+          description: "Public URL to access the file"
+          example: "https://storage.smartseller.com/claims/attachments/receipt_20231201_001.jpg"
+        thumbnail_url:
+          type: string
+          format: uri
+          nullable: true
+          description: "URL to thumbnail (for images/videos)"
+          example: "https://storage.smartseller.com/claims/thumbnails/receipt_20231201_001_thumb.jpg"
+        description:
+          type: string
+          nullable: true
+          description: "User-provided description of the attachment"
+          example: "Purchase receipt from TechStore Jakarta"
+        uploaded_by:
+          type: string
+          format: uuid
+          description: "ID of the user who uploaded the file"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        uploaded_by_type:
+          type: string
+          enum: [customer, admin, system]
+          description: "Type of user who uploaded the file"
+          example: "customer"
+        is_verified:
+          type: boolean
+          description: "Whether the attachment has been verified by admin"
+          example: true
+        verification_notes:
+          type: string
+          nullable: true
+          description: "Admin notes about verification"
+          example: "Receipt verified - valid purchase date and amount"
+        created_at:
+          type: string
+          format: date-time
+          description: "Upload timestamp"
+          example: "2023-12-01T10:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: "Last update timestamp"
+          example: "2023-12-01T10:00:00Z"
+
+    ClaimTimeline:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "Unique identifier for the timeline entry"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        claim_id:
+          type: string
+          format: uuid
+          description: "ID of the associated claim"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        event_type:
+          type: string
+          description: "Type of event"
+          example: "STATUS_CHANGED"
+        title:
+          type: string
+          description: "Event title"
+          example: "Claim Status Updated"
+        description:
+          type: string
+          description: "Event description"
+          example: "Claim status changed from pending to validated"
+        performed_by:
+          type: string
+          format: uuid
+          description: "ID of the user who performed the action"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        performed_by_type:
+          type: string
+          enum: [customer, admin, system]
+          description: "Type of user who performed the action"
+          example: "admin"
+        performed_by_name:
+          type: string
+          description: "Name of the user who performed the action"
+          example: "Admin User"
+        is_visible_to_customer:
+          type: boolean
+          description: "Whether this event is visible to the customer"
+          example: true
+        metadata:
+          type: object
+          description: "Additional metadata about the event"
+          example: {"old_status": "pending", "new_status": "validated"}
+        created_at:
+          type: string
+          format: date-time
+          description: "Event timestamp"
+          example: "2023-12-01T10:00:00Z"
+
+    RepairPart:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "Unique identifier for the repair part"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        repair_ticket_id:
+          type: string
+          format: uuid
+          description: "ID of the associated repair ticket"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        part_name:
+          type: string
+          description: "Name of the part"
+          example: "Screen Digitizer"
+        part_code:
+          type: string
+          description: "Part code/SKU"
+          example: "SGS23-DIGI-001"
+        part_category:
+          type: string
+          description: "Category of the part"
+          example: "Display Components"
+        quantity:
+          type: integer
+          minimum: 1
+          description: "Quantity used"
+          example: 1
+        unit_cost:
+          type: number
+          format: decimal
+          minimum: 0
+          description: "Cost per unit"
+          example: 150000
+        total_cost:
+          type: number
+          format: decimal
+          minimum: 0
+          description: "Total cost for this part"
+          example: 150000
+        currency:
+          type: string
+          description: "Currency code"
+          example: "IDR"
+        supplier:
+          type: string
+          nullable: true
+          description: "Part supplier"
+          example: "Samsung Parts Division"
+        warranty_months:
+          type: integer
+          minimum: 0
+          nullable: true
+          description: "Warranty period for the part"
+          example: 6
+        installed_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Installation timestamp"
+          example: "2023-12-05T11:30:00Z"
+        created_at:
+          type: string
+          format: date-time
+          description: "Creation timestamp"
+          example: "2023-12-05T09:00:00Z"
+
+    WarrantyNotification:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "Unique identifier for the notification"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        customer_id:
+          type: string
+          format: uuid
+          description: "ID of the customer receiving the notification"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        type:
+          type: string
+          enum: [warranty_expiring, claim_status_update, claim_approved, claim_rejected, repair_completed]
+          description: "Type of notification"
+          example: "warranty_expiring"
+        title:
+          type: string
+          description: "Notification title"
+          example: "Warranty Expiring Soon"
+        message:
+          type: string
+          description: "Notification message"
+          example: "Your warranty for Samsung Galaxy S23 will expire in 30 days"
+        priority:
+          type: string
+          enum: [low, medium, high]
+          description: "Notification priority"
+          example: "medium"
+        is_read:
+          type: boolean
+          description: "Whether the notification has been read"
+          example: false
+        related_warranty_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: "ID of related warranty"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        related_claim_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: "ID of related claim"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        action_required:
+          type: boolean
+          description: "Whether action is required from customer"
+          example: false
+        action_url:
+          type: string
+          format: uri
+          nullable: true
+          description: "URL for required action"
+          example: "/warranties/123e4567-e89b-12d3-a456-426614174000"
+        delivery_channels:
+          type: array
+          items:
+            type: string
+            enum: [in_app, email, sms, push]
+          description: "Channels through which notification was/will be delivered"
+          example: ["in_app", "email"]
+        delivered_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Delivery timestamp"
+          example: "2023-12-01T10:00:00Z"
+        read_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Read timestamp"
+          example: null
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: "Expiration timestamp"
+          example: "2023-12-31T23:59:59Z"
+        created_at:
+          type: string
+          format: date-time
+          description: "Creation timestamp"
+          example: "2023-12-01T10:00:00Z"
+
+    # Supporting Schemas
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+          description: "Street address"
+          example: "Jl. Sudirman No. 123"
+        city:
+          type: string
+          description: "City"
+          example: "Jakarta"
+        state:
+          type: string
+          description: "State or province"
+          example: "DKI Jakarta"
+        postal_code:
+          type: string
+          description: "Postal code"
+          example: "12190"
+        country:
+          type: string
+          description: "Country"
+          example: "Indonesia"
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "Product ID"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        name:
+          type: string
+          description: "Product name"
+          example: "Samsung Galaxy S23"
+        brand:
+          type: string
+          description: "Product brand"
+          example: "Samsung"
+        model:
+          type: string
+          description: "Product model"
+          example: "Galaxy S23"
+        category:
+          type: string
+          description: "Product category"
+          example: "Smartphone"
+        description:
+          type: string
+          nullable: true
+          description: "Product description"
+          example: "Latest Samsung flagship smartphone with advanced camera"
+        specifications:
+          type: object
+          nullable: true
+          description: "Product specifications"
+          example: {"storage": "256GB", "ram": "8GB", "color": "Phantom Black"}
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: "Product images"
+          example: ["https://images.smartseller.com/products/samsung-s23.jpg"]
+
+    Storefront:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "Storefront ID"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        name:
+          type: string
+          description: "Storefront name"
+          example: "TechStore Indonesia"
+        contact_email:
+          type: string
+          format: email
+          description: "Contact email"
+          example: "support@techstore.id"
+        contact_phone:
+          type: string
+          description: "Contact phone"
+          example: "+6281234567890"
+        address:
+          type: string
+          description: "Storefront address"
+          example: "Jl. Sudirman No. 123, Jakarta"
+        website:
+          type: string
+          format: uri
+          nullable: true
+          description: "Storefront website"
+          example: "https://techstore.id"
+
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "Customer ID"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        name:
+          type: string
+          description: "Customer name"
+          example: "John Doe"
+        email:
+          type: string
+          format: email
+          description: "Customer email"
+          example: "john.doe@example.com"
+        phone:
+          type: string
+          description: "Customer phone"
+          example: "+6281234567890"
+        verified:
+          type: boolean
+          description: "Whether customer is verified"
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          description: "Registration timestamp"
+          example: "2023-11-01T10:00:00Z"
+
+    # Analytics and Statistics Schemas
+    WarrantyAnalytics:
+      type: object
+      properties:
+        period:
+          type: string
+          enum: [today, week, month, quarter, year]
+          description: "Analytics period"
+          example: "month"
+        date_from:
+          type: string
+          format: date
+          description: "Start date of analytics period"
+          example: "2023-12-01"
+        date_to:
+          type: string
+          format: date
+          description: "End date of analytics period"
+          example: "2023-12-31"
+        barcode_metrics:
+          $ref: '#/components/schemas/BarcodeMetrics'
+        claim_metrics:
+          $ref: '#/components/schemas/ClaimMetrics'
+        performance_metrics:
+          $ref: '#/components/schemas/PerformanceMetrics'
+        trends:
+          $ref: '#/components/schemas/TrendData'
+
+    BarcodeMetrics:
+      type: object
+      properties:
+        total_generated:
+          type: integer
+          description: "Total barcodes generated"
+          example: 15420
+        total_activated:
+          type: integer
+          description: "Total barcodes activated"
+          example: 12350
+        total_expired:
+          type: integer
+          description: "Total barcodes expired"
+          example: 1200
+        total_revoked:
+          type: integer
+          description: "Total barcodes revoked"
+          example: 50
+        activation_rate:
+          type: number
+          format: decimal
+          description: "Activation rate percentage"
+          example: 80.1
+        expiration_rate:
+          type: number
+          format: decimal
+          description: "Expiration rate percentage"
+          example: 7.8
+
+    ClaimMetrics:
+      type: object
+      properties:
+        total_submitted:
+          type: integer
+          description: "Total claims submitted"
+          example: 234
+        total_resolved:
+          type: integer
+          description: "Total claims resolved"
+          example: 189
+        total_pending:
+          type: integer
+          description: "Total claims pending"
+          example: 23
+        total_rejected:
+          type: integer
+          description: "Total claims rejected"
+          example: 22
+        resolution_rate:
+          type: number
+          format: decimal
+          description: "Resolution rate percentage"
+          example: 80.8
+        average_resolution_time_hours:
+          type: number
+          format: decimal
+          description: "Average resolution time in hours"
+          example: 72.5
+        customer_satisfaction_score:
+          type: number
+          format: decimal
+          description: "Average customer satisfaction score"
+          example: 4.2
+
+    PerformanceMetrics:
+      type: object
+      properties:
+        claim_rate:
+          type: number
+          format: decimal
+          description: "Claim rate percentage (claims vs activations)"
+          example: 1.9
+        repeat_claim_rate:
+          type: number
+          format: decimal
+          description: "Repeat claim rate percentage"
+          example: 0.3
+        first_contact_resolution_rate:
+          type: number
+          format: decimal
+          description: "First contact resolution rate percentage"
+          example: 65.2
+        escalation_rate:
+          type: number
+          format: decimal
+          description: "Escalation rate percentage"
+          example: 12.5
+
+    TrendData:
+      type: object
+      properties:
+        barcode_generation_trend:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrendDataPoint'
+          description: "Barcode generation trend over time"
+        claim_submission_trend:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrendDataPoint'
+          description: "Claim submission trend over time"
+        resolution_time_trend:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrendDataPoint'
+          description: "Resolution time trend over time"
+
+    TrendDataPoint:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: "Date of the data point"
+          example: "2023-12-01"
+        value:
+          type: number
+          description: "Value for the data point"
+          example: 150
+        label:
+          type: string
+          nullable: true
+          description: "Optional label for the data point"
+          example: "Peak day"
+
+    # Error and Response Schemas
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          description: "Error message"
+          example: "Validation failed"
+        error_code:
+          type: string
+          nullable: true
+          description: "Specific error code"
+          example: "INVALID_BARCODE"
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldError'
+          description: "Field-specific errors"
+        timestamp:
+          type: string
+          format: date-time
+          description: "Error timestamp"
+          example: "2023-12-01T10:00:00Z"
+        request_id:
+          type: string
+          format: uuid
+          description: "Request ID for tracking"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+
+    FieldError:
+      type: object
+      properties:
+        field:
+          type: string
+          description: "Field name with error"
+          example: "barcode"
+        message:
+          type: string
+          description: "Error message for the field"
+          example: "Barcode is required and must be valid"
+        code:
+          type: string
+          nullable: true
+          description: "Specific error code for the field"
+          example: "REQUIRED"
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          description: "Success message"
+          example: "Operation completed successfully"
+        data:
+          type: object
+          description: "Response data"
+        timestamp:
+          type: string
+          format: date-time
+          description: "Response timestamp"
+          example: "2023-12-01T10:00:00Z"
+        request_id:
+          type: string
+          format: uuid
+          description: "Request ID for tracking"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+
+    PaginationMeta:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          minimum: 1
+          description: "Current page number"
+          example: 1
+        page_size:
+          type: integer
+          minimum: 1
+          description: "Number of items per page"
+          example: 20
+        total_items:
+          type: integer
+          minimum: 0
+          description: "Total number of items"
+          example: 150
+        total_pages:
+          type: integer
+          minimum: 0
+          description: "Total number of pages"
+          example: 8
+        has_next:
+          type: boolean
+          description: "Whether there is a next page"
+          example: true
+        has_previous:
+          type: boolean
+          description: "Whether there is a previous page"
+          example: false
+        next_page:
+          type: integer
+          nullable: true
+          description: "Next page number"
+          example: 2
+        previous_page:
+          type: integer
+          nullable: true
+          description: "Previous page number"
+          example: null

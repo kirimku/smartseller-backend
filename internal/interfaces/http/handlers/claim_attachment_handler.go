@@ -7,27 +7,26 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/sirupsen/logrus"
+	"github.com/rs/zerolog"
 
-	"smartseller-backend/internal/application/dto"
-	"smartseller-backend/internal/infrastructure/logger"
+	"github.com/kirimku/smartseller-backend/internal/application/dto"
+	"github.com/kirimku/smartseller-backend/internal/infrastructure/logger"
 )
 
 // ClaimAttachmentHandler handles claim attachment related HTTP requests
 type ClaimAttachmentHandler struct {
-	logger *logrus.Logger
+	logger zerolog.Logger
 }
 
 // NewClaimAttachmentHandler creates a new claim attachment handler
 func NewClaimAttachmentHandler() *ClaimAttachmentHandler {
 	return &ClaimAttachmentHandler{
-		logger: logger.GetLogger(),
+		logger: logger.Logger,
 	}
 }
 

@@ -1,0 +1,1596 @@
+paths:
+  # Public Warranty Endpoints (No Authentication Required)
+  /api/v1/public/warranty/validate:
+    post:
+      tags:
+        - Public Warranty
+      summary: Validate warranty barcode
+      description: Validate a warranty barcode and retrieve warranty information without authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateWarrantyRequest'
+      responses:
+        '200':
+          description: Warranty validation successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Warranty validation successful"
+                  data:
+                    $ref: '#/components/schemas/WarrantyValidationDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          description: Warranty not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Warranty barcode not found or invalid"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/public/warranty/activate:
+    post:
+      tags:
+        - Public Warranty
+      summary: Activate warranty
+      description: Activate a warranty barcode with customer information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivateWarrantyRequest'
+      responses:
+        '200':
+          description: Warranty activated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Warranty activated successfully"
+                  data:
+                    $ref: '#/components/schemas/WarrantyActivationDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          description: Warranty not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Warranty barcode not found or already activated"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Customer Protected Warranty Endpoints (Authentication Required)
+  /api/v1/customer/protected/warranties:
+    get:
+      tags:
+        - Customer Warranty Management
+      summary: Get customer warranties
+      description: Retrieve all warranties associated with the authenticated customer
+      security:
+        - CustomerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: Page number (1-based)
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: page_size
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+        - name: status
+          in: query
+          description: Filter by warranty status
+          schema:
+            type: string
+            enum: [active, expired, claimed]
+        - name: product_name
+          in: query
+          description: Search by product name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Customer warranties retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Customer warranties retrieved successfully"
+                  data:
+                    type: object
+                    properties:
+                      warranties:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/CustomerWarrantyDTO'
+                      pagination:
+                        $ref: '#/components/schemas/PaginationMeta'
+                      summary:
+                        $ref: '#/components/schemas/CustomerWarrantySummaryDTO'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/customer/protected/warranties/{id}:
+    get:
+      tags:
+        - Customer Warranty Management
+      summary: Get warranty details
+      description: Retrieve detailed information about a specific warranty
+      security:
+        - CustomerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Warranty ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Warranty details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Warranty details retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerWarrantyDetailDTO'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden - Warranty does not belong to customer
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "You don't have access to this warranty"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Warranty Claims Management
+  /api/v1/customer/protected/warranties/{id}/claims:
+    post:
+      tags:
+        - Customer Warranty Claims
+      summary: Submit warranty claim
+      description: Submit a new warranty claim for a specific warranty
+      security:
+        - CustomerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Warranty ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubmitClaimRequest'
+      responses:
+        '201':
+          description: Warranty claim submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Warranty claim submitted successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerClaimDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden - Warranty expired or already claimed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Warranty has expired or already has an active claim"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/customer/protected/claims:
+    get:
+      tags:
+        - Customer Warranty Claims
+      summary: Get customer claims
+      description: Retrieve all warranty claims submitted by the authenticated customer
+      security:
+        - CustomerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: Page number (1-based)
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: page_size
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+        - name: status
+          in: query
+          description: Filter by claim status
+          schema:
+            type: string
+            enum: [pending, validated, in_progress, completed, rejected, cancelled]
+        - name: created_from
+          in: query
+          description: Filter by creation date (from)
+          schema:
+            type: string
+            format: date
+        - name: created_to
+          in: query
+          description: Filter by creation date (to)
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Customer claims retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Customer claims retrieved successfully"
+                  data:
+                    type: object
+                    properties:
+                      claims:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/CustomerClaimDTO'
+                      pagination:
+                        $ref: '#/components/schemas/PaginationMeta'
+                      summary:
+                        $ref: '#/components/schemas/CustomerClaimSummaryDTO'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/customer/protected/claims/{id}:
+    get:
+      tags:
+        - Customer Warranty Claims
+      summary: Get claim details
+      description: Retrieve detailed information about a specific warranty claim
+      security:
+        - CustomerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Claim ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Claim details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Claim details retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerClaimDetailDTO'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden - Claim does not belong to customer
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "You don't have access to this claim"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      tags:
+        - Customer Warranty Claims
+      summary: Update claim information
+      description: Update warranty claim information (limited fields for customers)
+      security:
+        - CustomerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Claim ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomerClaimRequest'
+      responses:
+        '200':
+          description: Claim updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Claim updated successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerClaimDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden - Cannot update claim in current status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Cannot update claim in current status"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/customer/protected/claims/{id}/cancel:
+    post:
+      tags:
+        - Customer Warranty Claims
+      summary: Cancel warranty claim
+      description: Cancel a warranty claim (only allowed for pending/validated claims)
+      security:
+        - CustomerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Claim ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelClaimRequest'
+      responses:
+        '200':
+          description: Claim cancelled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Claim cancelled successfully"
+                  data:
+                    $ref: '#/components/schemas/CustomerClaimDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden - Cannot cancel claim in current status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Cannot cancel claim in current status"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Claim Attachments
+  /api/v1/customer/protected/claims/{id}/attachments:
+    post:
+      tags:
+        - Customer Warranty Claims
+      summary: Upload claim attachment
+      description: Upload additional attachments to an existing warranty claim
+      security:
+        - CustomerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Claim ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadAttachmentRequest'
+      responses:
+        '201':
+          description: Attachment uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Attachment uploaded successfully"
+                  data:
+                    $ref: '#/components/schemas/ClaimAttachmentDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden - Cannot add attachments to claim in current status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Cannot add attachments to claim in current status"
+        '413':
+          description: File too large
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "File size exceeds maximum limit of 10MB"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/customer/protected/claims/{claim_id}/attachments/{attachment_id}:
+    delete:
+      tags:
+        - Customer Warranty Claims
+      summary: Delete claim attachment
+      description: Delete an attachment from a warranty claim
+      security:
+        - CustomerAuth: []
+      parameters:
+        - name: claim_id
+          in: path
+          required: true
+          description: Claim ID
+          schema:
+            type: string
+            format: uuid
+        - name: attachment_id
+          in: path
+          required: true
+          description: Attachment ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Attachment deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Attachment deleted successfully"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden - Cannot delete attachments from claim in current status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Cannot delete attachments from claim in current status"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Customer Notifications
+  /api/v1/customer/protected/notifications/warranty:
+    get:
+      tags:
+        - Customer Notifications
+      summary: Get warranty notifications
+      description: Retrieve warranty-related notifications for the authenticated customer
+      security:
+        - CustomerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: Page number (1-based)
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: page_size
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+        - name: unread_only
+          in: query
+          description: Show only unread notifications
+          schema:
+            type: boolean
+            default: false
+        - name: type
+          in: query
+          description: Filter by notification type
+          schema:
+            type: string
+            enum: [warranty_expiring, claim_status_update, claim_approved, claim_rejected]
+      responses:
+        '200':
+          description: Warranty notifications retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Warranty notifications retrieved successfully"
+                  data:
+                    type: object
+                    properties:
+                      notifications:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/WarrantyNotificationDTO'
+                      pagination:
+                        $ref: '#/components/schemas/PaginationMeta'
+                      unread_count:
+                        type: integer
+                        example: 3
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/customer/protected/notifications/warranty/{id}/read:
+    post:
+      tags:
+        - Customer Notifications
+      summary: Mark notification as read
+      description: Mark a specific warranty notification as read
+      security:
+        - CustomerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Notification ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Notification marked as read successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Notification marked as read"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  schemas:
+    # Public Warranty Schemas
+    ValidateWarrantyRequest:
+      type: object
+      required:
+        - barcode
+      properties:
+        barcode:
+          type: string
+          example: "WB-2023-ABC123DEF456"
+          description: The warranty barcode to validate
+
+    WarrantyValidationDTO:
+      type: object
+      properties:
+        barcode:
+          type: string
+          example: "WB-2023-ABC123DEF456"
+        is_valid:
+          type: boolean
+          example: true
+        is_active:
+          type: boolean
+          example: true
+        is_expired:
+          type: boolean
+          example: false
+        product_info:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: "123e4567-e89b-12d3-a456-426614174000"
+            name:
+              type: string
+              example: "Samsung Galaxy S23"
+            brand:
+              type: string
+              example: "Samsung"
+            model:
+              type: string
+              example: "Galaxy S23"
+            category:
+              type: string
+              example: "Smartphone"
+        warranty_info:
+          type: object
+          properties:
+            warranty_period_months:
+              type: integer
+              example: 12
+            activation_date:
+              type: string
+              format: date-time
+              nullable: true
+              example: "2023-12-01T10:00:00Z"
+            expiry_date:
+              type: string
+              format: date-time
+              nullable: true
+              example: "2024-12-01T10:00:00Z"
+            days_remaining:
+              type: integer
+              nullable: true
+              example: 365
+            status:
+              type: string
+              enum: [generated, activated, expired, revoked]
+              example: "activated"
+        storefront_info:
+          type: object
+          properties:
+            name:
+              type: string
+              example: "TechStore Indonesia"
+            contact_email:
+              type: string
+              format: email
+              example: "support@techstore.id"
+            contact_phone:
+              type: string
+              example: "+6281234567890"
+
+    ActivateWarrantyRequest:
+      type: object
+      required:
+        - barcode
+        - customer_name
+        - customer_email
+        - customer_phone
+        - purchase_date
+      properties:
+        barcode:
+          type: string
+          example: "WB-2023-ABC123DEF456"
+        customer_name:
+          type: string
+          example: "John Doe"
+        customer_email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+        customer_phone:
+          type: string
+          example: "+6281234567890"
+        purchase_date:
+          type: string
+          format: date
+          example: "2023-12-01"
+        purchase_location:
+          type: string
+          example: "TechStore Jakarta"
+        purchase_receipt_number:
+          type: string
+          example: "RCP-2023-001234"
+
+    WarrantyActivationDTO:
+      type: object
+      properties:
+        warranty_id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        barcode:
+          type: string
+          example: "WB-2023-ABC123DEF456"
+        activation_date:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+        expiry_date:
+          type: string
+          format: date-time
+          example: "2024-12-01T10:00:00Z"
+        warranty_period_months:
+          type: integer
+          example: 12
+        product_info:
+          type: object
+          properties:
+            name:
+              type: string
+              example: "Samsung Galaxy S23"
+            brand:
+              type: string
+              example: "Samsung"
+            model:
+              type: string
+              example: "Galaxy S23"
+        customer_info:
+          type: object
+          properties:
+            name:
+              type: string
+              example: "John Doe"
+            email:
+              type: string
+              format: email
+              example: "john.doe@example.com"
+            phone:
+              type: string
+              example: "+6281234567890"
+
+    # Customer Warranty Schemas
+    CustomerWarrantyDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        barcode:
+          type: string
+          example: "WB-2023-ABC123DEF456"
+        product_name:
+          type: string
+          example: "Samsung Galaxy S23"
+        product_brand:
+          type: string
+          example: "Samsung"
+        product_model:
+          type: string
+          example: "Galaxy S23"
+        status:
+          type: string
+          enum: [active, expired, claimed]
+          example: "active"
+        activation_date:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+        expiry_date:
+          type: string
+          format: date-time
+          example: "2024-12-01T10:00:00Z"
+        days_remaining:
+          type: integer
+          example: 365
+        warranty_period_months:
+          type: integer
+          example: 12
+        purchase_date:
+          type: string
+          format: date
+          example: "2023-12-01"
+        purchase_location:
+          type: string
+          example: "TechStore Jakarta"
+        has_active_claim:
+          type: boolean
+          example: false
+        claim_count:
+          type: integer
+          example: 0
+
+    CustomerWarrantyDetailDTO:
+      allOf:
+        - $ref: '#/components/schemas/CustomerWarrantyDTO'
+        - type: object
+          properties:
+            product_details:
+              type: object
+              properties:
+                description:
+                  type: string
+                  example: "Latest Samsung flagship smartphone with advanced camera"
+                specifications:
+                  type: object
+                  example: {"storage": "256GB", "ram": "8GB", "color": "Phantom Black"}
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+                  example: ["https://images.smartseller.com/products/samsung-s23.jpg"]
+            purchase_details:
+              type: object
+              properties:
+                receipt_number:
+                  type: string
+                  example: "RCP-2023-001234"
+                purchase_price:
+                  type: number
+                  format: decimal
+                  example: 12000000
+                currency:
+                  type: string
+                  example: "IDR"
+                payment_method:
+                  type: string
+                  example: "Credit Card"
+            storefront_details:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "TechStore Indonesia"
+                contact_email:
+                  type: string
+                  format: email
+                  example: "support@techstore.id"
+                contact_phone:
+                  type: string
+                  example: "+6281234567890"
+                address:
+                  type: string
+                  example: "Jl. Sudirman No. 123, Jakarta"
+            warranty_terms:
+              type: object
+              properties:
+                coverage_description:
+                  type: string
+                  example: "Covers manufacturing defects and hardware malfunctions"
+                exclusions:
+                  type: array
+                  items:
+                    type: string
+                  example: ["Physical damage", "Water damage", "Software issues"]
+                claim_process:
+                  type: string
+                  example: "Submit claim through customer portal with proof of purchase"
+            claims_history:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerClaimSummaryDTO'
+
+    CustomerWarrantySummaryDTO:
+      type: object
+      properties:
+        total_warranties:
+          type: integer
+          example: 5
+        active_warranties:
+          type: integer
+          example: 3
+        expired_warranties:
+          type: integer
+          example: 1
+        claimed_warranties:
+          type: integer
+          example: 1
+        expiring_soon:
+          type: integer
+          example: 1
+          description: "Warranties expiring within 30 days"
+
+    # Customer Claim Schemas
+    SubmitClaimRequest:
+      type: object
+      required:
+        - issue_category
+        - issue_description
+        - contact_phone
+      properties:
+        issue_category:
+          type: string
+          example: "Hardware Malfunction"
+          description: "Category of the issue"
+        issue_description:
+          type: string
+          example: "Screen flickering and touch not responsive"
+          description: "Detailed description of the issue"
+        contact_phone:
+          type: string
+          example: "+6281234567890"
+          description: "Contact phone number for this claim"
+        preferred_contact_method:
+          type: string
+          enum: [email, phone, whatsapp]
+          default: email
+          example: "email"
+        shipping_address:
+          type: object
+          properties:
+            street:
+              type: string
+              example: "Jl. Sudirman No. 123"
+            city:
+              type: string
+              example: "Jakarta"
+            state:
+              type: string
+              example: "DKI Jakarta"
+            postal_code:
+              type: string
+              example: "12190"
+            country:
+              type: string
+              example: "Indonesia"
+        attachments:
+          type: array
+          items:
+            type: string
+            format: binary
+          description: "Supporting files (images, documents, videos)"
+          maxItems: 5
+
+    CustomerClaimDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        claim_number:
+          type: string
+          example: "WC-2023-001234"
+        warranty_id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        barcode:
+          type: string
+          example: "WB-2023-ABC123DEF456"
+        product_name:
+          type: string
+          example: "Samsung Galaxy S23"
+        status:
+          type: string
+          enum: [pending, validated, in_progress, completed, rejected, cancelled]
+          example: "pending"
+        priority:
+          type: string
+          enum: [low, medium, high, urgent]
+          example: "medium"
+        issue_category:
+          type: string
+          example: "Hardware Malfunction"
+        issue_description:
+          type: string
+          example: "Screen flickering and touch not responsive"
+        estimated_completion:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2023-12-15T10:00:00Z"
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+        last_status_update:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+        can_be_cancelled:
+          type: boolean
+          example: true
+        can_be_updated:
+          type: boolean
+          example: true
+
+    CustomerClaimDetailDTO:
+      allOf:
+        - $ref: '#/components/schemas/CustomerClaimDTO'
+        - type: object
+          properties:
+            contact_information:
+              type: object
+              properties:
+                phone:
+                  type: string
+                  example: "+6281234567890"
+                preferred_contact_method:
+                  type: string
+                  enum: [email, phone, whatsapp]
+                  example: "email"
+            shipping_address:
+              $ref: '#/components/schemas/AddressDTO'
+            attachments:
+              type: array
+              items:
+                $ref: '#/components/schemas/ClaimAttachmentDTO'
+            timeline:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerClaimTimelineDTO'
+            resolution_details:
+              type: object
+              nullable: true
+              properties:
+                resolution_type:
+                  type: string
+                  enum: [repair, replacement, refund]
+                  example: "repair"
+                resolution_description:
+                  type: string
+                  example: "Screen replaced and device tested"
+                completion_date:
+                  type: string
+                  format: date-time
+                  example: "2023-12-05T14:30:00Z"
+                warranty_extension:
+                  type: object
+                  nullable: true
+                  properties:
+                    extended_months:
+                      type: integer
+                      example: 3
+                    new_expiry_date:
+                      type: string
+                      format: date-time
+                      example: "2025-03-01T10:00:00Z"
+            repair_tracking:
+              $ref: '#/components/schemas/CustomerRepairTrackingDTO'
+
+    CustomerClaimSummaryDTO:
+      type: object
+      properties:
+        total_claims:
+          type: integer
+          example: 3
+        pending_claims:
+          type: integer
+          example: 1
+        in_progress_claims:
+          type: integer
+          example: 1
+        completed_claims:
+          type: integer
+          example: 1
+        rejected_claims:
+          type: integer
+          example: 0
+        average_resolution_days:
+          type: number
+          format: decimal
+          example: 7.5
+
+    UpdateCustomerClaimRequest:
+      type: object
+      properties:
+        contact_phone:
+          type: string
+          example: "+6281234567890"
+        preferred_contact_method:
+          type: string
+          enum: [email, phone, whatsapp]
+          example: "whatsapp"
+        shipping_address:
+          type: object
+          properties:
+            street:
+              type: string
+              example: "Jl. Sudirman No. 456"
+            city:
+              type: string
+              example: "Jakarta"
+            state:
+              type: string
+              example: "DKI Jakarta"
+            postal_code:
+              type: string
+              example: "12190"
+            country:
+              type: string
+              example: "Indonesia"
+        additional_notes:
+          type: string
+          maxLength: 500
+          example: "Please contact me via WhatsApp for faster communication"
+
+    CancelClaimRequest:
+      type: object
+      required:
+        - cancellation_reason
+      properties:
+        cancellation_reason:
+          type: string
+          example: "Issue resolved by local technician"
+        additional_notes:
+          type: string
+          maxLength: 500
+          example: "Found a local repair shop that fixed the issue quickly"
+
+    UploadAttachmentRequest:
+      type: object
+      required:
+        - file
+        - file_type
+      properties:
+        file:
+          type: string
+          format: binary
+          description: "File to upload (max 10MB)"
+        file_type:
+          type: string
+          enum: [receipt, photo, document, video]
+          example: "photo"
+        description:
+          type: string
+          maxLength: 200
+          example: "Photo showing the screen flickering issue"
+
+    # Supporting Schemas
+    CustomerClaimTimelineDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        event_type:
+          type: string
+          example: "STATUS_CHANGED"
+        title:
+          type: string
+          example: "Claim Status Updated"
+        description:
+          type: string
+          example: "Your claim has been validated and assigned to our technical team"
+        performed_by_type:
+          type: string
+          enum: [customer, admin, system]
+          example: "admin"
+        is_customer_visible:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+
+    CustomerRepairTrackingDTO:
+      type: object
+      properties:
+        repair_ticket_number:
+          type: string
+          example: "RT-2023-001234"
+        current_status:
+          type: string
+          enum: [pending, in_progress, completed, quality_check, approved]
+          example: "in_progress"
+        estimated_completion:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2023-12-05T14:30:00Z"
+        repair_description:
+          type: string
+          example: "Screen replacement in progress"
+        technician_notes:
+          type: string
+          example: "Ordered replacement screen, will install once received"
+        progress_percentage:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 60
+        milestones:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                example: "Diagnosis Complete"
+              description:
+                type: string
+                example: "Issue identified as faulty screen digitizer"
+              completed_at:
+                type: string
+                format: date-time
+                example: "2023-12-02T09:30:00Z"
+              is_completed:
+                type: boolean
+                example: true
+
+    WarrantyNotificationDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        type:
+          type: string
+          enum: [warranty_expiring, claim_status_update, claim_approved, claim_rejected]
+          example: "warranty_expiring"
+        title:
+          type: string
+          example: "Warranty Expiring Soon"
+        message:
+          type: string
+          example: "Your warranty for Samsung Galaxy S23 will expire in 30 days"
+        is_read:
+          type: boolean
+          example: false
+        priority:
+          type: string
+          enum: [low, medium, high]
+          example: "medium"
+        related_warranty_id:
+          type: string
+          format: uuid
+          nullable: true
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        related_claim_id:
+          type: string
+          format: uuid
+          nullable: true
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        action_required:
+          type: boolean
+          example: false
+        action_url:
+          type: string
+          format: uri
+          nullable: true
+          example: "/warranties/123e4567-e89b-12d3-a456-426614174000"
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2023-12-31T23:59:59Z"
+
+    ClaimAttachmentDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        filename:
+          type: string
+          example: "receipt.jpg"
+        original_filename:
+          type: string
+          example: "purchase_receipt_2023.jpg"
+        file_type:
+          type: string
+          enum: [receipt, photo, document, video]
+          example: "receipt"
+        file_size:
+          type: integer
+          example: 1024000
+        mime_type:
+          type: string
+          example: "image/jpeg"
+        description:
+          type: string
+          nullable: true
+          example: "Purchase receipt from TechStore"
+        url:
+          type: string
+          format: uri
+          example: "https://storage.smartseller.com/claims/attachments/receipt.jpg"
+        thumbnail_url:
+          type: string
+          format: uri
+          nullable: true
+          example: "https://storage.smartseller.com/claims/thumbnails/receipt_thumb.jpg"
+        uploaded_at:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+        can_be_deleted:
+          type: boolean
+          example: true
+
+    AddressDTO:
+      type: object
+      properties:
+        street:
+          type: string
+          example: "Jl. Sudirman No. 123"
+        city:
+          type: string
+          example: "Jakarta"
+        state:
+          type: string
+          example: "DKI Jakarta"
+        postal_code:
+          type: string
+          example: "12190"
+        country:
+          type: string
+          example: "Indonesia"
+
+    PaginationMeta:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          example: 1
+        page_size:
+          type: integer
+          example: 20
+        total_items:
+          type: integer
+          example: 150
+        total_pages:
+          type: integer
+          example: 8
+        has_next:
+          type: boolean
+          example: true
+        has_previous:
+          type: boolean
+          example: false
+
+  responses:
+    BadRequest:
+      description: Bad request - Invalid input parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              message:
+                type: string
+                example: "Invalid input parameters"
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    field:
+                      type: string
+                      example: "barcode"
+                    message:
+                      type: string
+                      example: "Barcode is required and must be valid"
+
+    Unauthorized:
+      description: Unauthorized - Invalid or missing authentication
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              message:
+                type: string
+                example: "Unauthorized access"
+
+    NotFound:
+      description: Not found - Resource does not exist
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              message:
+                type: string
+                example: "Resource not found"
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              message:
+                type: string
+                example: "Internal server error"
+
+  securitySchemes:
+    CustomerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Customer JWT token obtained from authentication endpoints

@@ -1,0 +1,1547 @@
+paths:
+  # Warranty Barcode Management
+  /api/v1/admin/warranties/barcodes:
+    get:
+      tags:
+        - Admin Warranty Management
+      summary: List warranty barcodes
+      description: Retrieve a paginated list of warranty barcodes with filtering options
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: Page number (1-based)
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: page_size
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: status
+          in: query
+          description: Filter by barcode status
+          schema:
+            type: string
+            enum: [generated, activated, expired, revoked]
+        - name: product_id
+          in: query
+          description: Filter by product ID
+          schema:
+            type: string
+            format: uuid
+        - name: storefront_id
+          in: query
+          description: Filter by storefront ID
+          schema:
+            type: string
+            format: uuid
+        - name: search
+          in: query
+          description: Search in barcode or product name
+          schema:
+            type: string
+        - name: created_from
+          in: query
+          description: Filter by creation date (from)
+          schema:
+            type: string
+            format: date-time
+        - name: created_to
+          in: query
+          description: Filter by creation date (to)
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Warranty barcodes retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Warranty barcodes retrieved successfully"
+                  data:
+                    type: object
+                    properties:
+                      barcodes:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/WarrantyBarcodeDTO'
+                      pagination:
+                        $ref: '#/components/schemas/PaginationMeta'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags:
+        - Admin Warranty Management
+      summary: Generate warranty barcodes
+      description: Generate new warranty barcodes for products
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateBarcodeRequest'
+      responses:
+        '201':
+          description: Warranty barcodes generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Warranty barcodes generated successfully"
+                  data:
+                    type: object
+                    properties:
+                      batch_id:
+                        type: string
+                        format: uuid
+                        example: "123e4567-e89b-12d3-a456-426614174000"
+                      generated_count:
+                        type: integer
+                        example: 100
+                      barcodes:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/WarrantyBarcodeDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/admin/warranties/barcodes/{id}:
+    get:
+      tags:
+        - Admin Warranty Management
+      summary: Get warranty barcode details
+      description: Retrieve detailed information about a specific warranty barcode
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Warranty barcode ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Warranty barcode details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Warranty barcode details retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/WarrantyBarcodeDetailDTO'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      tags:
+        - Admin Warranty Management
+      summary: Update warranty barcode
+      description: Update warranty barcode information and status
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Warranty barcode ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBarcodeRequest'
+      responses:
+        '200':
+          description: Warranty barcode updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Warranty barcode updated successfully"
+                  data:
+                    $ref: '#/components/schemas/WarrantyBarcodeDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+      tags:
+        - Admin Warranty Management
+      summary: Revoke warranty barcode
+      description: Revoke a warranty barcode (soft delete)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Warranty barcode ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Warranty barcode revoked successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Warranty barcode revoked successfully"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Warranty Claims Management
+  /api/v1/admin/warranties/claims:
+    get:
+      tags:
+        - Admin Warranty Claims
+      summary: List warranty claims
+      description: Retrieve a paginated list of warranty claims with filtering options
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: Page number (1-based)
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: page_size
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: status
+          in: query
+          description: Filter by claim status
+          schema:
+            type: string
+            enum: [pending, validated, in_progress, completed, rejected, cancelled]
+        - name: priority
+          in: query
+          description: Filter by claim priority
+          schema:
+            type: string
+            enum: [low, medium, high, urgent]
+        - name: assigned_to
+          in: query
+          description: Filter by assigned technician ID
+          schema:
+            type: string
+            format: uuid
+        - name: customer_email
+          in: query
+          description: Filter by customer email
+          schema:
+            type: string
+            format: email
+        - name: created_from
+          in: query
+          description: Filter by creation date (from)
+          schema:
+            type: string
+            format: date-time
+        - name: created_to
+          in: query
+          description: Filter by creation date (to)
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Warranty claims retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Warranty claims retrieved successfully"
+                  data:
+                    type: object
+                    properties:
+                      claims:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/WarrantyClaimDTO'
+                      pagination:
+                        $ref: '#/components/schemas/PaginationMeta'
+                      statistics:
+                        $ref: '#/components/schemas/ClaimStatistics'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/admin/warranties/claims/{id}:
+    get:
+      tags:
+        - Admin Warranty Claims
+      summary: Get warranty claim details
+      description: Retrieve detailed information about a specific warranty claim
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Warranty claim ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Warranty claim details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Warranty claim details retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/WarrantyClaimDetailDTO'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      tags:
+        - Admin Warranty Claims
+      summary: Update warranty claim
+      description: Update warranty claim status and information
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Warranty claim ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateClaimRequest'
+      responses:
+        '200':
+          description: Warranty claim updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Warranty claim updated successfully"
+                  data:
+                    $ref: '#/components/schemas/WarrantyClaimDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/admin/warranties/claims/{id}/assign:
+    post:
+      tags:
+        - Admin Warranty Claims
+      summary: Assign claim to technician
+      description: Assign a warranty claim to a technician
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Warranty claim ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignClaimRequest'
+      responses:
+        '200':
+          description: Claim assigned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Claim assigned successfully"
+                  data:
+                    $ref: '#/components/schemas/WarrantyClaimDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Batch Operations
+  /api/v1/admin/warranties/batches:
+    get:
+      tags:
+        - Admin Batch Operations
+      summary: List barcode generation batches
+      description: Retrieve a list of barcode generation batches with their status
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: Page number (1-based)
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: page_size
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: status
+          in: query
+          description: Filter by batch status
+          schema:
+            type: string
+            enum: [pending, processing, completed, failed]
+      responses:
+        '200':
+          description: Batches retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Batches retrieved successfully"
+                  data:
+                    type: object
+                    properties:
+                      batches:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/BarcodeGenerationBatchDTO'
+                      pagination:
+                        $ref: '#/components/schemas/PaginationMeta'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/admin/warranties/batches/{id}:
+    get:
+      tags:
+        - Admin Batch Operations
+      summary: Get batch details
+      description: Retrieve detailed information about a barcode generation batch
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Batch ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Batch details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Batch details retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/BarcodeGenerationBatchDetailDTO'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Analytics and Reports
+  /api/v1/admin/warranties/analytics/dashboard:
+    get:
+      tags:
+        - Admin Analytics
+      summary: Get warranty analytics dashboard
+      description: Retrieve comprehensive warranty system analytics and metrics
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: period
+          in: query
+          description: Analytics period
+          schema:
+            type: string
+            enum: [today, week, month, quarter, year]
+            default: month
+        - name: storefront_id
+          in: query
+          description: Filter by storefront ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Analytics data retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Analytics data retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/WarrantyAnalyticsDTO'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/admin/warranties/reports/export:
+    post:
+      tags:
+        - Admin Analytics
+      summary: Export warranty reports
+      description: Generate and export warranty reports in various formats
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportReportRequest'
+      responses:
+        '200':
+          description: Report export initiated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Report export initiated successfully"
+                  data:
+                    type: object
+                    properties:
+                      export_id:
+                        type: string
+                        format: uuid
+                        example: "123e4567-e89b-12d3-a456-426614174000"
+                      download_url:
+                        type: string
+                        format: uri
+                        example: "https://api.smartseller.com/downloads/reports/warranty-report-2023-12.xlsx"
+                      expires_at:
+                        type: string
+                        format: date-time
+                        example: "2023-12-31T23:59:59Z"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  schemas:
+    # Warranty Barcode Schemas
+    WarrantyBarcodeDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        barcode:
+          type: string
+          example: "WB-2023-ABC123DEF456"
+        product_id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        product_name:
+          type: string
+          example: "Samsung Galaxy S23"
+        storefront_id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        storefront_name:
+          type: string
+          example: "TechStore Indonesia"
+        status:
+          type: string
+          enum: [generated, activated, expired, revoked]
+          example: "generated"
+        warranty_period_months:
+          type: integer
+          example: 12
+        activation_date:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2023-12-01T10:00:00Z"
+        expiry_date:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2024-12-01T10:00:00Z"
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-11-01T10:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-11-01T10:00:00Z"
+
+    WarrantyBarcodeDetailDTO:
+      allOf:
+        - $ref: '#/components/schemas/WarrantyBarcodeDTO'
+        - type: object
+          properties:
+            batch_id:
+              type: string
+              format: uuid
+              example: "123e4567-e89b-12d3-a456-426614174000"
+            generation_algorithm:
+              type: string
+              example: "UUID_BASED"
+            security_hash:
+              type: string
+              example: "sha256:abc123def456..."
+            activation_details:
+              type: object
+              nullable: true
+              properties:
+                activated_by:
+                  type: string
+                  example: "customer@example.com"
+                activation_ip:
+                  type: string
+                  example: "192.168.1.1"
+                activation_location:
+                  type: string
+                  example: "Jakarta, Indonesia"
+            claims:
+              type: array
+              items:
+                $ref: '#/components/schemas/WarrantyClaimSummaryDTO'
+
+    GenerateBarcodeRequest:
+      type: object
+      required:
+        - product_id
+        - quantity
+        - warranty_period_months
+      properties:
+        product_id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        quantity:
+          type: integer
+          minimum: 1
+          maximum: 10000
+          example: 100
+        warranty_period_months:
+          type: integer
+          minimum: 1
+          maximum: 120
+          example: 12
+        generation_algorithm:
+          type: string
+          enum: [UUID_BASED, SEQUENTIAL, RANDOM]
+          default: UUID_BASED
+          example: "UUID_BASED"
+        prefix:
+          type: string
+          maxLength: 10
+          example: "WB-2023"
+        suffix:
+          type: string
+          maxLength: 10
+          example: ""
+        batch_name:
+          type: string
+          maxLength: 100
+          example: "Samsung Galaxy S23 - December 2023"
+
+    UpdateBarcodeRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [generated, activated, expired, revoked]
+          example: "activated"
+        warranty_period_months:
+          type: integer
+          minimum: 1
+          maximum: 120
+          example: 12
+        notes:
+          type: string
+          maxLength: 500
+          example: "Extended warranty period due to manufacturing defect"
+
+    # Warranty Claim Schemas
+    WarrantyClaimDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        claim_number:
+          type: string
+          example: "WC-2023-001234"
+        barcode_id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        barcode:
+          type: string
+          example: "WB-2023-ABC123DEF456"
+        product_name:
+          type: string
+          example: "Samsung Galaxy S23"
+        customer_name:
+          type: string
+          example: "John Doe"
+        customer_email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+        customer_phone:
+          type: string
+          example: "+6281234567890"
+        status:
+          type: string
+          enum: [pending, validated, in_progress, completed, rejected, cancelled]
+          example: "pending"
+        priority:
+          type: string
+          enum: [low, medium, high, urgent]
+          example: "medium"
+        issue_category:
+          type: string
+          example: "Hardware Malfunction"
+        issue_description:
+          type: string
+          example: "Screen flickering and touch not responsive"
+        assigned_to:
+          type: string
+          format: uuid
+          nullable: true
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        assigned_technician_name:
+          type: string
+          nullable: true
+          example: "Tech Support Team"
+        estimated_completion:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2023-12-15T10:00:00Z"
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+
+    WarrantyClaimDetailDTO:
+      allOf:
+        - $ref: '#/components/schemas/WarrantyClaimDTO'
+        - type: object
+          properties:
+            purchase_date:
+              type: string
+              format: date
+              example: "2023-11-01"
+            purchase_location:
+              type: string
+              example: "TechStore Jakarta"
+            warranty_start_date:
+              type: string
+              format: date
+              example: "2023-11-01"
+            warranty_end_date:
+              type: string
+              format: date
+              example: "2024-11-01"
+            shipping_address:
+              $ref: '#/components/schemas/AddressDTO'
+            attachments:
+              type: array
+              items:
+                $ref: '#/components/schemas/ClaimAttachmentDTO'
+            timeline:
+              type: array
+              items:
+                $ref: '#/components/schemas/ClaimTimelineDTO'
+            repair_details:
+              $ref: '#/components/schemas/RepairTicketDTO'
+            resolution_details:
+              type: object
+              nullable: true
+              properties:
+                resolution_type:
+                  type: string
+                  enum: [repair, replacement, refund]
+                  example: "repair"
+                resolution_description:
+                  type: string
+                  example: "Screen replaced and device tested"
+                cost_breakdown:
+                  type: object
+                  properties:
+                    parts_cost:
+                      type: number
+                      format: decimal
+                      example: 150000
+                    labor_cost:
+                      type: number
+                      format: decimal
+                      example: 50000
+                    total_cost:
+                      type: number
+                      format: decimal
+                      example: 200000
+
+    WarrantyClaimSummaryDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        claim_number:
+          type: string
+          example: "WC-2023-001234"
+        status:
+          type: string
+          enum: [pending, validated, in_progress, completed, rejected, cancelled]
+          example: "pending"
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+
+    UpdateClaimRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [pending, validated, in_progress, completed, rejected, cancelled]
+          example: "validated"
+        priority:
+          type: string
+          enum: [low, medium, high, urgent]
+          example: "high"
+        assigned_to:
+          type: string
+          format: uuid
+          nullable: true
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        estimated_completion:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2023-12-15T10:00:00Z"
+        admin_notes:
+          type: string
+          maxLength: 1000
+          example: "Escalated to senior technician due to complexity"
+        resolution_type:
+          type: string
+          enum: [repair, replacement, refund]
+          nullable: true
+          example: "repair"
+        resolution_description:
+          type: string
+          maxLength: 1000
+          nullable: true
+          example: "Device repaired and tested successfully"
+
+    AssignClaimRequest:
+      type: object
+      required:
+        - technician_id
+      properties:
+        technician_id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        priority:
+          type: string
+          enum: [low, medium, high, urgent]
+          example: "medium"
+        estimated_completion:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2023-12-15T10:00:00Z"
+        assignment_notes:
+          type: string
+          maxLength: 500
+          example: "Requires specialized screen repair expertise"
+
+    # Batch Operation Schemas
+    BarcodeGenerationBatchDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        batch_name:
+          type: string
+          example: "Samsung Galaxy S23 - December 2023"
+        product_id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        product_name:
+          type: string
+          example: "Samsung Galaxy S23"
+        requested_quantity:
+          type: integer
+          example: 1000
+        generated_quantity:
+          type: integer
+          example: 1000
+        status:
+          type: string
+          enum: [pending, processing, completed, failed]
+          example: "completed"
+        generation_algorithm:
+          type: string
+          example: "UUID_BASED"
+        collision_count:
+          type: integer
+          example: 0
+        processing_time_ms:
+          type: integer
+          example: 5432
+        created_by:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2023-12-01T10:05:32Z"
+
+    BarcodeGenerationBatchDetailDTO:
+      allOf:
+        - $ref: '#/components/schemas/BarcodeGenerationBatchDTO'
+        - type: object
+          properties:
+            performance_metrics:
+              type: object
+              properties:
+                generation_rate_per_second:
+                  type: number
+                  format: decimal
+                  example: 184.2
+                memory_usage_mb:
+                  type: number
+                  format: decimal
+                  example: 45.6
+                cpu_usage_percent:
+                  type: number
+                  format: decimal
+                  example: 23.4
+            error_details:
+              type: array
+              items:
+                type: object
+                properties:
+                  error_type:
+                    type: string
+                    example: "COLLISION_DETECTED"
+                  error_message:
+                    type: string
+                    example: "Barcode collision detected and resolved"
+                  occurred_at:
+                    type: string
+                    format: date-time
+                    example: "2023-12-01T10:02:15Z"
+
+    # Analytics Schemas
+    WarrantyAnalyticsDTO:
+      type: object
+      properties:
+        overview:
+          type: object
+          properties:
+            total_barcodes_generated:
+              type: integer
+              example: 15420
+            total_barcodes_activated:
+              type: integer
+              example: 12350
+            total_claims_submitted:
+              type: integer
+              example: 234
+            total_claims_resolved:
+              type: integer
+              example: 189
+            activation_rate:
+              type: number
+              format: decimal
+              example: 80.1
+            claim_rate:
+              type: number
+              format: decimal
+              example: 1.9
+            resolution_rate:
+              type: number
+              format: decimal
+              example: 80.8
+        trends:
+          type: object
+          properties:
+            barcode_generation_trend:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date
+                    example: "2023-12-01"
+                  count:
+                    type: integer
+                    example: 150
+            claim_submission_trend:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date
+                    example: "2023-12-01"
+                  count:
+                    type: integer
+                    example: 5
+        claim_statistics:
+          $ref: '#/components/schemas/ClaimStatistics'
+        top_issues:
+          type: array
+          items:
+            type: object
+            properties:
+              category:
+                type: string
+                example: "Hardware Malfunction"
+              count:
+                type: integer
+                example: 45
+              percentage:
+                type: number
+                format: decimal
+                example: 19.2
+
+    ClaimStatistics:
+      type: object
+      properties:
+        by_status:
+          type: object
+          properties:
+            pending:
+              type: integer
+              example: 15
+            validated:
+              type: integer
+              example: 8
+            in_progress:
+              type: integer
+              example: 12
+            completed:
+              type: integer
+              example: 189
+            rejected:
+              type: integer
+              example: 10
+        by_priority:
+          type: object
+          properties:
+            low:
+              type: integer
+              example: 120
+            medium:
+              type: integer
+              example: 89
+            high:
+              type: integer
+              example: 23
+            urgent:
+              type: integer
+              example: 2
+        average_resolution_time_hours:
+          type: number
+          format: decimal
+          example: 72.5
+        customer_satisfaction_score:
+          type: number
+          format: decimal
+          example: 4.2
+
+    ExportReportRequest:
+      type: object
+      required:
+        - report_type
+        - format
+      properties:
+        report_type:
+          type: string
+          enum: [barcodes, claims, analytics, batches]
+          example: "claims"
+        format:
+          type: string
+          enum: [xlsx, csv, pdf]
+          example: "xlsx"
+        date_from:
+          type: string
+          format: date
+          example: "2023-11-01"
+        date_to:
+          type: string
+          format: date
+          example: "2023-12-31"
+        filters:
+          type: object
+          properties:
+            status:
+              type: array
+              items:
+                type: string
+              example: ["completed", "in_progress"]
+            storefront_id:
+              type: string
+              format: uuid
+              example: "123e4567-e89b-12d3-a456-426614174000"
+            product_id:
+              type: string
+              format: uuid
+              example: "123e4567-e89b-12d3-a456-426614174000"
+
+    # Supporting Schemas
+    AddressDTO:
+      type: object
+      properties:
+        street:
+          type: string
+          example: "Jl. Sudirman No. 123"
+        city:
+          type: string
+          example: "Jakarta"
+        state:
+          type: string
+          example: "DKI Jakarta"
+        postal_code:
+          type: string
+          example: "12190"
+        country:
+          type: string
+          example: "Indonesia"
+
+    ClaimAttachmentDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        filename:
+          type: string
+          example: "receipt.jpg"
+        file_type:
+          type: string
+          enum: [receipt, photo, document, video]
+          example: "receipt"
+        file_size:
+          type: integer
+          example: 1024000
+        url:
+          type: string
+          format: uri
+          example: "https://storage.smartseller.com/claims/attachments/receipt.jpg"
+        uploaded_at:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+
+    ClaimTimelineDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        event_type:
+          type: string
+          example: "STATUS_CHANGED"
+        description:
+          type: string
+          example: "Claim status changed from pending to validated"
+        performed_by:
+          type: string
+          example: "admin@smartseller.com"
+        performed_by_type:
+          type: string
+          enum: [customer, admin, system]
+          example: "admin"
+        is_visible_to_customer:
+          type: boolean
+          example: true
+        metadata:
+          type: object
+          example: {"old_status": "pending", "new_status": "validated"}
+        created_at:
+          type: string
+          format: date-time
+          example: "2023-12-01T10:00:00Z"
+
+    RepairTicketDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        ticket_number:
+          type: string
+          example: "RT-2023-001234"
+        repair_type:
+          type: string
+          enum: [hardware_repair, software_fix, replacement, refund]
+          example: "hardware_repair"
+        diagnosis:
+          type: string
+          example: "Screen digitizer malfunction"
+        repair_description:
+          type: string
+          example: "Replaced screen digitizer and tested functionality"
+        parts_used:
+          type: array
+          items:
+            type: object
+            properties:
+              part_name:
+                type: string
+                example: "Screen Digitizer"
+              part_code:
+                type: string
+                example: "SGS23-DIGI-001"
+              quantity:
+                type: integer
+                example: 1
+              cost:
+                type: number
+                format: decimal
+                example: 150000
+        labor_hours:
+          type: number
+          format: decimal
+          example: 2.5
+        total_cost:
+          type: number
+          format: decimal
+          example: 200000
+        status:
+          type: string
+          enum: [pending, in_progress, completed, quality_check, approved]
+          example: "completed"
+        technician_id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2023-12-05T14:30:00Z"
+
+    PaginationMeta:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          example: 1
+        page_size:
+          type: integer
+          example: 20
+        total_items:
+          type: integer
+          example: 150
+        total_pages:
+          type: integer
+          example: 8
+        has_next:
+          type: boolean
+          example: true
+        has_previous:
+          type: boolean
+          example: false
+
+  responses:
+    BadRequest:
+      description: Bad request - Invalid input parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              message:
+                type: string
+                example: "Invalid input parameters"
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    field:
+                      type: string
+                      example: "quantity"
+                    message:
+                      type: string
+                      example: "Quantity must be between 1 and 10000"
+
+    Unauthorized:
+      description: Unauthorized - Invalid or missing authentication
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              message:
+                type: string
+                example: "Unauthorized access"
+
+    Forbidden:
+      description: Forbidden - Insufficient permissions
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              message:
+                type: string
+                example: "Insufficient permissions"
+
+    NotFound:
+      description: Not found - Resource does not exist
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              message:
+                type: string
+                example: "Resource not found"
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              message:
+                type: string
+                example: "Internal server error"
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

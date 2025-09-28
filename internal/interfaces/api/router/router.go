@@ -12,6 +12,7 @@ import (
 	"github.com/kirimku/smartseller-backend/internal/config"
 	infraRepo "github.com/kirimku/smartseller-backend/internal/infrastructure/repository"
 	"github.com/kirimku/smartseller-backend/internal/interfaces/api/handler"
+	customerMiddleware "github.com/kirimku/smartseller-backend/internal/interfaces/api/middleware"
 	"github.com/kirimku/smartseller-backend/internal/interfaces/api/routes"
 	"github.com/kirimku/smartseller-backend/pkg/email"
 	"github.com/kirimku/smartseller-backend/pkg/middleware"
@@ -319,8 +320,14 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 			}
 		}
 
+		// Initialize customer authentication middleware for public and customer routes
+		customerAuth := customerMiddleware.NewCustomerAuthMiddleware()
+
 		// Public API routes (no authentication required) - Phase 8 Implementation
 		public := v1.Group("/public")
+		public.Use(customerAuth.RateLimitMiddleware(50)) // 50 requests per minute for public endpoints
+		public.Use(customerAuth.SecurityHeadersMiddleware())
+		public.Use(customerAuth.CORSMiddleware())
 		{
 			// Public warranty validation endpoints
 			routes.PublicWarrantyRoutes(public)
@@ -328,20 +335,31 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 
 		// Customer API routes (authentication required for customers) - Phase 8 Implementation
 		customer := v1.Group("/customer")
-		// TODO: Add customer authentication middleware when implemented
-		// customer.Use(middleware.CustomerAuthMiddleware())
+		
+		// Apply rate limiting and security middleware to all customer endpoints
+		customer.Use(customerAuth.RateLimitMiddleware(100)) // 100 requests per minute for customer endpoints
+		customer.Use(customerAuth.SecurityHeadersMiddleware())
+		customer.Use(customerAuth.CORSMiddleware())
+		
+		// Public customer endpoints (no authentication required)
+		customerPublic := customer.Group("/public")
 		{
-			// Customer warranty registration and management endpoints
-			routes.CustomerWarrantyRoutes(customer)
-			
+			// Customer warranty registration and management endpoints (public access)
+			routes.CustomerWarrantyRoutes(customerPublic)
+		}
+		
+		// Protected customer endpoints (authentication required)
+		customerProtected := customer.Group("/protected")
+		customerProtected.Use(customerAuth.CustomerAuthRequired())
+		{
 			// Customer claim submission and management endpoints
-			routes.CustomerClaimRoutes(customer)
+			routes.CustomerClaimRoutes(customerProtected)
 			
 			// Customer claim tracking endpoints
-			routes.SetupCustomerTrackingRoutes(customer)
+			routes.SetupCustomerTrackingRoutes(customerProtected)
 			
 			// Mobile warranty endpoints for mobile app integration
-			routes.MobileWarrantyRoutes(customer)
+			routes.MobileWarrantyRoutes(customerProtected)
 		}
 	}
 }
