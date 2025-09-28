@@ -36,7 +36,7 @@ func (h *ClaimAttachmentHandler) ListClaimAttachments(c *gin.Context) {
 	
 	// Validate claim ID format
 	if _, err := uuid.Parse(claimID); err != nil {
-		h.logger.WithError(err).Error("Invalid claim ID format")
+		h.logger.Error().Err(err).Msg("Invalid claim ID format")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Invalid claim ID format",
 			"message": "Claim ID must be a valid UUID",
@@ -44,7 +44,7 @@ func (h *ClaimAttachmentHandler) ListClaimAttachments(c *gin.Context) {
 		return
 	}
 
-	h.logger.WithField("claim_id", claimID).Info("Listing claim attachments")
+	h.logger.Info().Str("claim_id", claimID).Msg("Listing claim attachments")
 
 	// Mock response - replace with actual service call
 	attachments := []*dto.ClaimAttachmentResponse{
@@ -89,10 +89,10 @@ func (h *ClaimAttachmentHandler) ListClaimAttachments(c *gin.Context) {
 		Total:       len(attachments),
 	}
 
-	h.logger.WithFields(logrus.Fields{
-		"claim_id":         claimID,
-		"attachment_count": len(attachments),
-	}).Info("Successfully listed claim attachments")
+	h.logger.Info().
+		Str("claim_id", claimID).
+		Int("attachment_count", len(attachments)).
+		Msg("Successfully listed claim attachments")
 
 	c.JSON(http.StatusOK, response)
 }
@@ -103,7 +103,7 @@ func (h *ClaimAttachmentHandler) UploadClaimAttachment(c *gin.Context) {
 	
 	// Validate claim ID format
 	if _, err := uuid.Parse(claimID); err != nil {
-		h.logger.WithError(err).Error("Invalid claim ID format")
+		h.logger.Error().Err(err).Msg("Invalid claim ID format")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Invalid claim ID format",
 			"message": "Claim ID must be a valid UUID",
@@ -114,7 +114,7 @@ func (h *ClaimAttachmentHandler) UploadClaimAttachment(c *gin.Context) {
 	// Parse multipart form
 	err := c.Request.ParseMultipartForm(10 << 20) // 10 MB max
 	if err != nil {
-		h.logger.WithError(err).Error("Failed to parse multipart form")
+		h.logger.Error().Err(err).Msg("Failed to parse multipart form")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Invalid form data",
 			"message": "Failed to parse multipart form",
@@ -125,7 +125,7 @@ func (h *ClaimAttachmentHandler) UploadClaimAttachment(c *gin.Context) {
 	// Get file from form
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
-		h.logger.WithError(err).Error("Failed to get file from form")
+		h.logger.Error().Err(err).Msg("Failed to get file from form")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "File required",
 			"message": "Please provide a file to upload",
@@ -150,7 +150,7 @@ func (h *ClaimAttachmentHandler) UploadClaimAttachment(c *gin.Context) {
 
 	// Validate file
 	if err := h.validateFile(header); err != nil {
-		h.logger.WithError(err).Error("File validation failed")
+		h.logger.Error().Err(err).Msg("File validation failed")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "File validation failed",
 			"message": err.Error(),
@@ -161,7 +161,7 @@ func (h *ClaimAttachmentHandler) UploadClaimAttachment(c *gin.Context) {
 	// Perform security scan
 	scanResult, err := h.performSecurityScan(file)
 	if err != nil {
-		h.logger.WithError(err).Error("Security scan failed")
+		h.logger.Error().Err(err).Msg("Security scan failed")
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Security scan failed",
 			"message": "Failed to scan file for security threats",
@@ -170,7 +170,7 @@ func (h *ClaimAttachmentHandler) UploadClaimAttachment(c *gin.Context) {
 	}
 
 	if scanResult.Status != "passed" {
-		h.logger.WithField("scan_result", scanResult.Result).Warn("File failed security scan")
+		h.logger.Warn().Str("scan_result", scanResult.Result).Msg("File failed security scan")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Security scan failed",
 			"message": "File contains potential security threats",
@@ -187,7 +187,7 @@ func (h *ClaimAttachmentHandler) UploadClaimAttachment(c *gin.Context) {
 	// Create directory if it doesn't exist
 	dir := filepath.Dir(filePath)
 	if err := os.MkdirAll(dir, 0755); err != nil {
-		h.logger.WithError(err).Error("Failed to create upload directory")
+		h.logger.Error().Err(err).Msg("Failed to create upload directory")
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Upload failed",
 			"message": "Failed to create upload directory",
@@ -196,13 +196,13 @@ func (h *ClaimAttachmentHandler) UploadClaimAttachment(c *gin.Context) {
 	}
 
 	// Save file (mock implementation)
-	h.logger.WithFields(logrus.Fields{
-		"claim_id":        claimID,
-		"file_name":       header.Filename,
-		"file_size":       header.Size,
-		"attachment_type": attachmentType,
-		"file_path":       filePath,
-	}).Info("File upload simulated successfully")
+	h.logger.Info().
+		Str("claim_id", claimID).
+		Str("file_name", header.Filename).
+		Int64("file_size", header.Size).
+		Str("attachment_type", attachmentType).
+		Str("file_path", filePath).
+		Msg("File upload simulated successfully")
 
 	// Mock response - replace with actual service call
 	attachment := &dto.ClaimAttachmentResponse{
@@ -223,11 +223,11 @@ func (h *ClaimAttachmentHandler) UploadClaimAttachment(c *gin.Context) {
 		UpdatedAt:          time.Now(),
 	}
 
-	h.logger.WithFields(logrus.Fields{
-		"claim_id":      claimID,
-		"attachment_id": attachment.ID,
-		"file_name":     attachment.FileName,
-	}).Info("Successfully uploaded claim attachment")
+	h.logger.Info().
+		Str("claim_id", claimID).
+		Str("attachment_id", attachment.ID).
+		Str("file_name", attachment.FileName).
+		Msg("Successfully uploaded claim attachment")
 
 	c.JSON(http.StatusCreated, attachment)
 }
@@ -239,7 +239,7 @@ func (h *ClaimAttachmentHandler) DownloadClaimAttachment(c *gin.Context) {
 	
 	// Validate IDs
 	if _, err := uuid.Parse(claimID); err != nil {
-		h.logger.WithError(err).Error("Invalid claim ID format")
+		h.logger.Error().Err(err).Msg("Invalid claim ID format")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Invalid claim ID format",
 			"message": "Claim ID must be a valid UUID",
@@ -248,7 +248,7 @@ func (h *ClaimAttachmentHandler) DownloadClaimAttachment(c *gin.Context) {
 	}
 
 	if _, err := uuid.Parse(attachmentID); err != nil {
-		h.logger.WithError(err).Error("Invalid attachment ID format")
+		h.logger.Error().Err(err).Msg("Invalid attachment ID format")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Invalid attachment ID format",
 			"message": "Attachment ID must be a valid UUID",
@@ -256,10 +256,10 @@ func (h *ClaimAttachmentHandler) DownloadClaimAttachment(c *gin.Context) {
 		return
 	}
 
-	h.logger.WithFields(logrus.Fields{
-		"claim_id":      claimID,
-		"attachment_id": attachmentID,
-	}).Info("Downloading claim attachment")
+	h.logger.Info().
+		Str("claim_id", claimID).
+		Str("attachment_id", attachmentID).
+		Msg("Downloading claim attachment")
 
 	// Mock file download - replace with actual service call
 	fileName := "receipt.pdf"
@@ -275,12 +275,12 @@ func (h *ClaimAttachmentHandler) DownloadClaimAttachment(c *gin.Context) {
 	c.Header("Content-Type", "application/octet-stream")
 	c.Header("Content-Length", "1048576")
 	
-	h.logger.WithFields(logrus.Fields{
-		"claim_id":      claimID,
-		"attachment_id": attachmentID,
-		"file_name":     fileName,
-		"file_path":     filePath,
-	}).Info("Successfully initiated attachment download")
+	h.logger.Info().
+		Str("claim_id", claimID).
+		Str("attachment_id", attachmentID).
+		Str("file_name", fileName).
+		Str("file_path", filePath).
+		Msg("Successfully initiated attachment download")
 
 	// Mock file content
 	c.String(http.StatusOK, "Mock file content for attachment download")
@@ -293,7 +293,7 @@ func (h *ClaimAttachmentHandler) DeleteClaimAttachment(c *gin.Context) {
 	
 	// Validate IDs
 	if _, err := uuid.Parse(claimID); err != nil {
-		h.logger.WithError(err).Error("Invalid claim ID format")
+		h.logger.Error().Err(err).Msg("Invalid claim ID format")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Invalid claim ID format",
 			"message": "Claim ID must be a valid UUID",
@@ -302,7 +302,7 @@ func (h *ClaimAttachmentHandler) DeleteClaimAttachment(c *gin.Context) {
 	}
 
 	if _, err := uuid.Parse(attachmentID); err != nil {
-		h.logger.WithError(err).Error("Invalid attachment ID format")
+		h.logger.Error().Err(err).Msg("Invalid attachment ID format")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Invalid attachment ID format",
 			"message": "Attachment ID must be a valid UUID",
@@ -310,10 +310,10 @@ func (h *ClaimAttachmentHandler) DeleteClaimAttachment(c *gin.Context) {
 		return
 	}
 
-	h.logger.WithFields(logrus.Fields{
-		"claim_id":      claimID,
-		"attachment_id": attachmentID,
-	}).Info("Deleting claim attachment")
+	h.logger.Info().
+		Str("claim_id", claimID).
+		Str("attachment_id", attachmentID).
+		Msg("Deleting claim attachment")
 
 	// Mock deletion - replace with actual service call
 	// In a real implementation, you would:
@@ -322,10 +322,10 @@ func (h *ClaimAttachmentHandler) DeleteClaimAttachment(c *gin.Context) {
 	// 3. Delete the file from storage
 	// 4. Remove the database record
 
-	h.logger.WithFields(logrus.Fields{
-		"claim_id":      claimID,
-		"attachment_id": attachmentID,
-	}).Info("Successfully deleted claim attachment")
+	h.logger.Info().
+		Str("claim_id", claimID).
+		Str("attachment_id", attachmentID).
+		Msg("Successfully deleted claim attachment")
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Attachment deleted successfully",
@@ -339,7 +339,7 @@ func (h *ClaimAttachmentHandler) ApproveClaimAttachment(c *gin.Context) {
 	
 	// Validate IDs
 	if _, err := uuid.Parse(claimID); err != nil {
-		h.logger.WithError(err).Error("Invalid claim ID format")
+		h.logger.Error().Err(err).Msg("Invalid claim ID format")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Invalid claim ID format",
 			"message": "Claim ID must be a valid UUID",
@@ -348,7 +348,7 @@ func (h *ClaimAttachmentHandler) ApproveClaimAttachment(c *gin.Context) {
 	}
 
 	if _, err := uuid.Parse(attachmentID); err != nil {
-		h.logger.WithError(err).Error("Invalid attachment ID format")
+		h.logger.Error().Err(err).Msg("Invalid attachment ID format")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Invalid attachment ID format",
 			"message": "Attachment ID must be a valid UUID",
@@ -359,7 +359,7 @@ func (h *ClaimAttachmentHandler) ApproveClaimAttachment(c *gin.Context) {
 	// Parse request body
 	var req dto.AttachmentApprovalRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		h.logger.WithError(err).Error("Failed to parse approval request")
+		h.logger.Error().Err(err).Msg("Failed to parse approval request")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Invalid request body",
 			"message": err.Error(),
@@ -367,11 +367,11 @@ func (h *ClaimAttachmentHandler) ApproveClaimAttachment(c *gin.Context) {
 		return
 	}
 
-	h.logger.WithFields(logrus.Fields{
-		"claim_id":      claimID,
-		"attachment_id": attachmentID,
-		"action":        req.Action,
-	}).Info("Processing attachment approval")
+	h.logger.Info().
+		Str("claim_id", claimID).
+		Str("attachment_id", attachmentID).
+		Str("action", req.Action).
+		Msg("Processing attachment approval")
 
 	// Mock approval process - replace with actual service call
 	// In a real implementation, you would:
@@ -380,11 +380,11 @@ func (h *ClaimAttachmentHandler) ApproveClaimAttachment(c *gin.Context) {
 	// 3. Update the attachment approval status
 	// 4. Create timeline entry
 
-	h.logger.WithFields(logrus.Fields{
-		"claim_id":      claimID,
-		"attachment_id": attachmentID,
-		"action":        req.Action,
-	}).Info("Successfully processed attachment approval")
+	h.logger.Info().
+		Str("claim_id", claimID).
+		Str("attachment_id", attachmentID).
+		Str("action", req.Action).
+		Msg("Successfully processed attachment approval")
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": fmt.Sprintf("Attachment %s successfully", req.Action+"d"),

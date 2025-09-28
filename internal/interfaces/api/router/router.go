@@ -3,17 +3,23 @@ package router
 import (
 	"log/slog"
 	"os"
+	"time"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
+	"github.com/kirimku/smartseller-backend/internal/application/service"
 	"github.com/kirimku/smartseller-backend/internal/application/usecase"
 	"github.com/kirimku/smartseller-backend/internal/config"
+	"github.com/kirimku/smartseller-backend/internal/infrastructure/repository"
 	infraRepo "github.com/kirimku/smartseller-backend/internal/infrastructure/repository"
+	"github.com/kirimku/smartseller-backend/internal/infrastructure/tenant"
 	"github.com/kirimku/smartseller-backend/internal/interfaces/api/handler"
+	"github.com/kirimku/smartseller-backend/internal/interfaces/http/handlers"
 	customerMiddleware "github.com/kirimku/smartseller-backend/internal/interfaces/api/middleware"
 	"github.com/kirimku/smartseller-backend/internal/interfaces/api/routes"
+
 	"github.com/kirimku/smartseller-backend/pkg/email"
 	"github.com/kirimku/smartseller-backend/pkg/middleware"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -83,14 +89,51 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 	productVariantOptionRepo := infraRepo.NewPostgreSQLProductVariantOptionRepository(r.db)
 	productImageRepo := infraRepo.NewPostgreSQLProductImageRepository(r.db)
 
-	// TODO: Phase 4 Implementation - Add new repository implementations
-	// The following repository implementations need to be created:
-	// - CustomerRepositoryImpl
-	// - CustomerAddressRepositoryImpl
-	// - StorefrontRepositoryImpl
-	// - SimpleTenantResolver
-	//
-	// Once these are implemented, uncomment the service and handler creation below
+	// Initialize tenant infrastructure first
+	tenantConfig := tenant.DefaultTenantConfig()
+	tenantCache := tenant.NewInMemoryTenantCache(1000, 5*time.Minute)
+	
+	// Initialize repositories with proper parameters
+	customerRepo := repository.NewPostgreSQLCustomerRepository(r.db, nil, &repository.NoOpMetricsCollector{})
+	customerAddressRepo := repository.NewPostgreSQLCustomerAddressRepository(r.db, nil, &repository.NoOpMetricsCollector{})
+	storefrontRepo := repository.NewPostgreSQLStorefrontRepository(r.db, nil, &repository.NoOpMetricsCollector{})
+	
+	// Initialize tenant resolver with all dependencies
+	tenantResolver := tenant.NewTenantResolver(r.db.DB, tenantConfig, tenantCache, storefrontRepo)
+	
+	// Update repositories with tenant resolver
+	customerRepo = repository.NewPostgreSQLCustomerRepository(r.db, tenantResolver, &repository.NoOpMetricsCollector{})
+	customerAddressRepo = repository.NewPostgreSQLCustomerAddressRepository(r.db, tenantResolver, &repository.NoOpMetricsCollector{})
+	storefrontRepo = repository.NewPostgreSQLStorefrontRepository(r.db, tenantResolver, &repository.NoOpMetricsCollector{})
+
+	// Initialize services
+	validationService := service.NewValidationServiceSimple(customerRepo, storefrontRepo, customerAddressRepo)
+	customerService := service.NewCustomerServiceSimple(customerRepo, tenantResolver)
+	
+	// Type assert email service to MailgunService for customer services
+	mailgunService, ok := r.emailService.(*email.MailgunService)
+	if !ok {
+		panic("Email service must be MailgunService for customer authentication features")
+	}
+	
+	customerPasswordResetService := service.NewCustomerPasswordResetService(customerRepo, mailgunService)
+	customerEmailVerificationService := service.NewCustomerEmailVerificationService(customerRepo, mailgunService)
+	
+	// Initialize customer auth handler
+	customerAuthHandler := handlers.NewCustomerAuthHandler(
+		customerService,
+		customerPasswordResetService,
+		customerEmailVerificationService,
+		validationService,
+	)
+
+	// Initialize address service and handler
+	addressService := service.NewCustomerAddressServiceSimple(customerAddressRepo, customerRepo, tenantResolver)
+	addressHandler := handler.NewAddressHandler(addressService, validationService)
+
+	// Initialize tenant and customer auth middleware
+	tenantMiddleware := customerMiddleware.NewTenantMiddleware(tenantResolver, "localhost")
+	customerAuthMiddleware := customerMiddleware.NewCustomerAuthMiddleware()
 
 	// Create use cases (existing)
 	userUseCase := usecase.NewUserUseCase(userRepo, r.emailService)
@@ -123,6 +166,9 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 	
 	// Batch generation handler
 	batchGenerationHandler := handler.NewBatchGenerationHandler()
+
+	// Setup storefront customer routes
+	routes.SetupStorefrontCustomerRoutes(router, tenantMiddleware, customerAuthMiddleware, customerAuthHandler, addressHandler)
 
 	// API v1 routes
 	v1 := router.Group("/api/v1")

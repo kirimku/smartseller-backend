@@ -24,7 +24,7 @@ func NewClaimTimelineHandler() *ClaimTimelineHandler {
 // GetClaimTimeline handles GET /api/v1/admin/warranty/claims/:claim_id/timeline
 func (h *ClaimTimelineHandler) GetClaimTimeline(c *gin.Context) {
 	claimID := c.Param("claim_id")
-	
+
 	// Validate claim ID
 	if claimID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -86,7 +86,7 @@ func (h *ClaimTimelineHandler) GetClaimTimeline(c *gin.Context) {
 // CreateTimelineEntry handles POST /api/v1/admin/warranty/claims/:claim_id/timeline
 func (h *ClaimTimelineHandler) CreateTimelineEntry(c *gin.Context) {
 	claimID := c.Param("claim_id")
-	
+
 	// Validate claim ID
 	if claimID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -133,7 +133,7 @@ func (h *ClaimTimelineHandler) CreateTimelineEntry(c *gin.Context) {
 func (h *ClaimTimelineHandler) GetTimelineEntry(c *gin.Context) {
 	claimID := c.Param("claim_id")
 	entryID := c.Param("entry_id")
-	
+
 	// Validate parameters
 	if claimID == "" || entryID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -162,7 +162,7 @@ func (h *ClaimTimelineHandler) GetTimelineEntry(c *gin.Context) {
 func (h *ClaimTimelineHandler) UpdateTimelineEntry(c *gin.Context) {
 	claimID := c.Param("claim_id")
 	entryID := c.Param("entry_id")
-	
+
 	// Validate parameters
 	if claimID == "" || entryID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -209,7 +209,7 @@ func (h *ClaimTimelineHandler) UpdateTimelineEntry(c *gin.Context) {
 func (h *ClaimTimelineHandler) DeleteTimelineEntry(c *gin.Context) {
 	claimID := c.Param("claim_id")
 	entryID := c.Param("entry_id")
-	
+
 	// Validate parameters
 	if claimID == "" || entryID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{

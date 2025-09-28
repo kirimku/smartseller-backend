@@ -53,7 +53,7 @@ info:
   termsOfService: https://smartseller.com/terms
 
 servers:
-  - url: http://localhost:8080/api/v1
+  - url: http://localhost:8090/api/v1
     description: Development server
   - url: https://staging-api.smartseller.com/api/v1
     description: Staging server
@@ -581,6 +581,295 @@ components:
           example: "2023-01-15T10:30:00Z"
           description: Last update timestamp
 
+    # Product Management Schemas
+    CreateProductRequest:
+      type: object
+      required:
+        - name
+        - description
+        - price
+        - category_id
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          description: Product name
+          example: "Premium Gaming Headset"
+        description:
+          type: string
+          description: Product description
+          example: "High-quality gaming headset with noise cancellation"
+        price:
+          type: number
+          format: decimal
+          minimum: 0
+          description: Product price
+          example: 299.99
+        category_id:
+          type: string
+          format: uuid
+          description: Product category ID
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        sku:
+          type: string
+          maxLength: 100
+          description: Stock Keeping Unit
+          example: "PGH-001"
+        stock_quantity:
+          type: integer
+          minimum: 0
+          description: Available stock quantity
+          example: 50
+        weight:
+          type: number
+          format: decimal
+          minimum: 0
+          description: Product weight in kg
+          example: 0.5
+        dimensions:
+          type: object
+          properties:
+            length:
+              type: number
+              format: decimal
+              minimum: 0
+            width:
+              type: number
+              format: decimal
+              minimum: 0
+            height:
+              type: number
+              format: decimal
+              minimum: 0
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Product image URLs
+          example: ["https://example.com/image1.jpg"]
+        is_active:
+          type: boolean
+          default: true
+          description: Whether the product is active
+          example: true
+
+    UpdateProductRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          description: Product name
+          example: "Premium Gaming Headset"
+        description:
+          type: string
+          description: Product description
+          example: "High-quality gaming headset with noise cancellation"
+        price:
+          type: number
+          format: decimal
+          minimum: 0
+          description: Product price
+          example: 299.99
+        category_id:
+          type: string
+          format: uuid
+          description: Product category ID
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        sku:
+          type: string
+          maxLength: 100
+          description: Stock Keeping Unit
+          example: "PGH-001"
+        stock_quantity:
+          type: integer
+          minimum: 0
+          description: Available stock quantity
+          example: 50
+        weight:
+          type: number
+          format: decimal
+          minimum: 0
+          description: Product weight in kg
+          example: 0.5
+        dimensions:
+          type: object
+          properties:
+            length:
+              type: number
+              format: decimal
+              minimum: 0
+            width:
+              type: number
+              format: decimal
+              minimum: 0
+            height:
+              type: number
+              format: decimal
+              minimum: 0
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Product image URLs
+          example: ["https://example.com/image1.jpg"]
+        is_active:
+          type: boolean
+          description: Whether the product is active
+          example: true
+
+    ProductResponse:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - price
+        - category_id
+        - sku
+        - stock_quantity
+        - is_active
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Product unique identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        name:
+          type: string
+          description: Product name
+          example: "Premium Gaming Headset"
+        description:
+          type: string
+          description: Product description
+          example: "High-quality gaming headset with noise cancellation"
+        price:
+          type: number
+          format: decimal
+          description: Product price
+          example: 299.99
+        category_id:
+          type: string
+          format: uuid
+          description: Product category ID
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        sku:
+          type: string
+          description: Stock Keeping Unit
+          example: "PGH-001"
+        stock_quantity:
+          type: integer
+          description: Available stock quantity
+          example: 50
+        weight:
+          type: number
+          format: decimal
+          nullable: true
+          description: Product weight in kg
+          example: 0.5
+        dimensions:
+          type: object
+          nullable: true
+          properties:
+            length:
+              type: number
+              format: decimal
+            width:
+              type: number
+              format: decimal
+            height:
+              type: number
+              format: decimal
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Product image URLs
+          example: ["https://example.com/image1.jpg"]
+        is_active:
+          type: boolean
+          description: Whether the product is active
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          description: Product creation timestamp
+          example: "2023-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Product last update timestamp
+          example: "2023-01-15T10:30:00Z"
+
+    ProductListItem:
+      type: object
+      required:
+        - id
+        - name
+        - price
+        - sku
+        - stock_quantity
+        - is_active
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Product unique identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        name:
+          type: string
+          description: Product name
+          example: "Premium Gaming Headset"
+        price:
+          type: number
+          format: decimal
+          description: Product price
+          example: 299.99
+        sku:
+          type: string
+          description: Stock Keeping Unit
+          example: "PGH-001"
+        stock_quantity:
+          type: integer
+          description: Available stock quantity
+          example: 50
+        is_active:
+          type: boolean
+          description: Whether the product is active
+          example: true
+        thumbnail:
+          type: string
+          format: uri
+          nullable: true
+          description: Product thumbnail image URL
+          example: "https://example.com/thumbnail.jpg"
+
+    ProductListResponse:
+      type: object
+      required:
+        - success
+        - message
+        - data
+        - meta
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Products retrieved successfully"
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductListItem'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+
   parameters:
     # Common Parameters
     CustomerIdParam:
@@ -816,6 +1105,1366 @@ paths:
                     $ref: '#/components/schemas/CustomerResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  parameters:
+    StorefrontIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Storefront ID
+      example: "550e8400-e29b-41d4-a716-446655440000"
+    
+    AddressIdParam:
+      name: address_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Address ID
+      example: "550e8400-e29b-41d4-a716-446655440001"
+    
+    CustomerIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Customer ID
+      example: "550e8400-e29b-41d4-a716-446655440000"
+    
+    PageParam:
+      name: page
+      in: query
+      description: Page number (1-based)
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      example: 1
+    
+    PageSizeParam:
+      name: page_size
+      in: query
+      description: Number of items per page
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+      example: 20
+    
+    SearchQueryParam:
+      name: search
+      in: query
+      description: Search query string
+      schema:
+        type: string
+      example: "search term"
+
+  responses:
+    BadRequest:
+      description: Bad request - Invalid input data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Invalid input data"
+            error_code: "VALIDATION_ERROR"
+            details:
+              - field: "email"
+                message: "Invalid email format"
+    
+    Unauthorized:
+      description: Unauthorized - Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Authentication required"
+            error_code: "UNAUTHORIZED"
+    
+    Forbidden:
+      description: Forbidden - Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Insufficient permissions"
+            error_code: "FORBIDDEN"
+    
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Resource not found"
+            error_code: "NOT_FOUND"
+    
+    Conflict:
+      description: Conflict - Resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Resource already exists"
+            error_code: "CONFLICT"
+    
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            message: "Internal server error"
+            error_code: "INTERNAL_ERROR"
+
+    # Additional schemas from the second section
+    ErrorResponse:
+      type: object
+      required:
+        - success
+        - message
+        - error_code
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          description: Human-readable error message
+          example: "An error occurred"
+        error_code:
+          type: string
+          description: Machine-readable error code
+          example: "VALIDATION_ERROR"
+        details:
+          type: array
+          description: Additional error details
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                description: Field name that caused the error
+              message:
+                type: string
+                description: Field-specific error message
+
+    SuccessResponse:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: "Operation completed successfully"
+        data:
+          description: Response data (varies by endpoint)
+
+    PaginationMeta:
+      type: object
+      required:
+        - current_page
+        - per_page
+        - total
+        - last_page
+      properties:
+        current_page:
+          type: integer
+          description: Current page number
+          example: 1
+        per_page:
+          type: integer
+          description: Items per page
+          example: 20
+        total:
+          type: integer
+          description: Total number of items
+          example: 150
+        last_page:
+          type: integer
+          description: Last page number
+          example: 8
+        from:
+          type: integer
+          description: First item number on current page
+          example: 1
+        to:
+          type: integer
+          description: Last item number on current page
+          example: 20
+
+    # Customer Schemas
+    CustomerRegistrationRequest:
+      type: object
+      required:
+        - email
+        - password
+        - first_name
+        - last_name
+        - phone
+      properties:
+        email:
+          type: string
+          format: email
+          description: Customer email address
+          example: "john.doe@example.com"
+        password:
+          type: string
+          format: password
+          minLength: 8
+          description: Customer password (minimum 8 characters)
+          example: "SecurePass123!"
+        first_name:
+          type: string
+          maxLength: 50
+          description: Customer first name
+          example: "John"
+        last_name:
+          type: string
+          maxLength: 50
+          description: Customer last name
+          example: "Doe"
+        phone:
+          type: string
+          pattern: '^\+?[1-9]\d{1,14}$'
+          description: Customer phone number (E.164 format)
+          example: "+62812345678"
+        date_of_birth:
+          type: string
+          format: date
+          description: Customer date of birth
+          example: "1990-01-15"
+
+    CustomerResponse:
+      type: object
+      required:
+        - id
+        - email
+        - first_name
+        - last_name
+        - phone
+        - email_verified_at
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Customer unique identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        email:
+          type: string
+          format: email
+          description: Customer email address
+          example: "john.doe@example.com"
+        first_name:
+          type: string
+          description: Customer first name
+          example: "John"
+        last_name:
+          type: string
+          description: Customer last name
+          example: "Doe"
+        phone:
+          type: string
+          description: Customer phone number
+          example: "+62812345678"
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+          description: Customer date of birth
+          example: "1990-01-15"
+        email_verified_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Email verification timestamp
+          example: "2024-01-15T10:30:00Z"
+        created_at:
+          type: string
+          format: date-time
+          description: Customer creation timestamp
+          example: "2024-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Customer last update timestamp
+          example: "2024-01-15T10:30:00Z"
+
+    CustomerUpdateRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 50
+          description: Customer first name
+          example: "John"
+        last_name:
+          type: string
+          maxLength: 50
+          description: Customer last name
+          example: "Doe"
+        phone:
+          type: string
+          pattern: '^\+?[1-9]\d{1,14}$'
+          description: Customer phone number (E.164 format)
+          example: "+62812345678"
+        date_of_birth:
+          type: string
+          format: date
+          description: Customer date of birth
+          example: "1990-01-15"
+
+    # Address Schemas
+    CreateAddressRequest:
+      type: object
+      required:
+        - customer_id
+        - label
+        - recipient_name
+        - phone
+        - address_line_1
+        - city
+        - state
+        - postal_code
+        - country
+      properties:
+        customer_id:
+          type: string
+          format: uuid
+          description: Customer ID
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        label:
+          type: string
+          maxLength: 50
+          description: Address label (e.g., Home, Office)
+          example: "Home"
+        recipient_name:
+          type: string
+          maxLength: 100
+          description: Recipient name
+          example: "John Doe"
+        phone:
+          type: string
+          pattern: '^\+?[1-9]\d{1,14}$'
+          description: Recipient phone number
+          example: "+62812345678"
+        address_line_1:
+          type: string
+          maxLength: 255
+          description: Primary address line
+          example: "Jl. Sudirman No. 123"
+        address_line_2:
+          type: string
+          maxLength: 255
+          nullable: true
+          description: Secondary address line (optional)
+          example: "Apartment 4B"
+        city:
+          type: string
+          maxLength: 100
+          description: City name
+          example: "Jakarta"
+        state:
+          type: string
+          maxLength: 100
+          description: State or province
+          example: "DKI Jakarta"
+        postal_code:
+          type: string
+          maxLength: 20
+          description: Postal or ZIP code
+          example: "12190"
+        country:
+          type: string
+          maxLength: 100
+          description: Country name
+          example: "Indonesia"
+        is_default:
+          type: boolean
+          default: false
+          description: Whether this is the default address
+          example: false
+
+    CustomerAddressResponse:
+      type: object
+      required:
+        - id
+        - customer_id
+        - label
+        - recipient_name
+        - phone
+        - address_line_1
+        - city
+        - state
+        - postal_code
+        - country
+        - is_default
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Address unique identifier
+          example: "550e8400-e29b-41d4-a716-446655440001"
+        customer_id:
+          type: string
+          format: uuid
+          description: Customer ID
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        label:
+          type: string
+          description: Address label
+          example: "Home"
+        recipient_name:
+          type: string
+          description: Recipient name
+          example: "John Doe"
+        phone:
+          type: string
+          description: Recipient phone number
+          example: "+62812345678"
+        address_line_1:
+          type: string
+          description: Primary address line
+          example: "Jl. Sudirman No. 123"
+        address_line_2:
+          type: string
+          nullable: true
+          description: Secondary address line
+          example: "Apartment 4B"
+        city:
+          type: string
+          description: City name
+          example: "Jakarta"
+        state:
+          type: string
+          description: State or province
+          example: "DKI Jakarta"
+        postal_code:
+          type: string
+          description: Postal or ZIP code
+          example: "12190"
+        country:
+          type: string
+          description: Country name
+          example: "Indonesia"
+        is_default:
+          type: boolean
+          description: Whether this is the default address
+          example: false
+        created_at:
+          type: string
+          format: date-time
+          description: Address creation timestamp
+          example: "2024-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Address last update timestamp
+          example: "2024-01-15T10:30:00Z"
+
+    # Storefront Schemas
+    CreateStorefrontRequest:
+      type: object
+      required:
+        - name
+        - slug
+        - description
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          description: Storefront name
+          example: "My Awesome Store"
+        slug:
+          type: string
+          pattern: '^[a-z0-9-]+$'
+          maxLength: 50
+          description: URL-friendly storefront identifier
+          example: "my-awesome-store"
+        description:
+          type: string
+          maxLength: 500
+          description: Storefront description
+          example: "A store selling awesome products"
+        logo_url:
+          type: string
+          format: uri
+          nullable: true
+          description: Storefront logo URL
+          example: "https://example.com/logo.png"
+        banner_url:
+          type: string
+          format: uri
+          nullable: true
+          description: Storefront banner URL
+          example: "https://example.com/banner.png"
+        theme_color:
+          type: string
+          pattern: '^#[0-9A-Fa-f]{6}$'
+          nullable: true
+          description: Primary theme color (hex)
+          example: "#3B82F6"
+        is_active:
+          type: boolean
+          default: true
+          description: Whether the storefront is active
+          example: true
+
+    StorefrontResponse:
+      type: object
+      required:
+        - id
+        - name
+        - slug
+        - description
+        - is_active
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Storefront unique identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        name:
+          type: string
+          description: Storefront name
+          example: "My Awesome Store"
+        slug:
+          type: string
+          description: URL-friendly storefront identifier
+          example: "my-awesome-store"
+        description:
+          type: string
+          description: Storefront description
+          example: "A store selling awesome products"
+        logo_url:
+          type: string
+          format: uri
+          nullable: true
+          description: Storefront logo URL
+          example: "https://example.com/logo.png"
+        banner_url:
+          type: string
+          format: uri
+          nullable: true
+          description: Storefront banner URL
+          example: "https://example.com/banner.png"
+        theme_color:
+          type: string
+          nullable: true
+          description: Primary theme color (hex)
+          example: "#3B82F6"
+        is_active:
+          type: boolean
+          description: Whether the storefront is active
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          description: Storefront creation timestamp
+          example: "2024-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Storefront last update timestamp
+          example: "2024-01-15T10:30:00Z"
+
+    # Product Management Schemas
+    CreateProductRequest:
+      type: object
+      required:
+        - name
+        - sku
+        - category_id
+        - base_price
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          description: Product name
+          example: "Wireless Bluetooth Headphones"
+        description:
+          type: string
+          description: Product description
+          example: "High-quality wireless headphones with noise cancellation"
+        sku:
+          type: string
+          maxLength: 100
+          description: Stock Keeping Unit (unique identifier)
+          example: "WBH-001"
+        category_id:
+          type: string
+          format: uuid
+          description: Product category ID
+          example: "550e8400-e29b-41d4-a716-446655440001"
+        brand:
+          type: string
+          maxLength: 100
+          description: Product brand
+          example: "AudioTech"
+        tags:
+          type: array
+          items:
+            type: string
+          description: Product tags for categorization
+          example: ["electronics", "audio", "wireless"]
+        base_price:
+          type: number
+          format: decimal
+          minimum: 0
+          description: Base price of the product
+          example: 199.99
+        sale_price:
+          type: number
+          format: decimal
+          minimum: 0
+          nullable: true
+          description: Sale price (if on sale)
+          example: 149.99
+        cost_price:
+          type: number
+          format: decimal
+          minimum: 0
+          nullable: true
+          description: Cost price for profit calculation
+          example: 100.00
+        stock_quantity:
+          type: integer
+          minimum: 0
+          default: 0
+          description: Current stock quantity
+          example: 50
+        low_stock_threshold:
+          type: integer
+          minimum: 0
+          default: 10
+          description: Low stock alert threshold
+          example: 10
+        track_inventory:
+          type: boolean
+          default: true
+          description: Whether to track inventory for this product
+          example: true
+        weight:
+          type: number
+          format: decimal
+          minimum: 0
+          nullable: true
+          description: Product weight in kg
+          example: 0.25
+        dimensions_length:
+          type: number
+          format: decimal
+          minimum: 0
+          nullable: true
+          description: Product length in cm
+          example: 20.0
+        dimensions_width:
+          type: number
+          format: decimal
+          minimum: 0
+          nullable: true
+          description: Product width in cm
+          example: 15.0
+        dimensions_height:
+          type: number
+          format: decimal
+          minimum: 0
+          nullable: true
+          description: Product height in cm
+          example: 8.0
+        status:
+          type: string
+          enum: [draft, active, inactive, archived]
+          default: draft
+          description: Product status
+          example: active
+        meta_title:
+          type: string
+          maxLength: 255
+          nullable: true
+          description: SEO meta title
+          example: "Best Wireless Bluetooth Headphones - AudioTech"
+        meta_description:
+          type: string
+          maxLength: 500
+          nullable: true
+          description: SEO meta description
+          example: "Experience premium sound quality with our wireless Bluetooth headphones featuring noise cancellation technology."
+
+    UpdateProductRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+          description: Product name
+          example: "Premium Wireless Bluetooth Headphones"
+        description:
+          type: string
+          description: Product description
+          example: "Updated description with new features"
+        sku:
+          type: string
+          maxLength: 100
+          description: Stock Keeping Unit (unique identifier)
+          example: "WBH-001-V2"
+        category_id:
+          type: string
+          format: uuid
+          description: Product category ID
+          example: "550e8400-e29b-41d4-a716-446655440001"
+        brand:
+          type: string
+          maxLength: 100
+          description: Product brand
+          example: "AudioTech Pro"
+        tags:
+          type: array
+          items:
+            type: string
+          description: Product tags for categorization
+          example: ["electronics", "audio", "wireless", "premium"]
+        base_price:
+          type: number
+          format: decimal
+          minimum: 0
+          description: Base price of the product
+          example: 229.99
+        sale_price:
+          type: number
+          format: decimal
+          minimum: 0
+          nullable: true
+          description: Sale price (if on sale)
+          example: 179.99
+        cost_price:
+          type: number
+          format: decimal
+          minimum: 0
+          nullable: true
+          description: Cost price for profit calculation
+          example: 120.00
+        stock_quantity:
+          type: integer
+          minimum: 0
+          description: Current stock quantity
+          example: 75
+        low_stock_threshold:
+          type: integer
+          minimum: 0
+          description: Low stock alert threshold
+          example: 15
+        track_inventory:
+          type: boolean
+          description: Whether to track inventory for this product
+          example: true
+        weight:
+          type: number
+          format: decimal
+          minimum: 0
+          nullable: true
+          description: Product weight in kg
+          example: 0.3
+        dimensions_length:
+          type: number
+          format: decimal
+          minimum: 0
+          nullable: true
+          description: Product length in cm
+          example: 22.0
+        dimensions_width:
+          type: number
+          format: decimal
+          minimum: 0
+          nullable: true
+          description: Product width in cm
+          example: 16.0
+        dimensions_height:
+          type: number
+          format: decimal
+          minimum: 0
+          nullable: true
+          description: Product height in cm
+          example: 9.0
+        status:
+          type: string
+          enum: [draft, active, inactive, archived]
+          description: Product status
+          example: active
+        meta_title:
+          type: string
+          maxLength: 255
+          nullable: true
+          description: SEO meta title
+          example: "Premium Wireless Bluetooth Headphones - AudioTech Pro"
+        meta_description:
+          type: string
+          maxLength: 500
+          nullable: true
+          description: SEO meta description
+          example: "Experience premium sound quality with our upgraded wireless Bluetooth headphones featuring advanced noise cancellation."
+
+    ProductResponse:
+      type: object
+      required:
+        - id
+        - name
+        - sku
+        - category_id
+        - base_price
+        - status
+        - stock_quantity
+        - track_inventory
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Product unique identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        name:
+          type: string
+          description: Product name
+          example: "Wireless Bluetooth Headphones"
+        description:
+          type: string
+          nullable: true
+          description: Product description
+          example: "High-quality wireless headphones with noise cancellation"
+        sku:
+          type: string
+          description: Stock Keeping Unit
+          example: "WBH-001"
+        category_id:
+          type: string
+          format: uuid
+          description: Product category ID
+          example: "550e8400-e29b-41d4-a716-446655440001"
+        brand:
+          type: string
+          nullable: true
+          description: Product brand
+          example: "AudioTech"
+        tags:
+          type: array
+          items:
+            type: string
+          description: Product tags
+          example: ["electronics", "audio", "wireless"]
+        base_price:
+          type: number
+          format: decimal
+          description: Base price of the product
+          example: 199.99
+        sale_price:
+          type: number
+          format: decimal
+          nullable: true
+          description: Sale price (if on sale)
+          example: 149.99
+        cost_price:
+          type: number
+          format: decimal
+          nullable: true
+          description: Cost price for profit calculation
+          example: 100.00
+        stock_quantity:
+          type: integer
+          description: Current stock quantity
+          example: 50
+        low_stock_threshold:
+          type: integer
+          description: Low stock alert threshold
+          example: 10
+        track_inventory:
+          type: boolean
+          description: Whether inventory is tracked
+          example: true
+        weight:
+          type: number
+          format: decimal
+          nullable: true
+          description: Product weight in kg
+          example: 0.25
+        dimensions_length:
+          type: number
+          format: decimal
+          nullable: true
+          description: Product length in cm
+          example: 20.0
+        dimensions_width:
+          type: number
+          format: decimal
+          nullable: true
+          description: Product width in cm
+          example: 15.0
+        dimensions_height:
+          type: number
+          format: decimal
+          nullable: true
+          description: Product height in cm
+          example: 8.0
+        status:
+          type: string
+          enum: [draft, active, inactive, archived]
+          description: Product status
+          example: active
+        meta_title:
+          type: string
+          nullable: true
+          description: SEO meta title
+          example: "Best Wireless Bluetooth Headphones - AudioTech"
+        meta_description:
+          type: string
+          nullable: true
+          description: SEO meta description
+          example: "Experience premium sound quality with our wireless Bluetooth headphones."
+        is_low_stock:
+          type: boolean
+          description: Whether the product is low in stock
+          example: false
+        profit_margin:
+          type: number
+          format: decimal
+          nullable: true
+          description: Calculated profit margin percentage
+          example: 49.995
+        created_at:
+          type: string
+          format: date-time
+          description: Product creation timestamp
+          example: "2024-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Product last update timestamp
+          example: "2024-01-15T10:30:00Z"
+
+    ProductListItem:
+      type: object
+      required:
+        - id
+        - name
+        - sku
+        - base_price
+        - status
+        - stock_quantity
+        - is_low_stock
+        - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Product unique identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        name:
+          type: string
+          description: Product name
+          example: "Wireless Bluetooth Headphones"
+        sku:
+          type: string
+          description: Stock Keeping Unit
+          example: "WBH-001"
+        brand:
+          type: string
+          nullable: true
+          description: Product brand
+          example: "AudioTech"
+        base_price:
+          type: number
+          format: decimal
+          description: Base price of the product
+          example: 199.99
+        sale_price:
+          type: number
+          format: decimal
+          nullable: true
+          description: Sale price (if on sale)
+          example: 149.99
+        status:
+          type: string
+          enum: [draft, active, inactive, archived]
+          description: Product status
+          example: active
+        stock_quantity:
+          type: integer
+          description: Current stock quantity
+          example: 50
+        is_low_stock:
+          type: boolean
+          description: Whether the product is low in stock
+          example: false
+        created_at:
+          type: string
+          format: date-time
+          description: Product creation timestamp
+          example: "2024-01-15T10:30:00Z"
+
+    ProductListResponse:
+      type: object
+      required:
+        - items
+        - pagination
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductListItem'
+          description: List of products
+        pagination:
+          $ref: '#/components/schemas/PaginationMeta'
+
+  # Product Management Endpoints
+  /products:
+    post:
+      summary: Create a new product
+      description: Creates a new product with the provided details. Requires authentication.
+      tags:
+        - Products
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+            examples:
+              basic_product:
+                summary: Basic product example
+                value:
+                  name: "Wireless Bluetooth Headphones"
+                  description: "High-quality wireless headphones with noise cancellation"
+                  sku: "WBH-001"
+                  category_id: "550e8400-e29b-41d4-a716-446655440001"
+                  brand: "AudioTech"
+                  tags: ["electronics", "audio", "wireless"]
+                  base_price: 199.99
+                  sale_price: 149.99
+                  cost_price: 100.00
+                  stock_quantity: 50
+                  low_stock_threshold: 10
+                  track_inventory: true
+                  weight: 0.25
+                  dimensions_length: 20.0
+                  dimensions_width: 15.0
+                  dimensions_height: 8.0
+      responses:
+        '201':
+          description: Product created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Product created successfully"
+                  data:
+                    $ref: '#/components/schemas/ProductResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    
+    get:
+      summary: List products with filtering and pagination
+      description: Retrieves a paginated list of products with optional filtering, sorting, and search capabilities
+      tags:
+        - Products
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: Page number (1-based)
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          example: 1
+        - name: page_size
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          example: 20
+        - name: sort_by
+          in: query
+          description: Field to sort by
+          schema:
+            type: string
+            enum: [name, created_at, updated_at, base_price]
+            default: created_at
+          example: created_at
+        - name: sort_desc
+          in: query
+          description: Sort in descending order
+          schema:
+            type: boolean
+            default: true
+          example: true
+        - name: search
+          in: query
+          description: Search term for product name, description, or SKU
+          schema:
+            type: string
+          example: "wireless headphones"
+        - name: category_id
+          in: query
+          description: Filter by category ID
+          schema:
+            type: string
+            format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440001"
+        - name: brand
+          in: query
+          description: Filter by brand
+          schema:
+            type: string
+          example: "AudioTech"
+        - name: status
+          in: query
+          description: Filter by product status
+          schema:
+            type: string
+            enum: [draft, active, inactive, archived]
+          example: active
+        - name: min_price
+          in: query
+          description: Minimum price filter
+          schema:
+            type: number
+            format: decimal
+          example: 50.00
+        - name: max_price
+          in: query
+          description: Maximum price filter
+          schema:
+            type: number
+            format: decimal
+          example: 500.00
+        - name: low_stock
+          in: query
+          description: Filter products with low stock
+          schema:
+            type: boolean
+          example: false
+      responses:
+        '200':
+          description: Products retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Products retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/ProductListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /products/{id}:
+    get:
+      summary: Get product by ID
+      description: Retrieves a specific product by its ID with optional related data inclusion
+      tags:
+        - Products
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Product ID
+          schema:
+            type: string
+            format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        - name: include
+          in: query
+          description: Include related data (comma-separated)
+          schema:
+            type: string
+          example: "category,variants,images"
+      responses:
+        '200':
+          description: Product retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Product retrieved successfully"
+                  data:
+                    $ref: '#/components/schemas/ProductResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    
+    put:
+      summary: Update an existing product
+      description: Updates an existing product with the provided details. Only provided fields will be updated.
+      tags:
+        - Products
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Product ID
+          schema:
+            type: string
+            format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductRequest'
+            examples:
+              partial_update:
+                summary: Partial update example
+                value:
+                  name: "Premium Wireless Bluetooth Headphones"
+                  sale_price: 129.99
+                  stock_quantity: 75
+              price_update:
+                summary: Price update example
+                value:
+                  base_price: 229.99
+                  sale_price: 179.99
+                  cost_price: 120.00
+      responses:
+        '200':
+          description: Product updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Product updated successfully"
+                  data:
+                    $ref: '#/components/schemas/ProductResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    
+    delete:
+      summary: Delete a product
+      description: Soft deletes a product by marking it as deleted. Products with active variants cannot be deleted.
+      tags:
+        - Products
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Product ID
+          schema:
+            type: string
+            format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        '200':
+          description: Product deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Product deleted successfully"
+                  data:
+                    type: "null"
+                    example: null
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '409':
           $ref: '#/components/responses/Conflict'
         '500':
