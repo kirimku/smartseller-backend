@@ -173,9 +173,10 @@ type WarrantyBarcode struct {
 	ExpiryDate           *time.Time `json:"expiry_date,omitempty" db:"expiry_date"`
 
 	// Audit fields
-	CreatedBy uuid.UUID `json:"created_by" db:"created_by"`
-	CreatedAt time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
+	CreatedBy uuid.UUID  `json:"created_by" db:"created_by"`
+	CreatedAt time.Time  `json:"created_at" db:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at" db:"updated_at"`
+	DeletedAt *time.Time `json:"deleted_at,omitempty" db:"deleted_at"`
 
 	// Computed fields (not stored in database)
 	IsExpired     bool   `json:"is_expired" db:"-"`
