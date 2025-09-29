@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"log/slog"
 	"net/http"
 	"strconv"
@@ -27,6 +28,7 @@ type WarrantyBarcodeHandler struct {
 	barcodeService      service.BarcodeGeneratorService
 	db                  *sqlx.DB
 	tenantResolver      tenant.TenantResolver
+	storefrontRepo      repository.StorefrontRepository
 }
 
 // NewWarrantyBarcodeHandler creates a new warranty barcode handler
@@ -37,7 +39,7 @@ func NewWarrantyBarcodeHandler(logger *slog.Logger) *WarrantyBarcodeHandler {
 }
 
 // NewWarrantyBarcodeHandlerWithDependencies creates a new warranty barcode handler with all dependencies
-func NewWarrantyBarcodeHandlerWithDependencies(logger *slog.Logger, db *sqlx.DB, tenantResolver tenant.TenantResolver, repo repository.WarrantyBarcodeRepository) *WarrantyBarcodeHandler {
+func NewWarrantyBarcodeHandlerWithDependencies(logger *slog.Logger, db *sqlx.DB, tenantResolver tenant.TenantResolver, repo repository.WarrantyBarcodeRepository, storefrontRepo repository.StorefrontRepository) *WarrantyBarcodeHandler {
 	zeroLogger := zerolog.New(os.Stdout).With().Str("component", "warranty_barcode").Timestamp().Logger()
 	barcodeRepoAdapter := service.NewWarrantyBarcodeRepositoryAdapter(repo)
 	barcodeService := service.NewBarcodeGeneratorService(
@@ -52,6 +54,7 @@ func NewWarrantyBarcodeHandlerWithDependencies(logger *slog.Logger, db *sqlx.DB,
 		db:             db,
 		tenantResolver: tenantResolver,
 		barcodeService: barcodeService,
+		storefrontRepo: storefrontRepo,
 	}
 }
 
@@ -101,6 +104,17 @@ func (h *WarrantyBarcodeHandler) initializeBarcodeService() {
 // @Failure 403 {object} dto.ErrorResponse
 // @Failure 500 {object} dto.ErrorResponse
 // @Router /api/v1/admin/warranty/barcodes/generate [post]
+// @Summary Generate warranty barcodes for a product
+// @Description Generate multiple warranty barcodes for a specific product
+// @Tags warranty
+// @Accept json
+// @Produce json
+// @Param request body dto.WarrantyBarcodeRequest true "Barcode generation request"
+// @Success 200 {object} dto.BatchResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 401 {object} dto.ErrorResponse
+// @Failure 500 {object} dto.ErrorResponse
+// @Router /api/v1/admin/warranty/barcodes/generate [post]
 func (h *WarrantyBarcodeHandler) GenerateBarcodes(c *gin.Context) {
 	userID := utils.GetUserIDFromContext(c)
 	if userID == "" {
@@ -116,12 +130,48 @@ func (h *WarrantyBarcodeHandler) GenerateBarcodes(c *gin.Context) {
 		return
 	}
 
+	// Debug logging
+	h.logger.Info("DEBUG: Received request", "ExpiryMonths", req.ExpiryMonths, "Quantity", req.Quantity)
+
 	// Parse product ID
 	productID, err := uuid.Parse(req.ProductID)
 	if err != nil {
 		h.logger.Warn("Invalid product ID format", "product_id", req.ProductID)
 		utils.ErrorResponse(c, http.StatusBadRequest, "Invalid product ID format", nil)
 		return
+	}
+
+	// Parse user ID
+	createdBy, err := uuid.Parse(userID)
+	if err != nil {
+		h.logger.Warn("Invalid user ID format", "user_id", userID)
+		utils.ErrorResponse(c, http.StatusBadRequest, "Invalid user ID format", nil)
+		return
+	}
+
+	// Get storefront ID from authenticated user context
+	var storefrontID uuid.UUID
+	
+	// First try to get storefront ID from tenant context (if available)
+	if contextStorefrontID, exists := middleware.GetStorefrontID(c); exists {
+		storefrontID = contextStorefrontID
+	} else {
+		// If not available in context, get it from the user's storefront
+		// Get the user's storefront by seller ID (user ID)
+		ctx := context.WithValue(c.Request.Context(), "user_id", userID)
+		storefronts, err := h.storefrontRepo.GetBySellerID(ctx, createdBy)
+		if err != nil {
+			h.logger.Warn("Failed to get user's storefront", "user_id", userID, "error", err.Error())
+			utils.ErrorResponse(c, http.StatusBadRequest, "Unable to determine user's storefront", err)
+			return
+		}
+		if len(storefronts) == 0 {
+			h.logger.Warn("No storefront found for user", "user_id", userID)
+			utils.ErrorResponse(c, http.StatusBadRequest, "No storefront associated with user", nil)
+			return
+		}
+		// Use the first storefront (assuming one user has one storefront)
+		storefrontID = storefronts[0].ID
 	}
 
 	// Use the database and tenant resolver that were passed during handler initialization
@@ -146,20 +196,11 @@ func (h *WarrantyBarcodeHandler) GenerateBarcodes(c *gin.Context) {
 		zeroLogger,
 	)
 
-	// Parse user ID
-	createdBy, err := uuid.Parse(userID)
-	if err != nil {
-		h.logger.Warn("Invalid user ID format", "user_id", userID)
-		utils.ErrorResponse(c, http.StatusBadRequest, "Invalid user ID format", nil)
-		return
-	}
+	// Add storefront ID to context for tenant resolver
+	ctx := context.WithValue(c.Request.Context(), "storefront_id", storefrontID)
 
-	// Get storefront ID from context
-	storefrontID, ok := middleware.GetStorefrontID(c)
-	if !ok {
-		utils.ErrorResponse(c, http.StatusBadRequest, "Storefront ID not found in context", nil)
-		return
-	}
+	// Debug logging before service call
+	h.logger.Info("DEBUG: Calling service", "warrantyPeriodMonths", req.ExpiryMonths)
 
 	// Generate barcodes using the service
 	startTime := time.Now()
@@ -167,8 +208,8 @@ func (h *WarrantyBarcodeHandler) GenerateBarcodes(c *gin.Context) {
 	failureCount := 0
 
 	for i := 0; i < req.Quantity; i++ {
-		_, err := barcodeGeneratorService.GenerateBarcode(
-			c.Request.Context(),
+		barcode, err := barcodeGeneratorService.GenerateBarcode(
+			ctx,
 			productID,
 			storefrontID,
 			createdBy,
@@ -179,6 +220,8 @@ func (h *WarrantyBarcodeHandler) GenerateBarcodes(c *gin.Context) {
 			failureCount++
 		} else {
 			successCount++
+			// Debug logging after each successful generation
+			h.logger.Info("DEBUG: Generated barcode", "WarrantyPeriodMonths", barcode.WarrantyPeriodMonths, "BarcodeNumber", barcode.BarcodeNumber)
 		}
 	}
 
@@ -194,6 +237,7 @@ func (h *WarrantyBarcodeHandler) GenerateBarcodes(c *gin.Context) {
 
 	h.logger.Info("Successfully generated warranty barcodes",
 		"product_id", productID,
+		"storefront_id", storefrontID,
 		"requested", req.Quantity,
 		"success", successCount,
 		"failures", failureCount,
@@ -201,7 +245,7 @@ func (h *WarrantyBarcodeHandler) GenerateBarcodes(c *gin.Context) {
 		"user_id", userID,
 	)
 
-	utils.SuccessResponse(c, http.StatusCreated, "Warranty barcodes generated successfully", batchResponse)
+	utils.SuccessResponse(c, http.StatusOK, "Warranty barcodes generated successfully", batchResponse)
 }
 
 // ListBarcodes handles barcode listing requests

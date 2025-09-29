@@ -168,7 +168,7 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 	// Initialize warranty barcode handler with dependencies
 	zeroLogger := zerolog.New(os.Stdout).With().Str("component", "warranty_barcode").Timestamp().Logger()
 	warrantyBarcodeRepo := repository.NewWarrantyBarcodeRepository(r.db, tenantResolver, zeroLogger)
-	warrantyBarcodeHandler := handler.NewWarrantyBarcodeHandlerWithDependencies(logger, r.db, tenantResolver, warrantyBarcodeRepo)
+	warrantyBarcodeHandler := handler.NewWarrantyBarcodeHandlerWithDependencies(logger, r.db, tenantResolver, warrantyBarcodeRepo, storefrontRepo)
 	
 	// Warranty claim handler
 	warrantyClaimHandler := handler.NewWarrantyClaimHandler(logger)

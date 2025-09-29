@@ -168,6 +168,8 @@ type WarrantyBarcode struct {
 
 	// Warranty period
 	WarrantyPeriodMonths int        `json:"warranty_period_months" db:"warranty_period_months"`
+	WarrantyStartDate    time.Time  `json:"warranty_start_date" db:"warranty_start_date"`
+	WarrantyEndDate      time.Time  `json:"warranty_end_date" db:"warranty_end_date"`
 	ExpiryDate           *time.Time `json:"expiry_date,omitempty" db:"expiry_date"`
 
 	// Audit fields
@@ -188,20 +190,31 @@ const BarcodeRandomLength = 12
 
 // NewWarrantyBarcode creates a new warranty barcode with default values
 func NewWarrantyBarcode(productID, storefrontID, createdBy uuid.UUID, warrantyPeriodMonths int) *WarrantyBarcode {
+	now := time.Now()
+	startDate := now
+	endDate := now.AddDate(0, warrantyPeriodMonths, 0)
+	id := uuid.New()
+	
+	// Generate QR code data URL - this will be updated with the actual barcode number later
+	qrCodeData := fmt.Sprintf("https://warranty.smartseller.com/claim/%s", id.String())
+	
 	return &WarrantyBarcode{
-		ID:                   uuid.New(),
+		ID:                   id,
+		QRCodeData:           qrCodeData,
 		ProductID:            productID,
 		StorefrontID:         storefrontID,
-		GeneratedAt:          time.Now(),
+		GeneratedAt:          now,
 		GenerationMethod:     "CSPRNG",
 		EntropyBits:          60, // 12 chars * 5 bits per char
 		GenerationAttempt:    1,
 		CollisionChecked:     false, // Will be set to true after uniqueness check
 		Status:               BarcodeStatusGenerated,
 		WarrantyPeriodMonths: warrantyPeriodMonths,
+		WarrantyStartDate:    startDate,
+		WarrantyEndDate:      endDate,
 		CreatedBy:            createdBy,
-		CreatedAt:            time.Now(),
-		UpdatedAt:            time.Now(),
+		CreatedAt:            now,
+		UpdatedAt:            now,
 	}
 }
 

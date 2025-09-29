@@ -42,15 +42,19 @@ func (r *WarrantyBarcodeRepositoryImpl) Create(ctx context.Context, barcode *ent
 
 	query := `
 		INSERT INTO warranty_barcodes (
-			id, barcode_number, product_id, storefront_id, warranty_start_date, warranty_end_date,
-			warranty_period_months, created_by, batch_id, batch_number, status, activation_date,
-			activated_by, generation_method, entropy_bits, generation_attempt, collision_checked,
-			created_at, updated_at
+			id, barcode_number, qr_code_data, product_id, storefront_id,
+			warranty_period_months, expiry_date, created_by, batch_id, batch_number, 
+			distributed_at, distributed_to, distribution_notes, status, activated_at,
+			customer_id, purchase_date, purchase_location, purchase_invoice,
+			generation_method, entropy_bits, generation_attempt, collision_checked,
+			generated_at, created_at, updated_at
 		) VALUES (
-			:id, :barcode_number, :product_id, :storefront_id, :warranty_start_date, :warranty_end_date,
-			:warranty_period_months, :created_by, :batch_id, :batch_number, :status, :activation_date,
-			:activated_by, :generation_method, :entropy_bits, :generation_attempt, :collision_checked,
-			:created_at, :updated_at
+			:id, :barcode_number, :qr_code_data, :product_id, :storefront_id,
+			:warranty_period_months, :expiry_date, :created_by, :batch_id, :batch_number,
+			:distributed_at, :distributed_to, :distribution_notes, :status, :activated_at,
+			:customer_id, :purchase_date, :purchase_location, :purchase_invoice,
+			:generation_method, :entropy_bits, :generation_attempt, :collision_checked,
+			:generated_at, :created_at, :updated_at
 		)`
 
 	_, err = db.NamedExecContext(ctx, query, barcode)
@@ -74,15 +78,19 @@ func (r *WarrantyBarcodeRepositoryImpl) CreateBatch(ctx context.Context, barcode
 	return r.ExecuteInTransaction(ctx, storefrontID, func(tx *sqlx.Tx) error {
 		query := `
 			INSERT INTO warranty_barcodes (
-				id, barcode_number, product_id, storefront_id, warranty_start_date, warranty_end_date,
-				warranty_period_months, created_by, batch_id, batch_number, status, activation_date,
-				activated_by, generation_method, entropy_bits, generation_attempt, collision_checked,
-				created_at, updated_at
+				id, barcode_number, qr_code_data, product_id, storefront_id,
+				warranty_period_months, expiry_date, created_by, batch_id, batch_number,
+				distributed_at, distributed_to, distribution_notes, status, activated_at,
+				customer_id, purchase_date, purchase_location, purchase_invoice,
+				generation_method, entropy_bits, generation_attempt, collision_checked,
+				generated_at, created_at, updated_at
 			) VALUES (
-				:id, :barcode_number, :product_id, :storefront_id, :warranty_start_date, :warranty_end_date,
-				:warranty_period_months, :created_by, :batch_id, :batch_number, :status, :activation_date,
-				:activated_by, :generation_method, :entropy_bits, :generation_attempt, :collision_checked,
-				:created_at, :updated_at
+				:id, :barcode_number, :qr_code_data, :product_id, :storefront_id,
+				:warranty_period_months, :expiry_date, :created_by, :batch_id, :batch_number,
+				:distributed_at, :distributed_to, :distribution_notes, :status, :activated_at,
+				:customer_id, :purchase_date, :purchase_location, :purchase_invoice,
+				:generation_method, :entropy_bits, :generation_attempt, :collision_checked,
+				:generated_at, :created_at, :updated_at
 			)`
 
 		for _, barcode := range barcodes {
@@ -361,7 +369,7 @@ func (r *WarrantyBarcodeRepositoryImpl) Update(ctx context.Context, barcode *ent
 			warranty_end_date = :warranty_end_date,
 			warranty_period_months = :warranty_period_months,
 			status = :status,
-			activation_date = :activation_date,
+			activated_at = :activated_at,
 			activated_by = :activated_by,
 			updated_at = :updated_at
 		WHERE id = :id AND storefront_id = :storefront_id AND deleted_at IS NULL`
@@ -405,12 +413,11 @@ func (r *WarrantyBarcodeRepositoryImpl) Activate(ctx context.Context, barcodeNum
 	query := `
 		UPDATE warranty_barcodes SET 
 			status = $1,
-			activation_date = $2,
-			activated_by = $3,
-			updated_at = $4
-		WHERE barcode_number = $5 AND status = $6 AND deleted_at IS NULL`
+			activated_at = $2,
+			updated_at = $3
+		WHERE barcode_number = $4 AND status = $5 AND deleted_at IS NULL`
 
-	result, err := db.ExecContext(ctx, query, entity.BarcodeStatusActivated, now, activatedBy, now, barcodeNumber, entity.BarcodeStatusGenerated)
+	result, err := db.ExecContext(ctx, query, entity.BarcodeStatusActivated, now, now, barcodeNumber, entity.BarcodeStatusGenerated)
 	if err != nil {
 		r.logger.Error().Err(err).Str("barcode_number", barcodeNumber).Msg("Failed to activate warranty barcode")
 		return fmt.Errorf("failed to activate warranty barcode: %w", err)

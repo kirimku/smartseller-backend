@@ -192,42 +192,47 @@ func NewBarcodeGeneratorService(
 }
 
 // GenerateBarcode generates a single secure warranty barcode
-func (s *barcodeGeneratorService) GenerateBarcode(
-	ctx context.Context,
-	productID, storefrontID, createdBy uuid.UUID,
-	warrantyPeriodMonths int,
-) (*entity.WarrantyBarcode, error) {
-	start := time.Now()
+func (s *barcodeGeneratorService) GenerateBarcode(ctx context.Context, productID, storefrontID, createdBy uuid.UUID, warrantyPeriodMonths int) (*entity.WarrantyBarcode, error) {
+	// Debug logging
+	s.logger.Info().Int("warrantyPeriodMonths", warrantyPeriodMonths).Msg("DEBUG: Service received warranty period")
 
+	// Create new warranty barcode entity
 	barcode := entity.NewWarrantyBarcode(productID, storefrontID, createdBy, warrantyPeriodMonths)
+	
+	// Debug logging after entity creation
+	s.logger.Info().Int("WarrantyPeriodMonths", barcode.WarrantyPeriodMonths).Msg("DEBUG: Entity created with warranty period")
 
-	// Generate unique barcode number with collision detection
-	err := s.generateUniqueBarcodeNumber(ctx, barcode, nil)
-	if err != nil {
-		s.logger.Error().
-			Err(err).
-			Str("product_id", productID.String()).
-			Str("storefront_id", storefrontID.String()).
-			Msg("Failed to generate unique barcode")
-		return nil, fmt.Errorf("failed to generate unique barcode: %w", err)
+	// Generate barcode number
+	if err := barcode.GenerateBarcodeNumber(); err != nil {
+		s.logger.Error().Err(err).Msg("Failed to generate barcode number")
+		return nil, fmt.Errorf("failed to generate barcode number: %w", err)
 	}
 
+	// Generate unique barcode number
+	if err := s.generateUniqueBarcodeNumber(ctx, barcode, nil); err != nil {
+		return nil, fmt.Errorf("failed to generate unique barcode: %w", err)
+	}
+	barcode.CollisionChecked = true
+
+	// Debug logging before repository save
+	s.logger.Info().Int("WarrantyPeriodMonths", barcode.WarrantyPeriodMonths).Str("BarcodeNumber", barcode.BarcodeNumber).Msg("DEBUG: Saving barcode to repository")
+
 	// Save to repository
-	err = s.barcodeRepo.Create(ctx, barcode)
-	if err != nil {
-		s.logger.Error().
-			Err(err).
-			Str("barcode_number", barcode.BarcodeNumber).
-			Msg("Failed to save barcode to repository")
+	if err := s.barcodeRepo.Create(ctx, barcode); err != nil {
+		s.logger.Error().Err(err).Str("barcode", barcode.BarcodeNumber).Msg("Failed to save barcode")
 		return nil, fmt.Errorf("failed to save barcode: %w", err)
 	}
 
-	generationTime := time.Since(start)
+	// Debug logging after repository save
+	s.logger.Info().Int("WarrantyPeriodMonths", barcode.WarrantyPeriodMonths).Str("BarcodeNumber", barcode.BarcodeNumber).Msg("DEBUG: Barcode saved successfully")
+
 	s.logger.Info().
+		Str("barcode_id", barcode.ID.String()).
 		Str("barcode_number", barcode.BarcodeNumber).
-		Dur("generation_time", generationTime).
-		Int("attempts", barcode.GenerationAttempt).
-		Msg("Successfully generated barcode")
+		Str("product_id", productID.String()).
+		Str("storefront_id", storefrontID.String()).
+		Int("warranty_period_months", warrantyPeriodMonths).
+		Msg("Barcode generated successfully")
 
 	return barcode, nil
 }

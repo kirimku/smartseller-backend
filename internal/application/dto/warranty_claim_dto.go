@@ -462,7 +462,7 @@ type TechnicianStatsResponse struct {
 // BatchCreateRequest represents a request to create a new batch generation
 type BatchCreateRequest struct {
 	ProductID       string          `json:"product_id" validate:"required,uuid" example:"550e8400-e29b-41d4-a716-446655440000"`
-	StorefrontID    string          `json:"storefront_id" validate:"required,uuid" example:"550e8400-e29b-41d4-a716-446655440001"`
+	StorefrontID    string          `json:"storefront_id" validate:"omitempty,uuid" example:"550e8400-e29b-41d4-a716-446655440001"`
 	Quantity        int             `json:"quantity" validate:"required,min=1,max=100000" example:"1000"`
 	Prefix          string          `json:"prefix" validate:"required,min=2,max=10" example:"WB"`
 	Description     string          `json:"description" validate:"required,min=5,max=500" example:"Batch generation for Q1 2024 smartphone warranty barcodes"`
