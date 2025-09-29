@@ -485,8 +485,188 @@ func (r *PostgreSQLProductCategoryRepository) DeleteBatch(ctx context.Context, i
 }
 
 func (r *PostgreSQLProductCategoryRepository) List(ctx context.Context, filter *repository.ProductCategoryFilter, include *repository.ProductCategoryInclude) ([]*entity.ProductCategory, error) {
-	// TODO: Implement list with filtering
-	return nil, fmt.Errorf("not implemented")
+	query := `SELECT id, name, description, slug, parent_id, sort_order, is_active, created_at, updated_at FROM product_categories`
+	var whereConditions []string
+	var args []interface{}
+	argIndex := 1
+
+	// Apply filters
+	if filter != nil {
+		// IDs filter
+		if len(filter.IDs) > 0 {
+			placeholders := make([]string, len(filter.IDs))
+			for i, id := range filter.IDs {
+				placeholders[i] = fmt.Sprintf("$%d", argIndex)
+				args = append(args, id)
+				argIndex++
+			}
+			whereConditions = append(whereConditions, fmt.Sprintf("id IN (%s)", strings.Join(placeholders, ",")))
+		}
+
+		// Names filter
+		if len(filter.Names) > 0 {
+			placeholders := make([]string, len(filter.Names))
+			for i, name := range filter.Names {
+				placeholders[i] = fmt.Sprintf("$%d", argIndex)
+				args = append(args, name)
+				argIndex++
+			}
+			whereConditions = append(whereConditions, fmt.Sprintf("name IN (%s)", strings.Join(placeholders, ",")))
+		}
+
+		// Slugs filter
+		if len(filter.Slugs) > 0 {
+			placeholders := make([]string, len(filter.Slugs))
+			for i, slug := range filter.Slugs {
+				placeholders[i] = fmt.Sprintf("$%d", argIndex)
+				args = append(args, slug)
+				argIndex++
+			}
+			whereConditions = append(whereConditions, fmt.Sprintf("slug IN (%s)", strings.Join(placeholders, ",")))
+		}
+
+		// Parent IDs filter
+		if len(filter.ParentIDs) > 0 {
+			placeholders := make([]string, len(filter.ParentIDs))
+			for i, parentID := range filter.ParentIDs {
+				placeholders[i] = fmt.Sprintf("$%d", argIndex)
+				args = append(args, parentID)
+				argIndex++
+			}
+			whereConditions = append(whereConditions, fmt.Sprintf("parent_id IN (%s)", strings.Join(placeholders, ",")))
+		}
+
+		// IsRoot filter (categories with no parent)
+		if filter.IsRoot != nil {
+			if *filter.IsRoot {
+				whereConditions = append(whereConditions, "parent_id IS NULL")
+			} else {
+				whereConditions = append(whereConditions, "parent_id IS NOT NULL")
+			}
+		}
+
+		// IsActive filter
+		if filter.IsActive != nil {
+			whereConditions = append(whereConditions, fmt.Sprintf("is_active = $%d", argIndex))
+			args = append(args, *filter.IsActive)
+			argIndex++
+		}
+
+		// Date filters
+		if filter.CreatedAfter != nil {
+			whereConditions = append(whereConditions, fmt.Sprintf("created_at >= $%d", argIndex))
+			args = append(args, *filter.CreatedAfter)
+			argIndex++
+		}
+
+		if filter.CreatedBefore != nil {
+			whereConditions = append(whereConditions, fmt.Sprintf("created_at <= $%d", argIndex))
+			args = append(args, *filter.CreatedBefore)
+			argIndex++
+		}
+
+		if filter.UpdatedAfter != nil {
+			whereConditions = append(whereConditions, fmt.Sprintf("updated_at >= $%d", argIndex))
+			args = append(args, *filter.UpdatedAfter)
+			argIndex++
+		}
+
+		if filter.UpdatedBefore != nil {
+			whereConditions = append(whereConditions, fmt.Sprintf("updated_at <= $%d", argIndex))
+			args = append(args, *filter.UpdatedBefore)
+			argIndex++
+		}
+
+		// Search query (search in name and description)
+		if filter.SearchQuery != "" {
+			whereConditions = append(whereConditions, fmt.Sprintf("(name ILIKE $%d OR description ILIKE $%d)", argIndex, argIndex+1))
+			searchPattern := "%" + filter.SearchQuery + "%"
+			args = append(args, searchPattern, searchPattern)
+			argIndex += 2
+		}
+	}
+
+	// Add WHERE clause if we have conditions
+	if len(whereConditions) > 0 {
+		query += " WHERE " + strings.Join(whereConditions, " AND ")
+	}
+
+	// Add sorting
+	if filter != nil && filter.SortBy != "" {
+		validSortFields := map[string]bool{
+			"name":       true,
+			"created_at": true,
+			"updated_at": true,
+			"sort_order": true,
+		}
+		
+		if validSortFields[filter.SortBy] {
+			sortOrder := "ASC"
+			if filter.SortOrder == "desc" {
+				sortOrder = "DESC"
+			}
+			query += fmt.Sprintf(" ORDER BY %s %s", filter.SortBy, sortOrder)
+		} else {
+			query += " ORDER BY sort_order ASC, name ASC"
+		}
+	} else {
+		query += " ORDER BY sort_order ASC, name ASC"
+	}
+
+	// Add pagination
+	if filter != nil && filter.Limit > 0 {
+		query += fmt.Sprintf(" LIMIT $%d", argIndex)
+		args = append(args, filter.Limit)
+		argIndex++
+
+		if filter.Offset > 0 {
+			query += fmt.Sprintf(" OFFSET $%d", argIndex)
+			args = append(args, filter.Offset)
+			argIndex++
+		}
+	}
+
+	// Execute query
+	rows, err := r.db.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to query categories: %w", err)
+	}
+	defer rows.Close()
+
+	var categories []*entity.ProductCategory
+	for rows.Next() {
+		category := &entity.ProductCategory{}
+		err := rows.Scan(
+			&category.ID,
+			&category.Name,
+			&category.Description,
+			&category.Slug,
+			&category.ParentID,
+			&category.SortOrder,
+			&category.IsActive,
+			&category.CreatedAt,
+			&category.UpdatedAt,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("failed to scan category: %w", err)
+		}
+		categories = append(categories, category)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating over categories: %w", err)
+	}
+
+	// Load related data if requested
+	if include != nil {
+		for _, category := range categories {
+			if err := r.loadCategoryRelations(ctx, category, include); err != nil {
+				return nil, fmt.Errorf("failed to load category relations: %w", err)
+			}
+		}
+	}
+
+	return categories, nil
 }
 
 func (r *PostgreSQLProductCategoryRepository) Count(ctx context.Context, filter *repository.ProductCategoryFilter) (int64, error) {
@@ -520,8 +700,83 @@ func (r *PostgreSQLProductCategoryRepository) GetCategoriesByPathPrefix(ctx cont
 }
 
 func (r *PostgreSQLProductCategoryRepository) GetCategoryTree(ctx context.Context, rootID *uuid.UUID, maxDepth *int) ([]*entity.ProductCategory, error) {
-	// TODO: Implement get category tree
-	return nil, fmt.Errorf("not implemented")
+	var query string
+	var args []interface{}
+	argIndex := 1
+
+	if rootID == nil {
+		// Get all categories if no root is specified
+		query = `
+			SELECT id, name, description, slug, parent_id, sort_order, is_active, created_at, updated_at 
+			FROM product_categories 
+			WHERE is_active = true
+			ORDER BY sort_order ASC, name ASC`
+	} else {
+		// Get all descendants of the specified root category using recursive CTE
+		query = `
+			WITH RECURSIVE category_tree AS (
+				-- Base case: get the root category
+				SELECT id, name, description, slug, parent_id, sort_order, is_active, created_at, updated_at, 0 as depth
+				FROM product_categories 
+				WHERE id = $1 AND is_active = true
+				
+				UNION ALL
+				
+				-- Recursive case: get children of categories in the tree
+				SELECT c.id, c.name, c.description, c.slug, c.parent_id, c.sort_order, c.is_active, c.created_at, c.updated_at, ct.depth + 1
+				FROM product_categories c
+				INNER JOIN category_tree ct ON c.parent_id = ct.id
+				WHERE c.is_active = true`
+		
+		args = append(args, *rootID)
+		argIndex++
+		
+		// Add max depth constraint if specified
+		if maxDepth != nil && *maxDepth > 0 {
+			query += fmt.Sprintf(" AND ct.depth < $%d", argIndex)
+			args = append(args, *maxDepth)
+			argIndex++
+		}
+		
+		query += `
+			)
+			SELECT id, name, description, slug, parent_id, sort_order, is_active, created_at, updated_at
+			FROM category_tree
+			ORDER BY depth ASC, sort_order ASC, name ASC`
+	}
+
+	// Execute query
+	rows, err := r.db.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to query category tree: %w", err)
+	}
+	defer rows.Close()
+
+	var categories []*entity.ProductCategory
+	for rows.Next() {
+		category := &entity.ProductCategory{}
+		err := rows.Scan(
+			&category.ID,
+			&category.Name,
+			&category.Description,
+			&category.Slug,
+			&category.ParentID,
+			&category.SortOrder,
+			&category.IsActive,
+			&category.CreatedAt,
+			&category.UpdatedAt,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("failed to scan category: %w", err)
+		}
+		categories = append(categories, category)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating over category tree: %w", err)
+	}
+
+	return categories, nil
 }
 
 func (r *PostgreSQLProductCategoryRepository) GetFullCategoryTree(ctx context.Context) ([]*entity.ProductCategory, error) {

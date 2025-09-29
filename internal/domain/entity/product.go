@@ -113,6 +113,9 @@ type Product struct {
 	IsLowStock     bool             `json:"is_low_stock" db:"-"`
 	ProfitMargin   *decimal.Decimal `json:"profit_margin" db:"-"`
 	EffectivePrice decimal.Decimal  `json:"effective_price" db:"-"`
+
+	// Related entities (loaded when requested via include parameters)
+	Variants []ProductVariant `json:"variants,omitempty" db:"-"`
 }
 
 // NewProduct creates a new product with default values

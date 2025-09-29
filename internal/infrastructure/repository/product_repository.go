@@ -387,28 +387,22 @@ func (r *PostgreSQLProductRepository) loadProductImages(ctx context.Context, pro
 
 // loadProductVariants loads the product's variants
 func (r *PostgreSQLProductRepository) loadProductVariants(ctx context.Context, product *entity.Product, include *repository.ProductInclude) error {
-	query := `
-		SELECT 
-			id, product_id, variant_name, variant_sku, options,
-			price, compare_at_price, cost_price,
-			stock_quantity, low_stock_threshold, track_quantity,
-			weight, length, width, height,
-			is_active, is_default, position,
-			created_at, updated_at
-		FROM product_variants
-		WHERE product_id = $1`
-
-	// Add active filter if requested
-	if include.OnlyActiveVariants {
-		query += " AND is_active = true"
+	if !include.Variants {
+		return nil
 	}
 
-	query += " ORDER BY position ASC, created_at ASC"
+	query := `
+		SELECT id, product_id, variant_name, sku, variant_options, price, cost_price,
+			   stock_quantity, weight, dimensions_length, dimensions_width, dimensions_height,
+			   image_url, is_active, created_at, updated_at
+		FROM product_variants
+		WHERE product_id = $1 AND is_active = true
+		ORDER BY variant_name ASC`
 
 	var variants []entity.ProductVariant
 	err := r.db.SelectContext(ctx, &variants, query, product.ID)
 	if err != nil {
-		return fmt.Errorf("failed to load variants: %w", err)
+		return fmt.Errorf("failed to load product variants: %w", err)
 	}
 
 	// Compute fields for each variant
@@ -416,7 +410,8 @@ func (r *PostgreSQLProductRepository) loadProductVariants(ctx context.Context, p
 		variants[i].ComputeFields()
 	}
 
-	// Note: In a real implementation, you might want to set this on a Variants field
+	// Assign variants to the product
+	product.Variants = variants
 	return nil
 }
 

@@ -99,6 +99,45 @@ type MoveCategoryRequest struct {
 	NewSortOrder *int       `json:"new_sort_order,omitempty" validate:"omitempty,min=0" example:"2"`
 }
 
+// CategoryBulkOperationRequest represents a request for bulk operations on categories
+type CategoryBulkOperationRequest struct {
+	CategoryIDs []uuid.UUID `json:"category_ids" validate:"required,min=1,max=100" example:"[\"550e8400-e29b-41d4-a716-446655440000\"]"`
+	Operation   string      `json:"operation" validate:"required,oneof=activate deactivate delete" example:"activate"`
+}
+
+// CategoryBulkOperationResponse represents the response for bulk operations on categories
+type CategoryBulkOperationResponse struct {
+	SuccessCount int                           `json:"success_count" example:"8"`
+	FailureCount int                           `json:"failure_count" example:"2"`
+	Failures     []CategoryOperationFailure    `json:"failures,omitempty"`
+	Metadata     CategoryBulkOperationMetadata `json:"metadata"`
+}
+
+// CategoryOperationFailure represents a failed operation on a category
+type CategoryOperationFailure struct {
+	CategoryID uuid.UUID `json:"category_id" example:"550e8400-e29b-41d4-a716-446655440000"`
+	Error      string    `json:"error" example:"Category has active products"`
+	ErrorCode  string    `json:"error_code" example:"CATEGORY_HAS_PRODUCTS"`
+}
+
+// CategoryBulkOperationMetadata provides metadata about the bulk operation
+type CategoryBulkOperationMetadata struct {
+	TotalRequested int    `json:"total_requested" example:"10"`
+	ProcessingTime string `json:"processing_time" example:"1.2s"`
+	ProcessedAt    string `json:"processed_at" example:"2023-01-01T00:00:00Z"`
+}
+
+// CategoryFilters represents filters for category listing
+type CategoryFilters struct {
+	ParentID     *uuid.UUID `json:"parent_id,omitempty" validate:"omitempty,uuid4"`
+	IsActive     *bool      `json:"is_active,omitempty"`
+	Level        *int       `json:"level,omitempty" validate:"omitempty,min=0"`
+	HasProducts  *bool      `json:"has_products,omitempty"`
+	Search       *string    `json:"search,omitempty" validate:"omitempty,max=255"`
+	SortBy       *string    `json:"sort_by,omitempty" validate:"omitempty,oneof=name created_at updated_at sort_order"`
+	SortOrder    *string    `json:"sort_order,omitempty" validate:"omitempty,oneof=asc desc"`
+}
+
 // ========================================
 // Product Variant DTOs
 // ========================================

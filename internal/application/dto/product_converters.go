@@ -52,14 +52,35 @@ func (c *ProductConverter) ToResponse(product *entity.Product) ProductResponse {
 
 	// Calculate profit margin if cost price is available
 	if product.CostPrice != nil && !product.CostPrice.IsZero() {
-		profitAmount := response.EffectivePrice.Sub(*product.CostPrice)
-		profitMargin := profitAmount.Div(*product.CostPrice).Mul(decimal.NewFromInt(100))
-		response.ProfitMargin = &profitMargin
+		margin := response.EffectivePrice.Sub(*product.CostPrice).Div(response.EffectivePrice).Mul(decimal.NewFromInt(100))
+		response.ProfitMargin = &margin
 	}
 
 	// Check if stock is low
 	if product.LowStockThreshold != nil {
 		response.IsLowStock = product.StockQuantity <= *product.LowStockThreshold
+	}
+
+	// Convert variants if they are loaded
+	if product.Variants != nil && len(product.Variants) > 0 {
+		variants := make([]ProductVariantSummary, len(product.Variants))
+		for i, variant := range product.Variants {
+			sku := ""
+			if variant.VariantSKU != nil {
+				sku = *variant.VariantSKU
+			}
+			
+			variants[i] = ProductVariantSummary{
+				ID:            variant.ID,
+				SKU:           sku,
+				VariantName:   &variant.VariantName,
+				BasePrice:     variant.Price,
+				SalePrice:     nil, // ProductVariant doesn't have SalePrice field
+				StockQuantity: variant.StockQuantity,
+				IsActive:      variant.IsActive,
+			}
+		}
+		response.Variants = variants
 	}
 
 	return response

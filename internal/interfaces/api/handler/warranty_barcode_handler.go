@@ -9,13 +9,24 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jmoiron/sqlx"
 	"github.com/kirimku/smartseller-backend/internal/application/dto"
+	"github.com/kirimku/smartseller-backend/internal/application/service"
+	"github.com/kirimku/smartseller-backend/internal/domain/repository"
+	"github.com/kirimku/smartseller-backend/internal/infrastructure/tenant"
+	infraRepo "github.com/kirimku/smartseller-backend/internal/infrastructure/repository"
+	"github.com/kirimku/smartseller-backend/internal/interfaces/api/middleware"
 	"github.com/kirimku/smartseller-backend/pkg/utils"
+	"github.com/rs/zerolog"
+	"os"
 )
 
 // WarrantyBarcodeHandler handles warranty barcode-related HTTP requests
 type WarrantyBarcodeHandler struct {
-	logger *slog.Logger
+	logger              *slog.Logger
+	barcodeService      service.BarcodeGeneratorService
+	db                  *sqlx.DB
+	tenantResolver      tenant.TenantResolver
 }
 
 // NewWarrantyBarcodeHandler creates a new warranty barcode handler
@@ -23,6 +34,57 @@ func NewWarrantyBarcodeHandler(logger *slog.Logger) *WarrantyBarcodeHandler {
 	return &WarrantyBarcodeHandler{
 		logger: logger,
 	}
+}
+
+// NewWarrantyBarcodeHandlerWithDependencies creates a new warranty barcode handler with all dependencies
+func NewWarrantyBarcodeHandlerWithDependencies(logger *slog.Logger, db *sqlx.DB, tenantResolver tenant.TenantResolver, repo repository.WarrantyBarcodeRepository) *WarrantyBarcodeHandler {
+	zeroLogger := zerolog.New(os.Stdout).With().Str("component", "warranty_barcode").Timestamp().Logger()
+	barcodeRepoAdapter := service.NewWarrantyBarcodeRepositoryAdapter(repo)
+	barcodeService := service.NewBarcodeGeneratorService(
+		barcodeRepoAdapter,
+		nil, // collisionRepo - not implemented yet
+		nil, // batchRepo - not implemented yet  
+		zeroLogger,
+	)
+	
+	return &WarrantyBarcodeHandler{
+		logger:         logger,
+		db:             db,
+		tenantResolver: tenantResolver,
+		barcodeService: barcodeService,
+	}
+}
+
+// initializeBarcodeService initializes the barcode service lazily
+func (h *WarrantyBarcodeHandler) initializeBarcodeService() {
+	if h.barcodeService != nil {
+		return
+	}
+
+	// Get database and tenant resolver from context or initialize
+	// This is a temporary solution until proper dependency injection is set up
+	// TODO: Move this to proper dependency injection in router
+	if h.db == nil || h.tenantResolver == nil {
+		h.logger.Error("Database or tenant resolver not initialized")
+		return
+	}
+
+	// Create zerolog logger for repositories
+	zeroLogger := zerolog.New(os.Stdout).With().Timestamp().Logger()
+
+	// Initialize warranty barcode repository
+	warrantyBarcodeRepo := infraRepo.NewWarrantyBarcodeRepository(h.db, h.tenantResolver, zeroLogger)
+
+	// Create adapter for service interface
+	barcodeRepoAdapter := service.NewWarrantyBarcodeRepositoryAdapter(warrantyBarcodeRepo)
+
+	// Initialize barcode service with nil for unimplemented repositories
+	h.barcodeService = service.NewBarcodeGeneratorService(
+		barcodeRepoAdapter,
+		nil, // BarcodeCollisionRepository - not implemented yet
+		nil, // BatchRepository - not implemented yet
+		zeroLogger,
+	)
 }
 
 // GenerateBarcodes handles barcode generation requests
@@ -62,19 +124,80 @@ func (h *WarrantyBarcodeHandler) GenerateBarcodes(c *gin.Context) {
 		return
 	}
 
-	// TODO: Implement actual barcode generation logic when usecase is ready
-	// For now, return a mock response
+	// Use the database and tenant resolver that were passed during handler initialization
+	// These are available as handler fields and don't need to be retrieved from context
+
+	// Initialize service components
+	zeroLogger := zerolog.New(os.Stdout).With().Timestamp().Logger()
+	warrantyBarcodeRepo := infraRepo.NewWarrantyBarcodeRepository(
+		h.db, 
+		h.tenantResolver, 
+		zeroLogger,
+	)
+	
+	// Create adapter for service interface
+	barcodeRepoAdapter := service.NewWarrantyBarcodeRepositoryAdapter(warrantyBarcodeRepo)
+	
+	// Initialize barcode generator service
+	barcodeGeneratorService := service.NewBarcodeGeneratorService(
+		barcodeRepoAdapter,
+		nil, // collisionRepo - not needed for basic functionality
+		nil, // batchRepo - not needed for basic functionality
+		zeroLogger,
+	)
+
+	// Parse user ID
+	createdBy, err := uuid.Parse(userID)
+	if err != nil {
+		h.logger.Warn("Invalid user ID format", "user_id", userID)
+		utils.ErrorResponse(c, http.StatusBadRequest, "Invalid user ID format", nil)
+		return
+	}
+
+	// Get storefront ID from context
+	storefrontID, ok := middleware.GetStorefrontID(c)
+	if !ok {
+		utils.ErrorResponse(c, http.StatusBadRequest, "Storefront ID not found in context", nil)
+		return
+	}
+
+	// Generate barcodes using the service
+	startTime := time.Now()
+	successCount := 0
+	failureCount := 0
+
+	for i := 0; i < req.Quantity; i++ {
+		_, err := barcodeGeneratorService.GenerateBarcode(
+			c.Request.Context(),
+			productID,
+			storefrontID,
+			createdBy,
+			req.ExpiryMonths,
+		)
+		if err != nil {
+			h.logger.Error("Failed to generate barcode", "error", err.Error(), "attempt", i+1)
+			failureCount++
+		} else {
+			successCount++
+		}
+	}
+
+	processingTime := time.Since(startTime)
+	
 	batchResponse := &dto.BatchResponse{
 		TotalProcessed: req.Quantity,
-		SuccessCount:   req.Quantity,
-		FailureCount:   0,
-		ProcessingTime: "1.2s",
+		SuccessCount:   successCount,
+		FailureCount:   failureCount,
+		ProcessingTime: processingTime.String(),
 		Timestamp:      time.Now(),
 	}
 
-	h.logger.Info("Successfully generated warranty barcodes (mock)",
+	h.logger.Info("Successfully generated warranty barcodes",
 		"product_id", productID,
 		"requested", req.Quantity,
+		"success", successCount,
+		"failures", failureCount,
+		"processing_time", processingTime,
 		"user_id", userID,
 	)
 

@@ -48,13 +48,19 @@ func (r *PostgreSQLProductVariantRepository) Create(ctx context.Context, variant
 
 	query := `
 		INSERT INTO product_variants (
-			id, product_id, variant_name, variant_sku, options, price, compare_at_price, cost_price, 
-			stock_quantity, low_stock_threshold, track_quantity, weight, length, width, height,
-			is_active, is_default, position, created_at, updated_at
+			id, product_id, variant_name, sku, variant_options,
+			price, cost_price,
+			stock_quantity,
+			weight, dimensions_length, dimensions_width, dimensions_height,
+			image_url, is_active,
+			created_at, updated_at
 		) VALUES (
-			:id, :product_id, :variant_name, :variant_sku, :options, :price, :compare_at_price, :cost_price,
-			:stock_quantity, :low_stock_threshold, :track_quantity, :weight, :length, :width, :height,
-			:is_active, :is_default, :position, :created_at, :updated_at
+			:id, :product_id, :variant_name, :sku, :variant_options,
+			:price, :cost_price,
+			:stock_quantity,
+			:weight, :dimensions_length, :dimensions_width, :dimensions_height,
+			:image_url, :is_active,
+			:created_at, :updated_at
 		)`
 
 	_, err := r.db.NamedExecContext(ctx, query, variant)
@@ -63,7 +69,7 @@ func (r *PostgreSQLProductVariantRepository) Create(ctx context.Context, variant
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code {
 			case "23505": // unique_violation
-				if strings.Contains(pqErr.Detail, "variant_sku") {
+				if strings.Contains(pqErr.Detail, "sku") {
 					sku := ""
 					if variant.VariantSKU != nil {
 						sku = *variant.VariantSKU
@@ -91,9 +97,9 @@ func (r *PostgreSQLProductVariantRepository) GetByID(ctx context.Context, id uui
 	}
 
 	query := `
-		SELECT id, product_id, variant_name, variant_sku, options, price, compare_at_price, cost_price,
-			   stock_quantity, low_stock_threshold, track_quantity, weight, length, width, height,
-			   is_active, is_default, position, created_at, updated_at
+		SELECT id, product_id, variant_name, sku, variant_options, price, cost_price,
+			   stock_quantity, weight, dimensions_length, dimensions_width, dimensions_height,
+			   image_url, is_active, created_at, updated_at
 		FROM product_variants
 		WHERE id = $1`
 
@@ -126,11 +132,11 @@ func (r *PostgreSQLProductVariantRepository) GetBySKU(ctx context.Context, sku s
 	}
 
 	query := `
-		SELECT id, product_id, variant_name, variant_sku, options, price, compare_at_price, cost_price,
-			   stock_quantity, low_stock_threshold, track_quantity, weight, length, width, height,
-			   is_active, is_default, position, created_at, updated_at
+		SELECT id, product_id, variant_name, sku, variant_options, price, cost_price,
+			   stock_quantity, weight, dimensions_length, dimensions_width, dimensions_height,
+			   image_url, is_active, created_at, updated_at
 		FROM product_variants
-		WHERE variant_sku = $1`
+		WHERE sku = $1`
 
 	var variant entity.ProductVariant
 	err := r.db.GetContext(ctx, &variant, query, sku)
@@ -171,21 +177,17 @@ func (r *PostgreSQLProductVariantRepository) Update(ctx context.Context, variant
 	query := `
 		UPDATE product_variants SET
 			variant_name = :variant_name,
-			variant_sku = :variant_sku,
-			options = :options,
+			sku = :sku,
+			variant_options = :variant_options,
 			price = :price,
-			compare_at_price = :compare_at_price,
 			cost_price = :cost_price,
 			stock_quantity = :stock_quantity,
-			low_stock_threshold = :low_stock_threshold,
-			track_quantity = :track_quantity,
 			weight = :weight,
-			length = :length,
-			width = :width,
-			height = :height,
+			dimensions_length = :dimensions_length,
+			dimensions_width = :dimensions_width,
+			dimensions_height = :dimensions_height,
+			image_url = :image_url,
 			is_active = :is_active,
-			is_default = :is_default,
-			position = :position,
 			updated_at = :updated_at
 		WHERE id = :id`
 
@@ -195,7 +197,7 @@ func (r *PostgreSQLProductVariantRepository) Update(ctx context.Context, variant
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code {
 			case "23505": // unique_violation
-				if strings.Contains(pqErr.Detail, "variant_sku") {
+				if strings.Contains(pqErr.Detail, "sku") {
 					sku := ""
 					if variant.VariantSKU != nil {
 						sku = *variant.VariantSKU
@@ -253,12 +255,12 @@ func (r *PostgreSQLProductVariantRepository) GetByProduct(ctx context.Context, p
 	}
 
 	query := `
-		SELECT id, product_id, variant_name, variant_sku, options, price, compare_at_price, cost_price,
-			   stock_quantity, low_stock_threshold, track_quantity, weight, length, width, height,
-			   is_active, is_default, position, created_at, updated_at
+		SELECT id, product_id, variant_name, sku, variant_options, price, cost_price,
+			   stock_quantity, weight, dimensions_length, dimensions_width, dimensions_height,
+			   image_url, is_active, created_at, updated_at
 		FROM product_variants
 		WHERE product_id = $1
-		ORDER BY is_default DESC, variant_name ASC`
+		ORDER BY variant_name ASC`
 
 	var variants []entity.ProductVariant
 	err := r.db.SelectContext(ctx, &variants, query, productID)
@@ -292,11 +294,12 @@ func (r *PostgreSQLProductVariantRepository) GetDefaultVariant(ctx context.Conte
 	}
 
 	query := `
-		SELECT id, product_id, variant_name, variant_sku, options, price, compare_at_price, cost_price,
-			   stock_quantity, low_stock_threshold, track_quantity, weight, length, width, height,
-			   is_active, is_default, position, created_at, updated_at
+		SELECT id, product_id, variant_name, sku, variant_options, price, cost_price,
+			   stock_quantity, weight, dimensions_length, dimensions_width, dimensions_height,
+			   image_url, is_active, created_at, updated_at
 		FROM product_variants
-		WHERE product_id = $1 AND is_default = true`
+		WHERE product_id = $1
+		LIMIT 1`
 
 	var variant entity.ProductVariant
 	err := r.db.GetContext(ctx, &variant, query, productID)

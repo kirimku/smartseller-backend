@@ -1,0 +1,1097 @@
+paths:
+  /api/v1/categories:
+    get:
+      summary: List product categories
+      description: Retrieve a list of product categories with optional filtering and pagination
+      tags:
+        - Product Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: parent_id
+          in: query
+          description: Filter by parent category ID (use 'null' for root categories)
+          schema:
+            type: string
+            format: uuid
+        - name: is_active
+          in: query
+          description: Filter by active status
+          schema:
+            type: boolean
+        - name: search
+          in: query
+          description: Search categories by name or description
+          schema:
+            type: string
+        - name: include_children
+          in: query
+          description: Include child categories in response
+          schema:
+            type: boolean
+            default: false
+        - name: include_products
+          in: query
+          description: Include product count for each category
+          schema:
+            type: boolean
+            default: false
+        - name: max_depth
+          in: query
+          description: Maximum depth for hierarchical results
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: page_size
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Categories retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryListResponse'
+        '400':
+          description: Bad request - Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    post:
+      summary: Create a new product category
+      description: Create a new product category with hierarchical support
+      tags:
+        - Product Categories
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoryRequest'
+            examples:
+              root_category:
+                summary: Root category example
+                value:
+                  name: "Electronics"
+                  description: "Electronic devices and accessories"
+                  slug: "electronics"
+                  parent_id: null
+                  sort_order: 1
+                  is_active: true
+                  meta_title: "Electronics - SmartSeller"
+                  meta_description: "Browse our wide selection of electronic devices"
+              child_category:
+                summary: Child category example
+                value:
+                  name: "Smartphones"
+                  description: "Mobile phones and accessories"
+                  slug: "smartphones"
+                  parent_id: "550e8400-e29b-41d4-a716-446655440001"
+                  sort_order: 1
+                  is_active: true
+      responses:
+        '201':
+          description: Category created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+        '400':
+          description: Bad request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict - Category slug already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/categories/{category_id}:
+    get:
+      summary: Get category by ID
+      description: Retrieve a specific category by its ID with optional related data
+      tags:
+        - Product Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: category_id
+          in: path
+          required: true
+          description: Category ID
+          schema:
+            type: string
+            format: uuid
+        - name: include_children
+          in: query
+          description: Include child categories
+          schema:
+            type: boolean
+            default: false
+        - name: include_products
+          in: query
+          description: Include products in this category
+          schema:
+            type: boolean
+            default: false
+        - name: include_breadcrumb
+          in: query
+          description: Include category breadcrumb path
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Category retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      summary: Update category
+      description: Update an existing product category
+      tags:
+        - Product Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: category_id
+          in: path
+          required: true
+          description: Category ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCategoryRequest'
+      responses:
+        '200':
+          description: Category updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+        '400':
+          description: Bad request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict - Category slug already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      summary: Delete category
+      description: Delete a product category (only if it has no products or child categories)
+      tags:
+        - Product Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: category_id
+          in: path
+          required: true
+          description: Category ID
+          schema:
+            type: string
+            format: uuid
+        - name: force
+          in: query
+          description: Force delete even if category has products (moves products to parent or uncategorized)
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Category deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Bad request - Category has child categories or products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/categories/tree:
+    get:
+      summary: Get category tree
+      description: Retrieve the complete category hierarchy as a tree structure
+      tags:
+        - Product Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: root_id
+          in: query
+          description: Root category ID (if not provided, returns full tree)
+          schema:
+            type: string
+            format: uuid
+        - name: max_depth
+          in: query
+          description: Maximum depth to retrieve
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10
+            default: 5
+        - name: include_inactive
+          in: query
+          description: Include inactive categories
+          schema:
+            type: boolean
+            default: false
+        - name: include_products
+          in: query
+          description: Include product count for each category
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Category tree retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryTreeResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/categories/{category_id}/move:
+    put:
+      summary: Move category to new parent
+      description: Move a category to a different parent in the hierarchy
+      tags:
+        - Product Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: category_id
+          in: path
+          required: true
+          description: Category ID to move
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveCategoryRequest'
+      responses:
+        '200':
+          description: Category moved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+        '400':
+          description: Bad request - Invalid move operation (circular reference, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/categories/{category_id}/activate:
+    put:
+      summary: Activate category
+      description: Activate a category and optionally its children
+      tags:
+        - Product Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: category_id
+          in: path
+          required: true
+          description: Category ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                include_children:
+                  type: boolean
+                  description: Also activate all child categories
+                  default: false
+      responses:
+        '200':
+          description: Category activated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/categories/{category_id}/deactivate:
+    put:
+      summary: Deactivate category
+      description: Deactivate a category and optionally its children
+      tags:
+        - Product Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: category_id
+          in: path
+          required: true
+          description: Category ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                include_children:
+                  type: boolean
+                  description: Also deactivate all child categories
+                  default: false
+      responses:
+        '200':
+          description: Category deactivated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/categories/bulk:
+    post:
+      summary: Bulk category operations
+      description: Perform bulk operations on multiple categories
+      tags:
+        - Product Categories
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkCategoryRequest'
+      responses:
+        '200':
+          description: Bulk operation completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkOperationResponse'
+        '400':
+          description: Bad request - Invalid operation or parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # Storefront public category endpoints
+  /api/v1/storefront/{slug}/categories:
+    get:
+      summary: Get storefront categories (public)
+      description: Retrieve categories for a specific storefront (public endpoint)
+      tags:
+        - Storefront Categories
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: Storefront slug
+          schema:
+            type: string
+        - name: parent_id
+          in: query
+          description: Filter by parent category ID
+          schema:
+            type: string
+            format: uuid
+        - name: include_children
+          in: query
+          description: Include child categories
+          schema:
+            type: boolean
+            default: false
+        - name: include_products
+          in: query
+          description: Include product count
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Categories retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontCategoryListResponse'
+        '404':
+          description: Storefront not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/storefront/{slug}/categories/{category_id}:
+    get:
+      summary: Get storefront category by ID (public)
+      description: Retrieve a specific category for a storefront (public endpoint)
+      tags:
+        - Storefront Categories
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: Storefront slug
+          schema:
+            type: string
+        - name: category_id
+          in: path
+          required: true
+          description: Category ID
+          schema:
+            type: string
+            format: uuid
+        - name: include_children
+          in: query
+          description: Include child categories
+          schema:
+            type: boolean
+            default: false
+        - name: include_products
+          in: query
+          description: Include products in this category
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Category retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontCategoryResponse'
+        '404':
+          description: Storefront or category not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    # Request Schemas
+    CreateCategoryRequest:
+      type: object
+      required:
+        - name
+        - slug
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Category name
+          example: "Electronics"
+        description:
+          type: string
+          maxLength: 1000
+          description: Category description
+          example: "Electronic devices and accessories"
+        slug:
+          type: string
+          pattern: '^[a-z0-9-]+$'
+          minLength: 1
+          maxLength: 255
+          description: URL-friendly category identifier
+          example: "electronics"
+        parent_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: Parent category ID (null for root categories)
+          example: "550e8400-e29b-41d4-a716-446655440001"
+        sort_order:
+          type: integer
+          minimum: 0
+          default: 0
+          description: Sort order within parent category
+          example: 1
+        is_active:
+          type: boolean
+          default: true
+          description: Whether the category is active
+          example: true
+        meta_title:
+          type: string
+          maxLength: 255
+          description: SEO meta title
+          example: "Electronics - SmartSeller"
+        meta_description:
+          type: string
+          maxLength: 500
+          description: SEO meta description
+          example: "Browse our wide selection of electronic devices"
+        meta_keywords:
+          type: array
+          items:
+            type: string
+          description: SEO keywords
+          example: ["electronics", "devices", "technology"]
+
+    UpdateCategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Category name
+        description:
+          type: string
+          maxLength: 1000
+          description: Category description
+        slug:
+          type: string
+          pattern: '^[a-z0-9-]+$'
+          minLength: 1
+          maxLength: 255
+          description: URL-friendly category identifier
+        sort_order:
+          type: integer
+          minimum: 0
+          description: Sort order within parent category
+        is_active:
+          type: boolean
+          description: Whether the category is active
+        meta_title:
+          type: string
+          maxLength: 255
+          description: SEO meta title
+        meta_description:
+          type: string
+          maxLength: 500
+          description: SEO meta description
+        meta_keywords:
+          type: array
+          items:
+            type: string
+          description: SEO keywords
+
+    MoveCategoryRequest:
+      type: object
+      properties:
+        new_parent_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: New parent category ID (null to move to root)
+          example: "550e8400-e29b-41d4-a716-446655440002"
+        new_sort_order:
+          type: integer
+          minimum: 0
+          description: New sort order in the target parent
+          example: 1
+
+    BulkCategoryRequest:
+      type: object
+      required:
+        - operation
+        - category_ids
+      properties:
+        operation:
+          type: string
+          enum: [activate, deactivate, delete, move]
+          description: Bulk operation to perform
+          example: "activate"
+        category_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          minItems: 1
+          description: List of category IDs to operate on
+          example: ["550e8400-e29b-41d4-a716-446655440001", "550e8400-e29b-41d4-a716-446655440002"]
+        new_parent_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: New parent ID (required for move operation)
+          example: "550e8400-e29b-41d4-a716-446655440003"
+
+    # Response Schemas
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Category ID
+          example: "550e8400-e29b-41d4-a716-446655440001"
+        name:
+          type: string
+          description: Category name
+          example: "Electronics"
+        description:
+          type: string
+          nullable: true
+          description: Category description
+          example: "Electronic devices and accessories"
+        slug:
+          type: string
+          description: URL-friendly identifier
+          example: "electronics"
+        parent_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: Parent category ID
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        path:
+          type: string
+          description: Full category path
+          example: "/electronics/smartphones"
+        level:
+          type: integer
+          description: Hierarchy level (0 for root)
+          example: 1
+        sort_order:
+          type: integer
+          description: Sort order within parent
+          example: 1
+        is_active:
+          type: boolean
+          description: Whether category is active
+          example: true
+        product_count:
+          type: integer
+          description: Number of products in category
+          example: 25
+        children_count:
+          type: integer
+          description: Number of child categories
+          example: 3
+        meta_title:
+          type: string
+          nullable: true
+          description: SEO meta title
+          example: "Electronics - SmartSeller"
+        meta_description:
+          type: string
+          nullable: true
+          description: SEO meta description
+          example: "Browse our wide selection of electronic devices"
+        meta_keywords:
+          type: array
+          items:
+            type: string
+          description: SEO keywords
+          example: ["electronics", "devices", "technology"]
+        created_at:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: "2025-09-24T10:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: "2025-09-24T10:00:00Z"
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+          description: Child categories (if included)
+        breadcrumb:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryBreadcrumb'
+          description: Category breadcrumb path (if included)
+
+    CategoryBreadcrumb:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Category ID
+        name:
+          type: string
+          description: Category name
+        slug:
+          type: string
+          description: Category slug
+        path:
+          type: string
+          description: Category path
+
+    CategoryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Category retrieved successfully"
+        data:
+          $ref: '#/components/schemas/Category'
+
+    CategoryListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Categories retrieved successfully"
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        pagination:
+          $ref: '#/components/schemas/PaginationInfo'
+
+    CategoryTreeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Category tree retrieved successfully"
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+
+    StorefrontCategoryListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Storefront categories retrieved successfully"
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+
+    StorefrontCategoryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Storefront category retrieved successfully"
+        data:
+          $ref: '#/components/schemas/Category'
+
+    BulkOperationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Bulk operation completed successfully"
+        data:
+          type: object
+          properties:
+            operation:
+              type: string
+              example: "activate"
+            processed_count:
+              type: integer
+              example: 5
+            failed_count:
+              type: integer
+              example: 0
+            failed_items:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  error:
+                    type: string
+
+    # Common schemas
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Operation completed successfully"
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Operation failed"
+        error:
+          type: string
+          example: "validation_error"
+
+    ValidationErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Validation failed"
+        error:
+          type: string
+          example: "validation_error"
+        validation_errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                example: "name"
+              message:
+                type: string
+                example: "Name is required"
+
+    PaginationInfo:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        page_size:
+          type: integer
+          example: 20
+        total_items:
+          type: integer
+          example: 100
+        total_pages:
+          type: integer
+          example: 5
+        has_next:
+          type: boolean
+          example: true
+        has_previous:
+          type: boolean
+          example: false

@@ -367,3 +367,31 @@ func (uc *ProductCategoryUseCase) buildCategoryTree(categories []*entity.Product
 
 	return nodes
 }
+
+// GetCategoryByID retrieves a category by its ID
+func (uc *ProductCategoryUseCase) GetCategoryByID(ctx context.Context, categoryID uuid.UUID) (*entity.ProductCategory, error) {
+	include := &repository.ProductCategoryInclude{}
+	category, err := uc.categoryRepo.GetByID(ctx, categoryID, include)
+	if err != nil {
+		uc.logger.Error("Failed to get category by ID",
+			"category_id", categoryID,
+			"error", err)
+		return nil, fmt.Errorf("failed to get category: %w", err)
+	}
+
+	return category, nil
+}
+
+// GetAllCategories retrieves all categories with optional filtering
+func (uc *ProductCategoryUseCase) GetAllCategories(ctx context.Context, filters repository.ProductCategoryFilter) ([]*entity.ProductCategory, error) {
+	include := &repository.ProductCategoryInclude{}
+	categories, err := uc.categoryRepo.List(ctx, &filters, include)
+	if err != nil {
+		uc.logger.Error("Failed to get all categories",
+			"filters", filters,
+			"error", err)
+		return nil, fmt.Errorf("failed to get categories: %w", err)
+	}
+
+	return categories, nil
+}

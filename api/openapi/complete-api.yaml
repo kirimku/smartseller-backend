@@ -53,11 +53,11 @@ info:
   termsOfService: https://smartseller.com/terms
 
 servers:
-  - url: http://localhost:8090/api/v1
+  - url: http://localhost:8090
     description: Development server
-  - url: https://staging-api.smartseller.com/api/v1
+  - url: https://staging-api.smartseller.com
     description: Staging server
-  - url: https://api.smartseller.com/api/v1
+  - url: https://api.smartseller.com
     description: Production server
 
 security:
@@ -870,6 +870,323 @@ components:
         meta:
           $ref: '#/components/schemas/PaginationMeta'
 
+    # Product Variant Schemas
+    CreateVariantOptionRequest:
+      type: object
+      required:
+        - option_name
+        - option_values
+      properties:
+        option_name:
+          type: string
+          description: Name of the variant option (e.g., "Size", "Color")
+          example: "Size"
+          minLength: 1
+          maxLength: 50
+        option_values:
+          type: array
+          description: Array of possible values for this option
+          items:
+            type: string
+            minLength: 1
+            maxLength: 100
+          example: ["S", "M", "L", "XL", "XXL"]
+          minItems: 1
+          maxItems: 50
+
+    VariantOptionResponse:
+      type: object
+      required:
+        - id
+        - product_id
+        - option_name
+        - option_values
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Variant option unique identifier
+          example: "550e8400-e29b-41d4-a716-446655440001"
+        product_id:
+          type: string
+          format: uuid
+          description: Product ID this option belongs to
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        option_name:
+          type: string
+          description: Name of the variant option
+          example: "Size"
+        option_values:
+          type: array
+          description: Array of possible values for this option
+          items:
+            type: string
+          example: ["S", "M", "L", "XL", "XXL"]
+        created_at:
+          type: string
+          format: date-time
+          description: Option creation timestamp
+          example: "2023-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Option last update timestamp
+          example: "2023-01-15T10:30:00Z"
+
+    CreateVariantRequest:
+      type: object
+      required:
+        - variant_options
+        - sku
+        - base_price
+        - stock_quantity
+      properties:
+        variant_options:
+          type: object
+          description: Key-value pairs of option names and selected values
+          additionalProperties:
+            type: string
+          example:
+            Size: "L"
+            Color: "Red"
+        sku:
+          type: string
+          description: Stock Keeping Unit for this variant
+          example: "TSHIRT-RED-L"
+          minLength: 1
+          maxLength: 100
+        base_price:
+          type: number
+          format: decimal
+          description: Base price for this variant
+          example: 29.99
+          minimum: 0
+        sale_price:
+          type: number
+          format: decimal
+          nullable: true
+          description: Sale price (optional, defaults to base_price)
+          example: 24.99
+          minimum: 0
+        cost_price:
+          type: number
+          format: decimal
+          nullable: true
+          description: Cost price for profit calculations
+          example: 15.00
+          minimum: 0
+        stock_quantity:
+          type: integer
+          description: Available stock quantity
+          example: 50
+          minimum: 0
+        weight:
+          type: number
+          format: decimal
+          nullable: true
+          description: Product weight in kg
+          example: 0.2
+          minimum: 0
+        dimensions:
+          type: object
+          nullable: true
+          description: Product dimensions
+          properties:
+            length:
+              type: number
+              format: decimal
+              example: 10.5
+            width:
+              type: number
+              format: decimal
+              example: 8.0
+            height:
+              type: number
+              format: decimal
+              example: 2.5
+        is_active:
+          type: boolean
+          description: Whether this variant is active
+          example: true
+          default: true
+
+    ProductVariantResponse:
+      type: object
+      required:
+        - id
+        - product_id
+        - variant_options
+        - sku
+        - base_price
+        - stock_quantity
+        - is_active
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Variant unique identifier
+          example: "550e8400-e29b-41d4-a716-446655440002"
+        product_id:
+          type: string
+          format: uuid
+          description: Product ID this variant belongs to
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        variant_options:
+          type: object
+          description: Key-value pairs of option names and selected values
+          additionalProperties:
+            type: string
+          example:
+            Size: "L"
+            Color: "Red"
+        sku:
+          type: string
+          description: Stock Keeping Unit for this variant
+          example: "TSHIRT-RED-L"
+        base_price:
+          type: number
+          format: decimal
+          description: Base price for this variant
+          example: 29.99
+        sale_price:
+          type: number
+          format: decimal
+          nullable: true
+          description: Sale price
+          example: 24.99
+        cost_price:
+          type: number
+          format: decimal
+          nullable: true
+          description: Cost price
+          example: 15.00
+        stock_quantity:
+          type: integer
+          description: Available stock quantity
+          example: 50
+        weight:
+          type: number
+          format: decimal
+          nullable: true
+          description: Product weight in kg
+          example: 0.2
+        dimensions:
+          type: object
+          nullable: true
+          description: Product dimensions
+          properties:
+            length:
+              type: number
+              format: decimal
+              example: 10.5
+            width:
+              type: number
+              format: decimal
+              example: 8.0
+            height:
+              type: number
+              format: decimal
+              example: 2.5
+        is_active:
+          type: boolean
+          description: Whether this variant is active
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          description: Variant creation timestamp
+          example: "2023-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Variant last update timestamp
+          example: "2023-01-15T10:30:00Z"
+
+    GenerateVariantsRequest:
+      type: object
+      required:
+        - base_price
+        - stock_quantity
+      properties:
+        base_price:
+          type: number
+          format: decimal
+          description: Base price for all generated variants
+          example: 29.99
+          minimum: 0
+        sale_price:
+          type: number
+          format: decimal
+          nullable: true
+          description: Sale price for all generated variants
+          example: 24.99
+          minimum: 0
+        cost_price:
+          type: number
+          format: decimal
+          nullable: true
+          description: Cost price for all generated variants
+          example: 15.00
+          minimum: 0
+        stock_quantity:
+          type: integer
+          description: Stock quantity for all generated variants
+          example: 25
+          minimum: 0
+        weight:
+          type: number
+          format: decimal
+          nullable: true
+          description: Weight for all generated variants
+          example: 0.2
+          minimum: 0
+        price_adjustments:
+          type: object
+          nullable: true
+          description: Price adjustments for specific option values
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: number
+              format: decimal
+          example:
+            Size:
+              XL: 5.00
+              XXL: 10.00
+            Color:
+              Premium: 15.00
+
+    GenerateVariantsResponse:
+      type: object
+      required:
+        - variants_created
+        - total_combinations
+        - skipped_combinations
+      properties:
+        variants_created:
+          type: integer
+          description: Number of variants successfully created
+          example: 8
+        total_combinations:
+          type: integer
+          description: Total possible combinations
+          example: 10
+        skipped_combinations:
+          type: integer
+          description: Number of combinations skipped (duplicates)
+          example: 2
+        created_variants:
+          type: array
+          description: List of created variant IDs
+          items:
+            type: string
+            format: uuid
+          example: ["550e8400-e29b-41d4-a716-446655440002", "550e8400-e29b-41d4-a716-446655440003"]
+
   parameters:
     # Common Parameters
     CustomerIdParam:
@@ -1044,6 +1361,10 @@ tags:
     description: |
       Address management for customers including creation, validation, geocoding,
       and setting default addresses. Supports both billing and shipping addresses.
+  - name: products
+    description: |
+      Product management operations including creation, listing, updating, and deletion.
+      Products are the core items that customers can sell through their storefronts.
   - name: storefronts
     description: |
       Storefront creation and management operations. Storefronts are customer-owned
@@ -1058,6 +1379,270 @@ tags:
       orders, revenue, and performance metrics.
 
 paths:
+  # Authentication Endpoints
+  /api/v1/auth/login:
+    post:
+      summary: Login with email/phone and password
+      description: Authenticates a user with email/phone and password
+      tags:
+        - authentication
+      security: []  # Public endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email_or_phone
+                - password
+              properties:
+                email_or_phone:
+                  type: string
+                  description: User's email address or phone number
+                  example: user@example.com
+                password:
+                  type: string
+                  description: User's password
+                  example: password123
+                use_secure_tokens:
+                  type: boolean
+                  description: If true, tokens will be stored in httpOnly cookies for enhanced security
+                  example: false
+                  default: false
+      responses:
+        '200':
+          description: Successfully authenticated. If use_secure_tokens is true, tokens are also set as httpOnly cookies.
+          headers:
+            Set-Cookie:
+              description: HttpOnly cookies containing access_token and refresh_token (only when use_secure_tokens is true)
+              schema:
+                type: string
+              example: "access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Login successful"
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        description: JWT token for API authentication
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                      refresh_token:
+                        type: string
+                        description: Token used to refresh the access token
+                      token_expiry:
+                        type: string
+                        format: date-time
+                        description: Expiration time of the access token
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                          email:
+                            type: string
+                            format: email
+                          first_name:
+                            type: string
+                          last_name:
+                            type: string
+                          phone:
+                            type: string
+                            nullable: true
+                          status:
+                            type: string
+                            enum: [active, inactive, suspended]
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+                  meta:
+                    type: object
+                    properties:
+                      http_status:
+                        type: integer
+                        example: 200
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/auth/logout:
+    post:
+      summary: Logout
+      description: Logs out the user and invalidates the session.
+      tags:
+        - authentication
+      responses:
+        '200':
+          description: Successfully logged out
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/v1/auth/refresh:
+    post:
+      summary: Refresh Token
+      description: Refresh the current access token using a refresh token
+      tags:
+        - authentication
+      responses:
+        '200':
+          description: Successfully refreshed token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Token refreshed successfully"
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                      refresh_token:
+                        type: string
+                        example: bvQotRefjkEHkl3gEyIaM9...
+                      token_expiry:
+                        type: string
+                        format: date-time
+                  meta:
+                    type: object
+                    properties:
+                      http_status:
+                        type: integer
+                        example: 200
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/auth/forgot-password:
+    post:
+      summary: Initiate Password Reset
+      description: |
+        Initiates the password reset process by sending a reset email to the user's registered email address.
+        For security reasons, this endpoint always returns success regardless of whether the email exists in the system.
+      tags:
+        - authentication
+      security: []  # Public endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email_or_phone
+              properties:
+                email_or_phone:
+                  type: string
+                  description: User's email address or phone number
+                  example: user@example.com
+      responses:
+        '200':
+          description: Request processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Jika akun Anda terdaftar, kami telah mengirim instruksi reset password ke email Anda"
+                  meta:
+                    type: object
+                    properties:
+                      http_status:
+                        type: integer
+                        example: 200
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/auth/reset-password:
+    post:
+      summary: Reset Password
+      description: |
+        Resets the user's password using a valid reset token received via email.
+        The token expires after 1 hour for security purposes.
+      tags:
+        - authentication
+      security: []  # Public endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+                - new_password
+                - confirm_password
+              properties:
+                token:
+                  type: string
+                  description: Password reset token received via email
+                  example: "a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456"
+                new_password:
+                  type: string
+                  description: New password (minimum 8 characters)
+                  example: "newpassword123"
+                  minLength: 8
+                confirm_password:
+                  type: string
+                  description: Confirm new password (must match new_password)
+                  example: "newpassword123"
+                  minLength: 8
+      responses:
+        '200':
+          description: Password successfully reset
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Password berhasil direset. Silakan login dengan password baru"
+                  meta:
+                    type: object
+                    properties:
+                      http_status:
+                        type: integer
+                        example: 200
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   # Customer Management Endpoints
   /customers/register:
     post:
@@ -2135,6 +2720,127 @@ paths:
           description: Product creation timestamp
           example: "2024-01-15T10:30:00Z"
 
+    # Category Schemas
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Category ID
+          example: "550e8400-e29b-41d4-a716-446655440001"
+        name:
+          type: string
+          description: Category name
+          example: "Electronics"
+        description:
+          type: string
+          nullable: true
+          description: Category description
+          example: "Electronic devices and accessories"
+        slug:
+          type: string
+          description: URL-friendly identifier
+          example: "electronics"
+        parent_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: Parent category ID
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        path:
+          type: string
+          description: Full category path
+          example: "/electronics/smartphones"
+        level:
+          type: integer
+          description: Hierarchy level (0 for root)
+          example: 1
+        sort_order:
+          type: integer
+          description: Sort order within parent
+          example: 1
+        is_active:
+          type: boolean
+          description: Whether category is active
+          example: true
+        product_count:
+          type: integer
+          description: Number of products in category
+          example: 25
+        children_count:
+          type: integer
+          description: Number of child categories
+          example: 3
+        meta_title:
+          type: string
+          nullable: true
+          description: SEO meta title
+          example: "Electronics - SmartSeller"
+        meta_description:
+          type: string
+          nullable: true
+          description: SEO meta description
+          example: "Browse our wide selection of electronic devices"
+        meta_keywords:
+          type: array
+          items:
+            type: string
+          description: SEO keywords
+          example: ["electronics", "devices", "technology"]
+        created_at:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: "2025-09-24T10:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: "2025-09-24T10:00:00Z"
+        children:
+          type: array
+          items:
+            type: object
+          description: Child categories (if included)
+
+    CategoryListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Categories retrieved successfully"
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              description:
+                type: string
+                nullable: true
+              slug:
+                type: string
+              parent_id:
+                type: string
+                format: uuid
+                nullable: true
+              is_active:
+                type: boolean
+              product_count:
+                type: integer
+              children_count:
+                type: integer
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+
     ProductListResponse:
       type: object
       required:
@@ -2149,8 +2855,116 @@ paths:
         pagination:
           $ref: '#/components/schemas/PaginationMeta'
 
+  # Category Management Endpoints
+  /api/v1/categories:
+    get:
+      summary: List product categories
+      description: Retrieve a list of product categories with optional filtering and pagination
+      tags:
+        - Product Categories
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: parent_id
+          in: query
+          description: Filter by parent category ID (use 'null' for root categories)
+          schema:
+            type: string
+            format: uuid
+        - name: is_active
+          in: query
+          description: Filter by active status
+          schema:
+            type: boolean
+        - name: search
+          in: query
+          description: Search categories by name or description
+          schema:
+            type: string
+        - name: include_children
+          in: query
+          description: Include child categories in response
+          schema:
+            type: boolean
+            default: false
+        - name: include_products
+          in: query
+          description: Include product count for each category
+          schema:
+            type: boolean
+            default: false
+        - name: max_depth
+          in: query
+          description: Maximum depth for hierarchical results
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: page_size
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Categories retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Categories retrieved successfully"
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        name:
+                          type: string
+                        description:
+                          type: string
+                          nullable: true
+                        slug:
+                          type: string
+                        parent_id:
+                          type: string
+                          format: uuid
+                          nullable: true
+                        is_active:
+                          type: boolean
+                        product_count:
+                          type: integer
+                        children_count:
+                          type: integer
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   # Product Management Endpoints
-  /products:
+  /api/v1/products:
     post:
       summary: Create a new product
       description: Creates a new product with the provided details. Requires authentication.
@@ -2318,7 +3132,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
-  /products/{id}:
+  /api/v1/products/{id}:
     get:
       summary: Get product by ID
       description: Retrieves a specific product by its ID with optional related data inclusion
@@ -2459,6 +3273,230 @@ paths:
                   data:
                     type: "null"
                     example: null
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Product Variant Option Endpoints
+  /api/v1/products/{product_id}/variant-options:
+    post:
+      summary: Create variant options for a product
+      description: |
+        Creates variant options (like Size, Color) for a product. These options define the available
+        variations that can be used to create product variants.
+        
+        **Business Rules:**
+        - A product can have multiple variant options (e.g., Size and Color)
+        - Each option can have multiple values (e.g., Size: S, M, L, XL)
+        - Option names must be unique within a product
+        - At least one option value must be provided
+      tags:
+        - Product Variants
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID
+          schema:
+            type: string
+            format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVariantOptionRequest'
+            examples:
+              size_option:
+                summary: Size variant option
+                value:
+                  option_name: "Size"
+                  option_values: ["S", "M", "L", "XL", "XXL"]
+              color_option:
+                summary: Color variant option
+                value:
+                  option_name: "Color"
+                  option_values: ["Red", "Blue", "Green", "Black", "White"]
+      responses:
+        '201':
+          description: Variant option created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Variant option created successfully"
+                  data:
+                    $ref: '#/components/schemas/VariantOptionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # Product Variant Endpoints
+  /api/v1/products/{product_id}/variants:
+    post:
+      summary: Create a specific product variant
+      description: |
+        Creates a single product variant with specific option combinations.
+        Use this endpoint when you want to create variants individually with custom pricing and stock.
+        
+        **Business Rules:**
+        - Variant option combinations must be unique within a product
+        - All referenced variant options must exist for the product
+        - SKU must be unique across all products and variants
+        - Stock quantity cannot be negative
+      tags:
+        - Product Variants
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID
+          schema:
+            type: string
+            format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVariantRequest'
+            examples:
+              red_large_tshirt:
+                summary: Red Large T-Shirt variant
+                value:
+                  variant_options:
+                    Size: "L"
+                    Color: "Red"
+                  sku: "TSHIRT-RED-L"
+                  base_price: 29.99
+                  sale_price: 24.99
+                  cost_price: 15.00
+                  stock_quantity: 50
+                  weight: 0.2
+                  is_active: true
+      responses:
+        '201':
+          description: Product variant created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Product variant created successfully"
+                  data:
+                    $ref: '#/components/schemas/ProductVariantResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/v1/products/{product_id}/variants/generate:
+    post:
+      summary: Auto-generate multiple product variants
+      description: |
+        Automatically generates all possible combinations of variant options for a product.
+        This is useful when you want to create many variants at once with similar pricing.
+        
+        **Business Rules:**
+        - Generates all combinations of existing variant options
+        - Uses provided base pricing with optional adjustments per option
+        - SKUs are auto-generated based on product SKU and option values
+        - All generated variants start as active by default
+      tags:
+        - Product Variants
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: Product ID
+          schema:
+            type: string
+            format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateVariantsRequest'
+            examples:
+              basic_generation:
+                summary: Basic variant generation
+                value:
+                  base_price: 29.99
+                  sale_price: 24.99
+                  cost_price: 15.00
+                  stock_quantity: 25
+                  weight: 0.2
+              with_price_adjustments:
+                summary: Generation with price adjustments
+                value:
+                  base_price: 29.99
+                  sale_price: 24.99
+                  cost_price: 15.00
+                  stock_quantity: 25
+                  weight: 0.2
+                  price_adjustments:
+                    Size:
+                      XL: 5.00
+                      XXL: 10.00
+                    Color:
+                      Premium: 15.00
+      responses:
+        '201':
+          description: Product variants generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Product variants generated successfully"
+                  data:
+                    $ref: '#/components/schemas/GenerateVariantsResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -2702,6 +3740,12 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: './product-schemas.yaml#/components/schemas/ErrorResponse'
 
   # Storefront Management Endpoints
   /storefronts:

@@ -20,30 +20,33 @@ type ProductVariant struct {
 	ProductID uuid.UUID `json:"product_id" db:"product_id"`
 
 	// Variant identification
-	VariantName string         `json:"variant_name" db:"variant_name"` // Auto-generated or manual
-	VariantSKU  *string        `json:"variant_sku" db:"variant_sku"`   // Optional specific SKU
-	Options     VariantOptions `json:"options" db:"options"`           // JSONB: {"Color": "Red", "Size": "Large"}
+	VariantName string         `json:"variant_name" db:"variant_name"`     // Auto-generated or manual
+	VariantSKU  *string        `json:"variant_sku" db:"sku"`               // Optional specific SKU
+	Options     VariantOptions `json:"options" db:"variant_options"`       // JSONB: {"Color": "Red", "Size": "Large"}
 
 	// Pricing
-	Price          decimal.Decimal  `json:"price" db:"price"`                       // Override price
-	CompareAtPrice *decimal.Decimal `json:"compare_at_price" db:"compare_at_price"` // MSRP/Original price
-	CostPrice      *decimal.Decimal `json:"cost_price" db:"cost_price"`             // Cost for profit calculation
+	Price          decimal.Decimal  `json:"price" db:"price"`           // Override price
+	CompareAtPrice *decimal.Decimal `json:"compare_at_price" db:"-"`    // MSRP/Original price (computed)
+	CostPrice      *decimal.Decimal `json:"cost_price" db:"cost_price"` // Cost for profit calculation
 
 	// Inventory management
 	StockQuantity     int  `json:"stock_quantity" db:"stock_quantity"`
-	LowStockThreshold *int `json:"low_stock_threshold" db:"low_stock_threshold"`
-	TrackQuantity     bool `json:"track_quantity" db:"track_quantity"`
+	LowStockThreshold *int `json:"low_stock_threshold" db:"-"` // Not in DB
+	TrackQuantity     bool `json:"track_quantity" db:"-"`      // Not in DB
 
 	// Physical properties
 	Weight *decimal.Decimal `json:"weight" db:"weight"`
-	Length *decimal.Decimal `json:"length" db:"length"`
-	Width  *decimal.Decimal `json:"width" db:"width"`
-	Height *decimal.Decimal `json:"height" db:"height"`
+	Length *decimal.Decimal `json:"length" db:"dimensions_length"`
+	Width  *decimal.Decimal `json:"width" db:"dimensions_width"`
+	Height *decimal.Decimal `json:"height" db:"dimensions_height"`
+
+	// Media
+	ImageURL *string `json:"image_url" db:"image_url"` // Variant-specific image
 
 	// Status and availability
 	IsActive  bool `json:"is_active" db:"is_active"`
-	IsDefault bool `json:"is_default" db:"is_default"`
-	Position  *int `json:"position" db:"position"`
+	IsDefault bool `json:"is_default" db:"-"` // Not in DB (computed)
+	Position  *int `json:"position" db:"-"`   // Not in DB
 
 	// Timestamps
 	CreatedAt time.Time `json:"created_at" db:"created_at"`

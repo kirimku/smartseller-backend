@@ -9,6 +9,7 @@ import (
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
+	"github.com/rs/zerolog"
 	"github.com/kirimku/smartseller-backend/internal/application/service"
 	"github.com/kirimku/smartseller-backend/internal/application/usecase"
 	"github.com/kirimku/smartseller-backend/internal/config"
@@ -151,15 +152,23 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 		productRepo,
 		logger,
 	)
+	productCategoryUseCase := usecase.NewProductCategoryUseCase(
+		productCategoryRepo,
+		productRepo,
+		logger,
+	)
 
 	// Create handlers (existing)
 	authHandler := handler.NewAuthHandler(userUseCase)
 	userHandler := handler.NewUserHandler(userUseCase)
 	productHandler := handler.NewProductHandler(productUseCase, logger)
 	productVariantHandler := handler.NewProductVariantHandler(productVariantUseCase)
+	productCategoryHandler := handler.NewProductCategoryHandler(productCategoryUseCase)
 
-	// TODO: Temporary warranty barcode handler (will be replaced with full implementation)
-	warrantyBarcodeHandler := handler.NewWarrantyBarcodeHandler(logger)
+	// Initialize warranty barcode handler with dependencies
+	zeroLogger := zerolog.New(os.Stdout).With().Str("component", "warranty_barcode").Timestamp().Logger()
+	warrantyBarcodeRepo := repository.NewWarrantyBarcodeRepository(r.db, tenantResolver, zeroLogger)
+	warrantyBarcodeHandler := handler.NewWarrantyBarcodeHandlerWithDependencies(logger, r.db, tenantResolver, warrantyBarcodeRepo)
 	
 	// Warranty claim handler
 	warrantyClaimHandler := handler.NewWarrantyClaimHandler(logger)
@@ -295,6 +304,31 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 				variants.POST("", productVariantHandler.CreateVariant)
 				variants.POST("/", productVariantHandler.CreateVariant)
 			}
+		}
+
+		// Product Category routes (protected)
+		categories := v1.Group("/categories")
+		categories.Use(middleware.AuthMiddleware())
+		{
+			// CRUD operations
+			categories.POST("", productCategoryHandler.CreateCategory)
+			categories.POST("/", productCategoryHandler.CreateCategory)
+			categories.GET("", productCategoryHandler.ListCategories)
+			categories.GET("/", productCategoryHandler.ListCategories)
+			categories.GET("/:id", productCategoryHandler.GetCategory)
+			categories.PUT("/:id", productCategoryHandler.UpdateCategory)
+			categories.DELETE("/:id", productCategoryHandler.DeleteCategory)
+			
+			// Tree operations
+			categories.GET("/tree", productCategoryHandler.GetCategoryTree)
+			
+			// Category management
+			categories.POST("/:id/move", productCategoryHandler.MoveCategory)
+			categories.POST("/:id/activate", productCategoryHandler.ActivateCategory)
+			categories.POST("/:id/deactivate", productCategoryHandler.DeactivateCategory)
+			
+			// Bulk operations
+			categories.POST("/bulk", productCategoryHandler.BulkOperations)
 		}
 
 		// Admin Warranty routes (protected) - Phase 7 Implementation
