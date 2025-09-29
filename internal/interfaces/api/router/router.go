@@ -341,9 +341,10 @@ func (r *Router) setupAPIRoutes(router *gin.Engine) {
 				barcodes := warranty.Group("/barcodes")
 				{
 					// Barcode generation and management
-					barcodes.POST("/generate", warrantyBarcodeHandler.GenerateBarcodes)
-					barcodes.GET("/", warrantyBarcodeHandler.ListBarcodes)
-					barcodes.GET("/:id", warrantyBarcodeHandler.GetBarcode)
+				barcodes.POST("/generate", warrantyBarcodeHandler.GenerateBarcodes)
+				barcodes.GET("/", warrantyBarcodeHandler.ListBarcodes)
+				barcodes.GET("", warrantyBarcodeHandler.ListBarcodes) // Handle without trailing slash
+				barcodes.GET("/:id", warrantyBarcodeHandler.GetBarcode)
 					barcodes.POST("/:id/activate", warrantyBarcodeHandler.ActivateBarcode)
 					barcodes.POST("/bulk-activate", warrantyBarcodeHandler.BulkActivateBarcodes)
 

@@ -13,6 +13,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/kirimku/smartseller-backend/internal/application/dto"
 	"github.com/kirimku/smartseller-backend/internal/application/service"
+	"github.com/kirimku/smartseller-backend/internal/domain/entity"
 	"github.com/kirimku/smartseller-backend/internal/domain/repository"
 	"github.com/kirimku/smartseller-backend/internal/infrastructure/tenant"
 	infraRepo "github.com/kirimku/smartseller-backend/internal/infrastructure/repository"
@@ -29,6 +30,7 @@ type WarrantyBarcodeHandler struct {
 	db                  *sqlx.DB
 	tenantResolver      tenant.TenantResolver
 	storefrontRepo      repository.StorefrontRepository
+	barcodeRepo         repository.WarrantyBarcodeRepository
 }
 
 // NewWarrantyBarcodeHandler creates a new warranty barcode handler
@@ -55,6 +57,7 @@ func NewWarrantyBarcodeHandlerWithDependencies(logger *slog.Logger, db *sqlx.DB,
 		tenantResolver: tenantResolver,
 		barcodeService: barcodeService,
 		storefrontRepo: storefrontRepo,
+		barcodeRepo:    repo,
 	}
 }
 
@@ -277,6 +280,38 @@ func (h *WarrantyBarcodeHandler) ListBarcodes(c *gin.Context) {
 		return
 	}
 
+	// Get storefront ID from context or user's profile
+	var storefrontID uuid.UUID
+	var exists bool
+	
+	// First try to get storefront ID from tenant context (if available)
+	if storefrontID, exists = middleware.GetStorefrontID(c); !exists {
+		// If not available in context, get it from the user's storefront
+		// Parse user ID
+		createdBy, err := uuid.Parse(userID)
+		if err != nil {
+			h.logger.Warn("Invalid user ID format", "user_id", userID)
+			utils.ErrorResponse(c, http.StatusBadRequest, "Invalid user ID format", nil)
+			return
+		}
+		
+		// Get the user's storefront by seller ID (user ID)
+		ctx := context.WithValue(c.Request.Context(), "user_id", userID)
+		storefronts, err := h.storefrontRepo.GetBySellerID(ctx, createdBy)
+		if err != nil {
+			h.logger.Warn("Failed to get user's storefront", "user_id", userID, "error", err.Error())
+			utils.ErrorResponse(c, http.StatusBadRequest, "Unable to determine user's storefront", err)
+			return
+		}
+		if len(storefronts) == 0 {
+			h.logger.Warn("No storefront found for user", "user_id", userID)
+			utils.ErrorResponse(c, http.StatusBadRequest, "No storefront associated with user", nil)
+			return
+		}
+		// Use the first storefront (assuming one user has one storefront)
+		storefrontID = storefronts[0].ID
+	}
+
 	// Parse query parameters
 	var req dto.WarrantyBarcodeListRequest
 
@@ -285,6 +320,14 @@ func (h *WarrantyBarcodeHandler) ListBarcodes(c *gin.Context) {
 	req.PageSize, _ = strconv.Atoi(c.DefaultQuery("page_size", "20"))
 	req.SortBy = c.DefaultQuery("sort_by", "created_at")
 	req.SortDir = c.DefaultQuery("sort_dir", "desc")
+
+	// Validate pagination
+	if req.Page < 1 {
+		req.Page = 1
+	}
+	if req.PageSize < 1 || req.PageSize > 100 {
+		req.PageSize = 20
+	}
 
 	// Parse filters
 	if productID := c.Query("product_id"); productID != "" {
@@ -300,17 +343,90 @@ func (h *WarrantyBarcodeHandler) ListBarcodes(c *gin.Context) {
 		req.Search = &search
 	}
 
-	// TODO: Implement actual listing logic when usecase is ready
-	// For now, return a mock response
+	// Build repository filters
+	filters := &repository.WarrantyBarcodeFilters{
+		StorefrontID:  &storefrontID,
+		Page:          req.Page,
+		PageSize:      req.PageSize,
+		SortBy:        req.SortBy,
+		SortDirection: strings.ToUpper(req.SortDir),
+	}
+
+	// Apply optional filters
+	if req.ProductID != nil {
+		if productUUID, err := uuid.Parse(*req.ProductID); err == nil {
+			filters.ProductID = &productUUID
+		}
+	}
+	if req.BatchID != nil {
+		if batchUUID, err := uuid.Parse(*req.BatchID); err == nil {
+			filters.BatchID = &batchUUID
+		}
+	}
+	if req.Status != nil {
+		// Convert string status to entity status
+		switch *req.Status {
+		case "active":
+			status := entity.BarcodeStatusActivated
+			filters.Status = &status
+		case "inactive":
+			status := entity.BarcodeStatusGenerated
+			filters.Status = &status
+		case "claimed":
+			status := entity.BarcodeStatusUsed
+			filters.Status = &status
+		}
+	}
+	if req.Search != nil {
+		filters.Search = req.Search
+	}
+
+	// Get barcodes from repository
+	barcodes, err := h.barcodeRepo.GetWithFilters(c.Request.Context(), filters)
+	if err != nil {
+		h.logger.Error("Failed to get warranty barcodes", "error", err, "storefront_id", storefrontID)
+		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to retrieve warranty barcodes", err)
+		return
+	}
+
+	// Get total count for pagination
+	totalCount, err := h.barcodeRepo.Count(c.Request.Context(), filters)
+	if err != nil {
+		h.logger.Error("Failed to count warranty barcodes", "error", err, "storefront_id", storefrontID)
+		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to count warranty barcodes", err)
+		return
+	}
+
+	// Convert entities to DTOs
+	// For now, we'll use empty product and batch data maps
+	// TODO: Implement product and batch data fetching for enrichment
+	productData := make(map[string]struct{ Name, SKU string })
+	batchData := make(map[string]string)
+	
+	barcodeResponsePointers := dto.ConvertWarrantyBarcodesToResponses(barcodes, productData, batchData)
+	
+	// Convert from []*WarrantyBarcodeResponse to []WarrantyBarcodeResponse
+	barcodeResponses := make([]dto.WarrantyBarcodeResponse, len(barcodeResponsePointers))
+	for i, ptr := range barcodeResponsePointers {
+		if ptr != nil {
+			barcodeResponses[i] = *ptr
+		}
+	}
+
+	// Calculate pagination
+	totalPages := (totalCount + req.PageSize - 1) / req.PageSize
+	hasNext := req.Page < totalPages
+	hasPrev := req.Page > 1
+
 	response := &dto.WarrantyBarcodeListResponse{
-		Data: []dto.WarrantyBarcodeResponse{},
+		Data: barcodeResponses,
 		Pagination: dto.PaginationResponse{
 			Page:       req.Page,
 			Limit:      req.PageSize,
-			Total:      0,
-			TotalPages: 1,
-			HasNext:    false,
-			HasPrev:    false,
+			Total:      totalCount,
+			TotalPages: totalPages,
+			HasNext:    hasNext,
+			HasPrev:    hasPrev,
 		},
 		Filters: dto.WarrantyBarcodeFilters{
 			Statuses: []string{"active", "inactive", "claimed"},
@@ -319,8 +435,11 @@ func (h *WarrantyBarcodeHandler) ListBarcodes(c *gin.Context) {
 		},
 	}
 
-	h.logger.Info("Successfully listed warranty barcodes (mock)",
+	h.logger.Info("Successfully listed warranty barcodes",
 		"page", req.Page,
+		"count", len(barcodeResponses),
+		"total", totalCount,
+		"storefront_id", storefrontID,
 		"user_id", userID,
 	)
 
